@@ -41,7 +41,7 @@
 		<com.google.android.material.textfield.TextInputEditText
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:hint="아이디를 입력하세요"
+			android:hint="아이디를 입력"
 			android:inputType="text"
 			android:textSize="12sp" />
 	</com.google.android.material.textfield.TextInputLayout>
@@ -60,7 +60,7 @@
 		<com.google.android.material.textfield.TextInputEditText
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:hint="비밀번호를 입력하세요"
+			android:hint="비밀번호를 입력"
 			android:inputType="text"
 			android:textSize="12sp" />
 	</com.google.android.material.textfield.TextInputLayout>
@@ -69,14 +69,13 @@
 		android:id="@+id/cb_login_auto"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:background="@drawable/checkbox_selector"
 		android:text="로그인 유지"
 		app:layout_constraintStart_toStartOf="@id/et_login_pw"
 		app:layout_constraintTop_toBottomOf="@id/et_login_pw" />
 
 	<androidx.appcompat.widget.AppCompatButton
 		android:id="@+id/btn_login"
-		style="@style/BtnPrimary"
+		style="@style/AppButtonPrimary.S16"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="60dp"
@@ -92,7 +91,6 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="30dp"
 		android:layout_marginTop="20dp"
-		android:paintFlags="underline"
 		android:text="회원가입"
 		android:textSize="12sp"
 		app:layout_constraintEnd_toStartOf="@id/tv_login_find_account"
