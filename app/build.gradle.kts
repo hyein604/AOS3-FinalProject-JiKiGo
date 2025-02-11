@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.protect.jikigo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.protect.jikigo"
