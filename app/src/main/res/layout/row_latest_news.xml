@@ -8,7 +8,7 @@
 
     <!-- 뉴스 썸네일 -->
     <ImageView
-        android:id="@+id/img_news_thumbnail"
+        android:id="@+id/iv_news_environment_air_thumbnail"
         android:layout_width="110dp"
         android:layout_height="80dp"
         android:scaleType="centerCrop"
@@ -25,7 +25,7 @@
 
         <!-- 뉴스 제목 (최대 1줄) -->
         <TextView
-            android:id="@+id/tv_news_title"
+            android:id="@+id/tv_news_environment_air_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -37,7 +37,7 @@
 
         <!-- 뉴스 내용 (최대 2줄) -->
         <TextView
-            android:id="@+id/tv_news_content"
+            android:id="@+id/tv_news_environment_air_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
@@ -48,7 +48,7 @@
 
         <!-- 뉴스 출처 및 시간 -->
         <TextView
-            android:id="@+id/tv_news_source"
+            android:id="@+id/tv_news_environment_air_source"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="지구일보 · 3시간 전"
