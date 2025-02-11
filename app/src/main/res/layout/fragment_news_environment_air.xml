@@ -61,20 +61,20 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <!-- Indicator (ViewPager의 점 표시) 나중에 프래그먼트에서 연결하기-->
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator_news_environment_air_hot_topic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:ci_animator="@animator/scale_with_alpha"
-            app:ci_drawable="@drawable/item_news_banner_blue_radius"
-            app:ci_drawable_selected="@drawable/indicator_selected"
-            app:ci_drawable_unselected="@drawable/item_news_banner_gray_radius"
-            app:ci_height="8dp"
-            app:ci_margin="5dp"
-            app:ci_width="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+<!--        <me.relex.circleindicator.CircleIndicator3-->
+<!--            android:id="@+id/indicator_news_environment_air_hot_topic"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            app:ci_animator="@animator/scale_with_alpha"-->
+<!--            app:ci_drawable="@drawable/item_news_banner_blue_radius"-->
+<!--            app:ci_drawable_selected="@drawable/item_news_banner_blue_radius"-->
+<!--            app:ci_drawable_unselected="@drawable/item_news_banner_gray_radius"-->
+<!--            app:ci_height="8dp"-->
+<!--            app:ci_margin="5dp"-->
+<!--            app:ci_width="8dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
@@ -107,5 +107,4 @@
         android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/row_latest_news" />
-
 </LinearLayout>
