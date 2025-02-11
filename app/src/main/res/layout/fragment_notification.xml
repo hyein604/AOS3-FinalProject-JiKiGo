@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NotificationFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_notification_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="#7A8FFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 툴바 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_notification"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title=""
+            tools:ignore="MissingConstraints" />
+
+        <!-- 큰 제목 ("공지사항") -->
+        <TextView
+            android:id="@+id/tv_notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_notification"
+            app:layout_constraintBottom_toBottomOf="@id/cl_notification_top_container"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageView
+            android:id="@+id/iv_notification_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/img_megaphone"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_notification"
+            app:layout_constraintStart_toEndOf="@id/tv_notification_title"
+            app:layout_constraintBottom_toBottomOf="@id/cl_notification_top_container"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
