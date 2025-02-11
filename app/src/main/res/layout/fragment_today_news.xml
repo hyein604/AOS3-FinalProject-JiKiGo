@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TodayNewsFragment">
+
+    <!-- 배경색을 포함하는 상단 레이아웃 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_today_news_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#7A8FFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 툴바 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_today_news"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title=""
+            tools:ignore="MissingConstraints" />
+
+        <!-- 큰 제목 ("환경") -->
+        <TextView
+            android:id="@+id/tv_today_news_big_category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="환경"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_today_news"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingTop="12dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="10dp"/>
+
+        <ImageView
+            android:id="@+id/iv_today_news_big_category_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/img_environment"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_today_news"
+            app:layout_constraintStart_toEndOf="@id/tv_today_news_big_category_title"
+            app:layout_constraintBottom_toTopOf="@id/tl_today_news"/>
+
+        <!-- 탭 레이아웃 -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_today_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#7A8FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_news_big_category_title"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorFullWidth="true"
+            app:tabMode="fixed"
+            app:tabSelectedTextAppearance="@style/TodayNewsCustomTabText"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@android:color/white">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_today_news_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_today_news_air"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대기" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_today_news_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="물" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_today_news_ecosystem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생태계" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/ti_today_news_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="정책" />
+        </com.google.android.material.tabs.TabLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!-- 첫번째 뉴스 -->
+    <ImageView
+        android:id="@+id/iv_today_news_first_image"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_today_news_home_tmp_1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_today_news_top_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_today_news_first_title"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="얼음을 잃어버린 북극곰, 기후변화 지표"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_today_news_first_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_today_news_first_date"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:text="2025.2.7  9:51"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_today_news_first_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 배너 (ViewPager2) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_today_news_banner"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_today_news_first_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 두번째 뉴스 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_today_news_second_and_third_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/vp_today_news_banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_today_news_second_image"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_today_news_home_tmp_2"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_today_news_third_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_today_news_second_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="대전 3대 하천, 대규모 준설로 겨울철새 급감"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_today_news_second_image"
+            app:layout_constraintStart_toStartOf="@id/iv_today_news_second_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_today_news_second_image" />
+
+        <TextView
+            android:id="@+id/tv_today_news_second_date"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:text="2025.2.7  9:51"
+            android:textSize="10sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_news_second_title"
+            app:layout_constraintStart_toStartOf="@id/tv_today_news_second_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_today_news_second_title" />
+
+
+        <!-- 세번째 뉴스 -->
+        <ImageView
+            android:id="@+id/iv_today_news_third_image"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_today_news_home_tmp_3"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toEndOf="@id/iv_today_news_second_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_today_news_third_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="탄소중립 업무 총괄 기획·조정할 컨트롤타워 부재"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/iv_today_news_third_image"
+            app:layout_constraintStart_toStartOf="@id/iv_today_news_third_image"
+            app:layout_constraintEnd_toEndOf="@id/iv_today_news_third_image" />
+
+        <TextView
+            android:id="@+id/tv_today_news_third_date"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:text="2025.2.7  9:51"
+            android:textSize="10sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_news_third_title"
+            app:layout_constraintStart_toStartOf="@id/tv_today_news_third_title"
+            app:layout_constraintEnd_toEndOf="@id/iv_today_news_third_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
