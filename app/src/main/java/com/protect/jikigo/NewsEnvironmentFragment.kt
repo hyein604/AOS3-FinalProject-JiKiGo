@@ -117,7 +117,6 @@ class NewsEnvironmentFragment : Fragment() {
 }
 
 
-
 // ViewPager2의 어댑터
 class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
@@ -126,7 +125,7 @@ class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fra
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             NewsEnvironmentType.ALL.ordinal -> NewsEnvironmentAllFragment()
-
+            NewsEnvironmentType.AIR.ordinal -> NewsEnvironmentAirFragment()
             else -> {
                 NewsEnvironmentAllFragment()
             }
