@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">JiKiGo</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--오늘의 소식 환경 탭 레이아웃 아이템-->
+    <string name="news_environment_all">전체</string>
+    <string name="news_environment_air">대기</string>
+    <string name="news_environment_water">물</string>
+    <string name="news_environment_ecosystem">환경</string>
+    <string name="news_environment_policy">정책</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
