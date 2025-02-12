@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/payment_background"
-	tools:context=".PaymentQRFragment">
+	tools:context=".ui.payment.PaymentQRFragment">
 
 	<com.google.android.material.appbar.MaterialToolbar
 		style="@style/AppToolbar"

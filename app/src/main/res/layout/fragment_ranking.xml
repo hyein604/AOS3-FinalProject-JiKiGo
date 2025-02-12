@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#7A8FFF"
-    tools:context=".RankingFragment">
+    tools:context=".ui.rank.RankingFragment">
 
     <!-- 툴바 (투명, 뒤로가기 버튼) -->
     <androidx.appcompat.widget.Toolbar
