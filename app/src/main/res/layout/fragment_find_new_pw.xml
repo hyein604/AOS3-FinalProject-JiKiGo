@@ -31,10 +31,11 @@
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/et_find_new_pw"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="54sp"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="5dp"
 		app:endIconMode="password_toggle"
+		app:hintEnabled="false"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/tv_find_new_pw_label">
@@ -44,7 +45,8 @@
 			android:layout_height="match_parent"
 			android:hint="@string/common_pw"
 			android:inputType="textPassword"
-			android:maxLength="20" />
+			android:maxLength="20"
+			android:textSize="14sp" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<TextView
@@ -72,10 +74,11 @@
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/et_find_new_pw_check"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="54dp"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="5dp"
 		app:endIconMode="password_toggle"
+		app:hintEnabled="false"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/tv_find_new_pw_check_label">
@@ -85,7 +88,8 @@
 			android:layout_height="match_parent"
 			android:hint="@string/common_pw_check"
 			android:inputType="textPassword"
-			android:maxLength="20" />
+			android:maxLength="20"
+			android:textSize="14sp" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<androidx.appcompat.widget.AppCompatButton
