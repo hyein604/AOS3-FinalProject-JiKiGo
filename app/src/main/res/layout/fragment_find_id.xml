@@ -9,7 +9,7 @@
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/et_find_new_pw"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="54dp"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="50dp"
 		app:endIconMode="clear_text"
@@ -22,13 +22,14 @@
 			android:layout_height="match_parent"
 			android:hint="@string/common_name"
 			android:inputType="text"
-			android:maxLength="8" />
+			android:maxLength="8"
+			android:textSize="14sp" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/et_find_pw_mobile"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="54dp"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="20dp"
 		app:endIconMode="clear_text"
@@ -41,13 +42,14 @@
 			android:layout_height="match_parent"
 			android:hint="@string/common_mobile_no_hyphen"
 			android:inputType="number"
-			android:maxLength="11" />
+			android:maxLength="11"
+			android:textSize="14sp" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<androidx.appcompat.widget.AppCompatButton
 		style="@style/AppButtonPrimary.S14"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_width="0dp"
+		android:layout_height="40dp"
 		android:layout_marginTop="5dp"
 		android:layout_marginEnd="5dp"
 		android:text="@string/common_auth_request"
@@ -58,7 +60,7 @@
 	<com.google.android.material.textfield.TextInputLayout
 		android:id="@+id/et_find_id_auth_number"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="54sp"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="20dp"
 		app:endIconMode="clear_text"
@@ -71,13 +73,14 @@
 			android:layout_height="match_parent"
 			android:hint="@string/common_auth_number"
 			android:inputType="number"
-			android:maxLength="6" />
+			android:maxLength="6"
+			android:textSize="14sp" />
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<androidx.appcompat.widget.AppCompatButton
 		style="@style/AppButtonPrimary.S14"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+		android:layout_height="40dp"
 		android:layout_marginTop="5dp"
 		android:layout_marginEnd="5dp"
 		android:text="@string/common_auth_confirm"
