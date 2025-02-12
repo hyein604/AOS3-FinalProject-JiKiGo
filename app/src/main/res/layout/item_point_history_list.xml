@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_point_history_list_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_point_bag" />
+
+    <TextView
+        android:id="@+id/tv_point_history_list_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/iv_point_history_list_image"
+        android:layout_marginStart="15dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/iv_point_history_list_image"
+        android:layout_marginTop="5dp"
+        android:text="-10500P" />
+
+    <TextView
+        android:id="@+id/tv_point_history_list_point_description"
+        app:layout_constraintTop_toBottomOf="@id/tv_point_history_list_point"
+        app:layout_constraintStart_toStartOf="@id/tv_point_history_list_point"
+        android:layout_width="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/gray_100"
+        android:layout_height="wrap_content"
+        android:text="커피 쿠폰 구매" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_point_history_list_image"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
