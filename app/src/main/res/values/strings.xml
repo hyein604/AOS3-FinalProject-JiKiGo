@@ -12,6 +12,11 @@
 	<string name="sign_up_confirm">동의하고 본인인증하기</string>
 	<string name="sign_up_account_info">계정정보</string>
 
+	<!--    계정 찾기	-->
+	<string name="new_password">새 비밀번호</string>
+	<string name="new_password_check">새 비밀번호 확인</string>
+	<string name="new_password_setting">새 비밀번호 설정</string>
+
 
 	<!--    공통  	-->
 	<string name="common_personal_information">개인정보</string>
@@ -27,6 +32,17 @@
 	<string name="common_nickname">닉네임</string>
 	<string name="common_pw">비밀번호</string>
 	<string name="common_pw_check">비밀번호 확인</string>
+
+
+	<!--오늘의 소식 환경 탭 레이아웃 아이템-->
+	<string name="news_environment_all">전체</string>
+	<string name="news_environment_air">대기</string>
+	<string name="news_environment_water">물</string>
+	<string name="news_environment_ecosystem">환경</string>
+	<string name="news_environment_policy">정책</string>
+	<string name="common_home">홈</string>
+	<string name="common_reward">리워드</string>
+	<string name="common_travel">여행</string>
 
 
 </resources>

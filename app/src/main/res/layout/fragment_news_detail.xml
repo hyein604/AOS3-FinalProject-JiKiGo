@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".NewsDetailFragment">
+
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_news_detail"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ffffff"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:navigationIcon="@drawable/ic_arrow_back">
+
+        <TextView
+            android:id="@+id/toolbar_tv_news_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="뉴스 상세"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center" />
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+    <!-- 스크롤 가능 영역 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 뉴스 제목 -->
+            <TextView
+                android:id="@+id/tv_news_detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="뉴스 타이틀"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <!-- 기자 정보 및 날짜 -->
+            <TextView
+                android:id="@+id/tv_news_detail_reporter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="멋사뉴스  |  김혜인 기자  |  2024.02.10"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="4dp" />
+
+            <!-- 뉴스 이미지 -->
+            <ImageView
+                android:id="@+id/iv_news_detail_news_image"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_today_news_home_tmp_3" />
+
+            <!-- 기사 내용 -->
+            <TextView
+                android:id="@+id/tv_news_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다. 기사 내용입니다. 기사 내용입니다..기사 내용입니다..."
+                android:textSize="15sp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginTop="15dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
