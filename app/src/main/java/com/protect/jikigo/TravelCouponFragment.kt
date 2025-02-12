@@ -5,18 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.PopupMenu
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 
 class TravelCouponFragment : Fragment() {
-    lateinit var fragmentTravelCouponBinding: FragmentTravelCouponBinding
-    lateinit var mainActivity: MainActivity
+    private lateinit var fragmentTravelCouponBinding: FragmentTravelCouponBinding
+    private lateinit var homeActivity: HomeActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentTravelCouponBinding = FragmentTravelCouponBinding.inflate(inflater)
-        mainActivity = activity as MainActivity
+        homeActivity = activity as HomeActivity
 
         fragmentTravelCouponBinding.apply {
             val sortContainer = sortContainer
