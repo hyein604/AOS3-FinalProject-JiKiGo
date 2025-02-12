@@ -9,6 +9,7 @@
 	<color name="negative">#C00F0C</color>
 	<color name="payment_background">#1C1D21</color>
 
+	<color name="gray_5">#F4F4F4</color>
 	<color name="gray_10">#D2D2D2</color>
 	<color name="gray_50">#9C9C9C</color>
 	<color name="gray_100">#707070</color>
