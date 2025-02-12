@@ -12,6 +12,11 @@
     <string name="sign_up_confirm">동의하고 본인인증하기</string>
     <string name="sign_up_account_info">계정정보</string>
 
+	<!--    계정 찾기	-->
+	<string name="new_password">새 비밀번호</string>
+	<string name="new_password_check">새 비밀번호 확인</string>
+	<string name="new_password_setting">새 비밀번호 설정</string>
+
 
     <!--    공통  	-->
     <string name="common_personal_information">개인정보</string>
