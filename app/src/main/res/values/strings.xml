@@ -43,6 +43,7 @@
 	<string name="common_home">홈</string>
 	<string name="common_reward">리워드</string>
 	<string name="common_travel">여행</string>
+	<string name="common_icon_environment">🌱</string>
 
 
 </resources>
