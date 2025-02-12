@@ -4,7 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".FindNewPwFragment">
+	tools:context=".ui.login.FindNewPwFragment">
 
 	<TextView
 		android:id="@+id/tv_find_new_pw_label"
@@ -12,7 +12,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="40dp"
 		android:layout_marginTop="100dp"
-		android:text="새 비밀번호"
+		android:text="@string/new_password"
 		android:textStyle="bold"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="40dp"
 		android:layout_marginTop="30dp"
-		android:text="새 비밀번호 확인"
+		android:text="@string/new_password_check"
 		android:textStyle="bold"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/et_find_new_pw" />
@@ -93,12 +93,13 @@
 	</com.google.android.material.textfield.TextInputLayout>
 
 	<androidx.appcompat.widget.AppCompatButton
+		android:id="@+id/btn_find_new_confirm"
 		style="@style/AppButtonPrimary.S16"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="40dp"
 		android:layout_marginTop="80dp"
-		android:text="새 비밀번호 설정"
+		android:text="@string/new_password_setting"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/et_find_new_pw_check" />
