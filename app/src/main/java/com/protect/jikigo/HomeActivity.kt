@@ -14,7 +14,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    //    enableEdgeToEdge()
+        //    enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home)) { v, insets ->
@@ -31,7 +31,7 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavHome.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
-                R.id.navigation_home, R.id.navigation_reward -> {
+                R.id.navigation_home, R.id.navigation_reward, R.id.navigation_travel -> {
                     binding.bottomNavHome.visibility = View.VISIBLE
                 }
 
