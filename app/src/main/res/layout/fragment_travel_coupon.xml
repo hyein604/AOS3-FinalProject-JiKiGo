@@ -1,81 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TravelCouponFragment">
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="18dp"
-        android:scrollbars="none"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cg_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history1"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="전체보기" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history2"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="브랜드이름" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history3"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="브랜드이름" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history4"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="브랜드이름" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history5"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="브랜드이름" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_history6"
-                style="@style/Widget.Material3.Chip.Suggestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="브랜드이름" />
-
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+        app:layout_constraintStart_toStartOf="parent">
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history1"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="전체보기" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history2"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드이름" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history3"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드이름" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history4"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드이름" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history5"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드이름" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_history6"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="브랜드이름" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
         <TextView
             android:id="@+id/tv_coupon_count"
@@ -85,16 +83,17 @@
             android:textColor="#A7A7AE"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
         <LinearLayout
             android:id="@+id/sortContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
 
             <TextView
                 android:id="@+id/tv_sort"
@@ -117,6 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="18dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,4 +126,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
