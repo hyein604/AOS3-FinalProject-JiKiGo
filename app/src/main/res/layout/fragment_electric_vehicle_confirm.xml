@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ElectricVehicleConfirmFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_electric_vehicle_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="전기 이동수단 인증"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:titleCentered="true"
+        android:background="@color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@id/toolbar_electric_vehicle_confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <View
+                android:id="@+id/view_electric_vehicle_confirm"
+                android:layout_width="0dp"
+                android:layout_height="210dp"
+                android:background="@color/primary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ImageView
+                android:id="@+id/iv_electric_vehicle_confirm_image"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="45dp"
+                android:src="@drawable/img_elec"
+                app:layout_constraintBottom_toBottomOf="@id/view_electric_vehicle_confirm"
+                app:layout_constraintEnd_toEndOf="@id/view_electric_vehicle_confirm"
+                app:layout_constraintStart_toStartOf="@id/view_electric_vehicle_confirm" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_electric_vehicle_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="160dp"
+                android:minHeight="600dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0.5dp"
+                app:layout_constraintTop_toTopOf="@id/view_electric_vehicle_confirm" >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_electric_vehicle_confirm_text_title"
+                        android:textColor="@color/gray_100"
+                        android:layout_marginStart="40dp"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="60dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전기 이동수단 이용을 인증해보세요!" />
+
+                    <TextView
+                        android:id="@+id/tv_electric_vehicle_confirm_text_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginEnd="30dp"
+                        android:text="우리가 1년 동안 전기 자전거나 킥보드를 이용한다면 \n자동차에서 발생하는 미세먼지와 유해한 화학물질 대신, 공기질을 개선하는 데 도움을 주는 효과가 있어요!"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@id/tv_electric_vehicle_confirm_text_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_electric_vehicle_confirm_text_title" />
+
+                    <TextView
+                        android:id="@+id/tv_electric_vehicle_confirm_btn_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textAlignment="center"
+                        app:layout_constraintStart_toStartOf="@id/btn_electric_vehicle_confirm"
+                        app:layout_constraintEnd_toEndOf="@id/btn_electric_vehicle_confirm"
+                        app:layout_constraintBottom_toTopOf="@id/btn_electric_vehicle_confirm"
+                        android:text="만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!" />
+
+                    <Button
+                        android:id="@+id/btn_electric_vehicle_confirm"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginHorizontal="50dp"
+                        android:layout_marginTop="230dp"
+                        android:text="이용 내역 인증하기"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_electric_vehicle_confirm_text_description" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Space
+                app:layout_constraintTop_toBottomOf="@id/card_electric_vehicle_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
