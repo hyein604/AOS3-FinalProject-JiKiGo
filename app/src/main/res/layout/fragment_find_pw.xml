@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.login.FindIdFragment">
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/et_find_new_pw"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginTop="50dp"
+		app:endIconMode="clear_text"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:hint="@string/common_name"
+			android:inputType="text"
+			android:maxLength="8" />
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/et_find_pw_id"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginTop="20dp"
+		app:endIconMode="clear_text"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/et_find_new_pw">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:hint="@string/common_id"
+			android:inputType="text"
+			android:maxLength="16" />
+	</com.google.android.material.textfield.TextInputLayout>
+
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/et_find_pw_mobile"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginTop="20dp"
+		app:endIconMode="clear_text"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/et_find_pw_id">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:hint="@string/common_mobile_no_hyphen"
+			android:inputType="number"
+			android:maxLength="11" />
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<androidx.appcompat.widget.AppCompatButton
+		style="@style/AppButtonPrimary.S14"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_marginEnd="5dp"
+		android:text="@string/common_auth_request"
+		app:layout_constraintBottom_toBottomOf="@id/et_find_pw_mobile"
+		app:layout_constraintEnd_toEndOf="@id/et_find_pw_mobile"
+		app:layout_constraintTop_toTopOf="@id/et_find_pw_mobile" />
+
+	<com.google.android.material.textfield.TextInputLayout
+		android:id="@+id/et_find_id_auth_number"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginTop="20dp"
+		app:endIconMode="clear_text"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/et_find_pw_mobile">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:hint="@string/common_auth_number"
+			android:inputType="number"
+			android:maxLength="6" />
+	</com.google.android.material.textfield.TextInputLayout>
+
+	<androidx.appcompat.widget.AppCompatButton
+		style="@style/AppButtonPrimary.S14"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="5dp"
+		android:layout_marginEnd="5dp"
+		android:text="@string/common_auth_confirm"
+		app:layout_constraintBottom_toBottomOf="@id/et_find_id_auth_number"
+		app:layout_constraintEnd_toEndOf="@id/et_find_id_auth_number"
+		app:layout_constraintTop_toTopOf="@id/et_find_id_auth_number" />
+
+
+	<androidx.appcompat.widget.AppCompatButton
+		style="@style/AppButtonPrimary.S16"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginTop="50dp"
+		android:text="비밀번호 찾기"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/et_find_id_auth_number" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

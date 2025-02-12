@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationDetailFragment">
+
+    <!-- 상단 공지사항 배경 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_notification_detail_top_container"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="#7A8FFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 툴바 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_notification_detail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title=""
+            tools:ignore="MissingConstraints" />
+
+        <!-- 큰 제목 ("공지사항") -->
+        <TextView
+            android:id="@+id/tv_notification_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_notification_detail"
+            app:layout_constraintBottom_toBottomOf="@id/cl_notification_detail_top_container"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- 확성기 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_notification_detail_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/img_megaphone"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_notification_detail"
+            app:layout_constraintStart_toEndOf="@id/tv_notification_detail_title"
+            app:layout_constraintBottom_toBottomOf="@id/cl_notification_detail_top_container"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 스크롤 가능하도록 ScrollView 추가 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_notification_detail_top_container"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- 공지사항 제목 -->
+            <TextView
+                android:id="@+id/tv_notification_detail_content_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="장세훈 서러움 기념 이벤트 🎉"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp"/>
+
+            <!-- 작성 날짜 -->
+            <TextView
+                android:id="@+id/tv_notification_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025.2.10"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- 디바이더 (구분선) -->
+            <View
+                android:id="@+id/view_notification_detail_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 공지사항 내용 -->
+            <TextView
+                android:id="@+id/tv_notification_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="안녕하세요 지기GO 운영자 입니다.\n이번에 저희 팀원이 조장님의 이름을 헷갈렸습니다.\n성함이 장세훈 이신데 팀원분이 정세훈이라고 하셨어요.\n\n충격받으신 조장님이 기념으로 이벤트를 하나 기획하셨습니다!\n\n무려 전 회원 10만 포인트 증정 이벤트입니다.\n단 사전 이벤트 신청하신 분만 해당됩니다.\n\n많이많이 참여해주세요~\n\n죄송합니다🙇"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 공지사항 이미지 -->
+            <ImageView
+                android:id="@+id/iv_notification_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@drawable/img_today_news_home_tmp_1"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

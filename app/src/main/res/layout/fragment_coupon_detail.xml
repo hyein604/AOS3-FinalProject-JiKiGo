@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CouponDetailFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_coupon_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="쿠폰 상세보기"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:titleCentered="true"
+        android:background="@color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_coupon_detail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/iv_coupon_detail_image"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="40dp"
+                android:background="@drawable/shape_coupon_radius"
+                android:elevation="1dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/img_point_bag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_coupon_detail_client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="파크 하얏트 부산"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/iv_coupon_detail_image"
+                app:layout_constraintStart_toStartOf="@id/iv_coupon_detail_image"
+                app:layout_constraintTop_toBottomOf="@id/iv_coupon_detail_image" />
+
+            <TextView
+                android:id="@+id/tv_coupon_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="파크 하얏트 부산 기프트 카드 1만원권"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_client"
+                app:layout_constraintStart_toStartOf="@id/tv_coupon_detail_client"
+                app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_client" />
+
+            <TextView
+                android:id="@+id/tv_coupon_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/tv_coupon_detail_name"
+                app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_name"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/primary"
+                android:text="유효기간 : 2026.02.07"
+                app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_name"/>
+
+            <ImageView
+                android:id="@+id/iv_coupon_detail_barcode"
+                android:layout_width="0dp"
+                android:layout_height="142dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/shape_coupon_radius"
+                android:src="@drawable/img_qr"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_date" />
+
+            <Button
+                android:id="@+id/btn_coupon_detail_save"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="55dp"
+                android:text="쿠폰 저장하기"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_coupon_detail_barcode" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

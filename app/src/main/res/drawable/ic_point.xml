@@ -7,13 +7,13 @@
       android:strokeWidth="1"
       android:pathData="M12,12m-11.5,0a11.5,11.5 0,1 1,23 0a11.5,11.5 0,1 1,-23 0"
       android:fillColor="#00000000"
-      android:strokeColor="#FEF84D"/>
+      android:strokeColor="#FCD24D"/>
   <path
       android:pathData="M11.418,14.83C9.392,16.014 6,16.099 6,13.326C6,11.477 7.511,10.455 10.532,10.258C8.933,6.753 9.521,5 12.296,5C15.071,5 15.704,6.753 14.193,10.258C17.126,10.258 18.592,11.158 18.592,12.958C18.592,15.659 16.874,17.074 13.064,14.83C12.585,14.57 12.462,16.134 12.694,19.522"
       android:strokeAlpha="0.9"
       android:strokeLineJoin="round"
       android:strokeWidth="0.96"
       android:fillColor="#00000000"
-      android:strokeColor="#FEF84D"
+      android:strokeColor="#FCD24D"
       android:strokeLineCap="round"/>
 </vector>
