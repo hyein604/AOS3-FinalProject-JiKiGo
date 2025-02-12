@@ -9,6 +9,53 @@
 		android:id="@+id/navigation_home"
 		android:name="com.protect.jikigo.ui.home.HomeFragment"
 		android:label="홈"
-		tools:layout="@layout/fragment_home" />
+		tools:layout="@layout/fragment_home" >
+		<action
+			android:id="@+id/action_navigation_home_to_notification"
+			app:destination="@id/notification" />
+		<action
+			android:id="@+id/action_navigation_home_to_newsEnvironment"
+			app:destination="@id/newsEnvironment" />
+		<action
+			android:id="@+id/action_navigation_home_to_paymentQR"
+			app:destination="@id/paymentQR" />
+		<action
+			android:id="@+id/action_navigation_home_to_myPage"
+			app:destination="@id/myPage" />
+	</fragment>
+	<fragment
+		android:id="@+id/notification"
+		android:name="com.protect.jikigo.NotificationFragment"
+		android:label="fragment_notification"
+		tools:layout="@layout/fragment_notification" >
+		<action
+			android:id="@+id/action_notification_to_notificationDetail"
+			app:destination="@id/notificationDetail" />
+	</fragment>
+	<fragment
+		android:id="@+id/notificationDetail"
+		android:name="com.protect.jikigo.NotificationDetailFragment"
+		android:label="fragment_notification_detail"
+		tools:layout="@layout/fragment_notification_detail" />
+	<fragment
+		android:id="@+id/newsEnvironment"
+		android:name="com.protect.jikigo.ui.news.NewsEnvironmentFragment"
+		android:label="fragment_news_environment"
+		tools:layout="@layout/fragment_news_environment" />
+	<fragment
+		android:id="@+id/paymentQR"
+		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
+		android:label="fragment_payment_qr"
+		tools:layout="@layout/fragment_payment_qr" />
+	<fragment
+		android:id="@+id/navigation_reward"
+		android:name="com.protect.jikigo.ui.reward.RewardFragment"
+		android:label="fragment_reward"
+		tools:layout="@layout/fragment_reward" />
+	<fragment
+		android:id="@+id/myPage"
+		android:name="com.protect.jikigo.MyPageFragment"
+		android:label="fragment_my_page"
+		tools:layout="@layout/fragment_my_page" />
 
 </navigation>
