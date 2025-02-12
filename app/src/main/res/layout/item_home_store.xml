@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="wrap_content"
+	android:layout_margin="10dp"
+	android:layout_height="wrap_content">
+
+	<com.google.android.material.imageview.ShapeableImageView
+		android:id="@+id/iv_rv_thumb_nail"
+		android:layout_width="200dp"
+		android:layout_height="130dp"
+		android:src="@drawable/background_home"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/tv_rv_title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintStart_toStartOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintTop_toBottomOf="@id/iv_rv_thumb_nail"
+		tools:text="아름다운 가게" />
+
+	<TextView
+		android:id="@+id/tv_rv_address"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="10dp"
+		android:ellipsize="end"
+		android:maxLines="2"
+		android:textColor="@color/gray_50"
+		android:textSize="12sp"
+		app:layout_constraintEnd_toEndOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintStart_toStartOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintTop_toBottomOf="@id/tv_rv_title"
+		tools:text="서울 구로구 경인로 334 (개봉동, 하이마트) 1층 아름다운가게" />
+
+	<TextView
+		android:id="@+id/tv_rv_number"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="10dp"
+		android:layout_marginTop="3dp"
+		android:ellipsize="end"
+		android:maxLines="1"
+		android:textColor="@color/gray_50"
+		android:textSize="12sp"
+		app:layout_constraintEnd_toEndOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintStart_toStartOf="@id/iv_rv_thumb_nail"
+		app:layout_constraintTop_toBottomOf="@id/tv_rv_address"
+		tools:text="02-2687-1005" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

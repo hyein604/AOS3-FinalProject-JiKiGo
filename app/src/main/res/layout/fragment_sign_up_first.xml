@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.login.SignUpFirstFragment">
+
+	<com.google.android.material.appbar.MaterialToolbar
+		android:id="@+id/toolbar_sign_up"
+		style="@style/AppToolbar"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:title="회원가입" />
+
+	<TextView
+		android:id="@+id/tv_sign_up_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="20dp"
+		android:layout_marginTop="20dp"
+		android:text="@string/sign_up_label"
+		android:textSize="18sp"
+		android:textStyle="bold"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/toolbar_sign_up" />
+
+	<com.google.android.material.checkbox.MaterialCheckBox
+		android:id="@+id/cb_sign_up_all"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:text="@string/sign_up_all"
+		app:layout_constraintStart_toStartOf="@id/tv_sign_up_label"
+		app:layout_constraintTop_toBottomOf="@id/tv_sign_up_label" />
+
+	<com.google.android.material.checkbox.MaterialCheckBox
+		android:id="@+id/cb_sign_up_age"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="20dp"
+		android:text="@string/sign_up_age"
+		app:layout_constraintStart_toStartOf="@id/cb_sign_up_all"
+		app:layout_constraintTop_toBottomOf="@id/cb_sign_up_all" />
+
+	<com.google.android.material.checkbox.MaterialCheckBox
+		android:id="@+id/cb_sign_up_service"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="20dp"
+		android:text="@string/sign_up_service"
+		app:layout_constraintStart_toStartOf="@id/cb_sign_up_all"
+		app:layout_constraintTop_toBottomOf="@id/cb_sign_up_age" />
+
+	<TextView
+		android:id="@+id/tv_sign_up_service_more"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="20dp"
+		android:text="자세히"
+		android:textColor="@color/gray_50"
+		app:layout_constraintBottom_toBottomOf="@id/cb_sign_up_service"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="@id/cb_sign_up_service" />
+
+	<TextView
+		android:id="@+id/tv_sign_up_personal"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="30dp"
+		android:layout_marginTop="100dp"
+		android:text="@string/sign_up_personal_information_label"
+		android:textColor="@color/gray_50"
+		android:textSize="12sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/cb_sign_up_service" />
+
+	<androidx.appcompat.widget.AppCompatButton
+		android:id="@+id/btn_sign_up_confirm"
+		style="@style/AppButtonPrimary"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginHorizontal="40dp"
+		android:layout_marginBottom="70dp"
+		android:text="@string/sign_up_confirm"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
