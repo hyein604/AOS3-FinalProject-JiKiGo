@@ -19,6 +19,63 @@
 		app:title="결제"
 		app:titleTextColor="@color/white" />
 
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_10"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.1" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_20"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.2" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_30"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.3" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_50"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.5" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_70"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.7" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_h_80"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent="0.8" />
+
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_v_005"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.05" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/guideline_v_95"
+		android:layout_width="wrap_content"
+		android:layout_height="1dp"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.95" />
+
 	<androidx.appcompat.widget.AppCompatImageView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -31,12 +88,12 @@
 		android:id="@+id/tv_qr_use"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="150dp"
-		android:layout_marginEnd="20dp"
 		android:text="사용처"
 		android:textColor="@color/white"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintBottom_toTopOf="@id/guideline_h_20"
+		app:layout_constraintEnd_toEndOf="@id/guideline_v_95"
+
+		/>
 
 	<View
 		android:id="@+id/view_qr"
@@ -44,9 +101,8 @@
 		android:layout_height="0dp"
 		android:layout_marginHorizontal="20dp"
 		android:layout_marginTop="20dp"
-		android:layout_marginBottom="100dp"
 		android:background="@drawable/background_qr"
-		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintBottom_toBottomOf="@id/guideline_h_80"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/tv_qr_use" />
@@ -96,10 +152,10 @@
 		android:layout_height="0dp"
 		android:layout_marginHorizontal="20dp"
 		android:layout_marginTop="30dp"
+		android:layout_marginBottom="20dp"
 		android:background="@drawable/background_qr_point"
 		app:layout_constraintBottom_toBottomOf="@id/view_qr"
 		app:layout_constraintEnd_toEndOf="@id/view_qr"
-		android:layout_marginBottom="20dp"
 		app:layout_constraintStart_toStartOf="@id/view_qr"
 		app:layout_constraintTop_toBottomOf="@+id/view_payment_qr" />
 
