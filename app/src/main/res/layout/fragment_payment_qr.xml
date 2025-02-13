@@ -8,6 +8,7 @@
 	tools:context=".ui.payment.PaymentQRFragment">
 
 	<com.google.android.material.appbar.MaterialToolbar
+		android:id="@+id/toolbar_payment"
 		style="@style/AppToolbar"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
@@ -96,10 +97,10 @@
 		android:layout_height="0dp"
 		android:layout_marginHorizontal="20dp"
 		android:layout_marginTop="30dp"
+		android:layout_marginBottom="20dp"
 		android:background="@drawable/background_qr_point"
 		app:layout_constraintBottom_toBottomOf="@id/view_qr"
 		app:layout_constraintEnd_toEndOf="@id/view_qr"
-		android:layout_marginBottom="20dp"
 		app:layout_constraintStart_toStartOf="@id/view_qr"
 		app:layout_constraintTop_toBottomOf="@+id/view_payment_qr" />
 
