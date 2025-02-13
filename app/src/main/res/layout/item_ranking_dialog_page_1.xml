@@ -5,26 +5,41 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-
-
     <TextView
-        android:id="@+id/tv_ranking_dialog_page_1_title_help"
+        android:id="@+id/tv_ranking_dialog_page_1_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="걸음으로 경쟁해보세요 🏃‍♂️"
-        android:textSize="18sp"
+        android:text="걸음으로 경쟁해보세요🏃‍♂️"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+        android:id="@+id/tv_ranking_dialog_page_1_content_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="매주 걸음 수가 초기화되어 새롭게 경쟁할 수 있어요!"
+        android:text="매주 일요일 자정에 걸음 수가 초기화되어 새롭게 경쟁할 수 있어요.\n"
+        android:lineSpacingExtra="5dp"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_ranking_dialog_page_1_title_help"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_ranking_dialog_page_1_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="상위 3명에게 포인트 보상이 지급됩니다!\n🥇 1등: 500P\n🥈 2등: 300P\n🥉 3등: 100P\n\n4등부터는 포인트가 없어요.\n아쉽지만, 다음 주를 노려보세요! 😉"
+        android:lineSpacingExtra="5dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_ranking_dialog_page_1_content_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
