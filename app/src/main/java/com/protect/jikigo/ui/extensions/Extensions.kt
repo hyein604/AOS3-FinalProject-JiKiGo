@@ -14,27 +14,38 @@ import androidx.core.content.ContextCompat
 import java.text.DecimalFormat
 
 // textView 속성을 넣어주는 함수
-fun TextView.spannable(underLine: Int, colorLine: Int, boldLine: Int, color: Int) {
+fun TextView.applySpannableStyles(
+    startPos: Int,
+    lastPos: Int,
+    colorResId: Int? = null,
+    isBold: Boolean = false,
+    isUnderlined: Boolean = false
+) {
     val spannableBuilder = SpannableStringBuilder(this.text)
 
-    spannableBuilder.setSpan(
-        UnderlineSpan(),
-        0, underLine, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
+    colorResId?.let {
+        val color = ContextCompat.getColor(this.context, it)
+        spannableBuilder.setSpan(
+            ForegroundColorSpan(color),
+            startPos, lastPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
 
-    // 색상 적용
-    spannableBuilder.setSpan(
-        ForegroundColorSpan(color),
-        0, colorLine, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
+    if (isBold) {
+        spannableBuilder.setSpan(
+            StyleSpan(Typeface.BOLD),
+            startPos, lastPos,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
 
-    // Bold 적용
-    spannableBuilder.setSpan(
-        StyleSpan(Typeface.BOLD),
-        0, boldLine,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-    )
-
+    if (isUnderlined) {
+        spannableBuilder.setSpan(
+            UnderlineSpan(),
+            startPos, lastPos,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
 
     this.text = spannableBuilder
 }
