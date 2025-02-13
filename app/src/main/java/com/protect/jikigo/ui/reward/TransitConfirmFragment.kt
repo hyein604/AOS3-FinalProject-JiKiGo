@@ -1,20 +1,43 @@
 package com.protect.jikigo.ui.reward
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.protect.jikigo.R
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.databinding.FragmentTransitConfirmBinding
 
 
 class TransitConfirmFragment : Fragment() {
+    private var _binding: FragmentTransitConfirmBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transit_confirm, container, false)
+    ): View {
+        _binding = FragmentTransitConfirmBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
+        onClickToolbar()
+    }
+
+    private fun onClickToolbar() {
+        binding.toolbarTransitConfirm.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }
