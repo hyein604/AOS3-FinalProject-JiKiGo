@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:text="걸음 🏃"
+            android:text="걸음 🚶🏻"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -108,6 +108,7 @@
         android:layout_height="220dp"
         app:shapeAppearanceOverlay="@style/RankingMyProfileRoundedImage"
         android:scaleType="centerCrop"
+        android:elevation="5dp"
         android:src="@drawable/img_today_news_home_tmp_1"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="400dp"
@@ -183,17 +184,29 @@
                 android:layout_height="60dp"
                 android:layout_weight="2"
                 android:text="윈터아마멘터"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:layout_marginStart="10dp"/>
 
             <!-- 걸음 수 -->
             <TextView
-                android:id="@+id/tv_ranking_my_profile_walk_count"
+                android:id="@+id/tv_ranking_my_profile_walk_count_ic"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
-                android:text="🚶🏻‍♀️1,093"
+                android:text="🚶🏻"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:gravity="end"
+                android:paddingTop="20dp"
+                android:textColor="@android:color/black"/>
+            <!-- 걸음 수 -->
+            <TextView
+                android:id="@+id/tv_ranking_my_profile_walk_count"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="1,093"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:gravity="end"
@@ -218,7 +231,7 @@
             android:id="@+id/rv_ranking"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"/>
+            tools:listitem="@layout/row_ranking"/>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
