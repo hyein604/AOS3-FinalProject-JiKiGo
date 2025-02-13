@@ -9,6 +9,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import java.text.DecimalFormat
 
@@ -52,4 +53,9 @@ fun TextView.applyNumberFormat(amount: Int) {
 fun Number.convertThreeDigitComma(): String {
     val decimalFormat = DecimalFormat("#,###P")
     return decimalFormat.format(this)
+}
+
+// 토스트 메시지
+fun Context.toast(msg: String) {
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
