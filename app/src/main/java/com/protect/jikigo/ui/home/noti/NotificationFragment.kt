@@ -18,9 +18,11 @@ class NotificationFragment : Fragment() {
     private lateinit var adapter: NotificationAdapter
     private val notificationList = listOf(
         Notification("공지사항 1", "2025.02.10"),
-        Notification("공지사항 2", "2025.02.09"),
-        Notification("공지사항 3", "2025.02.08")
+        Notification("중요 공지", "2025.02.09"),
+        Notification("새로운 업데이트", "2025.02.08")
     )
+
+    private var filteredList = notificationList.toList() // 검색된 목록 저장용
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,12 +45,12 @@ class NotificationFragment : Fragment() {
     private fun setLayout() {
         setupRecyclerView()
         onClickToolbar()
+        setupSearch()  // 🔍 검색 기능 추가
     }
 
     private fun setupRecyclerView() {
-        binding.rvNotification.layoutManager = LinearLayoutManager(requireContext()) // 추가된 코드
-        adapter = NotificationAdapter(notificationList) { selectedItem ->
-            // 클릭 시 이동 처리
+        binding.rvNotification.layoutManager = LinearLayoutManager(requireContext())
+        adapter = NotificationAdapter(filteredList) { selectedItem ->
             val action =
                 NotificationFragmentDirections.actionNotificationToNotificationDetail()
             findNavController().navigate(action)
@@ -59,6 +61,55 @@ class NotificationFragment : Fragment() {
     private fun onClickToolbar() {
         binding.toolbarNotification.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupSearch() {
+        binding.ivSearchIcon.setOnClickListener {
+            val query = binding.etSearch.text.toString().trim()
+            performSearch(query)
+        }
+
+        binding.tvNotificationViewAll.setOnClickListener {
+            resetSearch()
+        }
+    }
+
+    private fun performSearch(query: String) {
+        filteredList = if (query.isNotEmpty()) {
+            notificationList.filter { it.title.contains(query, ignoreCase = true) }
+        } else {
+            notificationList
+        }
+
+        updateRecyclerView()
+    }
+
+    private fun resetSearch() {
+        binding.etSearch.setText("")  // 검색어 초기화
+        filteredList = notificationList // 전체 목록 복원
+        updateRecyclerView()
+        binding.tvNotificationSearchResult.visibility = View.GONE
+        binding.tvNotificationViewAll.visibility = View.GONE
+    }
+
+    private fun updateRecyclerView() {
+        adapter = NotificationAdapter(filteredList) { selectedItem ->
+            val action =
+                NotificationFragmentDirections.actionNotificationToNotificationDetail()
+            findNavController().navigate(action)
+        }
+        binding.rvNotification.adapter = adapter
+
+        // 검색 결과 텍스트 업데이트
+        if (filteredList.isNotEmpty()) {
+            binding.tvNotificationSearchResult.text = "총 ${filteredList.size}건의 검색결과가 있습니다."
+            binding.tvNotificationSearchResult.visibility = View.VISIBLE
+            binding.tvNotificationViewAll.visibility = View.VISIBLE
+        } else {
+            binding.tvNotificationSearchResult.text = "총 0건의 검색결과가 있습니다."
+            binding.tvNotificationSearchResult.visibility = View.VISIBLE
+            binding.tvNotificationViewAll.visibility = View.GONE
         }
     }
 }
