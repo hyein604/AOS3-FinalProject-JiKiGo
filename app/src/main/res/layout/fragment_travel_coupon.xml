@@ -31,7 +31,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history1"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -39,35 +39,35 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history2"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="브랜드이름" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history3"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="브랜드이름" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history4"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="브랜드이름" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history5"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="브랜드이름" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_history6"
-                    style="@style/Widget.Material3.Chip.Suggestion"
+                    style="@style/customChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="브랜드이름" />
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="총 00개의 상품이 있습니다."
-            android:textColor="#A7A7AE"
+            android:textColor="@color/gray_50"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:paddingEnd="4dp"
                 android:text="추천순"
-                android:textColor="#A7A7AE"
+                android:textColor="@color/gray_50"
                 android:textSize="12sp" />
 
             <ImageView
