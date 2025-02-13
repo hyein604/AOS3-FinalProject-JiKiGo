@@ -25,6 +25,9 @@
 		<action
 			android:id="@+id/action_signUpFirst_to_signUpSecond"
 			app:destination="@id/signUpSecond" />
+		<action
+			android:id="@+id/action_signUpFirst_to_webView"
+			app:destination="@id/webView" />
 	</fragment>
 	<fragment
 		android:id="@+id/signUpSecond"
@@ -45,4 +48,13 @@
 		android:name="com.protect.jikigo.ui.login.FindNewPwFragment"
 		android:label="fragment_find_new_pw"
 		tools:layout="@layout/fragment_find_new_pw" />
+	<fragment
+		android:id="@+id/webView"
+		android:name="com.protect.jikigo.ui.WebViewFragment"
+		android:label="fragment_web_view"
+		tools:layout="@layout/fragment_web_view" >
+		<argument
+			android:name="urlMethod"
+			app:argType="com.protect.jikigo.data.WebSiteURL" />
+	</fragment>
 </navigation>
