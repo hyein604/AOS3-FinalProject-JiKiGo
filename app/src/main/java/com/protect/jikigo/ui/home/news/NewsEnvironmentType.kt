@@ -1,4 +1,4 @@
-package com.protect.jikigo.ui.news
+package com.protect.jikigo.ui.home.news
 
 enum class NewsEnvironmentType {
     ALL,

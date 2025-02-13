@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".MyPageFragment">
+    tools:context=".ui.home.my_page.MyPageFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_my_page"
@@ -255,6 +255,7 @@
                 app:layout_constraintTop_toTopOf="@id/view_my_page_coupon" />
 
             <Button
+                android:id="@+id/iv_my_page_coupon_box"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

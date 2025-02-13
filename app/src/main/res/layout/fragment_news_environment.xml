@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.news.NewsEnvironmentFragment">
+    tools:context=".ui.home.news.NewsEnvironmentFragment">
 
     <!-- 배경색을 포함하는 상단 레이아웃 -->
     <androidx.constraintlayout.widget.ConstraintLayout

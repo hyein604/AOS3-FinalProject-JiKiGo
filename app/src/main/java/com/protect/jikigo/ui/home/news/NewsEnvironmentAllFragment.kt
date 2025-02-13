@@ -1,4 +1,4 @@
-package com.protect.jikigo.ui.news
+package com.protect.jikigo.ui.home.news
 
 import android.os.Bundle
 import android.view.LayoutInflater

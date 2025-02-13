@@ -51,20 +51,11 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="20dp"
-				android:text="장세훈"
+				android:text="장세훈 님,"
 				android:textSize="36sp"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="10dp"
-				android:text="님,"
-				android:textSize="36sp"
-				app:layout_constraintStart_toEndOf="@id/tv_home_nickname"
-				app:layout_constraintTop_toTopOf="@id/tv_home_nickname" />
 
 			<TextView
 				android:id="@+id/tv_home_label"
@@ -393,10 +384,10 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
-				app:layout_constraintBottom_toBottomOf="parent"
 				android:layout_marginBottom="20dp"
 				android:orientation="horizontal"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/tv_home_store"
