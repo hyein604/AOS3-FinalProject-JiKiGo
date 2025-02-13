@@ -34,17 +34,41 @@
 	<string name="common_pw_check">비밀번호 확인</string>
 
 
-	<!--오늘의 소식 환경 탭 레이아웃 아이템-->
-	<string name="news_environment_all">전체</string>
-	<string name="news_environment_air">대기</string>
-	<string name="news_environment_water">물</string>
-	<string name="news_environment_ecosystem">환경</string>
-	<string name="news_environment_policy">정책</string>
+    <!--오늘의 소식 환경 탭 레이아웃 아이템-->
+    <string name="news_environment_all">전체</string>
+    <string name="news_environment_air">대기</string>
+    <string name="news_environment_water">물</string>
+    <string name="news_environment_ecosystem">환경</string>
+    <string name="news_environment_policy">정책</string>
 	<string name="common_home">홈</string>
 	<string name="common_reward">리워드</string>
 	<string name="common_travel">여행</string>
 	<string name="common_icon_environment">🌱</string>
 
+	<!-- 마이 페이지 -->
+	<string name="common_today">오늘</string>
+	<string name="common_logout">로그아웃</string>
+	<string name="my_page_point_history">포인트 내역</string>
+	<string name="my_page_point_history_month">포인트 내역</string>
+	<string name="my_page_change_bank">등록 계좌 수정</string>
+	<string name="my_page_coupon_box">쿠폰함</string>
+	<string name="my_page_customer_service">고객센터</string>
+	<string name="my_page_customer_service_description">월 - 금 9:00 ~ 18:00 (토.일 공휴일 휴무)</string>
+	<string name="my_page_customer_service_phone">1588 – 1234</string>
+	<string name="my_page_delete_account">회원탈퇴</string>
+
+	<!-- 쿠폰 상세페이지 -->
+	<string name="coupon_detail_save_coupon">쿠폰 저장하기</string>
+
+	<!-- 쿠폰함 -->
+	<string name="coupon_box_possession_coupon">쿠폰 저장하기</string>
+	<string name="coupon_box_used_coupon">쿠폰 저장하기</string>
+	<string name="coupon_box_description">아래의 교환처에서 바코드를 제시 후\n상품으로 교환할 수 있습니다</string>
+
+	<!-- 프로필 수정 -->
+	<string name="profile_edit_description">쿠폰 저장하기</string>
+
+  
 	<!-- 리워드 -->
 	<string name="reward_attend">출석하기</string>
 	<string name="reward_point_history">적립 내역 보기</string>
@@ -74,6 +98,7 @@
 	<string name="transit_confirm_description">우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배충량 감소가 더욱 커질 수 있어요!</string>
 	<string name="transit_confirm_btn_description">만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!</string>
 	<string name="transit_confirm_btn_title">이용 내역 인증하기</string>
+
 
 
 </resources>

@@ -10,6 +10,7 @@
         android:id="@+id/toolbar_profile_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:title="프로필 수정"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -63,8 +64,8 @@
         android:id="@+id/tv_profile_edit_name_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="최소 2자에서 최대 10자까지 가능합니다" />
+        android:textSize="11sp"
+        android:text="@string/profile_edit_description" />
 
     <TextView
         app:layout_constraintEnd_toEndOf="@id/et_profile_edit_name"
@@ -73,7 +74,7 @@
         android:id="@+id/tv_profile_edit_name_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:layout_marginEnd="5dp"
         android:text="0/10" />
 </androidx.constraintlayout.widget.ConstraintLayout>
