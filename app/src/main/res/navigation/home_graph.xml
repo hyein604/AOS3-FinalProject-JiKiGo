@@ -28,6 +28,9 @@
 		<action
 			android:id="@+id/action_navigation_home_to_notificationDetail"
 			app:destination="@id/notificationDetail" />
+		<action
+			android:id="@+id/action_navigation_home_to_ranking"
+			app:destination="@id/ranking" />
 	</fragment>
 	<fragment
 		android:id="@+id/notification"

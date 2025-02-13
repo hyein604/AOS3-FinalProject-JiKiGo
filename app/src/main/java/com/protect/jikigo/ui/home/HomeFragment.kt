@@ -1,6 +1,5 @@
 package com.protect.jikigo.ui.home
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import com.protect.jikigo.databinding.FragmentHomeBinding
 import com.protect.jikigo.ui.HomeAdapter
 import com.protect.jikigo.ui.HomeStoreItemClickListener
 import com.protect.jikigo.ui.extensions.applyNumberFormat
-import com.protect.jikigo.ui.extensions.spannable
+import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.extensions.toast
 
@@ -53,6 +52,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         moveToDetailNoti()
         homeTextSpannable()
         tempMethod()
+        moveToRank()
     }
 
     private fun setStatusBarColor() {
@@ -105,10 +105,18 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         }
     }
 
+    private fun moveToRank() {
+        binding.tvHomeClickRank.setOnClickListener {
+            val action = HomeFragmentDirections.actionNavigationHomeToRanking()
+            findNavController().navigate(action)
+        }
+    }
+
     private fun homeTextSpannable() {
         // 닉네임의 길이를 넣어줌
-        binding.tvHomeNickname.spannable(0, 3, 3, Color.WHITE)
-        binding.tvHomeClickRank.spannable(binding.tvHomeClickRank.length(), 0, 0, Color.BLACK)
+        binding.tvHomeNickname.applySpannableStyles(0, 3, R.color.white)
+
+        binding.tvHomeClickRank.applySpannableStyles(0, binding.tvHomeClickRank.length(), R.color.black, true, true)
     }
 
     // 데이테 베이스 생성시 삭제되는 메서드
@@ -135,7 +143,6 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
             }
         }
     }
-
 
     private fun setRecyclerView() {
         val storeList = Storage.storeList
