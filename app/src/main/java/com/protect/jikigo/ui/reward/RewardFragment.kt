@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
+import com.protect.jikigo.databinding.FragmentHomeBinding
 import com.protect.jikigo.databinding.FragmentRewardBinding
+import com.protect.jikigo.ui.home.HomeFragmentDirections
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.protect.jikigo.ui.extensions.statusBarColor
+
 
 class RewardFragment : Fragment() {
     private var _binding: FragmentRewardBinding? = null
@@ -34,6 +38,7 @@ class RewardFragment : Fragment() {
     }
 
     private fun setLayout() {
+        moveToRanking()
         setStatusBarColor()
         onClickToolbar()
         moveToRank()
@@ -43,6 +48,13 @@ class RewardFragment : Fragment() {
         showBottomDialog()
     }
 
+    private fun moveToRanking() {
+        binding.btnRewardWalkRankMore.setOnClickListener {
+            val action = RewardFragmentDirections.actionNavigationRewardToRanking()
+            findNavController().navigate(action)
+        }
+    }
+    
     private fun setStatusBarColor() {
         requireActivity().statusBarColor(R.color.white)
     }

@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.protect.jikigo.databinding.FragmentRankingBinding
+import com.protect.jikigo.ui.rank.dialog.RankingHelpDialog
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
-import com.protect.jikigo.databinding.FragmentRankingBinding
 import com.protect.jikigo.ui.extensions.statusBarColor
-
 
 class RankingFragment : Fragment() {
     private var _binding: FragmentRankingBinding? = null
@@ -30,6 +30,11 @@ class RankingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 도움말 아이콘 클릭 시 다이얼로그 표시
+        binding.ivRankingHelp.setOnClickListener {
+            val dialog = RankingHelpDialog()
+            dialog.show(childFragmentManager, "RankingHelpDialog")
+
         setLayout()
     }
 
