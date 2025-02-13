@@ -53,7 +53,6 @@
 				android:layout_marginTop="20dp"
 				android:text="장세훈 님,"
 				android:textSize="36sp"
-				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,7 +100,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="10dp"
-				android:text="3,456P"
 				android:textSize="24sp"
 				app:layout_constraintBottom_toBottomOf="@id/view_home_point"
 				app:layout_constraintStart_toEndOf="@id/iv_point"

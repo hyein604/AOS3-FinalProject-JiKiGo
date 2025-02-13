@@ -40,24 +40,25 @@ class MyPageFragment : Fragment() {
 
     private fun moveToEditProfile() {
         binding.btnMyPageProfileEdit.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToProfileEditFragment()
+            val action = MyPageFragmentDirections.actionMyPageToProfileEdit()
             findNavController().navigate(action)
         }
     }
 
     private fun moveToPointHistory() {
-        binding.ivMyPagePoint.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToPointHistoryFragment()
+        binding.viewMyPagePoint.setOnClickListener {
+            val action = MyPageFragmentDirections.actionMyPageToPointHistory()
             findNavController().navigate(action)
         }
     }
 
     private fun moveToCouponBox() {
-        binding.viewMyPagePoint.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToCouponBoxFragment()
+        binding.viewMyPageCoupon.setOnClickListener {
+            val action = MyPageFragmentDirections.actionMyPageToCouponBox()
             findNavController().navigate(action)
         }
     }
+
 
 
 }

@@ -52,6 +52,9 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.6.0")
 
     // 뷰페이저 점 인디케이터
-    implementation ("me.relex:circleindicator:2.1.6")
+    implementation("me.relex:circleindicator:2.1.6")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
 }
