@@ -46,6 +46,13 @@
 		<item name="tabPaddingEnd">4dp</item>
 		<item name="tabRippleColor">@null</item>
 	</style>
+	<!-- 커스텀 칩 -->
+	<style name="customChip" parent="@style/Widget.Material3.Chip.Suggestion">
+		<item name = "chipBackgroundColor">@color/selector_chip_background_color</item>
+		<item name = "chipStrokeColor">@color/selector_chip_stroke_color</item>
+		<item name = "android:textColor">@color/selector_chip_text_color</item>
+		<item name = "android:textSize">12sp</item>
+	</style>
 
 
 </resources>

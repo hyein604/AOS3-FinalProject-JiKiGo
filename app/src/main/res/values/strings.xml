@@ -34,12 +34,12 @@
 	<string name="common_pw_check">비밀번호 확인</string>
 
 
-    <!--오늘의 소식 환경 탭 레이아웃 아이템-->
-    <string name="news_environment_all">전체</string>
-    <string name="news_environment_air">대기</string>
-    <string name="news_environment_water">물</string>
-    <string name="news_environment_ecosystem">환경</string>
-    <string name="news_environment_policy">정책</string>
+	<!--오늘의 소식 환경 탭 레이아웃 아이템-->
+	<string name="news_environment_all">전체</string>
+	<string name="news_environment_air">대기</string>
+	<string name="news_environment_water">물</string>
+	<string name="news_environment_ecosystem">환경</string>
+	<string name="news_environment_policy">정책</string>
 	<string name="common_home">홈</string>
 	<string name="common_reward">리워드</string>
 	<string name="common_travel">여행</string>
@@ -68,7 +68,7 @@
 	<!-- 프로필 수정 -->
 	<string name="profile_edit_description">쿠폰 저장하기</string>
 
-  
+
 	<!-- 리워드 -->
 	<string name="reward_attend">출석하기</string>
 	<string name="reward_point_history">적립 내역 보기</string>
