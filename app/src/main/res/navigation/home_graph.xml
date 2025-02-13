@@ -25,6 +25,9 @@
 		<action
 			android:id="@+id/action_navigation_home_to_travel"
 			app:destination="@id/navigation_travel" />
+		<action
+			android:id="@+id/action_navigation_home_to_notificationDetail"
+			app:destination="@id/notificationDetail" />
 	</fragment>
 	<fragment
 		android:id="@+id/notification"
