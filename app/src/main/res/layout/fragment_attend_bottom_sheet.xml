@@ -65,6 +65,8 @@
         android:layout_marginTop="40dp"
         android:text="@string/attend_bottom_sheet_done"
         android:textStyle="bold"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
