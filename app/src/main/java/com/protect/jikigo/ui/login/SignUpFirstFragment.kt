@@ -41,4 +41,10 @@ class SignUpFirstFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
+    private fun onClickMore() {
+        binding.tvSignUpServiceMore.setOnClickListener {
+
+        }
+    }
 }

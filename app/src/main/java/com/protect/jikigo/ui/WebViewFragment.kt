@@ -1,25 +1,23 @@
-package com.protect.jikigo.ui.home.my_page
+package com.protect.jikigo.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import android.webkit.WebViewClient
 import com.protect.jikigo.R
-import com.protect.jikigo.databinding.FragmentPointHistoryBinding
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.databinding.FragmentWebViewBinding
 
-
-class PointHistoryFragment : Fragment() {
-    private var _binding: FragmentPointHistoryBinding? = null
+class WebViewFragment : Fragment() {
+    private var _binding: FragmentWebViewBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPointHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentWebViewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,21 +28,21 @@ class PointHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setStatusBar()
         setLayout()
     }
 
-    private fun setStatusBar() {
-        requireActivity().statusBarColor(R.color.primary)
-    }
-
     private fun setLayout() {
-        onClickToolbar()
+        moveToWebSite()
     }
 
-    private fun onClickToolbar() {
-        binding.toolbarPointHistory.setNavigationOnClickListener {
-            findNavController().navigateUp()
+    private fun moveToWebSite() {
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.webViewClient = WebViewClient()
+        val url = when (1) {
+            1 -> "https://sites.google.com/view/jikogo-service/%ED%99%88"
+            else -> "https://sites.google.com/view/jikigo-personal/%ED%99%88"
         }
+        binding.webView.loadUrl(url)
     }
+
 }

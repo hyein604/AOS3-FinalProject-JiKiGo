@@ -25,6 +25,9 @@
 		<action
 			android:id="@+id/action_navigation_home_to_travel"
 			app:destination="@id/navigation_travel" />
+		<action
+			android:id="@+id/action_navigation_home_to_notificationDetail"
+			app:destination="@id/notificationDetail" />
 	</fragment>
 	<fragment
 		android:id="@+id/notification"
@@ -49,7 +52,11 @@
 		android:id="@+id/paymentQR"
 		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
 		android:label="fragment_payment_qr"
-		tools:layout="@layout/fragment_payment_qr" />
+		tools:layout="@layout/fragment_payment_qr" >
+		<action
+			android:id="@+id/action_paymentQR_to_paymentQRDialog"
+			app:destination="@id/paymentQRDialog" />
+	</fragment>
 	<fragment
 		android:id="@+id/navigation_reward"
 		android:name="com.protect.jikigo.ui.reward.RewardFragment"
@@ -59,25 +66,37 @@
 			android:id="@+id/action_navigation_reward_to_ranking"
 			app:destination="@id/ranking" />
 	</fragment>
-	<fragment
-		android:id="@+id/ranking"
-		android:name="com.protect.jikigo.ui.rank.RankingFragment"
-		android:label="fragment_ranking"
-		tools:layout="@layout/fragment_ranking" />
+
+		<action
+			android:id="@+id/action_navigation_reward_to_ranking"
+			app:destination="@id/ranking" />
+		<action
+			android:id="@+id/action_navigation_reward_to_tumblrConfirm"
+			app:destination="@id/tumblrConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_electricVehicleConfirm"
+			app:destination="@id/electricVehicleConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_transitConfirm"
+			app:destination="@id/transitConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
+			app:destination="@id/attendBottomSheet" />
+	</fragment>
 	<fragment
 		android:id="@+id/myPage"
 		android:name="com.protect.jikigo.ui.home.my_page.MyPageFragment"
 		android:label="fragment_my_page"
 		tools:layout="@layout/fragment_my_page" >
 		<action
-			android:id="@+id/action_myPage_to_profileEditFragment"
-			app:destination="@id/profileEditFragment" />
+			android:id="@+id/action_myPage_to_profileEdit"
+			app:destination="@id/profileEdit" />
 		<action
-			android:id="@+id/action_myPage_to_pointHistoryFragment"
-			app:destination="@id/pointHistoryFragment" />
+			android:id="@+id/action_myPage_to_pointHistory"
+			app:destination="@id/pointHistory" />
 		<action
-			android:id="@+id/action_myPage_to_couponBoxFragment"
-			app:destination="@id/couponBoxFragment" />
+			android:id="@+id/action_myPage_to_couponBox"
+			app:destination="@id/couponBox" />
 	</fragment>
 	<fragment
 		android:id="@+id/navigation_travel"
@@ -85,28 +104,58 @@
 		android:label="fragment_travel"
 		tools:layout="@layout/fragment_travel" />
 	<fragment
-		android:id="@+id/profileEditFragment"
+		android:id="@+id/profileEdit"
 		android:name="com.protect.jikigo.ui.home.my_page.ProfileEditFragment"
 		android:label="fragment_profile_edit"
 		tools:layout="@layout/fragment_profile_edit" />
 	<fragment
-		android:id="@+id/pointHistoryFragment"
+		android:id="@+id/pointHistory"
 		android:name="com.protect.jikigo.ui.home.my_page.PointHistoryFragment"
 		android:label="fragment_point_history"
 		tools:layout="@layout/fragment_point_history" />
 	<fragment
-		android:id="@+id/couponBoxFragment"
+		android:id="@+id/couponBox"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponBoxFragment"
 		android:label="fragment_coupon_box"
 		tools:layout="@layout/fragment_coupon_box" >
 		<action
 			android:id="@+id/action_couponBoxFragment_to_couponDetailFragment"
-			app:destination="@id/couponDetailFragment" />
+			app:destination="@id/couponDetail" />
 	</fragment>
 	<fragment
-		android:id="@+id/couponDetailFragment"
+		android:id="@+id/couponDetail"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
 		android:label="fragment_coupon_detail"
 		tools:layout="@layout/fragment_coupon_detail" />
+	<fragment
+		android:id="@+id/ranking"
+		android:name="com.protect.jikigo.ui.rank.RankingFragment"
+		android:label="fragment_ranking"
+		tools:layout="@layout/fragment_ranking" />
+	<fragment
+		android:id="@+id/tumblrConfirm"
+		android:name="com.protect.jikigo.ui.reward.TumblrConfirmFragment"
+		android:label="fragment_tumblr_confirm"
+		tools:layout="@layout/fragment_tumblr_confirm" />
+	<fragment
+		android:id="@+id/electricVehicleConfirm"
+		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
+		android:label="fragment_electric_vehicle_confirm"
+		tools:layout="@layout/fragment_electric_vehicle_confirm" />
+	<fragment
+		android:id="@+id/transitConfirm"
+		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
+		android:label="fragment_transit_confirm"
+		tools:layout="@layout/fragment_transit_confirm" />
+	<dialog
+		android:id="@+id/paymentQRDialog"
+		android:name="com.protect.jikigo.ui.payment.PaymentQRDialogFragment"
+		android:label="fragment_payment_qr_dialog"
+		tools:layout="@layout/fragment_payment_qr_dialog" />
+	<dialog
+		android:id="@+id/attendBottomSheet"
+		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
+		android:label="fragment_attend_bottom_sheet"
+		tools:layout="@layout/fragment_attend_bottom_sheet" />
 
 </navigation>
