@@ -27,5 +27,14 @@ class NewsEnvironmentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val tabLayout = binding.tabNewsEnvorionment
+
+        // Tab 동적 추가
+        tabLayout.addTab(tabLayout.newTab().setText("전체"))
+        tabLayout.addTab(tabLayout.newTab().setText("대기"))
+        tabLayout.addTab(tabLayout.newTab().setText("물"))
+        tabLayout.addTab(tabLayout.newTab().setText("생태계"))
+        tabLayout.addTab(tabLayout.newTab().setText("정책"))
     }
 }
