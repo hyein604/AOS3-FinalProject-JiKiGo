@@ -17,6 +17,7 @@ import com.protect.jikigo.ui.HomeStoreItemClickListener
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.spannable
 import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.extensions.toast
 
 
 class HomeFragment : Fragment(), HomeStoreItemClickListener {
@@ -49,8 +50,9 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         moveToNotification()
         moveToQR()
         moveToTravel()
+        moveToDetailNoti()
         homeTextSpannable()
-        setUserPoint()
+        tempMethod()
     }
 
     private fun setStatusBarColor() {
@@ -66,17 +68,13 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     private fun moveToNews() {
         with(binding) {
-            viewHomeEnvironment.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
-                findNavController().navigate(action)
-            }
-            viewHomeHealth.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
-                findNavController().navigate(action)
-            }
-            viewHomeTravel.setOnClickListener {
-                val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
-                findNavController().navigate(action)
+            val messages = listOf("환경", "여행", "건강")
+            listOf(viewHomeEnvironment, viewHomeTravel, viewHomeHealth).forEachIndexed { index, view ->
+                view.setOnClickListener {
+                    requireContext().toast(messages[index])
+                    val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
+                    findNavController().navigate(action)
+                }
             }
         }
     }
@@ -107,17 +105,37 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         }
     }
 
-
-
     private fun homeTextSpannable() {
         // 닉네임의 길이를 넣어줌
         binding.tvHomeNickname.spannable(0, 3, 3, Color.WHITE)
         binding.tvHomeClickRank.spannable(binding.tvHomeClickRank.length(), 0, 0, Color.BLACK)
     }
 
-    private fun setUserPoint() {
-        binding.tvHomePoint.applyNumberFormat(3456)
+    // 데이테 베이스 생성시 삭제되는 메서드
+    private fun tempMethod() {
+        val notiList = Storage.notiList
+        with(binding) {
+            // 유저 포인트
+            tvHomePoint.applyNumberFormat(3456)
+            // 공지사항
+            tvHomeNotice1.text = notiList[0]
+            tvHomeNotice2.text = notiList[1]
+            tvHomeNotice3.text = notiList[2]
+        }
     }
+
+    private fun moveToDetailNoti() {
+        with(binding) {
+            listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEach { textView ->
+                textView.setOnClickListener {
+                    requireContext().toast(textView.text.toString())
+                    val action = HomeFragmentDirections.actionNavigationHomeToNotificationDetail()
+                    findNavController().navigate(action)
+                }
+            }
+        }
+    }
+
 
     private fun setRecyclerView() {
         val storeList = Storage.storeList
