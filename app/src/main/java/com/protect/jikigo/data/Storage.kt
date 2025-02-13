@@ -33,3 +33,8 @@ data class Store(
     val number: String
 )
 
+data class Notification(
+    val title: String,
+    val date: String
+)
+
