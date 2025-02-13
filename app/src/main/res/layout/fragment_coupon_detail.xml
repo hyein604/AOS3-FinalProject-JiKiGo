@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="파크 하얏트 부산"
+                tools:text="파크 하얏트 부산"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/iv_coupon_detail_image"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="파크 하얏트 부산 기프트 카드 1만원권"
+                tools:text="파크 하얏트 부산 기프트 카드 1만원권"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_client"
@@ -76,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_name"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/primary"
-                android:text="유효기간 : 2026.02.07"
+                tools:text="유효기간 : 2026.02.07"
                 app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_name"/>
 
             <ImageView
@@ -98,7 +98,7 @@
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="50dp"
                 android:layout_marginTop="55dp"
-                android:text="쿠폰 저장하기"
+                android:text="@string/coupon_detail_save_coupon"
                 android:textStyle="bold"
                 app:cornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
