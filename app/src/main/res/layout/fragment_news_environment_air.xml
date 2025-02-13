@@ -60,20 +60,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--        &lt;!&ndash; Indicator (ViewPager의 점 표시) 나중에 프래그먼트에서 연결하기&ndash;&gt;-->
-<!--        <me.relex.circleindicator.CircleIndicator3-->
-<!--            android:id="@+id/indicator_news_environment_air_hot_topic"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            app:ci_animator="@animator/scale_with_alpha"-->
-<!--            app:ci_drawable_selected="@drawable/item_news_banner_blue_radius"-->
-<!--            app:ci_drawable_unselected="@drawable/item_news_banner_gray_radius"-->
-<!--            app:ci_height="8dp"-->
-<!--            app:ci_margin="5dp"-->
-<!--            app:ci_width="8dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent" />-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/indicator_news_environment_air_hot_topic"
+            style="@style/AppTabIndicatorStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" /> />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
