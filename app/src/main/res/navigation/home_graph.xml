@@ -32,6 +32,7 @@
 			android:id="@+id/action_navigation_home_to_ranking"
 			app:destination="@id/ranking" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/notification"
 		android:name="com.protect.jikigo.ui.home.noti.NotificationFragment"
@@ -41,16 +42,19 @@
 			android:id="@+id/action_notification_to_notificationDetail"
 			app:destination="@id/notificationDetail" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/notificationDetail"
 		android:name="com.protect.jikigo.ui.home.noti.NotificationDetailFragment"
 		android:label="fragment_notification_detail"
 		tools:layout="@layout/fragment_notification_detail" />
+
 	<fragment
 		android:id="@+id/newsEnvironment"
 		android:name="com.protect.jikigo.ui.home.news.NewsEnvironmentFragment"
 		android:label="fragment_news_environment"
 		tools:layout="@layout/fragment_news_environment" />
+
 	<fragment
 		android:id="@+id/paymentQR"
 		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
@@ -60,16 +64,12 @@
 			android:id="@+id/action_paymentQR_to_paymentQRDialog"
 			app:destination="@id/paymentQRDialog" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/navigation_reward"
 		android:name="com.protect.jikigo.ui.reward.RewardFragment"
 		android:label="fragment_reward"
 		tools:layout="@layout/fragment_reward">
-		<action
-			android:id="@+id/action_navigation_reward_to_ranking"
-			app:destination="@id/ranking" />
-	</fragment>
-
 		<action
 			android:id="@+id/action_navigation_reward_to_ranking"
 			app:destination="@id/ranking" />
@@ -86,6 +86,7 @@
 			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
 			app:destination="@id/attendBottomSheet" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/myPage"
 		android:name="com.protect.jikigo.ui.home.my_page.MyPageFragment"
@@ -101,21 +102,25 @@
 			android:id="@+id/action_myPage_to_couponBox"
 			app:destination="@id/couponBox" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/navigation_travel"
 		android:name="com.protect.jikigo.ui.travel.TravelFragment"
 		android:label="fragment_travel"
 		tools:layout="@layout/fragment_travel" />
+
 	<fragment
 		android:id="@+id/profileEdit"
 		android:name="com.protect.jikigo.ui.home.my_page.ProfileEditFragment"
 		android:label="fragment_profile_edit"
 		tools:layout="@layout/fragment_profile_edit" />
+
 	<fragment
 		android:id="@+id/pointHistory"
 		android:name="com.protect.jikigo.ui.home.my_page.PointHistoryFragment"
 		android:label="fragment_point_history"
 		tools:layout="@layout/fragment_point_history" />
+
 	<fragment
 		android:id="@+id/couponBox"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponBoxFragment"
@@ -125,36 +130,43 @@
 			android:id="@+id/action_couponBoxFragment_to_couponDetailFragment"
 			app:destination="@id/couponDetail" />
 	</fragment>
+
 	<fragment
 		android:id="@+id/couponDetail"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
 		android:label="fragment_coupon_detail"
 		tools:layout="@layout/fragment_coupon_detail" />
+
 	<fragment
 		android:id="@+id/ranking"
 		android:name="com.protect.jikigo.ui.rank.RankingFragment"
 		android:label="fragment_ranking"
 		tools:layout="@layout/fragment_ranking" />
+
 	<fragment
 		android:id="@+id/tumblrConfirm"
 		android:name="com.protect.jikigo.ui.reward.TumblrConfirmFragment"
 		android:label="fragment_tumblr_confirm"
 		tools:layout="@layout/fragment_tumblr_confirm" />
+
 	<fragment
 		android:id="@+id/electricVehicleConfirm"
 		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
 		android:label="fragment_electric_vehicle_confirm"
 		tools:layout="@layout/fragment_electric_vehicle_confirm" />
+
 	<fragment
 		android:id="@+id/transitConfirm"
 		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
 		android:label="fragment_transit_confirm"
 		tools:layout="@layout/fragment_transit_confirm" />
+
 	<dialog
 		android:id="@+id/paymentQRDialog"
 		android:name="com.protect.jikigo.ui.payment.PaymentQRDialogFragment"
 		android:label="fragment_payment_qr_dialog"
 		tools:layout="@layout/fragment_payment_qr_dialog" />
+
 	<dialog
 		android:id="@+id/attendBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"

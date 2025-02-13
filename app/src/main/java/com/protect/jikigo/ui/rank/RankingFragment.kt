@@ -31,16 +31,21 @@ class RankingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 도움말 아이콘 클릭 시 다이얼로그 표시
-        binding.ivRankingHelp.setOnClickListener {
-            val dialog = RankingHelpDialog()
-            dialog.show(childFragmentManager, "RankingHelpDialog")
-
         setLayout()
     }
+
 
     private fun setLayout() {
         setStatusBarColor()
         onClickToolbar()
+        onClickHelp()
+    }
+
+    private fun onClickHelp() {
+        binding.ivRankingHelp.setOnClickListener {
+            val dialog = RankingHelpDialog()
+            dialog.show(childFragmentManager, "RankingHelpDialog")
+        }
     }
 
     private fun setStatusBarColor() {
@@ -52,4 +57,5 @@ class RankingFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
 }
