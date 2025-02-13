@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".TransitConfirmFragment">
+    tools:context=".ui.reward.TransitConfirmFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_transit_confirm"
@@ -72,7 +72,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="대중교통 이용을 인증해보세요!" />
+                        android:text="@string/transit_confirm_title" />
 
                     <TextView
                         android:id="@+id/tv_transit_confirm_text_description"
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
                         android:layout_marginEnd="30dp"
-                        android:text="우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배충량 감소가 더욱 커질 수 있어요!"
+                        android:text="@string/transit_confirm_description"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +98,7 @@
                         app:layout_constraintStart_toStartOf="@id/btn_transit_confirm"
                         app:layout_constraintEnd_toEndOf="@id/btn_transit_confirm"
                         app:layout_constraintBottom_toTopOf="@id/btn_transit_confirm"
-                        android:text="만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!" />
+                        android:text="@string/transit_confirm_btn_description" />
 
                     <Button
                         android:id="@+id/btn_transit_confirm"
@@ -106,7 +106,7 @@
                         android:layout_height="48dp"
                         android:layout_marginHorizontal="50dp"
                         android:layout_marginTop="230dp"
-                        android:text="이용 내역 인증하기"
+                        android:text="@string/transit_confirm_btn_title"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         app:cornerRadius="5dp"

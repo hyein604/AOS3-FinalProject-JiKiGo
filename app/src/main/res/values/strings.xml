@@ -1,49 +1,104 @@
 <resources>
-    <string name="app_name">JiKiGo</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="app_name">JiKiGo</string>
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!--    회원가입	-->
-    <string name="sign_up_label">환영합니다!\n지키GO에 가입하시려면 약관에 동의해 주세요</string>
-    <string name="sign_up_all">약관 전체 동의하기</string>
-    <string name="sign_up_age">만 14세 이상입니다. (필수)</string>
-    <string name="sign_up_service">지키GO 이용 약관 (필수)</string>
-    <string name="sign_up_personal_information_label">정보주체의 개인정보 및 권리 보호를 위해「개인정보 보호법」및 관계 법령이 정한 바를 준수하여 안전하게 관리하고 있습니다.\n자세한 사항은 개인정보처리방침에서 확인할 수 있습니다.</string>
-    <string name="sign_up_confirm">동의하고 본인인증하기</string>
-    <string name="sign_up_account_info">계정정보</string>
+	<!--    회원가입	-->
+	<string name="sign_up_label">환영합니다!\n지키GO에 가입하시려면 약관에 동의해 주세요</string>
+	<string name="sign_up_all">약관 전체 동의하기</string>
+	<string name="sign_up_age">만 14세 이상입니다. (필수)</string>
+	<string name="sign_up_service">지키GO 이용 약관 (필수)</string>
+	<string name="sign_up_personal_information_label">정보주체의 개인정보 및 권리 보호를 위해「개인정보 보호법」및 관계 법령이 정한 바를 준수하여 안전하게 관리하고 있습니다.\n자세한 사항은 개인정보처리방침에서 확인할 수 있습니다.</string>
+	<string name="sign_up_confirm">동의하고 본인인증하기</string>
+	<string name="sign_up_account_info">계정정보</string>
 
-    <!--    계정 찾기	-->
-    <string name="new_password">새 비밀번호</string>
-    <string name="new_password_check">새 비밀번호 확인</string>
-    <string name="new_password_setting">새 비밀번호 설정</string>
-
-
-    <!--    공통  	-->
-    <string name="common_personal_information">개인정보</string>
-    <string name="common_auth_request">인증요청</string>
-    <string name="common_auth_confirm">인증확인</string>
-    <string name="common_duplication_confirm">중복확인</string>
-    <string name="common_name">이름</string>
-    <string name="common_mobile">휴대전화</string>
-    <string name="common_mobile_no_hyphen">휴대전화 (- 없이)</string>
-    <string name="common_auth_number">인증번호</string>
-    <string name="common_star">*</string>
-    <string name="common_id">아이디</string>
-    <string name="common_nickname">닉네임</string>
-    <string name="common_pw">비밀번호</string>
-    <string name="common_pw_check">비밀번호 확인</string>
+	<!--    계정 찾기	-->
+	<string name="new_password">새 비밀번호</string>
+	<string name="new_password_check">새 비밀번호 확인</string>
+	<string name="new_password_setting">새 비밀번호 설정</string>
 
 
-    <!--오늘의 소식 환경 탭 레이아웃 아이템-->
-    <string name="news_environment_all">전체</string>
-    <string name="news_environment_air">대기</string>
-    <string name="news_environment_water">물</string>
-    <string name="news_environment_ecosystem">환경</string>
-    <string name="news_environment_policy">정책</string>
-    <string name="common_home">홈</string>
-    <string name="common_reward">리워드</string>
-    <string name="common_travel">여행</string>
-    <string name="common_icon_environment">🌱</string>
+	<!--    공통  	-->
+	<string name="common_personal_information">개인정보</string>
+	<string name="common_auth_request">인증요청</string>
+	<string name="common_auth_confirm">인증확인</string>
+	<string name="common_duplication_confirm">중복확인</string>
+	<string name="common_name">이름</string>
+	<string name="common_mobile">휴대전화</string>
+	<string name="common_mobile_no_hyphen">휴대전화 (- 없이)</string>
+	<string name="common_auth_number">인증번호</string>
+	<string name="common_star">*</string>
+	<string name="common_id">아이디</string>
+	<string name="common_nickname">닉네임</string>
+	<string name="common_pw">비밀번호</string>
+	<string name="common_pw_check">비밀번호 확인</string>
+
+
+	<!--오늘의 소식 환경 탭 레이아웃 아이템-->
+	<string name="news_environment_all">전체</string>
+	<string name="news_environment_air">대기</string>
+	<string name="news_environment_water">물</string>
+	<string name="news_environment_ecosystem">환경</string>
+	<string name="news_environment_policy">정책</string>
+	<string name="common_home">홈</string>
+	<string name="common_reward">리워드</string>
+	<string name="common_travel">여행</string>
+	<string name="common_icon_environment">🌱</string>
+
+	<!-- 마이 페이지 -->
+	<string name="common_today">오늘</string>
+	<string name="common_logout">로그아웃</string>
+	<string name="my_page_point_history">포인트 내역</string>
+	<string name="my_page_point_history_month">포인트 내역</string>
+	<string name="my_page_change_bank">등록 계좌 수정</string>
+	<string name="my_page_coupon_box">쿠폰함</string>
+	<string name="my_page_customer_service">고객센터</string>
+	<string name="my_page_customer_service_description">월 - 금 9:00 ~ 18:00 (토.일 공휴일 휴무)</string>
+	<string name="my_page_customer_service_phone">1588 – 1234</string>
+	<string name="my_page_delete_account">회원탈퇴</string>
+
+	<!-- 쿠폰 상세페이지 -->
+	<string name="coupon_detail_save_coupon">쿠폰 저장하기</string>
+
+	<!-- 쿠폰함 -->
+	<string name="coupon_box_possession_coupon">쿠폰 저장하기</string>
+	<string name="coupon_box_used_coupon">쿠폰 저장하기</string>
+	<string name="coupon_box_description">아래의 교환처에서 바코드를 제시 후\n상품으로 교환할 수 있습니다</string>
+
+	<!-- 프로필 수정 -->
+	<string name="profile_edit_description">쿠폰 저장하기</string>
+
+
+	<!-- 리워드 -->
+	<string name="reward_attend">출석하기</string>
+	<string name="reward_point_history">적립 내역 보기</string>
+	<string name="reward_walk_rank">걷기 랭킹</string>
+	<string name="reward_walk_rank_check">이번 주 랭킹 확인하기</string>
+	<string name="reward_tumblr_confirm">텀블러 사용 인증하러 가기</string>
+	<string name="reward_transit_confirm">대중교통 이용 인증하러 가기</string>
+	<string name="reward_electric_vehicle_confirm">대중교통 이용 인증하러 가기</string>
+
+	<!-- 출석하기 -->
+	<string name="attend_bottom_sheet_title">출석체크 리워드가 적립되었어요.</string>
+	<string name="attend_bottom_sheet_subtitle">내일도 잊지 말고 출석체크하세요!</string>
+	<string name="attend_bottom_sheet_done">확인</string>
+
+	<!-- 전기 이동수단 인증 -->
+	<string name="electric_vehicle_confirm_title">전기 이동수단 이용을 인증해보세요!</string>
+	<string name="electric_vehicle_confirm_description">우리가 1년 동안 전기 자전거나 킥보드를 이용한다면 \n자동차에서 발생하는 미세먼지와 유해한 화학물질 대신, 공기질을 개선하는 데 도움을 주는 효과가 있어요!</string>
+	<string name="electric_vehicle_confirm_btn_description">만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!</string>
+	<string name="electric_vehicle_confirm_btn_title">이용 내역 인증하기</string>
+
+	<!-- 텀블러 인증 -->
+	<string name="tumblr_confirm_title">텀블러 사용을 인증해보세요!</string>
+	<string name="tumblr_confirm_description">우리가 1년 동안 1회용 플라스틱컵을 사용하지않는다면, 연간 19kg의 이산화탄소를 줄일 수 있으며,이는 25년생 중부지방소나무 두 그루를 심는 효과가 있어요!</string>
+
+	<!-- 대중교통 인증 -->
+	<string name="transit_confirm_title">대중교통 이용을 인증해보세요!</string>
+	<string name="transit_confirm_description">우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배충량 감소가 더욱 커질 수 있어요!</string>
+	<string name="transit_confirm_btn_description">만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!</string>
+	<string name="transit_confirm_btn_title">이용 내역 인증하기</string>
+
 
 
 </resources>

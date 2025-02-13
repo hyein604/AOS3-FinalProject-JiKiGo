@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CouponBoxFragment">
+    tools:context=".ui.home.my_page.CouponBoxFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_coupon_box"
@@ -42,12 +42,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="보유쿠폰" />
+                    android:text="@string/coupon_box_possession_coupon" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사용완료쿠폰" />
+                    android:text="@string/coupon_box_used_coupon" />
 
             </com.google.android.material.tabs.TabLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
-                android:text="아래의 교환처에서 바코드를 제시 후\n상품으로 교환할 수 있습니다."
+                android:text="@string/coupon_box_description"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tab_coupon_box" />

@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.R
+import com.protect.jikigo.data.WebSiteURL
 import com.protect.jikigo.databinding.FragmentSignUpFirstBinding
+import com.protect.jikigo.ui.extensions.applySpannableStyles
 
 
 class SignUpFirstFragment : Fragment() {
@@ -29,6 +32,8 @@ class SignUpFirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onClick()
+        onClickMore()
+        spannableText()
     }
 
     // 클릭 메서드
@@ -41,4 +46,21 @@ class SignUpFirstFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
+    private fun onClickMore() {
+        binding.tvSignUpServiceMore.setOnClickListener {
+            val action = SignUpFirstFragmentDirections.actionSignUpFirstToWebView(WebSiteURL.APP_SERVICE)
+            findNavController().navigate(action)
+        }
+        binding.tvSignUpPersonal.setOnClickListener {
+            val action = SignUpFirstFragmentDirections.actionSignUpFirstToWebView(WebSiteURL.APP_PERSONAL)
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun spannableText() {
+        binding.tvSignUpServiceMore.applySpannableStyles(0, binding.tvSignUpServiceMore.length(), R.color.gray_50, true, true)
+        binding.tvSignUpPersonal.applySpannableStyles(76, 84, R.color.gray_50, true, true)
+    }
+
 }

@@ -36,6 +36,16 @@
 		<item name="android:textSize">14sp</item>
 	</style>
 
+	<!--  뷰페이저 탭 인디케이터 스타일  -->
+	<style name="AppTabIndicatorStyle" parent="Widget.MaterialComponents.TabLayout">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="tabBackground">@drawable/selector_tab_indicator</item>
+		<item name="tabGravity">center</item>
+		<item name="tabIndicator">@null</item>
+		<item name="tabIndicatorHeight">0dp</item>
+		<item name="tabPaddingEnd">4dp</item>
+		<item name="tabRippleColor">@null</item>
+	</style>
 	<!-- 커스텀 칩 -->
 	<style name="customChip" parent="@style/Widget.Material3.Chip.Suggestion">
 		<item name = "chipBackgroundColor">@color/selector_chip_background_color</item>

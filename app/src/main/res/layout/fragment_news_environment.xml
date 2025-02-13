@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.news.NewsEnvironmentFragment">
+    tools:context=".ui.home.news.NewsEnvironmentFragment">
 
     <!-- 배경색을 포함하는 상단 레이아웃 -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,35 +70,6 @@
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@android:color/white">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_news_envorionment_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_news_envorionment_air"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="대기" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_news_envorionment_water"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="물" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_news_envorionment_ecosystem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="생태계" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/ti_news_envorionment_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="정책" />
         </com.google.android.material.tabs.TabLayout>
 
         <!-- 프래그먼트를 보여주기 위한 뷰페이저 -->
