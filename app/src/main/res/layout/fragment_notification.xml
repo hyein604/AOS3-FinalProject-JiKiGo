@@ -53,16 +53,47 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sv_notification"
-        layout="@layout/custom_search_view"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@drawable/background_search_bar"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_notification_top_container" />
+        app:layout_constraintTop_toBottomOf="@id/cl_notification_top_container">
+
+        <!-- 검색어 입력 필드 -->
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="검색어를 입력하세요"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/darker_gray"
+            android:paddingStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_search_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- 돋보기 아이콘 -->
+        <ImageView
+            android:id="@+id/iv_search_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search"
+            app:tint="#7A8FFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- 검색 결과 텍스트 (초기 GONE, 검색 후 VISIBLE) -->
     <TextView
