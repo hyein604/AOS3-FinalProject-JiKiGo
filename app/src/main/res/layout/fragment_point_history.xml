@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".PointHistoryFragment">
+    tools:context=".ui.home.my_page.PointHistoryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_point_history"

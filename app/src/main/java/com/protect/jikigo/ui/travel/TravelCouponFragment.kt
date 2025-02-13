@@ -1,11 +1,13 @@
-package com.protect.jikigo
+package com.protect.jikigo.ui.travel
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
+import com.protect.jikigo.HomeActivity
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 
 class TravelCouponFragment : Fragment() {

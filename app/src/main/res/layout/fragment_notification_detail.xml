@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotificationDetailFragment">
+    tools:context=".ui.home.noti.NotificationDetailFragment">
 
     <!-- 상단 공지사항 배경 -->
     <androidx.constraintlayout.widget.ConstraintLayout
