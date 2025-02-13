@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.databinding.FragmentNewsEnvironmentBinding
 
 
@@ -36,5 +37,16 @@ class NewsEnvironmentFragment : Fragment() {
         tabLayout.addTab(tabLayout.newTab().setText("물"))
         tabLayout.addTab(tabLayout.newTab().setText("생태계"))
         tabLayout.addTab(tabLayout.newTab().setText("정책"))
+        setLayout()
+    }
+
+    private fun setLayout() {
+        onClickToolbar()
+    }
+
+    private fun onClickToolbar() {
+        binding.toolbarNewsEnvorionment.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

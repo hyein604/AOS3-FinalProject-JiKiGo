@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentMyPageBinding
+import com.protect.jikigo.ui.extensions.statusBarColor
 
 
 class MyPageFragment : Fragment() {
@@ -33,9 +34,14 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setLayout() {
+        setStatusBar()
         moveToEditProfile()
         moveToPointHistory()
         moveToCouponBox()
+    }
+
+    private fun setStatusBar() {
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun moveToEditProfile() {
@@ -58,7 +64,6 @@ class MyPageFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
-
 
 
 }
