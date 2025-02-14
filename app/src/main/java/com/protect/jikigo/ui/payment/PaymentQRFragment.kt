@@ -35,6 +35,7 @@ class PaymentQRFragment : Fragment() {
         setStatusBarColor()
         onClickToolbar()
         showDialog()
+        moveToTravel()
     }
 
     private fun setStatusBarColor() {
@@ -53,4 +54,12 @@ class PaymentQRFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
+    private fun moveToTravel() {
+        binding.viewQrUse.setOnClickListener {
+            val action = PaymentQRFragmentDirections.actionPaymentQRToNavigationTravel()
+            findNavController().navigate(action)
+        }
+    }
+
 }
