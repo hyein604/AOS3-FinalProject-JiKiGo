@@ -77,7 +77,17 @@
 		android:orientation="vertical"
 		app:layout_constraintGuide_percent="0.95" />
 
+	<View
+		android:id="@+id/view_qr_use"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toBottomOf="@id/tv_qr_use"
+		app:layout_constraintEnd_toEndOf="@id/tv_qr_use"
+		app:layout_constraintStart_toStartOf="@id/iv_qr_use"
+		app:layout_constraintTop_toTopOf="@id/tv_qr_use" />
+
 	<androidx.appcompat.widget.AppCompatImageView
+		android:id="@+id/iv_qr_use"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:src="@drawable/ic_location"
