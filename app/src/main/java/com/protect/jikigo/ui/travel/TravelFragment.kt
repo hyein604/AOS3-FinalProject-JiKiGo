@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBinding
+import com.protect.jikigo.ui.extensions.statusBarColor
 
 class TravelFragment : Fragment() {
     private var _binding: FragmentTravelBinding? = null
@@ -38,8 +39,13 @@ class TravelFragment : Fragment() {
     }
 
     private fun setLayout() {
+        setStatusBar()
         setViewPager()
         moveToMyPage()
+    }
+
+    private fun setStatusBar() {
+        requireActivity().statusBarColor(R.color.primary)
     }
 
     private fun setViewPager() {
