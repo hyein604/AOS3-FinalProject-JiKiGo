@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Storage
 import com.protect.jikigo.data.Store
@@ -100,8 +101,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     private fun moveToTravel() {
         binding.tvHomeStoreMore.setOnClickListener {
-            val action = HomeFragmentDirections.actionNavigationHomeToTravel()
-            findNavController().navigate(action)
+            val bottomNavHome = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home)
+            bottomNavHome.selectedItemId = R.id.navigation_travel
         }
     }
 
