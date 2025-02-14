@@ -245,7 +245,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/bt_travel_coupon_detail_buy"
+            android:id="@+id/btn_travel_coupon_detail_buy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
