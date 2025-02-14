@@ -38,6 +38,7 @@ class MyPageFragment : Fragment() {
         moveToEditProfile()
         moveToPointHistory()
         moveToCouponBox()
+        onClickToolbar()
     }
 
     private fun setStatusBar() {
@@ -62,6 +63,12 @@ class MyPageFragment : Fragment() {
         binding.viewMyPageCoupon.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageToCouponBox()
             findNavController().navigate(action)
+        }
+    }
+
+    private fun onClickToolbar() {
+        binding.toolbarMyPage.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
