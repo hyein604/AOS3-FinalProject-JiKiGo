@@ -49,7 +49,7 @@
 	<string name="common_today">오늘</string>
 	<string name="common_logout">로그아웃</string>
 	<string name="my_page_point_history">포인트 내역</string>
-	<string name="my_page_point_history_month">포인트 내역</string>
+	<string name="my_page_point_history_month">이번 달 내역</string>
 	<string name="my_page_change_bank">등록 계좌 수정</string>
 	<string name="my_page_coupon_box">쿠폰함</string>
 	<string name="my_page_customer_service">고객센터</string>
@@ -61,12 +61,12 @@
 	<string name="coupon_detail_save_coupon">쿠폰 저장하기</string>
 
 	<!-- 쿠폰함 -->
-	<string name="coupon_box_possession_coupon">쿠폰 저장하기</string>
-	<string name="coupon_box_used_coupon">쿠폰 저장하기</string>
+	<string name="coupon_box_possession_coupon">보유 쿠폰</string>
+	<string name="coupon_box_used_coupon">사용완료 쿠폰</string>
 	<string name="coupon_box_description">아래의 교환처에서 바코드를 제시 후\n상품으로 교환할 수 있습니다</string>
 
 	<!-- 프로필 수정 -->
-	<string name="profile_edit_description">쿠폰 저장하기</string>
+	<string name="profile_edit_description">최소 2자에서 최대 10자까지 가능합니다</string>
 
 
 	<!-- 리워드 -->
