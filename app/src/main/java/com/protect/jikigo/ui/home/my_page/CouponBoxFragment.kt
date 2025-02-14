@@ -7,17 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
+import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.databinding.FragmentCouponBoxBinding
-import com.protect.jikigo.databinding.FragmentPointHistoryBinding
 import com.protect.jikigo.ui.adapter.CouponBoxAdapter
-import com.protect.jikigo.ui.adapter.PointHistoryAdapter
+import com.protect.jikigo.ui.adapter.CouponOnClickListener
 import com.protect.jikigo.ui.extensions.statusBarColor
 
 
-class CouponBoxFragment : Fragment() {
+class CouponBoxFragment : Fragment(), CouponOnClickListener {
     private var _binding: FragmentCouponBoxBinding? = null
     private val binding get() = _binding!!
-    private val adapter: CouponBoxAdapter by lazy { CouponBoxAdapter() }
+    private val adapter: CouponBoxAdapter by lazy { CouponBoxAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +55,11 @@ class CouponBoxFragment : Fragment() {
 
     private fun recycler() {
         binding.recyclerCouponBox.adapter = adapter
+    }
+
+    override fun onClickListener(item: Coupon) {
+        val action = CouponBoxFragmentDirections.actionCouponBoxFragmentToCouponDetailFragment(item)
+        findNavController().navigate(action)
     }
 
 }

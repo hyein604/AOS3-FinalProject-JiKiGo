@@ -148,7 +148,11 @@
 		android:id="@+id/couponDetail"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
 		android:label="fragment_coupon_detail"
-		tools:layout="@layout/fragment_coupon_detail" />
+		tools:layout="@layout/fragment_coupon_detail" >
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.Coupon" />
+	</fragment>
 
 	<fragment
 		android:id="@+id/ranking"
