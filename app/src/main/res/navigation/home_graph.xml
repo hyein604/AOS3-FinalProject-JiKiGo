@@ -63,6 +63,9 @@
 		<action
 			android:id="@+id/action_paymentQR_to_paymentQRDialog"
 			app:destination="@id/paymentQRDialog" />
+		<action
+			android:id="@+id/action_paymentQR_to_navigation_travel"
+			app:destination="@id/navigation_travel" />
 	</fragment>
 
 	<fragment
@@ -103,11 +106,21 @@
 			app:destination="@id/couponBox" />
 	</fragment>
 
-	<fragment
+	  <fragment
 		android:id="@+id/navigation_travel"
 		android:name="com.protect.jikigo.ui.travel.TravelFragment"
 		android:label="fragment_travel"
-		tools:layout="@layout/fragment_travel" />
+		tools:layout="@layout/fragment_travel" >
+		<action
+			android:id="@+id/action_navigation_travel_to_myPage"
+			app:destination="@id/myPage" />
+		 <action
+			 android:id="@+id/action_navigation_travel_to_travelSearch"
+			 app:destination="@id/travelSearch" />
+		 <action
+			 android:id="@+id/action_navigation_travel_to_travelHotCoupon"
+			 app:destination="@id/travelHotCoupon" />
+	 </fragment>
 
 	<fragment
 		android:id="@+id/profileEdit"
@@ -172,5 +185,29 @@
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
 		android:label="fragment_attend_bottom_sheet"
 		tools:layout="@layout/fragment_attend_bottom_sheet" />
+	<fragment
+		android:id="@+id/travelSearch"
+		android:name="com.protect.jikigo.ui.travel.TravelSearchFragment"
+		android:label="fragment_travel_search"
+		tools:layout="@layout/fragment_travel_search" />
+	<fragment
+		android:id="@+id/travelHotCoupon"
+		android:name="com.protect.jikigo.ui.travel.TravelHotCouponFragment"
+		android:label="fragment_travel_hot_coupon"
+		tools:layout="@layout/fragment_travel_hot_coupon" />
+	<fragment
+		android:id="@+id/travelCoupon"
+		android:name="com.protect.jikigo.ui.travel.TravelCouponFragment"
+		android:label="fragment_travel_coupon"
+		tools:layout="@layout/fragment_travel_coupon" >
+		<action
+			android:id="@+id/action_travelCoupon_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
+	<fragment
+		android:id="@+id/travelCouponDetail"
+		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
+		android:label="fragment_travel_coupon_detail"
+		tools:layout="@layout/fragment_travel_coupon_detail" />
 
 </navigation>
