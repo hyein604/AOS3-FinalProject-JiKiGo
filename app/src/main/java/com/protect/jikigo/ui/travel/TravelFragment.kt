@@ -8,25 +8,46 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBinding
 
 class TravelFragment : Fragment() {
-    lateinit var travelFragmentBinding: FragmentTravelBinding
+    private var _binding: FragmentTravelBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        travelFragmentBinding = FragmentTravelBinding.inflate(inflater)
+    ): View {
+        _binding = FragmentTravelBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        travelFragmentBinding.apply {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
+        setViewPager()
+        moveToMyPage()
+    }
+
+    private fun setViewPager() {
+        binding.apply {
             tabLayoutTravel.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     // 페이지 이동 시 슬라이드 애니메이션 효과 제거
-                    vpTravel.setCurrentItem(tab?.position?:0,false)
+                    vpTravel.setCurrentItem(tab?.position ?: 0, false)
 
                     // 화면전환 확인 임시 코드
                     val message = when (tab?.position) {
@@ -66,12 +87,22 @@ class TravelFragment : Fragment() {
             }
             tavelTabLayoutMediator.attach()
         }
+    }
 
-        return travelFragmentBinding.root
+    private fun moveToMyPage() {
+        binding.toolbarTravel.setOnMenuItemClickListener { menu ->
+            if (menu.itemId == R.id.menu_my_page) {
+                val action = TravelFragmentDirections.actionNavigationTravelToMyPage()
+                findNavController().navigate(action)
+                true
+            } else {
+                false
+            }
+        }
     }
 
     // ViewPager2 어댑터
-    inner class TravelViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle){
+    inner class TravelViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
         // ViewPager2를 통해 보여줄 프래그먼트의 개수
         override fun getItemCount(): Int {
             return 5
@@ -79,7 +110,7 @@ class TravelFragment : Fragment() {
 
         // position번째에서 사용할 Fragment 객체를 생성해 반환하는 메서드
         override fun createFragment(position: Int): Fragment {
-            val newFragment = when(position){
+            val newFragment = when (position) {
                 0 -> TravelHomeFragment()
                 1 -> TravelCouponFragment()
                 2 -> TravelCouponFragment()
