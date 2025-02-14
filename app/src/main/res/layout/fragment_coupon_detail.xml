@@ -48,13 +48,13 @@
                 android:id="@+id/tv_coupon_detail_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                tools:text="파크 하얏트 부산"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/iv_coupon_detail_image"
                 app:layout_constraintStart_toStartOf="@id/iv_coupon_detail_image"
-                app:layout_constraintTop_toBottomOf="@id/iv_coupon_detail_image" />
+                app:layout_constraintTop_toBottomOf="@id/iv_coupon_detail_image"
+                tools:text="파크 하얏트 부산" />
 
             <TextView
                 android:id="@+id/tv_coupon_detail_name"
