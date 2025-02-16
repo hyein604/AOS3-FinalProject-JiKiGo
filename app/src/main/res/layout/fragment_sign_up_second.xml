@@ -19,7 +19,6 @@
 			app:title="회원가입" />
 	</com.google.android.material.appbar.AppBarLayout>
 
-
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -84,6 +83,14 @@
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
 
+			<TextView
+				android:id="@+id/tv_error_name"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_name"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_name"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_name" />
 
 			<TextView
 				android:id="@+id/tv_sign_up_mobile_label"
@@ -93,7 +100,8 @@
 				android:text="@string/common_mobile"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_name" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_name" />
+
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -125,7 +133,6 @@
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
 
-
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/btn_sign_up_mobile"
 				style="@style/AppButtonPrimary.S14"
@@ -138,6 +145,15 @@
 				app:layout_constraintTop_toTopOf="@id/et_sign_up_mobile" />
 
 			<TextView
+				android:id="@+id/tv_error_mobile"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_mobile"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_mobile"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_mobile" />
+
+			<TextView
 				android:id="@+id/tv_sign_up_auth_number_label"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -145,7 +161,7 @@
 				android:text="@string/common_auth_number"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_mobile" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_mobile" />
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -188,6 +204,14 @@
 				app:layout_constraintEnd_toEndOf="@id/et_sign_up_auth_number"
 				app:layout_constraintTop_toTopOf="@id/et_sign_up_auth_number" />
 
+			<TextView
+				android:id="@+id/tv_error_auth_number"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_auth_number"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_name"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_auth_number" />
 
 			<TextView
 				android:id="@+id/tv_sign_up_account_label"
@@ -199,7 +223,7 @@
 				android:textSize="18sp"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_auth_number" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_auth_number" />
 
 			<TextView
 				android:id="@+id/tv_sign_up_id_label"
@@ -236,11 +260,19 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:hint="@string/common_id"
-					android:inputType="textPassword"
+					android:inputType="text"
 					android:maxLength="16"
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
 
+			<TextView
+				android:id="@+id/tv_error_id"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_id"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_name"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_id" />
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/btn_sign_up_id"
@@ -261,7 +293,7 @@
 				android:text="@string/common_pw"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_id" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_id" />
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -272,7 +304,6 @@
 				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_pw_label"
 				app:layout_constraintStart_toEndOf="@id/tv_sign_up_pw_label"
 				app:layout_constraintTop_toTopOf="@id/tv_sign_up_pw_label" />
-
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_pw"
@@ -290,8 +321,19 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:hint="@string/common_pw"
+					android:inputType="textPassword"
+					android:maxLength="20"
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
+
+			<TextView
+				android:id="@+id/tv_error_pw"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_pw"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_name"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_pw" />
 
 			<TextView
 				android:id="@+id/tv_sign_up_pw_check_label"
@@ -301,7 +343,7 @@
 				android:text="@string/common_pw_check"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_pw" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_pw" />
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -328,11 +370,21 @@
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					android:hint="비밀번호"
+					android:hint="@string/common_pw_check"
+					android:inputType="textPassword"
+					android:maxLength="20"
 					android:textSize="14sp" />
 
 			</com.google.android.material.textfield.TextInputLayout>
 
+			<TextView
+				android:id="@+id/tv_error_pw_check"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_pw_check"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_name"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_pw_check" />
 
 			<TextView
 				android:id="@+id/tv_sign_up_nickname_label"
@@ -342,7 +394,7 @@
 				android:text="@string/common_nickname"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_pw_check_label"
-				app:layout_constraintTop_toBottomOf="@id/et_sign_up_pw_check" />
+				app:layout_constraintTop_toBottomOf="@id/tv_error_pw_check" />
 
 			<TextView
 				android:layout_width="wrap_content"
@@ -373,6 +425,15 @@
 					android:maxLength="10"
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
+
+			<TextView
+				android:id="@+id/tv_error_nickname"
+				style="@style/AppTextError"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/sign_up_error_nickname"
+				app:layout_constraintStart_toStartOf="@id/et_sign_up_nickname"
+				app:layout_constraintTop_toBottomOf="@id/et_sign_up_nickname" />
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/btn_sign_up_nickname"

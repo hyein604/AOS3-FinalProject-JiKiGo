@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayoutMediator
+import com.protect.jikigo.data.Storage
 import com.protect.jikigo.databinding.FragmentFindAccountBinding
 
 
@@ -28,6 +30,23 @@ class FindAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
+        setTabLayout()
+    }
+
+    private fun setViewPagerAdapter() {
+
+    }
+
+    private fun setTabLayout() {
+        val text = Storage.findAccount
+        binding.vpFindAccount.adapter = FindAccountAdapter(this, text)
+        TabLayoutMediator(binding.tabLayoutFindAccount, binding.vpFindAccount) { tab, pos ->
+            tab.text = text[pos]
+        }.attach()
     }
 
 }
