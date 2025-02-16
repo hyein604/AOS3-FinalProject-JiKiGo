@@ -49,7 +49,7 @@ class NotificationFragment : Fragment() {
 
         viewModel.filteredList.observe(viewLifecycleOwner) { list ->
             adapter = NotificationAdapter(list) { selectedItem ->
-                val action = NotificationFragmentDirections.actionNotificationToNotificationDetail()
+                val action = NotificationFragmentDirections.actionNotificationToNotificationDetail(selectedItem)
                 findNavController().navigate(action)
             }
             binding.rvNotification.adapter = adapter

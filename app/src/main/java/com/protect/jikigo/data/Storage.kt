@@ -95,13 +95,13 @@ data class Store(
     val number: String
 )
 
-
+@Parcelize
 data class Notification(
     val title: String,
     val date: String,
     val content: String,
     val image: String? = null
-)
+) : Parcelable
 
 @Parcelize
 data class Coupon(
