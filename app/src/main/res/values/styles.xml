@@ -46,7 +46,7 @@
 		<item name="tabPaddingEnd">4dp</item>
 		<item name="tabRippleColor">@null</item>
 	</style>
-	<!-- 커스텀 칩 -->
+	<!-- 커스텀 칩 (동적으로 만드려니까 적용이 안됨)
 	<style name="customChip" parent="@style/Widget.Material3.Chip.Suggestion">
 		<item name="chipBackgroundColor">@color/selector_chip_background_color</item>
 		<item name="chipStrokeColor">@color/selector_chip_stroke_color</item>
@@ -59,6 +59,7 @@
 		<item name="android:textColor">@color/negative</item>
 		<item name="android:visibility">gone</item>
 	</style>
+	 -->
 
 
 </resources>

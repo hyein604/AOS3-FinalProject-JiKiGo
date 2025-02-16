@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBinding
 import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.home.HomeFragment
 
 class TravelFragment : Fragment() {
     private var _binding: FragmentTravelBinding? = null
@@ -54,17 +55,6 @@ class TravelFragment : Fragment() {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     // 페이지 이동 시 슬라이드 애니메이션 효과 제거
                     vpTravel.setCurrentItem(tab?.position ?: 0, false)
-
-                    // 화면전환 확인 임시 코드
-                    val message = when (tab?.position) {
-                        0 -> "HOME 탭을 선택했습니다."
-                        1 -> "숙박 탭을 선택했습니다."
-                        2 -> "레저/티켓 탭을 선택했습니다."
-                        3 -> "공연/전시 탭을 선택했습니다."
-                        4 -> "여행용품 탭을 선택했습니다."
-                        else -> "알 수 없는 탭"
-                    }
-                    Log.d("TabSelection", message)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -107,6 +97,8 @@ class TravelFragment : Fragment() {
         }
     }
 
+
+
     // ViewPager2 어댑터
     inner class TravelViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
         // ViewPager2를 통해 보여줄 프래그먼트의 개수
@@ -116,15 +108,15 @@ class TravelFragment : Fragment() {
 
         // position번째에서 사용할 Fragment 객체를 생성해 반환하는 메서드
         override fun createFragment(position: Int): Fragment {
-            val newFragment = when (position) {
-                0 -> TravelHomeFragment()
-                1 -> TravelCouponFragment()
-                2 -> TravelCouponFragment()
-                3 -> TravelCouponFragment()
-                4 -> TravelCouponFragment()
-                else -> TravelCouponFragment()
+            return if (position == 0){
+                TravelHomeFragment()
+            } else{
+                TravelCouponFragment().apply {
+                    arguments = Bundle().apply {
+                        putInt("categoryIndex", position)
+                    }
+                }
             }
-            return newFragment
         }
     }
 }
