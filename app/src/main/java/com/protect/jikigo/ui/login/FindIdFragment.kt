@@ -22,10 +22,19 @@ class FindIdFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding=null
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+
+    companion object {
+        fun newInstance(): FindIdFragment {
+            return FindIdFragment().apply {
+
+            }
+        }
     }
 }

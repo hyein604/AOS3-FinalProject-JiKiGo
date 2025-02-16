@@ -9,6 +9,7 @@ object Storage {
     val notiList: List<String> = getNotiData()
     val coupon: List<Coupon> = getCouponData()
     val pointHistory: List<PointHistory> = getPointHistoryData()
+    val findAccount: List<String> = getFindAccountText()
 
     private fun getStoreData(): List<Store> {
         return listOf(
@@ -43,6 +44,12 @@ object Storage {
             PointHistory("-10500P", "커피 쿠폰 구매"),
             PointHistory("-200000P", "야근 쿠폰 구매"),
             PointHistory("-500000P", "맛집 탐방 쿠폰 구매"),
+        )
+    }
+
+    private fun getFindAccountText(): List<String> {
+        return listOf(
+            "아이디 찾기", "비밀번호 찾기"
         )
     }
 }
