@@ -10,6 +10,9 @@ import com.protect.jikigo.ui.rank.dialog.RankingHelpDialog
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.ui.extensions.statusBarColor
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.protect.jikigo.data.Storage
+import com.protect.jikigo.ui.adapter.RankingAdapter
 
 class RankingFragment : Fragment() {
     private var _binding: FragmentRankingBinding? = null
@@ -39,6 +42,15 @@ class RankingFragment : Fragment() {
         setStatusBarColor()
         onClickToolbar()
         onClickHelp()
+        setupRecyclerView()
+    }
+
+    private fun setupRecyclerView() {
+        val rankingAdapter = RankingAdapter(Storage.rankingUser)
+        binding.rvRanking.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = rankingAdapter
+        }
     }
 
     private fun onClickHelp() {
@@ -57,5 +69,4 @@ class RankingFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
 }
