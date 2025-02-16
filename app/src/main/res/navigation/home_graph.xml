@@ -47,7 +47,11 @@
 		android:id="@+id/notificationDetail"
 		android:name="com.protect.jikigo.ui.home.noti.NotificationDetailFragment"
 		android:label="fragment_notification_detail"
-		tools:layout="@layout/fragment_notification_detail" />
+		tools:layout="@layout/fragment_notification_detail">
+		<argument
+			android:name="notification"
+			app:argType="com.protect.jikigo.data.Notification" />
+	</fragment>
 
 	<fragment
 		android:id="@+id/newsEnvironment"

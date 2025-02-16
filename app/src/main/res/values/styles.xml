@@ -27,7 +27,7 @@
 	</style>
 
 	<!--  이미지 원형으로 만들기  -->
-	<style name="RankingMyProfileRoundedImage" >
+	<style name="RankingMyProfileRoundedImage">
 		<item name="cornerSize">50%</item>
 	</style>
 
@@ -48,10 +48,16 @@
 	</style>
 	<!-- 커스텀 칩 -->
 	<style name="customChip" parent="@style/Widget.Material3.Chip.Suggestion">
-		<item name = "chipBackgroundColor">@color/selector_chip_background_color</item>
-		<item name = "chipStrokeColor">@color/selector_chip_stroke_color</item>
-		<item name = "android:textColor">@color/selector_chip_text_color</item>
-		<item name = "android:textSize">12sp</item>
+		<item name="chipBackgroundColor">@color/selector_chip_background_color</item>
+		<item name="chipStrokeColor">@color/selector_chip_stroke_color</item>
+		<item name="android:textColor">@color/selector_chip_text_color</item>
+		<item name="android:textSize">12sp</item>
+	</style>
+
+	<style name="AppTextError" parent="Widget.AppCompat.TextView">
+		<item name="android:textSize">12sp</item>
+		<item name="android:textColor">@color/negative</item>
+		<item name="android:visibility">gone</item>
 	</style>
 
 

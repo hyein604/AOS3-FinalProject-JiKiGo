@@ -122,28 +122,30 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     // 데이테 베이스 생성시 삭제되는 메서드
     private fun tempMethod() {
-        val notiList = Storage.notiList
+        val topNotices = Storage.notificationList.take(3) // 상위 3개만 가져오기
         with(binding) {
             // 유저 포인트
             tvHomePoint.applyNumberFormat(3456)
             // 공지사항
-            tvHomeNotice1.text = notiList[0]
-            tvHomeNotice2.text = notiList[1]
-            tvHomeNotice3.text = notiList[2]
+            tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
+            tvHomeNotice2.text = topNotices.getOrNull(1)?.title ?: ""
+            tvHomeNotice3.text = topNotices.getOrNull(2)?.title ?: ""
         }
     }
 
     private fun moveToDetailNoti() {
+        val topNotices = Storage.notificationList.take(3) // 상위 3개만 사용
         with(binding) {
-            listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEach { textView ->
+            listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEachIndexed { index, textView ->
                 textView.setOnClickListener {
-                    requireContext().toast(textView.text.toString())
-                    val action = HomeFragmentDirections.actionNavigationHomeToNotificationDetail()
+                    val action = HomeFragmentDirections
+                        .actionNavigationHomeToNotificationDetail(topNotices[index])
                     findNavController().navigate(action)
                 }
             }
         }
     }
+
 
     private fun setRecyclerView() {
         val storeList = Storage.storeList

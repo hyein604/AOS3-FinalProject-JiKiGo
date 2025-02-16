@@ -30,4 +30,12 @@ class FindPwFragment : Fragment() {
 
     }
 
+    companion object {
+        fun newInstance(): FindPwFragment {
+            return FindPwFragment().apply {
+
+            }
+        }
+    }
+
 }
