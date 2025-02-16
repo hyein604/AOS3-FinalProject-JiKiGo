@@ -8,7 +8,7 @@
     <!-- 랭킹 번호 -->
     <TextView
         android:id="@+id/tv_ranking_position"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="52"
         android:textSize="32sp"
@@ -29,7 +29,7 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/RankingMyProfileRoundedImage"
         android:src="@drawable/img_today_news_home_tmp_2"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintStart_toEndOf="@id/tv_ranking_position"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
