@@ -46,7 +46,7 @@ class NewsBesidesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.vpNewsBesidesHotTopic.isUserInputEnabled = true
         setupRecyclerView()
         setupHomeBannerUI()
 
@@ -91,6 +91,13 @@ class NewsBesidesFragment : Fragment() {
     private fun setupHomeBannerUI() {
         with(binding) {
             vpNewsBesidesHotTopic.adapter = bannerAdapter
+            vpNewsBesidesHotTopic.isUserInputEnabled = true // 스와이프 가능
+
+            // NestedScrollView의 터치 충돌을 방지
+            vpNewsBesidesHotTopic.setOnTouchListener { v, event ->
+                v.parent?.requestDisallowInterceptTouchEvent(true)
+                v.onTouchEvent(event)
+            }
 
             // 배너 이미지 추가 (drawable 폴더에 있는 이미지 3개)
             val bannerImages = listOf(
