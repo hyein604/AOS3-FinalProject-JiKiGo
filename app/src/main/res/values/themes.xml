@@ -6,6 +6,8 @@
 		<item name="colorPrimary">@color/primary</item>
 		<item name="colorOnPrimary">@color/white</item>
 		<item name="android:colorBackground">@color/white</item>
+		<item name="android:statusBarColor">@color/transparent</item>
+		<item name="android:windowLightStatusBar">true</item>
 	</style>
 
 	<style name="Theme.JikiGo" parent="Base.Theme.JikiGo" />

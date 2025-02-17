@@ -66,7 +66,7 @@
 		android:id="@+id/paymentQR"
 		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
 		android:label="fragment_payment_qr"
-		tools:layout="@layout/fragment_payment_qr" >
+		tools:layout="@layout/fragment_payment_qr">
 		<action
 			android:id="@+id/action_paymentQR_to_paymentQRDialog"
 			app:destination="@id/paymentQRDialog" />
@@ -101,7 +101,7 @@
 		android:id="@+id/myPage"
 		android:name="com.protect.jikigo.ui.home.my_page.MyPageFragment"
 		android:label="fragment_my_page"
-		tools:layout="@layout/fragment_my_page" >
+		tools:layout="@layout/fragment_my_page">
 		<action
 			android:id="@+id/action_myPage_to_profileEdit"
 			app:destination="@id/profileEdit" />
@@ -113,24 +113,24 @@
 			app:destination="@id/couponBox" />
 	</fragment>
 
-	  <fragment
+	<fragment
 		android:id="@+id/navigation_travel"
 		android:name="com.protect.jikigo.ui.travel.TravelFragment"
 		android:label="fragment_travel"
-		tools:layout="@layout/fragment_travel" >
+		tools:layout="@layout/fragment_travel">
 		<action
 			android:id="@+id/action_navigation_travel_to_myPage"
 			app:destination="@id/myPage" />
-		 <action
-			 android:id="@+id/action_navigation_travel_to_travelSearch"
-			 app:destination="@id/travelSearch" />
-		 <action
-			 android:id="@+id/action_navigation_travel_to_travelHotCoupon"
-			 app:destination="@id/travelHotCoupon" />
-		  <action
-			  android:id="@+id/action_navigation_travel_to_travelCouponDetail"
-			  app:destination="@id/travelCouponDetail" />
-	  </fragment>
+		<action
+			android:id="@+id/action_navigation_travel_to_travelSearch"
+			app:destination="@id/travelSearch" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelHotCoupon"
+			app:destination="@id/travelHotCoupon" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
 
 	<fragment
 		android:id="@+id/profileEdit"
@@ -148,7 +148,7 @@
 		android:id="@+id/couponBox"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponBoxFragment"
 		android:label="fragment_coupon_box"
-		tools:layout="@layout/fragment_coupon_box" >
+		tools:layout="@layout/fragment_coupon_box">
 		<action
 			android:id="@+id/action_couponBoxFragment_to_couponDetailFragment"
 			app:destination="@id/couponDetail" />
@@ -158,7 +158,7 @@
 		android:id="@+id/couponDetail"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
 		android:label="fragment_coupon_detail"
-		tools:layout="@layout/fragment_coupon_detail" >
+		tools:layout="@layout/fragment_coupon_detail">
 		<argument
 			android:name="couponArg"
 			app:argType="com.protect.jikigo.data.Coupon" />
@@ -218,7 +218,7 @@
 		android:id="@+id/travelCouponDetail"
 		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
 		android:label="fragment_travel_coupon_detail"
-		tools:layout="@layout/fragment_travel_coupon_detail" >
+		tools:layout="@layout/fragment_travel_coupon_detail">
 		<action
 			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
 			app:destination="@id/travelPaymentBottomSheet" />
@@ -227,12 +227,23 @@
 		android:id="@+id/travelPaymentComplete"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentCompleteFragment"
 		android:label="fragment_travel_payment_complete"
-		tools:layout="@layout/fragment_travel_payment_complete" />
+		tools:layout="@layout/fragment_travel_payment_complete">
+		<action
+			android:id="@+id/action_travelPaymentComplete_to_navigation_travel"
+			app:destination="@id/navigation_travel"
+			app:popUpTo="@id/travelCouponDetail"
+			app:popUpToInclusive="true" />
+		<action
+			android:id="@+id/action_travelPaymentComplete_to_couponBox"
+			app:destination="@id/couponBox"
+			app:popUpTo="@id/travelCouponDetail"
+			app:popUpToInclusive="true" />
+	</fragment>
 	<fragment
 		android:id="@+id/travelPaymentBottomSheet"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
-		tools:layout="@layout/fragment_travel_payment_bottom_sheet" >
+		tools:layout="@layout/fragment_travel_payment_bottom_sheet">
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />

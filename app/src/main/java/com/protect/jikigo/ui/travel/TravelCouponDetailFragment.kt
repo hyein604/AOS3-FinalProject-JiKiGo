@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelCouponDetailBinding
+import com.protect.jikigo.ui.extensions.statusBarColor
 
 
 class TravelCouponDetailFragment : Fragment() {
@@ -32,8 +34,13 @@ class TravelCouponDetailFragment : Fragment() {
     }
 
     private fun setLayout() {
-        moveToBottomSheet()
+        setStatusBarColor()
+        showDialog()
         onClickToolbar()
+    }
+
+    private fun setStatusBarColor() {
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun onClickToolbar() {
@@ -42,7 +49,7 @@ class TravelCouponDetailFragment : Fragment() {
         }
     }
 
-    private fun moveToBottomSheet() {
+    private fun showDialog() {
         binding.btnTravelCouponDetailBuy.setOnClickListener {
             val action = TravelCouponDetailFragmentDirections.actionTravelCouponDetailToTravelPaymentBottomSheet()
             findNavController().navigate(action)
