@@ -12,7 +12,7 @@
 	<string name="sign_up_confirm">동의하고 본인인증하기</string>
 	<string name="sign_up_account_info">계정정보</string>
 	<string name="sign_up_error_name">* 한글입력, 최소2자, 최대 8자\n* 공백 입력 불가</string>
-	<string name="sign_up_error_mobile">* 휴대전화 번호 11자리를 입력한다. (하이픈 \" - \"는 제외)\n* 공백 입력 불가</string>
+	<string name="sign_up_error_mobile">* 휴대전화 번호 11자리를 입력. (하이픈 \" - \"는 제외)\n* 공백 입력 불가</string>
 	<string name="sign_up_error_auth_number">* 숫자 6자리\n* 공백 입력 불가</string>
 	<string name="sign_up_error_id">* 소문자 + 숫자, 조합만 허용, 최소 8자, 최대 16자\n* 공백 입력 불가</string>
 	<string name="sign_up_error_pw">* 소문자 + 대문자 + 특수문자(!@#$) + 숫자 조합만 허용\n 최소14자리, 최대 20자리, 대문자가 최소 1개 이상 포함\n* 공백 입력 불가</string>
@@ -21,7 +21,9 @@
 
 	<!--    계정 찾기	-->
 	<string name="new_password">새 비밀번호</string>
+	<string name="new_password_star">새 비밀번호 *</string>
 	<string name="new_password_check">새 비밀번호 확인</string>
+	<string name="new_password_check_star">새 비밀번호 확인 *</string>
 	<string name="new_password_setting">새 비밀번호 설정</string>
 
 
@@ -31,14 +33,23 @@
 	<string name="common_auth_confirm">인증확인</string>
 	<string name="common_duplication_confirm">중복확인</string>
 	<string name="common_name">이름</string>
+	<string name="common_name_star">이름 *</string>
 	<string name="common_mobile">휴대전화</string>
+	<string name="common_mobile_star">휴대전화 *</string>
 	<string name="common_mobile_no_hyphen">휴대전화 (\" - \" 없이)</string>
 	<string name="common_auth_number">인증번호</string>
-	<string name="common_star">*</string>
+	<string name="common_auth_number_star">인증번호 *</string>
 	<string name="common_id">아이디</string>
+	<string name="common_id_star">아이디 *</string>
 	<string name="common_nickname">닉네임</string>
+	<string name="common_nickname_star">닉네임 *</string>
 	<string name="common_pw">비밀번호</string>
+	<string name="common_pw_star">비밀번호 *</string>
 	<string name="common_pw_check">비밀번호 확인</string>
+	<string name="common_pw_check_star">비밀번호 확인 *</string>
+	<string name="common_auth_number_check">인증번호를 확인해주세요.</string>
+	<string name="common_auth_number_check_success">인증번호가 일치합니다.</string>
+	<string name="common_auth_number_check_failure">인증번호가 일치하지않습니다.</string>
 
 
 	<!--오늘의 소식 환경 탭 레이아웃 아이템-->

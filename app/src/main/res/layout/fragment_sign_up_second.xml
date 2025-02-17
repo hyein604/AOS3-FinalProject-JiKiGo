@@ -47,21 +47,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_name"
+				android:text="@string/common_name_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_sign_up_personal_label" />
-
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_name_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_name_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_name_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_name"
@@ -97,21 +86,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_mobile"
+				android:text="@string/common_mobile_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_error_name" />
-
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_mobile_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_mobile_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_mobile_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_mobile"
@@ -158,20 +136,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_auth_number"
+				android:text="@string/common_auth_number_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_error_mobile" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_auth_number_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_auth_number_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_auth_number_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_auth_number"
@@ -230,20 +198,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_id"
+				android:text="@string/common_id_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_sign_up_account_label" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_id_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_id_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_id_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_id"
@@ -290,20 +248,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_pw"
+				android:text="@string/common_pw_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_error_id" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_pw_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_pw_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_pw_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_pw"
@@ -340,20 +288,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_pw_check"
+				android:text="@string/common_pw_check_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_personal_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_error_pw" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_pw_check_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_pw_check_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_pw_check_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_pw_check"
@@ -391,20 +329,10 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text="@string/common_nickname"
+				android:text="@string/common_nickname_star"
 				android:textStyle="bold"
 				app:layout_constraintStart_toStartOf="@id/tv_sign_up_pw_check_label"
 				app:layout_constraintTop_toBottomOf="@id/tv_error_pw_check" />
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="5dp"
-				android:text="@string/common_star"
-				android:textColor="@color/red"
-				app:layout_constraintBottom_toBottomOf="@id/tv_sign_up_nickname_label"
-				app:layout_constraintStart_toEndOf="@id/tv_sign_up_nickname_label"
-				app:layout_constraintTop_toTopOf="@id/tv_sign_up_nickname_label" />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/et_sign_up_nickname"
