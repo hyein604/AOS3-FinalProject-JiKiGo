@@ -11,17 +11,20 @@ import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import com.protect.jikigo.ui.adapter.OnBannerItemClickListener
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
+import com.protect.jikigo.ui.adapter.NewsAdapter
 
 class NewsBesidesFragment : Fragment() {
     private var  _binding: FragmentNewsBesidesBinding? = null
     private val binding get() = _binding!!
 
     private var category: String? = null
+    private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +47,18 @@ class NewsBesidesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
         setupHomeBannerUI()
+
         category?.let { fetchNews(it) }
+    }
+
+    private fun setupRecyclerView() {
+        newsAdapter = NewsAdapter()
+        binding.rvNewsBesidesLatestNews.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = newsAdapter
+        }
     }
 
     private fun fetchNews(query: String) {
@@ -53,8 +66,8 @@ class NewsBesidesFragment : Fragment() {
         call.enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
-                    response.body()?.items?.forEach { news ->
-                        Log.d("News", "${query}, 제목: ${news.title}, 링크: ${news.link}")
+                    response.body()?.items?.let { newsList ->
+                        newsAdapter.submitList(newsList) // 데이터를 어댑터에 전달
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
@@ -66,7 +79,6 @@ class NewsBesidesFragment : Fragment() {
             }
         })
     }
-
     private val bannerAdapter: NewsBannerAdapter by lazy {
         NewsBannerAdapter(object : OnBannerItemClickListener {
             override fun onItemClick(banner: Int) {
