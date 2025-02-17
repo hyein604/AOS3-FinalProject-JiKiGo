@@ -73,7 +73,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
             listOf(viewHomeEnvironment, viewHomeTravel, viewHomeHealth).forEachIndexed { index, view ->
                 view.setOnClickListener {
                     requireContext().toast(messages[index])
-                    val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
+                    val action = HomeFragmentDirections.actionNavigationHomeToNews()
                     findNavController().navigate(action)
                 }
             }
