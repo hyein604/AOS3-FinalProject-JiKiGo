@@ -222,6 +222,9 @@
 		<action
 			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
 			app:destination="@id/travelPaymentBottomSheet" />
+		<argument
+			android:name="travelCouponArg"
+			app:argType="com.protect.jikigo.data.Coupon" />
 	</fragment>
 	<fragment
 		android:id="@+id/travelPaymentComplete"

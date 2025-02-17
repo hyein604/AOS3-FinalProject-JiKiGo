@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.databinding.ItemCouponBinding
+import com.protect.jikigo.ui.extensions.applyNumberFormat
 
 class CouponAdaptor (
     private val items: List<Coupon>,
@@ -38,7 +39,7 @@ class CouponAdaptor (
             binding.apply {
                 tvCouponName.text = item.name
                 tvCouponBrand.text = item.brand
-                tvCouponPrice.text = item.price
+                tvCouponPrice.applyNumberFormat(item.price)
                 Glide.with(root.context)
                     .load(item.image)
                     .into(ivCouponDetailThumnail)
