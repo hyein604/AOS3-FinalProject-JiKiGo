@@ -11,7 +11,7 @@ import com.protect.jikigo.databinding.FragmentNewsEnvironmentAirBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import com.protect.jikigo.ui.adapter.OnBannerItemClickListener
 
-class NewsEnvironmentAirFragment : Fragment() {
+class NewsBesidesFragment : Fragment() {
     private var  _binding: FragmentNewsEnvironmentAirBinding? = null
     private val binding get() = _binding!!
 

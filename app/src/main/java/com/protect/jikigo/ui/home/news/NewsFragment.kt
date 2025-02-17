@@ -44,23 +44,23 @@ class NewsEnvironmentFragment : Fragment() {
         val adapter = NewsEnvironmentPagerAdapter(this)
         binding.vpNewsEnvironment.adapter = adapter
         // 뷰페이저가 한 번에 여러 개의 페이지를 캐싱하도록 offscreenPageLimit을 설정하면 더 안정적으로 동작할 수 있다.
-        binding.vpNewsEnvironment.offscreenPageLimit = NewsEnvironmentType.values().size
+        binding.vpNewsEnvironment.offscreenPageLimit = NewsType.values().size
 
         TabLayoutMediator(binding.tabNewsEnvironment, binding.vpNewsEnvironment) { tab, position ->
-            tab.text = NewsEnvironmentType.values()[position].getTodayNewsEnvironmentTabTitle()
+            tab.text = NewsType.values()[position].getTodayNewsEnvironmentTabTitle()
         }.attach()
     }
 }
 
 class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = NewsEnvironmentType.values().size
+    override fun getItemCount(): Int = NewsType.values().size
 
     override fun createFragment(position: Int): Fragment {
         return if (position == 0) {
-            NewsEnvironmentAllFragment() // "전체" 탭
+            NewsAllFragment() // "전체" 탭
         } else {
-            NewsEnvironmentAirFragment() // 나머지 탭
+            NewsBesidesFragment() // 나머지 탭
         }
     }
 }

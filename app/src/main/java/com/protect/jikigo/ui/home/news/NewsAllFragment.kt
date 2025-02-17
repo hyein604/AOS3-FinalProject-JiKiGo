@@ -14,7 +14,8 @@ import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 
 
-class NewsEnvironmentAllFragment : Fragment() {
+
+class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsEnvironmentAllBinding? = null
     private val binding get() = _binding!!
 
