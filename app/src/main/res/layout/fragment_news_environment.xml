@@ -74,7 +74,7 @@
 
         <!-- 프래그먼트를 보여주기 위한 뷰페이저 -->
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_news_envorionment"
+            android:id="@+id/vp_news_environment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/tab_news_envorionment"
