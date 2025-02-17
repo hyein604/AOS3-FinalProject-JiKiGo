@@ -58,6 +58,11 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
             val action = TravelFragmentDirections.actionNavigationTravelToTravelSearch()
             findNavController().navigate(action)
         }
+        binding.searchBar.setOnMenuItemClickListener {
+            val action = TravelFragmentDirections.actionNavigationTravelToTravelSearch()
+            findNavController().navigate(action)
+            true
+        }
     }
 
     private fun moveToHotCoupon() {

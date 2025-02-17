@@ -37,10 +37,6 @@ class FindAccountFragment : Fragment() {
         setTabLayout()
     }
 
-    private fun setViewPagerAdapter() {
-
-    }
-
     private fun setTabLayout() {
         val text = Storage.findAccount
         binding.vpFindAccount.adapter = FindAccountAdapter(this, text)

@@ -20,6 +20,7 @@ class TravelCouponDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTravelCouponDetailBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -35,8 +36,8 @@ class TravelCouponDetailFragment : Fragment() {
 
     private fun setLayout() {
         setStatusBarColor()
-        showDialog()
         onClickToolbar()
+        //setContent()
     }
 
     private fun setStatusBarColor() {
@@ -48,8 +49,18 @@ class TravelCouponDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+//
+//    private fun setContent(){
+//        Glide.with(binding.root.context)
+//            .load(args.travelCouponArg.image)
+//            .into(binding.ivCouponDetailThumnail)
+//        binding.tvTravelCouponDetailBrand.text = args.travelCouponArg.brand
+//        binding.tvTravelCouponDetailName.text = args.travelCouponArg.name
+//        binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.travelCouponArg.price)
+//        binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.travelCouponArg.brand}"
+//    }
 
-    private fun showDialog() {
+    private fun moveToBottomSheet() {
         binding.btnTravelCouponDetailBuy.setOnClickListener {
             val action = TravelCouponDetailFragmentDirections.actionTravelCouponDetailToTravelPaymentBottomSheet()
             findNavController().navigate(action)

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isEmpty
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.protect.jikigo.databinding.FragmentSignUpSecondBinding
 import kotlin.math.truncate
@@ -64,7 +65,7 @@ class SignUpSecondFragment : Fragment() {
             if (!validateInput(binding.etSignUpId, binding.tvErrorId, regexId)) {
                 isValid = false
             }
-            if (!validateInput(binding.etSignUpPw, binding.tvErrorPw, regexPw)) {
+            if (!validateInputPW(binding.etSignUpPw, binding.tvErrorPw, regexPw)) {
                 isValid = false
             }
 
@@ -89,11 +90,22 @@ class SignUpSecondFragment : Fragment() {
         val isEmpty = pwCheck.isEmpty()
         val isMatch = pwMain == pwCheck
 
-        // UI 처리
-        binding.etSignUpPwCheck.isErrorEnabled = true
-        binding.etSignUpPwCheck.error = "에러 메시지"
+        if (isEmpty || !isMatch) {
+            // 비밀번호가 비어있거나, 일치하지 않는 경우 → 에러 표시
+            binding.etSignUpPwCheck.isErrorEnabled = true
+            binding.etSignUpPwCheck.error = "비밀번호가 일치하지 않습니다."
+            binding.etSignUpPwCheck.errorIconDrawable = null // 에러 아이콘 비활성화
+            binding.tvErrorPwCheck.visibility = View.VISIBLE
+        } else {
+            // 비밀번호가 일치하는 경우 → 에러 제거
+            binding.etSignUpPwCheck.isErrorEnabled = false
+            binding.etSignUpPwCheck.error = null
+            binding.tvErrorPwCheck.visibility = View.GONE
+        }
 
-        binding.tvErrorPwCheck.visibility = if (isEmpty || !isMatch) View.VISIBLE else View.GONE
+        // endIcon을 다시 활성화하여 토글 버튼 유지
+        binding.etSignUpPwCheck.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
+
 
         return !isEmpty && isMatch
     }
@@ -115,6 +127,29 @@ class SignUpSecondFragment : Fragment() {
             errorText.visibility = View.GONE
             textInputLayout.error = null
             true
+        }
+    }
+
+    private fun validateInputPW(
+        textInputLayout: TextInputLayout,
+        errorText: TextView,
+        regex: Regex
+    ): Boolean {
+        val inputText = textInputLayout.editText?.text.toString().trim()
+
+        return if (inputText.isEmpty() || !regex.matches(inputText)) {
+            textInputLayout.isErrorEnabled = true
+            textInputLayout.error = "에러 메시지"
+            textInputLayout.errorIconDrawable = null
+            errorText.visibility = View.VISIBLE
+            false
+        } else {
+            textInputLayout.isErrorEnabled = false
+            textInputLayout.error = null
+            errorText.visibility = View.GONE
+            true
+        }.also {
+            textInputLayout.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
         }
     }
 

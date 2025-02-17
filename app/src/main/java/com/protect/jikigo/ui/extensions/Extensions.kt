@@ -8,9 +8,18 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.textfield.TextInputLayout
+import com.protect.jikigo.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 // textView 속성을 넣어주는 함수
@@ -69,4 +78,21 @@ fun Number.convertThreeDigitComma(): String {
 // 토스트 메시지
 fun Context.toast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+}
+
+fun Button.setTimer(lifecycleScope: LifecycleCoroutineScope, editText: TextInputLayout, context: Context) {
+    this.isEnabled = false
+    editText.isEnabled = false
+    lifecycleScope.launch(Dispatchers.Main) {
+        val totalTime = 180
+        for (i in totalTime downTo 0) {
+            val minutes = i / 60
+            val seconds = i % 60
+            this@setTimer.text = String.format("%d:%02d", minutes, seconds)
+            delay(1000) // 1초 대기
+        }
+        this@setTimer.text = context.getString(R.string.common_auth_request)
+        this@setTimer.isEnabled = true
+        editText.isEnabled = true
+    }
 }

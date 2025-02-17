@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.protect.jikigo.R
+import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
 import com.protect.jikigo.data.Store
 import com.protect.jikigo.databinding.FragmentHomeBinding
@@ -73,7 +74,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
             listOf(viewHomeEnvironment, viewHomeTravel, viewHomeHealth).forEachIndexed { index, view ->
                 view.setOnClickListener {
                     requireContext().toast(messages[index])
-                    val action = HomeFragmentDirections.actionNavigationHomeToNewsEnvironment()
+                    val action = HomeFragmentDirections.actionNavigationHomeToNews()
                     findNavController().navigate(action)
                 }
             }
@@ -155,8 +156,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     // store 이동 리스너
     override fun onClickStore(store: Store) {
-        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
-        findNavController().navigate(action)
+//        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
+//        findNavController().navigate(action)
         Toast.makeText(requireContext(), store.title, Toast.LENGTH_SHORT).show()
     }
 }

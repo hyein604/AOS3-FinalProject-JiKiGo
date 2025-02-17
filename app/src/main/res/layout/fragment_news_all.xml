@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.news.NewsAllFragment">
+
+    <!-- 두번째 뉴스 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_news_all_first_image"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_content_news_all_first_image"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_today_news_home_tmp_1"/>
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/tv_news_all_first_title"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="얼음을 잃어버린 북극곰, 기후변화 지표"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/cv_news_all_first_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_news_all_first_date"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:text="2025.2.7  9:51"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_news_all_first_title"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 배너 (ViewPager2) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_news_all_banner"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_news_all_first_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 두번째 뉴스 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_news_all_environment_all_and_third_news"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/vp_news_all_banner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_news_all_second_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cv_news_all_third_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_content_news_all_second_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_today_news_home_tmp_2" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_news_all_second_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="대전 3대 하천, 대규모 준설로 겨울철새 급감"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cv_news_all_second_image"
+            app:layout_constraintStart_toStartOf="@id/cv_news_all_second_image"
+            app:layout_constraintEnd_toEndOf="@id/cv_news_all_second_image" />
+
+        <TextView
+            android:id="@+id/tv_news_all_second_date"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:text="2025.2.7  9:51"
+            android:textSize="10sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_news_all_second_title"
+            app:layout_constraintStart_toStartOf="@id/tv_news_all_second_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_news_all_second_title" />
+
+
+        <!-- 세번째 뉴스 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_news_all_third_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintStart_toEndOf="@id/cv_news_all_second_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_weight="1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_content_news_all_third_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_today_news_home_tmp_3" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_news_all_third_title"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text="탄소중립 업무 총괄 기획·조정할 컨트롤타워 부재"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/cv_news_all_third_image"
+            app:layout_constraintStart_toStartOf="@id/cv_news_all_third_image"
+            app:layout_constraintEnd_toEndOf="@id/cv_news_all_third_image" />
+
+        <TextView
+            android:id="@+id/tv_news_all_third_date"
+            android:layout_width="0dp"
+            android:layout_height="15dp"
+            android:text="2025.2.7  9:51"
+            android:textSize="10sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_news_all_third_title"
+            app:layout_constraintStart_toStartOf="@id/tv_news_all_third_title"
+            app:layout_constraintEnd_toEndOf="@id/cv_news_all_third_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
