@@ -12,7 +12,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="662dp"
-        android:fillViewport="true"
         tools:context=".ui.home.news.NewsBesidesFragment">
 
         <LinearLayout
@@ -65,8 +64,7 @@
                 android:layout_height="220dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="686dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
