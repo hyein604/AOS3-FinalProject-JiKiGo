@@ -155,6 +155,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     // store 이동 리스너
     override fun onClickStore(store: Store) {
+        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
+        findNavController().navigate(action)
         Toast.makeText(requireContext(), store.title, Toast.LENGTH_SHORT).show()
     }
 }

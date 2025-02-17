@@ -33,11 +33,18 @@ class TravelCouponDetailFragment : Fragment() {
 
     private fun setLayout() {
         moveToBottomSheet()
+        onClickToolbar()
+    }
+
+    private fun onClickToolbar() {
+        binding.toolbarTravelCouponDetail.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun moveToBottomSheet() {
         binding.btnTravelCouponDetailBuy.setOnClickListener {
-            val action = TravelCouponFragmentDirections.actionTravelCouponToTravelCouponDetail()
+            val action = TravelCouponDetailFragmentDirections.actionTravelCouponDetailToTravelPaymentBottomSheet()
             findNavController().navigate(action)
         }
     }

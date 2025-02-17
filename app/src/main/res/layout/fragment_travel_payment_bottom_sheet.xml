@@ -1,195 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="18dp"
-    android:paddingEnd="18dp"
-    tools:context=".ui.travel.TravelPaymentBottomSheetFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/background_dialog"
+	android:paddingStart="18dp"
+	android:paddingEnd="18dp"
+	tools:context=".ui.travel.TravelPaymentBottomSheetFragment">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<com.google.android.material.bottomsheet.BottomSheetDragHandleView
+		android:id="@+id/view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="파크 하얏트 부산"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_brand"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="파크 하얏트 부산"
+		android:textColor="@color/black"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="파크 하얏트 부산 기프트 카드 1만원권"
-        android:textColor="#5A5A5A"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_brand" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="파크 하얏트 부산 기프트 카드 1만원권"
+		android:textColor="#5A5A5A"
+		android:textSize="18sp"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_brand" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="10,000P"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_name" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_price"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:text="10,000P"
+		android:textColor="@color/black"
+		android:textSize="24sp"
+		android:textStyle="bold"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_name" />
 
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/gray_50"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_price"
-        tools:layout_editor_absoluteX="81dp" />
+	<com.google.android.material.divider.MaterialDivider
+		android:id="@+id/divider5"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:layout_marginTop="25dp"
+		android:background="@color/gray_50"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_price"
+		tools:layout_editor_absoluteX="81dp" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_point_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="포인트 결제"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_point_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="25dp"
+		android:text="포인트 결제"
+		android:textSize="18sp"
+		android:textStyle="bold"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_insufficient_point_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="보유 포인트"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_point_title" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_insufficient_point_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:text="보유 포인트"
+		android:textColor="@color/black"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_point_title" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_insufficient_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13,456P"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_insufficient_point"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="13,456P"
+		android:textColor="@color/black"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_required_point_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="필요한 포인트"
-        android:textColor="@color/black"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_required_point_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="필요한 포인트"
+		android:textColor="@color/black"
+		android:visibility="gone"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_required_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="6,544P"
-        android:textColor="@color/red"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_required_point"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="6,544P"
+		android:textColor="@color/red"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		android:visibility="gone"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_used_point_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="사용 포인트"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_used_point_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="사용 포인트"
+		android:textColor="@color/black"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point_label" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_used_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="-10,000P"
-        android:textColor="@color/primary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_used_point"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="-10,000P"
+		android:textColor="@color/primary"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_insufficient_point" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_remaining_point_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="남은 포인트"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_used_point_label" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_remaining_point_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="남은 포인트"
+		android:textColor="@color/black"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_used_point_label" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_sheet_remaining_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="3,456P"
-        android:textColor="@color/red"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_used_point" />
+	<TextView
+		android:id="@+id/tv_travel_payment_sheet_remaining_point"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="3,456P"
+		android:textColor="@color/red"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_used_point" />
 
-    <Button
-        android:id="@+id/btn_travel_payment_complete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"
-        android:text="결제하기"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:cornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_agree_content" />
+	<Button
+		android:id="@+id/btn_travel_payment_complete"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="20dp"
+		android:layout_marginTop="25dp"
+		android:layout_marginEnd="20dp"
+		android:layout_marginBottom="30dp"
+		android:text="결제하기"
+		android:textSize="20sp"
+		android:textStyle="bold"
+		app:cornerRadius="5dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_agree_content" />
 
-    <ImageButton
-        android:id="@+id/ivb_travel_payment_agree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_check_circle_"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_remaining_point_label" />
+	<ImageButton
+		android:id="@+id/ivb_travel_payment_agree"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:background="@color/transparent"
+		android:src="@drawable/ic_check_circle_"
+		app:layout_constraintHorizontal_weight="1"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_remaining_point_label" />
 
-    <TextView
-        android:id="@+id/tv_travel_payment_agree_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:text="쿠폰 정보를 확인 하였으며, 지키GO 서비스 이용약관에 동의합니다."
-        app:layout_constraintStart_toEndOf="@+id/ivb_travel_payment_agree"
-        app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_remaining_point_label" />
+	<TextView
+		android:id="@+id/tv_travel_payment_agree_content"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="40dp"
+		android:layout_marginTop="20dp"
+		android:text="쿠폰 정보를 확인 하였으며, 지키GO 서비스 이용약관에 동의합니다."
+		app:layout_constraintStart_toEndOf="@+id/ivb_travel_payment_agree"
+		app:layout_constraintTop_toBottomOf="@+id/tv_travel_payment_sheet_remaining_point_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
