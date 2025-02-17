@@ -43,6 +43,7 @@ class NewsEnvironmentFragment : Fragment() {
     private fun setupViewPagerWithTabs() {
         val adapter = NewsEnvironmentPagerAdapter(this)
         binding.vpNewsEnvironment.adapter = adapter
+        // 뷰페이저가 한 번에 여러 개의 페이지를 캐싱하도록 offscreenPageLimit을 설정하면 더 안정적으로 동작할 수 있다.
         binding.vpNewsEnvironment.offscreenPageLimit = NewsEnvironmentType.values().size
 
         TabLayoutMediator(binding.tabNewsEnvironment, binding.vpNewsEnvironment) { tab, position ->
