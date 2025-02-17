@@ -9,7 +9,7 @@ import com.protect.jikigo.databinding.ItemCouponBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 
 class CouponAdaptor (
-    private val items: List<Coupon>,
+    private var items: List<Coupon>,
     private val listener: TravelCouponOnClickListener
 ) : RecyclerView.Adapter<CouponAdaptor.CouponViewHolder>() {
 
@@ -25,6 +25,12 @@ class CouponAdaptor (
     override fun onBindViewHolder(holder: CouponViewHolder, position: Int) {
         holder.bind(items[position])
     }
+
+    fun updateList(newList: List<Coupon>) {
+        this.items = newList
+        notifyDataSetChanged()
+    }
+
 
     class CouponViewHolder(
         private val binding: ItemCouponBinding,
