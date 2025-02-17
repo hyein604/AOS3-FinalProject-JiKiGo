@@ -54,7 +54,7 @@ class NewsFragment : Fragment() {
 
 class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val categories = listOf(
-        "전체", "대기환경", "수질환경", "생태계", "환경정책"
+        "전체", "대기오염 대기환경", "해양 오염 강 오염", "생태계오염", "환경 오염 정책"
     )
 
     override fun getItemCount(): Int = NewsType.values().size

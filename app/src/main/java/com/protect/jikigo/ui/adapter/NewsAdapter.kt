@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.bumptech.glide.Glide
 import com.protect.jikigo.databinding.RowLatestNewsBinding
 import com.protect.jikigo.data.NewsItem
 
@@ -23,8 +24,9 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
         fun bind(newsItem: NewsItem) {
             binding.tvNewsBesidesTitle.text = newsItem.title
             binding.tvNewsBesidesContent.text = newsItem.description
-//            binding.tvNewsBesidesSource.text = "${newsItem.publisher} · ${newsItem.timeAgo}"
-//
+            binding.tvNewsBesidesSource.text = "${newsItem.pubDate}"
+//            binding.tvNewsBesidesSource.text = "${newsItem.pubDate} · ${newsItem.pubDate}"
+
 //            // 썸네일 이미지 로드 (Glide 사용 예제)
 //            Glide.with(binding.ivNewsBesidesThumbnail.context)
 //                .load(newsItem.imageUrl)
