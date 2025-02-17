@@ -58,6 +58,11 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
             val action = TravelFragmentDirections.actionNavigationTravelToTravelSearch()
             findNavController().navigate(action)
         }
+        binding.searchBar.setOnMenuItemClickListener {
+            val action = TravelFragmentDirections.actionNavigationTravelToTravelSearch()
+            findNavController().navigate(action)
+            true
+        }
     }
 
     private fun moveToHotCoupon() {
@@ -86,7 +91,7 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     override fun onClickListener(item: Coupon) {
-        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
+        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
         findNavController().navigate(action)
     }
 }

@@ -222,13 +222,16 @@
 		<action
 			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
 			app:destination="@id/travelPaymentBottomSheet" />
+		<argument
+			android:name="travelCouponArg"
+			app:argType="com.protect.jikigo.data.Coupon" />
 	</fragment>
 	<fragment
 		android:id="@+id/travelPaymentComplete"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentCompleteFragment"
 		android:label="fragment_travel_payment_complete"
 		tools:layout="@layout/fragment_travel_payment_complete" />
-	<fragment
+	<dialog
 		android:id="@+id/travelPaymentBottomSheet"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
@@ -236,6 +239,6 @@
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
-	</fragment>
+	</dialog>
 
 </navigation>

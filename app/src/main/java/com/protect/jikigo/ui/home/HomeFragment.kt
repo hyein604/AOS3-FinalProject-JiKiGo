@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.protect.jikigo.R
+import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
 import com.protect.jikigo.data.Store
 import com.protect.jikigo.databinding.FragmentHomeBinding
@@ -155,8 +156,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     // store 이동 리스너
     override fun onClickStore(store: Store) {
-        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
-        findNavController().navigate(action)
+//        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
+//        findNavController().navigate(action)
         Toast.makeText(requireContext(), store.title, Toast.LENGTH_SHORT).show()
     }
 }
