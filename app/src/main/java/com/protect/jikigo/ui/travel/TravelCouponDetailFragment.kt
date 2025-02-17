@@ -1,25 +1,19 @@
 package com.protect.jikigo.ui.travel
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.protect.jikigo.HomeActivity
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelCouponDetailBinding
-import com.protect.jikigo.ui.extensions.applyNumberFormat
-import com.protect.jikigo.ui.home.my_page.CouponDetailFragmentArgs
+import com.protect.jikigo.ui.extensions.statusBarColor
 
 
 class TravelCouponDetailFragment : Fragment() {
     private var _binding: FragmentTravelCouponDetailBinding? = null
     private val binding get() = _binding!!
-    private val args: TravelCouponDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,9 +35,13 @@ class TravelCouponDetailFragment : Fragment() {
     }
 
     private fun setLayout() {
-        moveToBottomSheet()
+        setStatusBarColor()
         onClickToolbar()
-        setContent()
+        //setContent()
+    }
+
+    private fun setStatusBarColor() {
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun onClickToolbar() {
@@ -51,16 +49,16 @@ class TravelCouponDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
-    private fun setContent(){
-        Glide.with(binding.root.context)
-            .load(args.travelCouponArg.image)
-            .into(binding.ivCouponDetailThumnail)
-        binding.tvTravelCouponDetailBrand.text = args.travelCouponArg.brand
-        binding.tvTravelCouponDetailName.text = args.travelCouponArg.name
-        binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.travelCouponArg.price)
-        binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.travelCouponArg.brand}"
-    }
+//
+//    private fun setContent(){
+//        Glide.with(binding.root.context)
+//            .load(args.travelCouponArg.image)
+//            .into(binding.ivCouponDetailThumnail)
+//        binding.tvTravelCouponDetailBrand.text = args.travelCouponArg.brand
+//        binding.tvTravelCouponDetailName.text = args.travelCouponArg.name
+//        binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.travelCouponArg.price)
+//        binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.travelCouponArg.brand}"
+//    }
 
     private fun moveToBottomSheet() {
         binding.btnTravelCouponDetailBuy.setOnClickListener {

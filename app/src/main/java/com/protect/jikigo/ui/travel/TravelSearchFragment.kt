@@ -3,7 +3,6 @@ package com.protect.jikigo.ui.travel
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -16,7 +15,6 @@ import com.protect.jikigo.databinding.FragmentTravelSearchBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.statusBarColor
-import com.protect.jikigo.ui.extensions.toast
 
 
 class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
@@ -236,7 +234,7 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     override fun onClickListener(item: Coupon) {
-        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
+        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
         findNavController().navigate(action)
     }
 }

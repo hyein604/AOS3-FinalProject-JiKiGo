@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.databinding.FragmentTravelPaymentCompleteBinding
 
 class TravelPaymentCompleteFragment : Fragment() {
@@ -35,10 +36,12 @@ class TravelPaymentCompleteFragment : Fragment() {
 
     private fun moveToTravel() {
         binding.btnTravelPaymentCompleteGoToCoupon.setOnClickListener {
-
+            val action = TravelPaymentCompleteFragmentDirections.actionTravelPaymentCompleteToCouponBox()
+            findNavController().navigate(action)
         }
         binding.btnTravelPaymentCompleteContinueShopping.setOnClickListener {
-
+            val action = TravelPaymentCompleteFragmentDirections.actionTravelPaymentCompleteToNavigationTravel()
+            findNavController().navigate(action)
         }
     }
 }
