@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentTravelPaymentBottomSheetBinding
 
 
-class TravelPaymentBottomSheetFragment : Fragment() {
+class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentTravelPaymentBottomSheetBinding? = null
     private val binding get() = _binding!!
 
@@ -36,7 +37,8 @@ class TravelPaymentBottomSheetFragment : Fragment() {
 
     private fun onClickBuyBtn() {
         binding.btnTravelPaymentComplete.setOnClickListener {
-
+            val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTravelPaymentComplete()
+            findNavController().navigate(action)
         }
     }
 

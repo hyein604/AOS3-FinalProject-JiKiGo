@@ -19,13 +19,14 @@ import com.protect.jikigo.data.Storage
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
+import com.protect.jikigo.ui.extensions.toast
 
 class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelCouponBinding? = null
     private val binding get() = _binding!!
-    lateinit var adapter : CouponAdaptor
+    lateinit var adapter: CouponAdaptor
     private var categoryIndex: Int = 1
-    private var coupon : List<Coupon> = listOf()
+    private var coupon: List<Coupon> = listOf()
     private var selectedBrand: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTravelCouponBinding.inflate(inflater, container, false)
 
         binding.apply {
@@ -84,7 +85,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         val cgCouponBrand = binding.cgCouponBrand
         cgCouponBrand.removeAllViews()
 
-        val allChip = createChip("전체보기",true)
+        val allChip = createChip("전체보기", true)
         allChip.setOnClickListener {
             if (selectedBrand != "전체보기") {
                 selectedBrand = "전체보기"
@@ -127,11 +128,11 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         }
     }
 
-    private fun filterCouponByCategory(categoryIndex: Int) : List<Coupon>{
+    private fun filterCouponByCategory(categoryIndex: Int): List<Coupon> {
         val category = listOf("숙박", "레저/티켓", "공연/전시", "여행용품")
         if (categoryIndex < 1 || categoryIndex > 4) return emptyList()
 
-        val selectedCategory = category[categoryIndex -1]
+        val selectedCategory = category[categoryIndex - 1]
         return Storage.coupon.filter { it.category == selectedCategory }
     }
 
@@ -159,12 +160,14 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         binding.tvCouponCount.text = SpannableString("총 ${totalCount}개의 상품이 있습니다.").apply {
             setSpan(
                 ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black)),
-                2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
 
     override fun onClickListener(item: Coupon) {
-//        val action = TravelCouponFragmentDirections.actionTravelCouponToTravelCouponDetail()
-//        findNavController().navigate(action)
+        requireContext().toast(item.name)
+        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
+        findNavController().navigate(action)
     }
 }
