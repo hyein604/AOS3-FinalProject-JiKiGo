@@ -14,8 +14,8 @@
 			android:id="@+id/action_navigation_home_to_notification"
 			app:destination="@id/notification" />
 		<action
-			android:id="@+id/action_navigation_home_to_newsEnvironment"
-			app:destination="@id/newsEnvironment" />
+			android:id="@+id/action_navigation_home_to_news"
+			app:destination="@id/news" />
 		<action
 			android:id="@+id/action_navigation_home_to_paymentQR"
 			app:destination="@id/paymentQR" />
@@ -57,10 +57,10 @@
 	</fragment>
 
 	<fragment
-		android:id="@+id/newsEnvironment"
-		android:name="com.protect.jikigo.ui.home.news.NewsEnvironmentFragment"
-		android:label="fragment_news_environment"
-		tools:layout="@layout/fragment_news_environment" />
+		android:id="@+id/news"
+		android:name="com.protect.jikigo.ui.home.news.NewsFragment"
+		android:label="fragment_news"
+		tools:layout="@layout/fragment_news" />
 
 	<fragment
 		android:id="@+id/paymentQR"

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.protect.jikigo.databinding.FragmentNewsEnvironmentAllBinding
+import com.protect.jikigo.databinding.FragmentNewsAllBinding
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,17 +13,15 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 
-
-
 class NewsAllFragment : Fragment() {
-    private var _binding: FragmentNewsEnvironmentAllBinding? = null
+    private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewsEnvironmentAllBinding.inflate(inflater, container, false)
+        _binding = FragmentNewsAllBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -10,7 +10,7 @@ enum class NewsType {
     fun getTodayNewsEnvironmentTabTitle(): String = when(this) {
         ALLENVIRONMENT -> "전체"
         AIR -> "대기"
-        WATER -> "물"
+        WATER -> "수질"
         ECOSYSTEM -> "생태계"
         POLICY -> "정책"
     }
