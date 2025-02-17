@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.databinding.FragmentNewsEnvironmentBinding
 
 
@@ -28,25 +30,36 @@ class NewsEnvironmentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val tabLayout = binding.tabNewsEnvorionment
-
-        // Tab 동적 추가
-        tabLayout.addTab(tabLayout.newTab().setText("전체"))
-        tabLayout.addTab(tabLayout.newTab().setText("대기"))
-        tabLayout.addTab(tabLayout.newTab().setText("물"))
-        tabLayout.addTab(tabLayout.newTab().setText("생태계"))
-        tabLayout.addTab(tabLayout.newTab().setText("정책"))
-        setLayout()
-    }
-
-    private fun setLayout() {
         onClickToolbar()
+        setupViewPagerWithTabs()
     }
 
     private fun onClickToolbar() {
-        binding.toolbarNewsEnvorionment.setNavigationOnClickListener {
+        binding.toolbarNewsEnvironment.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupViewPagerWithTabs() {
+        val adapter = NewsEnvironmentPagerAdapter(this)
+        binding.vpNewsEnvironment.adapter = adapter
+        binding.vpNewsEnvironment.offscreenPageLimit = NewsEnvironmentType.values().size
+
+        TabLayoutMediator(binding.tabNewsEnvironment, binding.vpNewsEnvironment) { tab, position ->
+            tab.text = NewsEnvironmentType.values()[position].getTodayNewsEnvironmentTabTitle()
+        }.attach()
+    }
+}
+
+class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+    override fun getItemCount(): Int = NewsEnvironmentType.values().size
+
+    override fun createFragment(position: Int): Fragment {
+        return if (position == 0) {
+            NewsEnvironmentAllFragment() // "전체" 탭
+        } else {
+            NewsEnvironmentAirFragment() // 나머지 탭
         }
     }
 }
