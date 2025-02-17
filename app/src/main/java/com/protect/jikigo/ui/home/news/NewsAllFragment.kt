@@ -44,7 +44,7 @@ class NewsAllFragment : Fragment() {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.items?.forEach { news ->
-                        Log.d("News", "제목: ${news.title}, 링크: ${news.link}")
+                        Log.d("News", "${query}, 제목: ${news.title}, 링크: ${news.link}")
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")

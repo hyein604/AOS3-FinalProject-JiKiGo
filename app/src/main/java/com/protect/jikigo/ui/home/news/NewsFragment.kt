@@ -53,6 +53,9 @@ class NewsFragment : Fragment() {
 }
 
 class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    private val categories = listOf(
+        "전체", "대기환경", "수질환경", "생태계", "환경정책"
+    )
 
     override fun getItemCount(): Int = NewsType.values().size
 
@@ -60,7 +63,7 @@ class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fra
         return if (position == 0) {
             NewsAllFragment() // "전체" 탭
         } else {
-            NewsBesidesFragment() // 나머지 탭
+            NewsBesidesFragment.newInstance(categories[position])
         }
     }
 }
