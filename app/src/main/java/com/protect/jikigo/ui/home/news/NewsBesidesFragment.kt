@@ -18,6 +18,7 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
+import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
     private var  _binding: FragmentNewsBesidesBinding? = null
@@ -67,7 +68,14 @@ class NewsBesidesFragment : Fragment() {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.items?.let { newsList ->
-                        newsAdapter.submitList(newsList) // 데이터를 어댑터에 전달
+                        val cleanedNewsList = newsList.map { news ->
+                            news.copy(
+                                title = news.title.cleanHtml(),
+                                description = news.description.cleanHtml()
+                            )
+                        }
+
+                        newsAdapter.submitList(cleanedNewsList) // 데이터를 어댑터에 전달
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
