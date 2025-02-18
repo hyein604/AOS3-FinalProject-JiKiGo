@@ -49,21 +49,17 @@ class NewsBesidesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vpNewsBesidesHotTopic.isUserInputEnabled = true // 배너 슬라이드 가능
 
-        setupRecyclerView() // 뉴스 리스트 RecyclerView 설정
-        setupHomeBannerUI() // 배너 UI 설정
+        newsAdapter = NewsAdapter() // ✅ 여기서 초기화
+        setupRecyclerView()
+        setupHomeBannerUI()
 
-        category?.let { fetchNews(it) } // 카테고리가 있으면 뉴스 데이터 가져오기
+        category?.let { fetchNews(it) }
     }
+
 
     // 뉴스 목록 RecyclerView 설정
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter { newsItem ->
-            // 뉴스 아이템 클릭 시, NewsDetailFragment로 이동
-            val action = NewsBesidesFragmentDirections.actionNewsBesidesToNewsDetail(newsItem)
-            findNavController().navigate(action)
-        }
         binding.rvNewsBesidesLatestNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter

@@ -1,5 +1,7 @@
 package com.protect.jikigo.ui.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,42 +15,37 @@ import java.util.Locale
 import com.protect.jikigo.R
 import org.jsoup.Jsoup
 import java.util.concurrent.Executors
-class NewsAdapter(private val onItemClick: (NewsItem) -> Unit) : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
+
+class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = RowLatestNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NewsViewHolder(binding, onItemClick)
+        return NewsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class NewsViewHolder(private val binding: RowLatestNewsBinding, private val onItemClick: (NewsItem) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    class NewsViewHolder(private val binding: RowLatestNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: NewsItem) {
             binding.tvNewsBesidesTitle.text = newsItem.title // 뉴스 제목
             binding.tvNewsBesidesContent.text = newsItem.description // 뉴스 내용
             binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate) // 날짜 포맷 변경
 
 
-            // 이미지 크롤링해서 가져오기
+            // Open Graph에서 뉴스 이미지 가져오기
             fetchNewsImage(newsItem.link) { imageUrl ->
-                // NewsItem을 업데이트하여 새로운 이미지 URL 저장
-                val updatedNewsItem = newsItem.copy(image = imageUrl)
-                binding.root.setOnClickListener {
-                    onItemClick(updatedNewsItem)  // 수정된 뉴스 아이템을 클릭 이벤트로 전달
-                }
-
-                // 이미지 로드
                 Glide.with(binding.ivNewsBesidesThumbnail.context)
-                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체
+                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
                     .into(binding.ivNewsBesidesThumbnail)
             }
 
-
-            // 클릭 이벤트
+            // 클릭 시 웹 브라우저에서 뉴스 링크 열기
             binding.root.setOnClickListener {
-                onItemClick(newsItem)  // 기존 뉴스 아이템 전달
+                val context = binding.root.context
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.link))
+                context.startActivity(intent)
             }
         }
 
