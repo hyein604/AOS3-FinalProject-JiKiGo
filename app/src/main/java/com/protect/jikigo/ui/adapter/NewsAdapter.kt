@@ -14,22 +14,26 @@ import com.protect.jikigo.R
 import org.jsoup.Jsoup
 import java.util.concurrent.Executors
 
-class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
+class NewsAdapter(private val onItemClick: (NewsItem) -> Unit) : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = RowLatestNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NewsViewHolder(binding)
+        return NewsViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class NewsViewHolder(private val binding: RowLatestNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+    class NewsViewHolder(private val binding: RowLatestNewsBinding, private val onItemClick: (NewsItem) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: NewsItem) {
             binding.tvNewsBesidesTitle.text = newsItem.title // 뉴스 제목
             binding.tvNewsBesidesContent.text = newsItem.description // 뉴스 내용
             binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate) // 날짜 포맷 변경
+
+            binding.root.setOnClickListener {
+                onItemClick(newsItem)  // 아이템 클릭 시 이벤트 호출
+            }
 
             // Open Graph에서 뉴스 이미지 가져오기
             fetchNewsImage(newsItem.link) { imageUrl ->

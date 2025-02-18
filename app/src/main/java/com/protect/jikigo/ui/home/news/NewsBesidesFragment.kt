@@ -11,6 +11,7 @@ import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import com.protect.jikigo.ui.adapter.OnBannerItemClickListener
 import android.util.Log
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +19,7 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
+import com.protect.jikigo.ui.home.noti.NotificationFragmentDirections
 import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
@@ -57,7 +59,11 @@ class NewsBesidesFragment : Fragment() {
 
     // 뉴스 목록 RecyclerView 설정
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
+        newsAdapter = NewsAdapter { newsItem ->
+            // 뉴스 아이템 클릭 시, NewsDetailFragment로 이동
+            val action = NewsBesidesFragmentDirections.actionNewsBesidesToNewsDetail(newsItem)
+            findNavController().navigate(action)
+        }
         binding.rvNewsBesidesLatestNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter
