@@ -215,8 +215,8 @@ class SignUpSecondFragment : Fragment() {
     private fun onClickSignUpBtn() {
         // 회원가입 완료
         binding.btnSignUpDone.setOnClickListener {
-            findNavController().popBackStack()
-            findNavController().navigateUp()
+            val action = SignUpSecondFragmentDirections.actionSignUpSecondToLogin()
+            findNavController().navigate(action)
         }
     }
 
