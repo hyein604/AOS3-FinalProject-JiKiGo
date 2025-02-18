@@ -18,7 +18,7 @@
             android:layout_height="75dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_today_news_home_tmp_1" />
+            android:background="@color/gray_10" />
 
         <!-- 뉴스 정보 -->
         <LinearLayout
