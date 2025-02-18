@@ -46,6 +46,9 @@ class NewsFragment : Fragment() {
         // 뷰페이저가 한 번에 여러 개의 페이지를 캐싱하도록 offscreenPageLimit을 설정하면 더 안정적으로 동작할 수 있다.
         binding.vpNews.offscreenPageLimit = NewsType.values().size
 
+        // 스와이프 기능 비활성화
+        binding.vpNews.isUserInputEnabled = false
+
         TabLayoutMediator(binding.tabNews, binding.vpNews) { tab, position ->
             tab.text = NewsType.values()[position].getTodayNewsEnvironmentTabTitle()
         }.attach()
