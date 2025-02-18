@@ -31,10 +31,11 @@ class NewsAllFragment : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private val autoSlideRunnable = object : Runnable {
         override fun run() {
-            val nextItem = (binding.vpNewsAllBanner.currentItem + 1) % bannerImages.size
-            // bannerImages.size : 3
-            Log.d("adapter","currentItem Index : ${binding.vpNewsAllBanner.currentItem} ")
-            binding.vpNewsAllBanner.setCurrentItem(nextItem, true)
+            binding?.let {
+                val nextItem = (it.vpNewsAllBanner.currentItem + 1) % bannerImages.size
+                Log.d("adapter", "currentItem Index : ${it.vpNewsAllBanner.currentItem}")
+                it.vpNewsAllBanner.setCurrentItem(nextItem, true)
+            }
         }
     }
 
@@ -49,6 +50,7 @@ class NewsAllFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        handler.removeCallbacks(autoSlideRunnable)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
