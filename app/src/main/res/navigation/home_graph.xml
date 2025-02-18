@@ -239,7 +239,7 @@
 			app:popUpTo="@id/navigation_travel"
 			app:popUpToInclusive="true" />
 	</fragment>
-	<fragment
+	<dialog
 		android:id="@+id/travelPaymentBottomSheet"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
@@ -247,6 +247,6 @@
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
-	</fragment>
+	</dialog>
 
 </navigation>
