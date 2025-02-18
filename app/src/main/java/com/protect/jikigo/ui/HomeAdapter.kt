@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Store
 import com.protect.jikigo.databinding.ItemHomeStoreBinding
+import com.protect.jikigo.ui.extensions.applyNumberFormat
 
 class HomeAdapter(
-    private val items: List<Store>,
+    private val items: List<Coupon>,
     private val listener: HomeStoreItemClickListener
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
@@ -30,18 +32,18 @@ class HomeViewHolder(
     private val binding: ItemHomeStoreBinding,
     private val listener: HomeStoreItemClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: Store) {
+    fun bind(item: Coupon) {
         itemView.setOnClickListener {
             listener.onClickStore(item)
         }
         with(binding) {
             Glide.with(root.context)
-                .load(item.thumbNailImg) // 이미지 URL
+                .load(item.image) // 이미지 URL
                 .into(ivRvThumbNail); // 이미지가 로드될 ImageView
 
-            tvRvTitle.text = item.title
-            tvRvNumber.text = item.number
-            tvRvAddress.text = item.address
+            tvRvTitle.text = item.name
+            tvRvNumber.applyNumberFormat(item.price)
+            tvRvAddress.text = item.brand
         }
 
     }
