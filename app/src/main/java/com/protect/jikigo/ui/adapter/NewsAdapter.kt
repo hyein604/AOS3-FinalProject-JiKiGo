@@ -46,11 +46,16 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
                 try {
                     val doc = Jsoup.connect(url).get()
                     val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                    val finalImageUrl = imageUrl.ifEmpty { null }
+                    val finalImageUrl = if (imageUrl.startsWith("http://")) {
+                        // HTTP 프로토콜이 있을 경우 HTTPS로 변경
+                        imageUrl.replace("http://", "https://")
+                    } else {
+                        imageUrl
+                    }
 
                     // UI 스레드에서 실행하도록 변경
                     binding.root.post {
-                        callback(finalImageUrl)
+                        callback(finalImageUrl.ifEmpty { null })
                     }
                 } catch (e: Exception) {
                     binding.root.post {
