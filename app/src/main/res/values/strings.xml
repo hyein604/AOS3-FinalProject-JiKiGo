@@ -1,7 +1,7 @@
 <resources>
 	<string name="app_name">JiKiGo</string>
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<!--    툴바 타이틀	-->
+	<string name="toolbar_title_payment">결제</string>
 
 	<!--    회원가입	-->
 	<string name="sign_up_label">환영합니다!\n지키GO에 가입하시려면 약관에 동의해 주세요</string>
@@ -50,6 +50,7 @@
 	<string name="common_auth_number_check">인증번호를 확인해주세요.</string>
 	<string name="common_auth_number_check_success">인증번호가 일치합니다.</string>
 	<string name="common_auth_number_check_failure">인증번호가 일치하지않습니다.</string>
+	<string name="common_point">포인트</string>
 
 
 	<!--오늘의 소식 환경 탭 레이아웃 아이템-->
@@ -116,6 +117,12 @@
 	<string name="transit_confirm_description">우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배충량 감소가 더욱 커질 수 있어요!</string>
 	<string name="transit_confirm_btn_description">만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!</string>
 	<string name="transit_confirm_btn_title">이용 내역 인증하기</string>
+
+	<!-- QR -->
+	<string name="payment_qr_refresh">QR 발급</string>
+	<string name="payment_qr_use">사용처</string>
+	<string name="payment_qr_user_point">보유잔액</string>
+
 
 
 </resources>
