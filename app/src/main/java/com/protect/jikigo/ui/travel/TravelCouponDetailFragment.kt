@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelCouponDetailBinding
+import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.statusBarColor
 
 
@@ -37,6 +40,7 @@ class TravelCouponDetailFragment : Fragment() {
     private fun setLayout() {
         setStatusBarColor()
         onClickToolbar()
+        moveToBottomSheet()
         //setContent()
     }
 
@@ -49,7 +53,7 @@ class TravelCouponDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-//
+
 //    private fun setContent(){
 //        Glide.with(binding.root.context)
 //            .load(args.travelCouponArg.image)
