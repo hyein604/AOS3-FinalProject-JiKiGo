@@ -13,7 +13,6 @@ import java.util.Locale
 import com.protect.jikigo.R
 import org.jsoup.Jsoup
 import java.util.concurrent.Executors
-
 class NewsAdapter(private val onItemClick: (NewsItem) -> Unit) : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -31,15 +30,25 @@ class NewsAdapter(private val onItemClick: (NewsItem) -> Unit) : ListAdapter<New
             binding.tvNewsBesidesContent.text = newsItem.description // 뉴스 내용
             binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate) // 날짜 포맷 변경
 
-            binding.root.setOnClickListener {
-                onItemClick(newsItem)  // 아이템 클릭 시 이벤트 호출
+
+            // 이미지 크롤링해서 가져오기
+            fetchNewsImage(newsItem.link) { imageUrl ->
+                // NewsItem을 업데이트하여 새로운 이미지 URL 저장
+                val updatedNewsItem = newsItem.copy(image = imageUrl)
+                binding.root.setOnClickListener {
+                    onItemClick(updatedNewsItem)  // 수정된 뉴스 아이템을 클릭 이벤트로 전달
+                }
+
+                // 이미지 로드
+                Glide.with(binding.ivNewsBesidesThumbnail.context)
+                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체
+                    .into(binding.ivNewsBesidesThumbnail)
             }
 
-            // Open Graph에서 뉴스 이미지 가져오기
-            fetchNewsImage(newsItem.link) { imageUrl ->
-                Glide.with(binding.ivNewsBesidesThumbnail.context)
-                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
-                    .into(binding.ivNewsBesidesThumbnail)
+
+            // 클릭 이벤트
+            binding.root.setOnClickListener {
+                onItemClick(newsItem)  // 기존 뉴스 아이템 전달
             }
         }
 
