@@ -13,29 +13,42 @@ import java.util.Locale
 import com.protect.jikigo.R
 import org.jsoup.Jsoup
 import java.util.concurrent.Executors
-
-class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
+class NewsAdapter(private val onItemClick: (NewsItem) -> Unit) : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = RowLatestNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NewsViewHolder(binding)
+        return NewsViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class NewsViewHolder(private val binding: RowLatestNewsBinding) : RecyclerView.ViewHolder(binding.root) {
+    class NewsViewHolder(private val binding: RowLatestNewsBinding, private val onItemClick: (NewsItem) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: NewsItem) {
             binding.tvNewsBesidesTitle.text = newsItem.title // 뉴스 제목
             binding.tvNewsBesidesContent.text = newsItem.description // 뉴스 내용
             binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate) // 날짜 포맷 변경
 
-            // Open Graph에서 뉴스 이미지 가져오기
+
+            // 이미지 크롤링해서 가져오기
             fetchNewsImage(newsItem.link) { imageUrl ->
+                // NewsItem을 업데이트하여 새로운 이미지 URL 저장
+                val updatedNewsItem = newsItem.copy(image = imageUrl)
+                binding.root.setOnClickListener {
+                    onItemClick(updatedNewsItem)  // 수정된 뉴스 아이템을 클릭 이벤트로 전달
+                }
+
+                // 이미지 로드
                 Glide.with(binding.ivNewsBesidesThumbnail.context)
-                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체
                     .into(binding.ivNewsBesidesThumbnail)
+            }
+
+
+            // 클릭 이벤트
+            binding.root.setOnClickListener {
+                onItemClick(newsItem)  // 기존 뉴스 아이템 전달
             }
         }
 
@@ -46,11 +59,16 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
                 try {
                     val doc = Jsoup.connect(url).get()
                     val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                    val finalImageUrl = imageUrl.ifEmpty { null }
+                    val finalImageUrl = if (imageUrl.startsWith("http://")) {
+                        // HTTP 프로토콜이 있을 경우 HTTPS로 변경
+                        imageUrl.replace("http://", "https://")
+                    } else {
+                        imageUrl
+                    }
 
                     // UI 스레드에서 실행하도록 변경
                     binding.root.post {
-                        callback(finalImageUrl)
+                        callback(finalImageUrl.ifEmpty { null })
                     }
                 } catch (e: Exception) {
                     binding.root.post {

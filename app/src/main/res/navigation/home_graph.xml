@@ -60,7 +60,32 @@
 		android:id="@+id/news"
 		android:name="com.protect.jikigo.ui.home.news.NewsFragment"
 		android:label="fragment_news"
-		tools:layout="@layout/fragment_news" />
+		tools:layout="@layout/fragment_news">
+		<action
+			android:id="@+id/action_newsBesides_to_newsDetail"
+			app:destination="@id/newsDetail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/newsBesides"
+		android:name="com.protect.jikigo.ui.home.news.NewsBesidesFragment"
+		android:label="fragment_news_besides"
+		tools:layout="@layout/fragment_news_besides">
+		<action
+			android:id="@+id/action_newsBesides_to_newsDetail"
+			app:destination="@id/newsDetail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/newsDetail"
+		android:name="com.protect.jikigo.ui.home.news.NewsDetailFragment"
+		android:label="fragment_news_detail"
+		tools:layout="@layout/fragment_news_detail">
+		<argument
+			android:name="newsItem"
+			app:argType="com.protect.jikigo.data.NewsItem" />
+	</fragment>
+
 
 	<fragment
 		android:id="@+id/paymentQR"
