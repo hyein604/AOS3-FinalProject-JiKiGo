@@ -51,42 +51,48 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-
         <!-- ViewPager2 (배너) -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:layout_margin="16dp">
+            app:cardCornerRadius="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="13dp">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_news_besides_hot_topic"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_height="match_parent">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/indicator_news_besides_hot_topic"
-                style="@style/AppTabIndicatorStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="22dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_news_besides_hot_topic"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/indicator_news_besides_hot_topic"
+                    style="@style/AppTabIndicatorStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="22dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
 
         <View
             android:id="@+id/tab_divider"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#D9D9D9"
-             />
+            android:background="#D9D9D9" />
 
         <!-- 최신 뉴스 -->
         <TextView
@@ -96,7 +102,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="최신 뉴스"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black" />
 
@@ -105,7 +111,7 @@
             android:id="@+id/rv_news_besides_latest_news"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+
             android:paddingBottom="16dp"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"

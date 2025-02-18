@@ -18,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:paddingHorizontal="16dp">
         <!-- 뉴스 제목 (최대 1줄) -->
         <TextView
             android:id="@+id/tv_news_besides_title"
