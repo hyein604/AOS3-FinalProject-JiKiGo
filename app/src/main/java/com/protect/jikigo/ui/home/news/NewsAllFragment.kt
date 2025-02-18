@@ -35,7 +35,6 @@ class NewsAllFragment : Fragment() {
             // bannerImages.size : 3
             Log.d("adapter","currentItem Index : ${binding.vpNewsAllBanner.currentItem} ")
             binding.vpNewsAllBanner.setCurrentItem(nextItem, true)
-            //handler.postDelayed(this, 1500) // 1.5초마다 실행
         }
     }
 
@@ -86,7 +85,7 @@ class NewsAllFragment : Fragment() {
         val bannerAdapter = NewsAllBannerAdapter(bannerImages)
         binding.vpNewsAllBanner.adapter = bannerAdapter
         // 자동 슬라이드 시작
-        handler.postDelayed(autoSlideRunnable, 2000)
+        handler.postDelayed(autoSlideRunnable, 1500)
 
         // 사용자가 직접 터치하면 자동 슬라이드 멈추기
         binding.vpNewsAllBanner.registerOnPageChangeCallback(object :
@@ -96,7 +95,7 @@ class NewsAllFragment : Fragment() {
                 if (state == androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING) {
                     handler.removeCallbacks(autoSlideRunnable) // 터치 시 자동 슬라이드 멈춤
                 } else if (state == androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE) {
-                    handler.postDelayed(autoSlideRunnable, 2000) // 다시 자동 슬라이드 시작
+                    handler.postDelayed(autoSlideRunnable, 1500) // 다시 자동 슬라이드 시작
                 }
             }
         })
