@@ -27,11 +27,11 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
 
     class NewsViewHolder(private val binding: RowLatestNewsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: NewsItem) {
-            binding.tvNewsBesidesTitle.text = newsItem.title
-            binding.tvNewsBesidesContent.text = newsItem.description
-            binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate)
+            binding.tvNewsBesidesTitle.text = newsItem.title // 뉴스 제목
+            binding.tvNewsBesidesContent.text = newsItem.description // 뉴스 내용
+            binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate) // 날짜 포맷 변경
 
-            // Open Graph에서 이미지 가져오기
+            // Open Graph에서 뉴스 이미지 가져오기
             fetchNewsImage(newsItem.link) { imageUrl ->
                 Glide.with(binding.ivNewsBesidesThumbnail.context)
                     .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
@@ -39,6 +39,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
             }
         }
 
+        // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
         private fun fetchNewsImage(url: String, callback: (String?) -> Unit) {
             val executor = Executors.newSingleThreadExecutor()
             executor.execute {
@@ -59,7 +60,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
             }
         }
 
-
+        // 뉴스 날짜 포맷을 변경하는 함수
         private fun formatDate(pubDate: String): String {
             return try {
                 val inputFormat = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
@@ -72,6 +73,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
         }
     }
 
+    // 리스트 비교를 위한 DiffUtil 설정 (효율적인 업데이트를 위해 사용)
     class NewsDiffCallback : DiffUtil.ItemCallback<NewsItem>() {
         override fun areItemsTheSame(oldItem: NewsItem, newItem: NewsItem): Boolean = oldItem.link == newItem.link
         override fun areContentsTheSame(oldItem: NewsItem, newItem: NewsItem): Boolean = oldItem == newItem

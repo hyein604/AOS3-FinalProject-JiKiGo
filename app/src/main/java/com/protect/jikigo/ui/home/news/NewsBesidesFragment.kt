@@ -21,15 +21,15 @@ import com.protect.jikigo.ui.adapter.NewsAdapter
 import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
-    private var  _binding: FragmentNewsBesidesBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentNewsBesidesBinding? = null
+    private val binding get() = _binding!! // ViewBinding 사용
 
     private var category: String? = null
     private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        category = arguments?.getString(ARG_CATEGORY)
+        category = arguments?.getString(ARG_CATEGORY) // 프래그먼트에 전달된 카테고리 가져오기
     }
 
     override fun onCreateView(
@@ -47,13 +47,15 @@ class NewsBesidesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vpNewsBesidesHotTopic.isUserInputEnabled = true
-        setupRecyclerView()
-        setupHomeBannerUI()
+        binding.vpNewsBesidesHotTopic.isUserInputEnabled = true // 배너 슬라이드 가능
 
-        category?.let { fetchNews(it) }
+        setupRecyclerView() // 뉴스 리스트 RecyclerView 설정
+        setupHomeBannerUI() // 배너 UI 설정
+
+        category?.let { fetchNews(it) } // 카테고리가 있으면 뉴스 데이터 가져오기
     }
 
+    // 뉴스 목록 RecyclerView 설정
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter()
         binding.rvNewsBesidesLatestNews.apply {
@@ -62,6 +64,7 @@ class NewsBesidesFragment : Fragment() {
         }
     }
 
+    // 뉴스 API 호출 및 데이터 로드
     private fun fetchNews(query: String) {
         val call = RetrofitClient.instance.searchNews(query)
         call.enqueue(object : Callback<NewsResponse> {
@@ -70,11 +73,10 @@ class NewsBesidesFragment : Fragment() {
                     response.body()?.items?.let { newsList ->
                         val cleanedNewsList = newsList.map { news ->
                             news.copy(
-                                title = news.title.cleanHtml(),
+                                title = news.title.cleanHtml(), // HTML 태그 제거
                                 description = news.description.cleanHtml()
                             )
                         }
-
                         newsAdapter.submitList(cleanedNewsList) // 데이터를 어댑터에 전달
                     }
                 } else {
@@ -87,6 +89,8 @@ class NewsBesidesFragment : Fragment() {
             }
         })
     }
+
+    // 배너 어댑터 설정
     private val bannerAdapter: NewsBannerAdapter by lazy {
         NewsBannerAdapter(object : OnBannerItemClickListener {
             override fun onItemClick(banner: Int) {
@@ -95,17 +99,16 @@ class NewsBesidesFragment : Fragment() {
         })
     }
 
-    // 배너화면 설정
+    // 배너 UI 설정
     private fun setupHomeBannerUI() {
         with(binding) {
             vpNewsBesidesHotTopic.adapter = bannerAdapter
             vpNewsBesidesHotTopic.isUserInputEnabled = true // 스와이프 가능
 
-            // 배너 이미지 추가 (drawable 폴더에 있는 이미지 3개)
             val bannerImages = listOf(
-                R.drawable.img_today_news_home_tmp_1, // 첫 번째 이미지
-                R.drawable.img_today_news_home_tmp_2, // 두 번째 이미지
-                R.drawable.img_today_news_home_tmp_3  // 세 번째 이미지
+                R.drawable.img_today_news_home_tmp_1,
+                R.drawable.img_today_news_home_tmp_2,
+                R.drawable.img_today_news_home_tmp_3
             )
             bannerAdapter.submitList(bannerImages)
 
@@ -118,6 +121,7 @@ class NewsBesidesFragment : Fragment() {
     companion object {
         private const val ARG_CATEGORY = "category"
 
+        // 카테고리를 받아 프래그먼트 인스턴스를 생성하는 함수
         fun newInstance(category: String) = NewsBesidesFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_CATEGORY, category)
