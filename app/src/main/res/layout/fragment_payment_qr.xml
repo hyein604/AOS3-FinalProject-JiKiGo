@@ -17,7 +17,7 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		app:navigationIconTint="@color/white"
-		app:title="결제"
+		app:title="@string/toolbar_title_payment"
 		app:titleTextColor="@color/white" />
 
 	<androidx.constraintlayout.widget.Guideline
@@ -99,7 +99,7 @@
 		android:id="@+id/tv_qr_use"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="사용처"
+		android:text="@string/payment_qr_use"
 		android:textColor="@color/white"
 		app:layout_constraintBottom_toTopOf="@id/guideline_h_20"
 		app:layout_constraintEnd_toEndOf="@id/guideline_v_95"
@@ -124,6 +124,7 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="10dp"
 		android:textStyle="bold"
+		android:text="@string/payment_qr_refresh"
 		app:layout_constraintStart_toStartOf="@id/view_qr"
 		app:layout_constraintTop_toTopOf="@id/view_qr"
 		tools:text="04:55" />
@@ -147,8 +148,8 @@
 		app:layout_constraintEnd_toEndOf="@id/view_qr"
 		app:layout_constraintTop_toTopOf="@id/view_qr" />
 
-	<View
-		android:id="@+id/view_payment_qr"
+	<com.google.android.material.imageview.ShapeableImageView
+		android:id="@+id/iv_payment_qr"
 		android:layout_width="140dp"
 		android:layout_height="140dp"
 		android:layout_marginTop="100dp"
@@ -168,13 +169,13 @@
 		app:layout_constraintBottom_toBottomOf="@id/view_qr"
 		app:layout_constraintEnd_toEndOf="@id/view_qr"
 		app:layout_constraintStart_toStartOf="@id/view_qr"
-		app:layout_constraintTop_toBottomOf="@+id/view_payment_qr" />
+		app:layout_constraintTop_toBottomOf="@+id/iv_payment_qr" />
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="20dp"
-		android:text="포인트"
+		android:text="@string/common_point"
 		android:textColor="@color/white"
 		android:textSize="18sp"
 		android:textStyle="bold"
@@ -185,7 +186,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="20dp"
-		android:text="보유잔액"
+		android:text="@string/payment_qr_user_point"
 		android:textColor="@color/white"
 		android:textSize="18sp"
 		android:textStyle="bold"
