@@ -101,12 +101,6 @@ class NewsBesidesFragment : Fragment() {
             vpNewsBesidesHotTopic.adapter = bannerAdapter
             vpNewsBesidesHotTopic.isUserInputEnabled = true // 스와이프 가능
 
-            // NestedScrollView의 터치 충돌을 방지
-            vpNewsBesidesHotTopic.setOnTouchListener { v, event ->
-                v.parent?.requestDisallowInterceptTouchEvent(true)
-                v.onTouchEvent(event)
-            }
-
             // 배너 이미지 추가 (drawable 폴더에 있는 이미지 3개)
             val bannerImages = listOf(
                 R.drawable.img_today_news_home_tmp_1, // 첫 번째 이미지
