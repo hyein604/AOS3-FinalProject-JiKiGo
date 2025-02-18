@@ -207,10 +207,11 @@ data class NewsResponse(
     val items: List<NewsItem>
 )
 
+@Parcelize
 data class NewsItem(
     val title: String,
     val originallink: String,
     val link: String,
     val description: String,
     val pubDate: String
-)
+): Parcelable
