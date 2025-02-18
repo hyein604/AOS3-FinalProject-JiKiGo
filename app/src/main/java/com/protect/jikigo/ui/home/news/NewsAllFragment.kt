@@ -12,10 +12,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
+import com.protect.jikigo.R
+import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
 
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
+
+    private val bannerImages = listOf(
+        R.drawable.img_news_all_banner_1,
+        R.drawable.img_news_all_banner_2,
+        R.drawable.img_news_all_banner_3
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +43,9 @@ class NewsAllFragment : Fragment() {
 
         // 뉴스 검색 실행
         fetchNews("환경오염")
-        Log.d("News", "NewsEnvironmentAllFragment 실행 성공")
+        // 띠 배너
+        setupHomeBannerUI()
+
     }
 
     private fun fetchNews(query: String) {
@@ -57,7 +67,10 @@ class NewsAllFragment : Fragment() {
         })
     }
 
-    private fun setLayout() {
-
+    // 배너화면 설정
+    private fun setupHomeBannerUI() {
+        val bannerAdapter = NewsAllBannerAdapter(bannerImages)
+        binding.vpNewsAllBanner.adapter = bannerAdapter
     }
+
 }
