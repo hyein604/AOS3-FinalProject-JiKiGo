@@ -64,7 +64,12 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
+
+    // Jsoup
+    implementation ("org.jsoup:jsoup:1.15.3")
+
     // QR코드
     implementation ("com.google.zxing:core:3.4.1")
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+
 }
