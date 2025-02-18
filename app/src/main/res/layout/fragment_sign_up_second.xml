@@ -115,6 +115,7 @@
 				android:id="@+id/btn_sign_up_mobile"
 				style="@style/AppButtonPrimary.S14"
 				android:layout_width="wrap_content"
+				android:enabled="false"
 				android:layout_height="0dp"
 				android:layout_margin="5dp"
 				android:text="@string/common_auth_request"
@@ -157,7 +158,7 @@
 					android:layout_height="match_parent"
 					android:hint="@string/common_auth_number"
 					android:inputType="number"
-					android:maxLength="11"
+					android:maxLength="6"
 					android:textSize="14sp" />
 			</com.google.android.material.textfield.TextInputLayout>
 
@@ -381,6 +382,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="30dp"
 				android:layout_marginTop="50dp"
+				android:enabled="false"
 				android:text="회원가입 완료"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
