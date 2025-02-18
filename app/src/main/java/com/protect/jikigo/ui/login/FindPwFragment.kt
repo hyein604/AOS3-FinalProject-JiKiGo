@@ -10,11 +10,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentFindPwBinding
 import com.protect.jikigo.ui.extensions.setTimer
+import org.w3c.dom.Text
 
 
 class FindPwFragment : Fragment() {
@@ -40,38 +40,10 @@ class FindPwFragment : Fragment() {
     }
 
     private fun setLayout() {
-        checkInput()
         onClickAuthBtn()
-        editTextWather()
+        editTextWatcher()
         onClickAuthCheckBtn()
-    }
-
-    private fun checkInput() {
-        val regexName = "^[가-힣]{2,8}$".toRegex()
-        val regexMobile = "^[0-9]{11}$".toRegex()
-        val regexAuthNumber = "^[0-9]{6}$".toRegex()
-        val regexId = "^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{8,16}$".toRegex()
-
-        binding.btnFindPwDone.setOnClickListener {
-            var isValid = true
-            if (!validateInput(binding.etFindNewName, binding.tvErrorName, regexName)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etFindPwMobile, binding.tvErrorMobile, regexMobile)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etFindIdAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etFindPwId, binding.tvErrorId, regexId)) {
-                isValid = false
-            }
-
-            if (isValid) {
-                // db전송 모든 검사 완료
-                moveToNewPW()
-            }
-        }
+        onClickFindPwBtn()
     }
 
     private fun validateInput(
@@ -94,7 +66,12 @@ class FindPwFragment : Fragment() {
         }
     }
 
-    private fun editTextWather() {
+    private fun editTextWatcher() {
+        val regexName = "^[가-힣]{2,8}$".toRegex()
+        val regexId = "^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{8,16}$".toRegex()
+        val regexMobile = "^[0-9]{11}$".toRegex()
+        val regexAuthNumber = "^[0-9]{6}$".toRegex()
+
         with(binding) {
             etFindNewName.editText?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -102,24 +79,56 @@ class FindPwFragment : Fragment() {
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (s != null) {
-                        if (s.isEmpty()) {
-                            tvErrorName.visibility = View.VISIBLE
-                            tvErrorName.text = getString(R.string.sign_up_error_name)
-                            tvErrorName.setTextColor(ContextCompat.getColor(requireContext(), R.color.negative))
-                            etFindPwMobile.isEnabled = false
-                            etFindIdAuthNumber.isEnabled = false
-                        } else {
-                            tvErrorName.visibility = View.GONE
-                            etFindPwMobile.isEnabled = true
-                            etFindIdAuthNumber.isEnabled = true
-                        }
-                    }
+                    validateInput(binding.etFindNewName, binding.tvErrorName, regexName)
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    btnFindPwAuthNumber.isEnabled = true
+
                 }
+            })
+            etFindPwId.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etFindPwId, binding.tvErrorId, regexId)
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etFindPwMobile.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val isValid = validateInput(binding.etFindPwMobile, binding.tvErrorMobile, regexMobile)
+                    binding.btnFindPwAuthNumber.isEnabled = isValid
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etFindIdAuthNumber.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etFindIdAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
             })
         }
     }
@@ -142,6 +151,16 @@ class FindPwFragment : Fragment() {
         }
     }
 
+    private fun onClickFindPwBtn() {
+        with(binding) {
+            btnFindPwDone.setOnClickListener {
+                etFindNewName.isEnabled = false
+                etFindPwId.isEnabled = false
+                // navigation
+            }
+        }
+    }
+
     private fun onClickAuthCheckBtn() {
         with(binding) {
             btnFindPwAuthConfirm.setOnClickListener {
@@ -157,7 +176,7 @@ class FindPwFragment : Fragment() {
                     tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_success)
                     tvErrorAuthNumber.setTextColor(ContextCompat.getColor(requireContext(), R.color.positive))
                     btnFindPwAuthConfirm.isEnabled = false
-                    etFindIdAuthNumber.isEnabled = false
+                    btnFindPwDone.isEnabled = true
                 } else {
                     tvErrorAuthNumber.visibility = View.VISIBLE
                     tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_failure)
