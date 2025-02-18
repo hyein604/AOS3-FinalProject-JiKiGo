@@ -231,12 +231,12 @@
 		<action
 			android:id="@+id/action_travelPaymentComplete_to_navigation_travel"
 			app:destination="@id/navigation_travel"
-			app:popUpTo="@id/travelCouponDetail"
+			app:popUpTo="@id/navigation_travel"
 			app:popUpToInclusive="true" />
 		<action
 			android:id="@+id/action_travelPaymentComplete_to_couponBox"
 			app:destination="@id/couponBox"
-			app:popUpTo="@id/travelCouponDetail"
+			app:popUpTo="@id/navigation_travel"
 			app:popUpToInclusive="true" />
 	</fragment>
 	<fragment

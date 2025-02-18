@@ -4,6 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:fitsSystemWindows="true"
 	tools:context=".ui.login.FindIdFragment">
 
 	<ScrollView
@@ -79,7 +80,6 @@
 				android:layout_height="54dp"
 				android:layout_marginHorizontal="40dp"
 				android:layout_marginTop="5dp"
-				android:enabled="false"
 				app:endIconMode="clear_text"
 				app:hintEnabled="false"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +112,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_margin="5dp"
+				android:enabled="false"
 				android:text="@string/common_auth_request"
 				app:layout_constraintBottom_toBottomOf="@id/et_find_pw_mobile"
 				app:layout_constraintEnd_toEndOf="@id/et_find_pw_mobile"
@@ -134,7 +135,6 @@
 				android:layout_height="54sp"
 				android:layout_marginHorizontal="40dp"
 				android:layout_marginTop="5dp"
-				android:enabled="false"
 				app:endIconMode="clear_text"
 				app:hintEnabled="false"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -192,6 +192,7 @@
 				android:layout_marginHorizontal="40dp"
 				android:layout_marginTop="50dp"
 				android:layout_marginBottom="40dp"
+				android:enabled="false"
 				android:text="아이디 찾기"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"

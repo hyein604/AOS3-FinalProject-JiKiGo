@@ -1,18 +1,20 @@
 package com.protect.jikigo.ui.login
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.isEmpty
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentSignUpSecondBinding
-import kotlin.math.truncate
-
+import com.protect.jikigo.ui.extensions.setTimer
 
 class SignUpSecondFragment : Fragment() {
     private var _binding: FragmentSignUpSecondBinding? = null
@@ -33,8 +35,16 @@ class SignUpSecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
         onClickToolbar()
-        checkInput()
+        editTextWatcher()
+        onClickAuthBtn()
+        onClickSignUpState()
+        onClickSignUpBtn()
+        onClickAuthCheckBtn()
     }
 
     private fun onClickToolbar() {
@@ -43,7 +53,7 @@ class SignUpSecondFragment : Fragment() {
         }
     }
 
-    private fun checkInput() {
+    private fun editTextWatcher() {
         val regexName = "^[가-힣]{2,8}$".toRegex()
         val regexMobile = "^[0-9]{11}$".toRegex()
         val regexAuthNumber = "^[0-9]{6}$".toRegex()
@@ -51,33 +61,125 @@ class SignUpSecondFragment : Fragment() {
         val regexPw = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{14,20}$".toRegex()
         val regexNickName = "^[가-힣a-zA-Z0-9]{2,10}$".toRegex()
 
-        binding.btnSignUpDone.setOnClickListener {
-            var isValid = true
-            if (!validateInput(binding.etSignUpName, binding.tvErrorName, regexName)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etSignUpMobile, binding.tvErrorMobile, regexMobile)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etSignUpAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etSignUpId, binding.tvErrorId, regexId)) {
-                isValid = false
-            }
-            if (!validateInputPW(binding.etSignUpPw, binding.tvErrorPw, regexPw)) {
-                isValid = false
-            }
+        with(binding) {
+            etSignUpName.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            if (!checkPW()) {
-                isValid = false
-            }
-            if (!validateInput(binding.etSignUpNickname, binding.tvErrorNickname, regexNickName)) {
-                isValid = false
-            }
-            if (isValid) {
-                // db전송 모든 검사 완료
-                findNavController().navigateUp()
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etSignUpName, binding.tvErrorName, regexName)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpMobile.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val isValid = validateInput(binding.etSignUpMobile, binding.tvErrorMobile, regexMobile)
+                    btnSignUpMobile.isEnabled = isValid
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpAuthNumber.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etSignUpAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpId.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val valid = validateInput(binding.etSignUpId, binding.tvErrorId, regexId)
+                    btnSignUpId.isEnabled = valid
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpPw.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInputPW(binding.etSignUpPw, binding.tvErrorPw, regexPw)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpPwCheck.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    checkPW()
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etSignUpNickname.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val valid = validateInput(binding.etSignUpNickname, binding.tvErrorNickname, regexNickName)
+                    btnSignUpNickname.isEnabled = valid
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+        }
+    }
+
+    private fun onClickAuthBtn() {
+        with(binding) {
+            btnSignUpMobile.setOnClickListener {
+                val mobile = etSignUpMobile.editText?.text.toString()
+                if (mobile.isEmpty()) {
+                    tvErrorMobile.visibility = View.VISIBLE
+                    tvErrorMobile.text = getString(R.string.sign_up_error_mobile)
+                    tvErrorMobile.setTextColor(ContextCompat.getColor(requireContext(), R.color.negative))
+                } else {
+                    tvErrorMobile.visibility = View.VISIBLE
+                    tvErrorMobile.text = getString(R.string.common_auth_number_check)
+                    tvErrorMobile.setTextColor(ContextCompat.getColor(requireContext(), R.color.positive))
+                    btnSignUpMobile.setTimer(lifecycleScope, etSignUpMobile, requireContext())
+                }
             }
         }
     }
@@ -108,6 +210,14 @@ class SignUpSecondFragment : Fragment() {
 
 
         return !isEmpty && isMatch
+    }
+
+    private fun onClickSignUpBtn() {
+        // 회원가입 완료
+        binding.btnSignUpDone.setOnClickListener {
+            findNavController().popBackStack()
+            findNavController().navigateUp()
+        }
     }
 
     private fun validateInput(
@@ -153,7 +263,48 @@ class SignUpSecondFragment : Fragment() {
         }
     }
 
-    private fun setTimerBtn() {
+    private fun onClickAuthCheckBtn() {
+        with(binding) {
+            btnSignUpAuthNumber.setOnClickListener {
+                val tempPW = "123456"
+                val pw = binding.etSignUpAuthNumber.editText?.text.toString()
 
+                if (pw.isEmpty()) {
+                    tvErrorAuthNumber.visibility = View.VISIBLE
+                    tvErrorAuthNumber.text = getString(R.string.sign_up_error_auth_number)
+                    tvErrorAuthNumber.setTextColor(ContextCompat.getColor(requireContext(), R.color.negative))
+                } else if (pw == tempPW) {
+                    tvErrorAuthNumber.visibility = View.VISIBLE
+                    tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_success)
+                    tvErrorAuthNumber.setTextColor(ContextCompat.getColor(requireContext(), R.color.positive))
+                    btnSignUpAuthNumber.isEnabled = false
+                } else {
+                    tvErrorAuthNumber.visibility = View.VISIBLE
+                    tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_failure)
+                    tvErrorAuthNumber.setTextColor(ContextCompat.getColor(requireContext(), R.color.negative))
+                }
+            }
+        }
+    }
+
+    private fun onClickSignUpState() {
+        var isCheck1 = false
+        var isCheck2 = false
+        with(binding) {
+            btnSignUpId.setOnClickListener {
+                // 아이디 중복검사
+                isCheck1 = true
+                updateSignUPBtn(isCheck1, isCheck2)
+            }
+            btnSignUpNickname.setOnClickListener {
+                // 닉네임 중복검사
+                isCheck2 = true
+                updateSignUPBtn(isCheck1, isCheck2)
+            }
+        }
+    }
+
+    private fun updateSignUPBtn(chk1: Boolean, chk2: Boolean) {
+        binding.btnSignUpDone.isEnabled = chk1 && chk2
     }
 }

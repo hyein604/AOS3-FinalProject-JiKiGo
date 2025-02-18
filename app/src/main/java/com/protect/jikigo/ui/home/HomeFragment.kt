@@ -117,7 +117,6 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private fun homeTextSpannable() {
         // 닉네임의 길이를 넣어줌
         binding.tvHomeNickname.applySpannableStyles(0, 3, R.color.white)
-
         binding.tvHomeClickRank.applySpannableStyles(0, binding.tvHomeClickRank.length(), R.color.black, true, true)
     }
 
@@ -149,15 +148,16 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
 
     private fun setRecyclerView() {
-        val storeList = Storage.storeList
+        val storeList = Storage.coupon
         val adapter = HomeAdapter(storeList, this)
         binding.rvHomeStore.adapter = adapter
     }
 
     // store 이동 리스너
-    override fun onClickStore(store: Store) {
-//        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
+
+    override fun onClickStore(coupon: Coupon) {
+        //        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
 //        findNavController().navigate(action)
-        Toast.makeText(requireContext(), store.title, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), coupon.name, Toast.LENGTH_SHORT).show()
     }
 }

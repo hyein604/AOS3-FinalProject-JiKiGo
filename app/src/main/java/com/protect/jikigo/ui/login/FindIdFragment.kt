@@ -39,35 +39,61 @@ class FindIdFragment : Fragment() {
     }
 
     private fun setLayout() {
-        checkInput()
         onClickAuthBtn()
         editTextWatcher()
         onClickAuthCheckBtn()
+        onClickFindIdBtn()
     }
 
-    private fun checkInput() {
+    private fun editTextWatcher() {
         val regexName = "^[가-힣]{2,8}$".toRegex()
         val regexMobile = "^[0-9]{11}$".toRegex()
         val regexAuthNumber = "^[0-9]{6}$".toRegex()
 
-        binding.btnFindId.setOnClickListener {
-            var isValid = true
-            if (!validateInput(binding.etFindIdName, binding.tvErrorName, regexName)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etFindPwMobile, binding.tvErrorMobile, regexMobile)) {
-                isValid = false
-            }
-            if (!validateInput(binding.etFindIdAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)) {
-                isValid = false
-            }
+        with(binding) {
+            etFindIdName.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            if (isValid) {
-                // db전송 모든 검사 완료
-                // id 보여주기
-                binding.tvFindId.text = "찾은 아이디!"
-                binding.tvFindId.visibility = View.VISIBLE
-            }
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etFindIdName, binding.tvErrorName, regexName)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etFindPwMobile.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val isValid = validateInput(binding.etFindPwMobile, binding.tvErrorMobile, regexMobile)
+                    binding.btnFindIdAuthNumber.isEnabled = isValid
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
+            etFindIdAuthNumber.editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    validateInput(binding.etFindIdAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+
+            })
         }
     }
 
@@ -91,43 +117,8 @@ class FindIdFragment : Fragment() {
         }
     }
 
-
-    private fun editTextWatcher() {
-        with(binding) {
-            etFindIdName.editText?.addTextChangedListener(object : TextWatcher {
-                // 변경 전
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    // 변경 중
-                    if (s != null) {
-                        if (s.isEmpty()) {
-                            tvErrorName.visibility = View.VISIBLE
-                            tvErrorName.text = getString(R.string.sign_up_error_name)
-                            tvErrorName.setTextColor(ContextCompat.getColor(requireContext(), R.color.negative))
-                            etFindPwMobile.isEnabled = false
-                            etFindIdAuthNumber.isEnabled = false
-                        } else {
-                            tvErrorName.visibility = View.GONE
-                            etFindPwMobile.isEnabled = true
-                            etFindIdAuthNumber.isEnabled = true
-                        }
-                    }
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    // 입력이 완료된 후
-                    btnFindIdAuthNumber.isEnabled = true
-                }
-            })
-        }
-    }
-
     private fun onClickAuthBtn() {
         with(binding) {
-
             btnFindIdAuthNumber.setOnClickListener {
                 val mobile = etFindPwMobile.editText?.text.toString()
                 if (mobile.isEmpty()) {
@@ -144,6 +135,15 @@ class FindIdFragment : Fragment() {
         }
     }
 
+    private fun onClickFindIdBtn() {
+        with(binding) {
+            btnFindId.setOnClickListener {
+                etFindIdName.isEnabled = false
+                etFindIdAuthNumber.isEnabled = false
+                tvFindId.visibility = View.VISIBLE
+            }
+        }
+    }
 
     private fun onClickAuthCheckBtn() {
         with(binding) {
@@ -160,6 +160,7 @@ class FindIdFragment : Fragment() {
                     tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_success)
                     tvErrorAuthNumber.setTextColor(ContextCompat.getColor(requireContext(), R.color.positive))
                     btnFindIdAuthNumberCheck.isEnabled = false
+                    btnFindId.isEnabled = true
                 } else {
                     tvErrorAuthNumber.visibility = View.VISIBLE
                     tvErrorAuthNumber.text = getString(R.string.common_auth_number_check_failure)
