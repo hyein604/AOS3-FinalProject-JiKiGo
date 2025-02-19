@@ -12,6 +12,7 @@ import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
@@ -28,6 +29,8 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private var categoryIndex: Int = 1
     private var coupon: List<Coupon> = listOf()
     private var selectedBrand: String? = null
+
+    private var isFabVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
                 }
                 popupMenu.show()
             }
+            setFabScrollBehavior()
         }
 
         return binding.root
@@ -72,7 +76,29 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
 
     private fun setLayout() {
         setRecyclerView()
+        setFabClickListener()
         setChip()
+    }
+
+    private fun setFabScrollBehavior() {
+        binding.nestedScrollView2.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY > 1000 && !isFabVisible) {
+                binding.fabTravelCoupon.visibility = View.VISIBLE
+                isFabVisible = true
+            }
+            else if (scrollY < 100 && isFabVisible) {
+                binding.fabTravelCoupon.visibility = View.INVISIBLE
+                isFabVisible = false
+            }
+        }
+    }
+
+    private fun setFabClickListener() {
+        binding.fabTravelCoupon.setOnClickListener {
+            binding.nestedScrollView2.scrollTo(0, 0)
+            binding.fabTravelCoupon.visibility = View.INVISIBLE
+            isFabVisible = false
+        }
     }
 
     private fun setRecyclerView() {
