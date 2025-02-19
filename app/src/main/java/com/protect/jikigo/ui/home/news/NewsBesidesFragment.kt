@@ -80,7 +80,8 @@ class NewsBesidesFragment : Fragment() {
                                 title = news.title.cleanHtml(), // HTML 태그 제거
                                 description = news.description.cleanHtml()
                             )
-                        }
+                        }.toMutableList()
+
                         val top3News = listOf(3, 8, 14)
                             .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
                             .map { cleanedNewsList[it] }

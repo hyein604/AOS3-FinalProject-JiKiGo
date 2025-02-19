@@ -214,4 +214,5 @@ data class NewsItem(
     val link: String,
     val description: String,
     val pubDate: String,
+    var imageUrl: String? = null
 ): Parcelable
