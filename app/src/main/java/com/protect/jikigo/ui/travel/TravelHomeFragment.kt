@@ -38,6 +38,7 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
         _binding = null
     }
 
