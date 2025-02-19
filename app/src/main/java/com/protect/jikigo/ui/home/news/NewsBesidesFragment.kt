@@ -81,7 +81,13 @@ class NewsBesidesFragment : Fragment() {
                                 description = news.description.cleanHtml()
                             )
                         }
-                        newsAdapter.submitList(cleanedNewsList) // 데이터를 어댑터에 전달
+                        val top3News = listOf(3, 8, 14)
+                            .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
+                            .map { cleanedNewsList[it] }
+
+                        // 데이터를 어댑터에 전달
+                        newsAdapter.submitList(cleanedNewsList)
+                        newsBannerAdapter.submitList(top3News)
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
