@@ -29,6 +29,7 @@ import java.util.concurrent.Executors
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
+    private var category: String? = null
 
     private val bannerImages = listOf(
         R.drawable.img_news_all_banner_1,
@@ -46,6 +47,11 @@ class NewsAllFragment : Fragment() {
                 it.vpNewsAllBanner.setCurrentItem(nextItem, true)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        category = arguments?.getString(NewsAllFragment.Companion.ARG_CATEGORY) // 프래그먼트에 전달된 카테고리 가져오기
     }
 
     override fun onCreateView(
@@ -66,7 +72,7 @@ class NewsAllFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 뉴스 검색 실행
-        fetchNews("환경오염")
+        category?.let { fetchNews(it) }
         // 띠 배너
         setupHomeBannerUI()
 
@@ -205,5 +211,16 @@ class NewsAllFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacks(autoSlideRunnable)
+    }
+
+    companion object {
+        private const val ARG_CATEGORY = "category"
+
+        // 카테고리를 받아 프래그먼트 인스턴스를 생성하는 함수
+        fun newInstance(category: String) = NewsAllFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_CATEGORY, category)
+            }
+        }
     }
 }
