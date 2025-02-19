@@ -117,7 +117,7 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
             }
         }.attach()
 
-        startAutoSlide()
+        //startAutoSlide()
 
         binding.vpTravelBanner.setCurrentItem(1, false)
 
