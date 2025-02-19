@@ -9,22 +9,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentSignUpSecondBinding
 import com.protect.jikigo.ui.extensions.setTimer
+import com.protect.jikigo.ui.viewModel.SignUpViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpSecondFragment : Fragment() {
     private var _binding: FragmentSignUpSecondBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<SignUpViewModel>()
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSignUpSecondBinding.inflate(inflater, container, false)
+        auth = FirebaseAuth.getInstance()
+
         return binding.root
     }
 
@@ -45,6 +57,7 @@ class SignUpSecondFragment : Fragment() {
         onClickSignUpState()
         onClickSignUpBtn()
         onClickAuthCheckBtn()
+        //   observeViewModel()
     }
 
     private fun onClickToolbar() {
@@ -53,116 +66,35 @@ class SignUpSecondFragment : Fragment() {
         }
     }
 
+
     private fun editTextWatcher() {
-        val regexName = "^[가-힣]{2,8}$".toRegex()
-        val regexMobile = "^[0-9]{11}$".toRegex()
         val regexAuthNumber = "^[0-9]{6}$".toRegex()
         val regexId = "^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{8,16}$".toRegex()
         val regexPw = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{14,20}$".toRegex()
         val regexNickName = "^[가-힣a-zA-Z0-9]{2,10}$".toRegex()
 
         with(binding) {
-            etSignUpName.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+            etSignUpName.editText?.addTextChangedListener { edit ->
+                viewModel.name.value = edit.toString()
+                viewModel.validateName()
+                viewModel.nameError.observe(viewLifecycleOwner) { errorMessage ->
+                    binding.etSignUpName.error = errorMessage
                 }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    validateInput(binding.etSignUpName, binding.tvErrorName, regexName)
+            }
+            etSignUpMobile.editText?.addTextChangedListener { edit ->
+                viewModel.mobile.value = edit.toString()
+                viewModel.validateMobile()
+                viewModel.mobileError.observe(viewLifecycleOwner) { errorMessage ->
+                    binding.etSignUpMobile.error = errorMessage
                 }
-
-                override fun afterTextChanged(s: Editable?) {
-
+            }
+            etSignUpAuthNumber.editText?.addTextChangedListener { edit ->
+                viewModel.mobile.value = edit.toString()
+                viewModel.validateAuthNumber()
+                viewModel.authNumberError.observe(viewLifecycleOwner) { errorMessage ->
+                    binding.etSignUpAuthNumber.error = errorMessage
                 }
-
-            })
-            etSignUpMobile.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val isValid = validateInput(binding.etSignUpMobile, binding.tvErrorMobile, regexMobile)
-                    btnSignUpMobile.isEnabled = isValid
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-            etSignUpAuthNumber.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    validateInput(binding.etSignUpAuthNumber, binding.tvErrorAuthNumber, regexAuthNumber)
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-            etSignUpId.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val valid = validateInput(binding.etSignUpId, binding.tvErrorId, regexId)
-                    btnSignUpId.isEnabled = valid
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-            etSignUpPw.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    validateInputPW(binding.etSignUpPw, binding.tvErrorPw, regexPw)
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-            etSignUpPwCheck.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    checkPW()
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
-            etSignUpNickname.editText?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    val valid = validateInput(binding.etSignUpNickname, binding.tvErrorNickname, regexNickName)
-                    btnSignUpNickname.isEnabled = valid
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                }
-
-            })
+            }
         }
     }
 
