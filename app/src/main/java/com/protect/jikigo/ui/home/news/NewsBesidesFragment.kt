@@ -9,9 +9,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.protect.jikigo.data.NewsItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,9 +17,6 @@ import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
 import com.protect.jikigo.utils.cleanHtml
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class NewsBesidesFragment : Fragment() {
     private var _binding: FragmentNewsBesidesBinding? = null
@@ -60,11 +55,7 @@ class NewsBesidesFragment : Fragment() {
         setupRecyclerView()
         setupHomeBannerUI()
 
-        category?.let {
-            viewLifecycleOwner.lifecycleScope.launch {
-                fetchNews(it)
-            }
-        }
+        category?.let { fetchNews(it) }
     }
 
 
@@ -77,35 +68,39 @@ class NewsBesidesFragment : Fragment() {
     }
 
     // 뉴스 API 호출 및 데이터 로드
-    private suspend fun fetchNews(query: String) {
-        try {
-            val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
-            if (response.isSuccessful) {
-                response.body()?.items?.let { newsList ->
-                    val cleanedNewsList = withContext(Dispatchers.Default) {
-                        newsList.map { news ->
+    private fun fetchNews(query: String) {
+        val call = RetrofitClient.instance.searchNews(query)
+        call.enqueue(object : Callback<NewsResponse> {
+            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.items?.let { newsList ->
+                        val cleanedNewsList = newsList.map { news ->
                             news.copy(
-                                title = news.title.cleanHtml(),
+                                title = news.title.cleanHtml(), // HTML 태그 제거
                                 description = news.description.cleanHtml()
                             )
-                        }
-                    }
+                        }.toMutableList()
 
-                    val top3News = listOf(2, 6, 10)
-                        .filter { it < cleanedNewsList.size }
-                        .map { cleanedNewsList[it] }
+                        val top3News = listOf(2, 6, 10)
+                            .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
+                            .map { cleanedNewsList[it] }
+                            .toMutableList()
 
-                    withContext(Dispatchers.Main) {
-                        newsAdapter.submitList(cleanedNewsList as MutableList<NewsItem>?)
-                        newsBannerAdapter.submitList(top3News as MutableList<NewsItem>?)
+                        // 데이터를 어댑터에 전달
+                        newsAdapter.submitList(cleanedNewsList)
+                        newsBannerAdapter.submitList(top3News)
                     }
+                } else {
+                    Log.e("News", "API 호출 실패: ${response.code()}")
                 }
-            } else {
-                Log.e("News", "API 호출 실패: ${response.code()}")
             }
-        } catch (e: Exception) {
-            Log.e("News", "네트워크 오류: ${e.message}")
-        }
+
+            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                if (!call.isCanceled) {
+                    Log.e("News", "네트워크 오류: ${t.message}")
+                }
+            }
+        })
     }
 
     // 배너 UI 설정

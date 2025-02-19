@@ -11,9 +11,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.protect.jikigo.databinding.FragmentNewsAllBinding
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.R
@@ -23,12 +24,13 @@ import com.protect.jikigo.utils.cleanHtml
 import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlinx.coroutines.*
+import java.util.concurrent.Executors
 
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
     private var category: String? = null
+    private var newsCall: Call<NewsResponse>? = null
 
     private val bannerImages = listOf(
         R.drawable.img_news_all_banner_1,
@@ -64,6 +66,10 @@ class NewsAllFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+        // 네트워크 요청 취소
+        newsCall?.cancel()
+        newsCall = null
+
         // 핸들러 콜백 제거
         handler.removeCallbacks(autoSlideRunnable)
 
@@ -75,16 +81,44 @@ class NewsAllFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 뉴스 검색 실행
-        category?.let {
-            viewLifecycleOwner.lifecycleScope.launch { // Fragment의 라이프사이클을 준수
-                fetchNews(it)
-            }
-        }
+        category?.let { fetchNews(it) }
         // 띠 배너
         setupHomeBannerUI()
 
     }
 
+    // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
+    private fun fetchNewsImage(url: String, callback: (String?) -> Unit) {
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            try {
+                val doc = Jsoup.connect(url).get()
+                val imageUrl = doc.select("meta[property=og:image]").attr("content")
+                val finalImageUrl = if (imageUrl.startsWith("http://")) {
+                    imageUrl.replace("http://", "https://")
+                } else {
+                    imageUrl
+                }
+
+                // 안전한 바인딩 체크
+                if (isAdded && _binding != null) {
+                    binding?.root?.post {
+                        if (_binding != null) {
+                            callback(finalImageUrl.ifEmpty { null })
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                if (isAdded && _binding != null) {
+                    binding?.root?.post {
+                        if (_binding != null) {
+                            callback(null)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // 뉴스 날짜 포맷을 변경하는 함수
     private fun formatDate(pubDate: String): String {
@@ -104,40 +138,39 @@ class NewsAllFragment : Fragment() {
         startActivity(intent)
     }
 
-    private suspend fun fetchNews(query: String) {
-        try {
-            val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
-            if (response.isSuccessful) {
-                response.body()?.items?.let { newsList ->
-                    val filteredNews = withContext(Dispatchers.IO) {
-                        newsList.map { newsItem ->
-                            async { newsItem.copy(imageUrl = fetchNewsImageAsync(newsItem.link)) }
-                        }.awaitAll().filter { it.imageUrl != null }
-                    }
+    private fun fetchNews(query: String) {
+        val call = RetrofitClient.instance.searchNews(query)
+        newsCall = call
 
-                    withContext(Dispatchers.Main) {
-                        updateUI(filteredNews)
+        call.enqueue(object : Callback<NewsResponse> {
+            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.items?.let { newsList ->
+                        val filteredNews = mutableListOf<NewsItem>()
+
+                        newsList.forEach { newsItem ->
+                            fetchNewsImage(newsItem.link) { imageUrl ->
+                                if (imageUrl != null) {
+                                    filteredNews.add(newsItem.copy(imageUrl = imageUrl))
+                                }
+                                if (filteredNews.size == 3) {
+                                    // binding이 null이 아니면 UI 업데이트
+                                    binding?.let { updateUI(filteredNews) }
+                                }
+                            }
+                        }
                     }
+                } else {
+                    Log.e("News", "API 호출 실패: ${response.code()}")
                 }
-            } else {
-                Log.e("News", "API 호출 실패: ${response.code()}")
             }
-        } catch (e: Exception) {
-            Log.e("News", "네트워크 오류: ${e.message}")
-        }
-    }
 
-    // Open Graph 태그에서 이미지 URL 가져오기
-    private suspend fun fetchNewsImageAsync(url: String): String? {
-        return withContext(Dispatchers.IO) {
-            try {
-                val doc = Jsoup.connect(url).get()
-                val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                imageUrl.takeIf { it.startsWith("http") }?.replace("http://", "https://")
-            } catch (e: Exception) {
-                null
+            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+                if (!call.isCanceled) {
+                    Log.e("News", "네트워크 오류: ${t.message}")
+                }
             }
-        }
+        })
     }
 
     private fun updateUI(newsList: List<NewsItem>) {
