@@ -14,8 +14,8 @@ interface NaverNewsApi {
     @GET("v1/search/news.json")
     fun searchNews(
         @Query("query") query: String,
-        @Query("display") display: Int = 20,
+        @Query("display") display: Int = 30,
         @Query("start") start: Int = 1,
-        @Query("sort") sort: String = "date"
+        @Query("sort") sort: String = "sim"
     ): Call<NewsResponse>
 }

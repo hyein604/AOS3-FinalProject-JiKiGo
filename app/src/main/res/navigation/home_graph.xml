@@ -64,6 +64,9 @@
 		<action
 			android:id="@+id/action_newsBesides_to_newsDetail"
 			app:destination="@id/newsDetail" />
+		<argument
+			android:name="categoryTitle"
+			app:argType="string" />
 	</fragment>
 
 	<fragment

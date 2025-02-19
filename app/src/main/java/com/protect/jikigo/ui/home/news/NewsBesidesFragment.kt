@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
-import com.protect.jikigo.ui.adapter.OnBannerItemClickListener
 import android.util.Log
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +16,6 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
-import com.protect.jikigo.ui.home.noti.NotificationFragmentDirections
 import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
@@ -28,6 +24,7 @@ class NewsBesidesFragment : Fragment() {
 
     private var category: String? = null
     private lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsBannerAdapter: NewsBannerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,21 +46,18 @@ class NewsBesidesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.vpNewsBesidesHotTopic.isUserInputEnabled = true // 배너 슬라이드 가능
 
-        setupRecyclerView() // 뉴스 리스트 RecyclerView 설정
-        setupHomeBannerUI() // 배너 UI 설정
+        newsAdapter = NewsAdapter()
+        newsBannerAdapter = NewsBannerAdapter()
+        setupRecyclerView()
+        setupHomeBannerUI()
 
-        category?.let { fetchNews(it) } // 카테고리가 있으면 뉴스 데이터 가져오기
+        category?.let { fetchNews(it) }
     }
+
 
     // 뉴스 목록 RecyclerView 설정
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter { newsItem ->
-            // 뉴스 아이템 클릭 시, NewsDetailFragment로 이동
-            val action = NewsBesidesFragmentDirections.actionNewsBesidesToNewsDetail(newsItem)
-            findNavController().navigate(action)
-        }
         binding.rvNewsBesidesLatestNews.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsAdapter
@@ -82,8 +76,16 @@ class NewsBesidesFragment : Fragment() {
                                 title = news.title.cleanHtml(), // HTML 태그 제거
                                 description = news.description.cleanHtml()
                             )
-                        }
-                        newsAdapter.submitList(cleanedNewsList) // 데이터를 어댑터에 전달
+                        }.toMutableList()
+
+                        val top3News = listOf(2, 6, 10)
+                            .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
+                            .map { cleanedNewsList[it] }
+                            .toMutableList()
+
+                        // 데이터를 어댑터에 전달
+                        newsAdapter.submitList(cleanedNewsList)
+                        newsBannerAdapter.submitList(top3News)
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
@@ -96,27 +98,11 @@ class NewsBesidesFragment : Fragment() {
         })
     }
 
-    // 배너 어댑터 설정
-    private val bannerAdapter: NewsBannerAdapter by lazy {
-        NewsBannerAdapter(object : OnBannerItemClickListener {
-            override fun onItemClick(banner: Int) {
-                // 배너 클릭 이벤트 처리
-            }
-        })
-    }
-
     // 배너 UI 설정
     private fun setupHomeBannerUI() {
         with(binding) {
-            vpNewsBesidesHotTopic.adapter = bannerAdapter
+            vpNewsBesidesHotTopic.adapter = newsBannerAdapter
             vpNewsBesidesHotTopic.isUserInputEnabled = true // 스와이프 가능
-
-            val bannerImages = listOf(
-                R.drawable.img_today_news_home_tmp_1,
-                R.drawable.img_today_news_home_tmp_2,
-                R.drawable.img_today_news_home_tmp_3
-            )
-            bannerAdapter.submitList(bannerImages)
 
             // TabLayout(인디케이터)과 ViewPager2(배너) 연결
             TabLayoutMediator(indicatorNewsBesidesHotTopic, vpNewsBesidesHotTopic) { _, _ -> }
