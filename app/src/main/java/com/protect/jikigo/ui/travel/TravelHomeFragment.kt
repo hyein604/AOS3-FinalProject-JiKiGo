@@ -38,6 +38,7 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacksAndMessages(null)
         _binding = null
     }
 
@@ -116,7 +117,7 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
             }
         }.attach()
 
-        startAutoSlide()
+        //startAutoSlide()
 
         binding.vpTravelBanner.setCurrentItem(1, false)
 
