@@ -8,13 +8,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.protect.jikigo.R
 import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.databinding.ItemNewsBannerBinding
 import org.jsoup.Jsoup
 import java.util.concurrent.Executors
 
 class NewsBannerAdapter : ListAdapter<NewsItem, NewsBannerAdapter.NewsBannerViewHolder>(NewsDiffCallback()) {
+
+    private val executor = Executors.newFixedThreadPool(4)
+
+    override fun submitList(list: MutableList<NewsItem>?) {
+        if (list == null) {
+            super.submitList(null)
+            return
+        }
+
+        val filteredList = mutableListOf<NewsItem>()
+        val tasks = list.map { newsItem ->
+            executor.submit {
+                val imageUrl = fetchNewsImageSync(newsItem.link)
+                if (!imageUrl.isNullOrEmpty()) {
+                    newsItem.imageUrl = imageUrl
+                    filteredList.add(newsItem)
+                }
+            }
+        }
+
+        tasks.forEach { it.get() }
+
+        super.submitList(filteredList)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsBannerViewHolder {
         val binding = ItemNewsBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,47 +50,44 @@ class NewsBannerAdapter : ListAdapter<NewsItem, NewsBannerAdapter.NewsBannerView
 
     class NewsBannerViewHolder(private val binding: ItemNewsBannerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: NewsItem) {
-            binding.tvNewsBannerTitle.text = newsItem.title // 뉴스 제목
+            binding.tvNewsBannerTitle.text = newsItem.title
 
-            // Open Graph에서 뉴스 이미지 가져오기
-            fetchNewsImage(newsItem.link) { imageUrl ->
-                Glide.with(binding.ivNewsBannerImage.context)
-                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
-                    .into(binding.ivNewsBannerImage)
-            }
+            Glide.with(binding.ivNewsBannerImage.context)
+                .load(newsItem.imageUrl)
+                .into(binding.ivNewsBannerImage)
 
-            // 클릭 시 웹 브라우저에서 뉴스 링크 열기
             binding.root.setOnClickListener {
                 val context = binding.root.context
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.link))
                 context.startActivity(intent)
             }
         }
+    }
 
-        // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
-        private fun fetchNewsImage(url: String, callback: (String?) -> Unit) {
-            val executor = Executors.newSingleThreadExecutor()
-            executor.execute {
-                try {
-                    val doc = Jsoup.connect(url).get()
-                    val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                    val finalImageUrl = if (imageUrl.startsWith("http://")) {
-                        // HTTP 프로토콜이 있을 경우 HTTPS로 변경
-                        imageUrl.replace("http://", "https://")
-                    } else {
-                        imageUrl
-                    }
+    private fun fetchNewsImageSync(url: String): String? {
+        return try {
+            val doc = Jsoup.connect(url).get()
 
-                    // UI 스레드에서 실행하도록 변경
-                    binding.root.post {
-                        callback(finalImageUrl.ifEmpty { null })
-                    }
-                } catch (e: Exception) {
-                    binding.root.post {
-                        callback(null)
-                    }
-                }
+            var imageUrl = listOf(
+                "meta[property=og:image]",
+                "meta[name=twitter:image]",
+                "meta[name=thumbnail]"
+            ).mapNotNull { selector ->
+                doc.select(selector).attr("content").takeIf { it.isNotEmpty() }
+            }.firstOrNull() ?: ""
+
+            if (imageUrl.isEmpty()) {
+                imageUrl = doc.select("article img, figure img, div img, span img").firstOrNull()?.attr("src") ?: ""
             }
+
+            if (imageUrl.startsWith("/")) {
+                val baseUri = Uri.parse(url).scheme + "://" + Uri.parse(url).host
+                imageUrl = baseUri + imageUrl
+            }
+
+            imageUrl.takeIf { it.isNotEmpty() }?.replace("http://", "https://")
+        } catch (e: Exception) {
+            null
         }
     }
 }

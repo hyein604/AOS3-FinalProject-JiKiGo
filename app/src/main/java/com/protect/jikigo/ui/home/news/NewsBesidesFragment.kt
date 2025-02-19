@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import android.util.Log
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,8 +16,6 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
-import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
-import com.protect.jikigo.ui.home.noti.NotificationFragmentDirections
 import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
@@ -82,9 +78,10 @@ class NewsBesidesFragment : Fragment() {
                             )
                         }.toMutableList()
 
-                        val top3News = listOf(3, 8, 14)
+                        val top3News = listOf(2, 6, 10)
                             .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
                             .map { cleanedNewsList[it] }
+                            .toMutableList()
 
                         // 데이터를 어댑터에 전달
                         newsAdapter.submitList(cleanedNewsList)
