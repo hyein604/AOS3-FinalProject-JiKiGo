@@ -20,7 +20,8 @@ import com.protect.jikigo.utils.cleanHtml
 
 class NewsBesidesFragment : Fragment() {
     private var _binding: FragmentNewsBesidesBinding? = null
-    private val binding get() = _binding!! // ViewBinding 사용
+    private val binding get() = _binding!!
+    private var newsCall: Call<NewsResponse>? = null
 
     private var category: String? = null
     private lateinit var newsAdapter: NewsAdapter
@@ -42,7 +43,9 @@ class NewsBesidesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        newsCall?.cancel() // API 요청 취소
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,7 +96,9 @@ class NewsBesidesFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                Log.e("News", "네트워크 오류: ${t.message}")
+                if (!call.isCanceled) {
+                    Log.e("News", "네트워크 오류: ${t.message}")
+                }
             }
         })
     }

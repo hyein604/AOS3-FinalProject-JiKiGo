@@ -30,6 +30,7 @@ class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
     private var category: String? = null
+    private var newsCall: Call<NewsResponse>? = null
 
     private val bannerImages = listOf(
         R.drawable.img_news_all_banner_1,
@@ -64,8 +65,16 @@ class NewsAllFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+
+        // 네트워크 요청 취소
+        newsCall?.cancel()
+        newsCall = null
+
+        // 핸들러 콜백 제거
         handler.removeCallbacks(autoSlideRunnable)
+
+        // 바인딩 해제
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,19 +95,26 @@ class NewsAllFragment : Fragment() {
                 val doc = Jsoup.connect(url).get()
                 val imageUrl = doc.select("meta[property=og:image]").attr("content")
                 val finalImageUrl = if (imageUrl.startsWith("http://")) {
-                    // HTTP 프로토콜이 있을 경우 HTTPS로 변경
                     imageUrl.replace("http://", "https://")
                 } else {
                     imageUrl
                 }
 
-                // UI 스레드에서 실행하도록 변경
-                binding.root.post {
-                    callback(finalImageUrl.ifEmpty { null })
+                // 안전한 바인딩 체크
+                if (isAdded && _binding != null) {
+                    binding?.root?.post {
+                        if (_binding != null) {
+                            callback(finalImageUrl.ifEmpty { null })
+                        }
+                    }
                 }
             } catch (e: Exception) {
-                binding.root.post {
-                    callback(null)
+                if (isAdded && _binding != null) {
+                    binding?.root?.post {
+                        if (_binding != null) {
+                            callback(null)
+                        }
+                    }
                 }
             }
         }
@@ -124,6 +140,8 @@ class NewsAllFragment : Fragment() {
 
     private fun fetchNews(query: String) {
         val call = RetrofitClient.instance.searchNews(query)
+        newsCall = call
+
         call.enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
@@ -136,7 +154,8 @@ class NewsAllFragment : Fragment() {
                                     filteredNews.add(newsItem.copy(imageUrl = imageUrl))
                                 }
                                 if (filteredNews.size == 3) {
-                                    updateUI(filteredNews)
+                                    // binding이 null이 아니면 UI 업데이트
+                                    binding?.let { updateUI(filteredNews) }
                                 }
                             }
                         }
@@ -147,41 +166,45 @@ class NewsAllFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                Log.e("News", "네트워크 오류: ${t.message}")
+                if (!call.isCanceled) {
+                    Log.e("News", "네트워크 오류: ${t.message}")
+                }
             }
         })
     }
 
     private fun updateUI(newsList: List<NewsItem>) {
         if (newsList.size >= 3) {
-            // 첫 번째 뉴스
-            binding.tvNewsAllFirstTitle.text = newsList[0].title.cleanHtml()
-            binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
-            Glide.with(binding.ivContentNewsAllFirstImage.context)
-                .load(newsList[0].imageUrl)
-                .into(binding.ivContentNewsAllFirstImage)
-            binding.ivContentNewsAllFirstImage.setOnClickListener {
-                openNewsLink(newsList[0].link)
-            }
+            binding?.let { bind ->
+                // 첫 번째 뉴스
+                bind.tvNewsAllFirstTitle.text = newsList[0].title.cleanHtml()
+                bind.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
+                Glide.with(bind.ivContentNewsAllFirstImage.context)
+                    .load(newsList[0].imageUrl)
+                    .into(bind.ivContentNewsAllFirstImage)
+                bind.ivContentNewsAllFirstImage.setOnClickListener {
+                    openNewsLink(newsList[0].link)
+                }
 
-            // 두 번째 뉴스
-            binding.tvNewsAllSecondTitle.text = newsList[1].title.cleanHtml()
-            binding.tvNewsAllSecondDate.text = formatDate(newsList[1].pubDate)
-            Glide.with(binding.ivContentNewsAllSecondImage.context)
-                .load(newsList[1].imageUrl)
-                .into(binding.ivContentNewsAllSecondImage)
-            binding.ivContentNewsAllSecondImage.setOnClickListener {
-                openNewsLink(newsList[1].link)
-            }
+                // 두 번째 뉴스
+                bind.tvNewsAllSecondTitle.text = newsList[1].title.cleanHtml()
+                bind.tvNewsAllSecondDate.text = formatDate(newsList[1].pubDate)
+                Glide.with(bind.ivContentNewsAllSecondImage.context)
+                    .load(newsList[1].imageUrl)
+                    .into(bind.ivContentNewsAllSecondImage)
+                bind.ivContentNewsAllSecondImage.setOnClickListener {
+                    openNewsLink(newsList[1].link)
+                }
 
-            // 세 번째 뉴스
-            binding.tvNewsAllThirdTitle.text = newsList[2].title.cleanHtml()
-            binding.tvNewsAllThirdDate.text = formatDate(newsList[2].pubDate)
-            Glide.with(binding.ivContentNewsAllThirdImage.context)
-                .load(newsList[2].imageUrl)
-                .into(binding.ivContentNewsAllThirdImage)
-            binding.ivContentNewsAllThirdImage.setOnClickListener {
-                openNewsLink(newsList[2].link)
+                // 세 번째 뉴스
+                bind.tvNewsAllThirdTitle.text = newsList[2].title.cleanHtml()
+                bind.tvNewsAllThirdDate.text = formatDate(newsList[2].pubDate)
+                Glide.with(bind.ivContentNewsAllThirdImage.context)
+                    .load(newsList[2].imageUrl)
+                    .into(bind.ivContentNewsAllThirdImage)
+                bind.ivContentNewsAllThirdImage.setOnClickListener {
+                    openNewsLink(newsList[2].link)
+                }
             }
         }
     }
