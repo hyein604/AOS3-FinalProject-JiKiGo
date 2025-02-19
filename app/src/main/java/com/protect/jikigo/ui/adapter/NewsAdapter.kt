@@ -37,7 +37,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
             // Open Graph에서 뉴스 이미지 가져오기
             fetchNewsImage(newsItem.link) { imageUrl ->
                 Glide.with(binding.ivNewsBesidesThumbnail.context)
-                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
                     .into(binding.ivNewsBesidesThumbnail)
             }
 

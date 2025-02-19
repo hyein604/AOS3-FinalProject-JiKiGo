@@ -125,11 +125,11 @@ class NewsAllFragment : Fragment() {
                         if (newsList.size >= 9) {
 
                             // 첫 번째 뉴스
-                            binding.tvNewsAllFirstTitle.text = newsList[0].title
+                            binding.tvNewsAllFirstTitle.text = newsList[0].title.cleanHtml()
                             binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
                             fetchNewsImage(newsList[0].link) { imageUrl ->
                                 Glide.with(binding.ivContentNewsAllFirstImage.context)
-                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2)
+                                    .load(imageUrl ?: R.drawable.background_news_no_picture)
                                     .into(binding.ivContentNewsAllFirstImage)
                             }
                             binding.ivContentNewsAllFirstImage.setOnClickListener {
@@ -137,11 +137,11 @@ class NewsAllFragment : Fragment() {
                             }
 
                             // 두 번째 뉴스
-                            binding.tvNewsAllSecondTitle.text = newsList[3].title
+                            binding.tvNewsAllSecondTitle.text = newsList[3].title.cleanHtml()
                             binding.tvNewsAllSecondDate.text = formatDate(newsList[3].pubDate)
                             fetchNewsImage(newsList[3].link) { imageUrl ->
                                 Glide.with(binding.ivContentNewsAllSecondImage.context)
-                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
                                     .into(binding.ivContentNewsAllSecondImage)
                             }
                             binding.ivContentNewsAllSecondImage.setOnClickListener {
@@ -153,7 +153,7 @@ class NewsAllFragment : Fragment() {
                             binding.tvNewsAllThirdDate.text = formatDate(newsList[6].pubDate)
                             fetchNewsImage(newsList[6].link) { imageUrl ->
                                 Glide.with(binding.ivContentNewsAllThirdImage.context)
-                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
                                     .into(binding.ivContentNewsAllThirdImage)
                             }
                             binding.ivContentNewsAllThirdImage.setOnClickListener {

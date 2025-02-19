@@ -9,7 +9,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
-import com.protect.jikigo.ui.adapter.OnBannerItemClickListener
 import android.util.Log
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +18,7 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
+import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
 import com.protect.jikigo.ui.home.noti.NotificationFragmentDirections
 import com.protect.jikigo.utils.cleanHtml
 
@@ -28,6 +28,7 @@ class NewsBesidesFragment : Fragment() {
 
     private var category: String? = null
     private lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsBannerAdapter: NewsBannerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,8 @@ class NewsBesidesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        newsAdapter = NewsAdapter() // ✅ 여기서 초기화
+        newsAdapter = NewsAdapter()
+        newsBannerAdapter = NewsBannerAdapter()
         setupRecyclerView()
         setupHomeBannerUI()
 
@@ -92,27 +94,11 @@ class NewsBesidesFragment : Fragment() {
         })
     }
 
-    // 배너 어댑터 설정
-    private val bannerAdapter: NewsBannerAdapter by lazy {
-        NewsBannerAdapter(object : OnBannerItemClickListener {
-            override fun onItemClick(banner: Int) {
-                // 배너 클릭 이벤트 처리
-            }
-        })
-    }
-
     // 배너 UI 설정
     private fun setupHomeBannerUI() {
         with(binding) {
-            vpNewsBesidesHotTopic.adapter = bannerAdapter
+            vpNewsBesidesHotTopic.adapter = newsBannerAdapter
             vpNewsBesidesHotTopic.isUserInputEnabled = true // 스와이프 가능
-
-            val bannerImages = listOf(
-                R.drawable.img_today_news_home_tmp_1,
-                R.drawable.img_today_news_home_tmp_2,
-                R.drawable.img_today_news_home_tmp_3
-            )
-            bannerAdapter.submitList(bannerImages)
 
             // TabLayout(인디케이터)과 ViewPager2(배너) 연결
             TabLayoutMediator(indicatorNewsBesidesHotTopic, vpNewsBesidesHotTopic) { _, _ -> }
