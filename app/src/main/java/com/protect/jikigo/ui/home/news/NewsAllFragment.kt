@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.protect.jikigo.databinding.FragmentNewsAllBinding
 import android.util.Log
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +17,11 @@ import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.R
 import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
+import com.protect.jikigo.utils.cleanHtml
+import org.jsoup.Jsoup
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.concurrent.Executors
 
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
@@ -63,13 +69,80 @@ class NewsAllFragment : Fragment() {
 
     }
 
+    // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
+    private fun fetchNewsImage(url: String, callback: (String?) -> Unit) {
+        val executor = Executors.newSingleThreadExecutor()
+        executor.execute {
+            try {
+                val doc = Jsoup.connect(url).get()
+                val imageUrl = doc.select("meta[property=og:image]").attr("content")
+                val finalImageUrl = if (imageUrl.startsWith("http://")) {
+                    // HTTP 프로토콜이 있을 경우 HTTPS로 변경
+                    imageUrl.replace("http://", "https://")
+                } else {
+                    imageUrl
+                }
+
+                // UI 스레드에서 실행하도록 변경
+                binding.root.post {
+                    callback(finalImageUrl.ifEmpty { null })
+                }
+            } catch (e: Exception) {
+                binding.root.post {
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    // 뉴스 날짜 포맷을 변경하는 함수
+    private fun formatDate(pubDate: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("yyyy/M/d HH:mm", Locale.ENGLISH)
+            val date = inputFormat.parse(pubDate)
+            date?.let { outputFormat.format(it) } ?: pubDate
+        } catch (e: Exception) {
+            pubDate // 변환 실패 시 원본 반환
+        }
+    }
+
     private fun fetchNews(query: String) {
         val call = RetrofitClient.instance.searchNews(query)
         call.enqueue(object : Callback<NewsResponse> {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
-                    response.body()?.items?.forEach { news ->
-                        Log.d("News", "${query}, 제목: ${news.title}, 링크: ${news.link}")
+                    response.body()?.items?.let { newsList ->
+                        // 뉴스 데이터가 충분한 경우에만 UI 업데이트
+                        if (newsList.size >= 9) {
+
+                            // 첫 번째 뉴스 (상위 3개)
+                            binding.tvNewsAllFirstTitle.text = newsList[0].title
+                            binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
+                            fetchNewsImage(newsList[0].link) { imageUrl ->
+                                Glide.with(binding.ivContentNewsAllFirstImage.context)
+                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2)
+                                    .into(binding.ivContentNewsAllFirstImage)
+                            }
+
+                            // 두 번째 뉴스 (다음 3개)
+                            binding.tvNewsAllSecondTitle.text = newsList[3].title
+                            binding.tvNewsAllSecondDate.text = formatDate(newsList[3].pubDate)
+                            fetchNewsImage(newsList[3].link) { imageUrl ->
+                                Glide.with(binding.ivContentNewsAllSecondImage.context)
+                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                                    .into(binding.ivContentNewsAllSecondImage)
+                            }
+
+                            // 세 번째 뉴스 (마지막 3개)
+                            binding.tvNewsAllThirdTitle.text = newsList[6].title.cleanHtml()
+                            binding.tvNewsAllThirdDate.text = formatDate(newsList[6].pubDate)
+                            fetchNewsImage(newsList[6].link) { imageUrl ->
+                                Glide.with(binding.ivContentNewsAllThirdImage.context)
+                                    .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
+                                    .into(binding.ivContentNewsAllThirdImage)
+                            }
+                        }
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
