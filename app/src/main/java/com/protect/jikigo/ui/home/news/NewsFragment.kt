@@ -9,6 +9,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.databinding.FragmentNewsBinding
+import com.protect.jikigo.R
+
+import android.widget.ImageView
+import androidx.core.view.updateLayoutParams
+
 
 
 class NewsFragment : Fragment() {
@@ -32,6 +37,7 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         onClickToolbar()
         setupViewPagerWithTabs()
+        setupBigCategory()
     }
 
     private fun onClickToolbar() {
@@ -39,6 +45,23 @@ class NewsFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
+    private fun setupBigCategory() {
+        // Safe Args를 사용하여 전달받은 categoryTitle 적용
+        val bigCategoryTitle = arguments?.let { NewsFragmentArgs.fromBundle(it).categoryTitle }
+        binding.tvNewsBigCategoryTitle.text = bigCategoryTitle
+
+        // 카테고리에 따라 아이콘 변경
+        val imageRes = when (bigCategoryTitle) {
+            "여행" -> R.drawable.img_travel
+            "건강" -> R.drawable.img_health
+            else -> R.drawable.img_environment // 기본값
+        }
+        binding.ivNewsEnvorionmentBigCategoryIcon.setImageResource(imageRes)
+
+    }
+
+
 
     private fun setupViewPagerWithTabs() {
         val adapter = NewsEnvironmentPagerAdapter(this)
@@ -57,7 +80,7 @@ class NewsFragment : Fragment() {
 
 class NewsEnvironmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val categories = listOf(
-        "전체", "대기오염 대기환경", "해양 오염 강 오염", "생태계오염", "환경 오염 정책"
+        "전체", "대기오염 대기환경", "해양 오염 강 오염", "생태계 오염", "환경 오염 정책"
     )
 
     override fun getItemCount(): Int = NewsType.values().size
