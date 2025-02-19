@@ -25,6 +25,7 @@ import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlinx.coroutines.*
 
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
@@ -87,38 +88,6 @@ class NewsAllFragment : Fragment() {
 
     }
 
-    // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
-    private fun fetchNewsImage(url: String, callback: (String?) -> Unit) {
-        val executor = Executors.newSingleThreadExecutor()
-        executor.execute {
-            try {
-                val doc = Jsoup.connect(url).get()
-                val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                val finalImageUrl = if (imageUrl.startsWith("http://")) {
-                    imageUrl.replace("http://", "https://")
-                } else {
-                    imageUrl
-                }
-
-                // 안전한 바인딩 체크
-                if (isAdded && _binding != null) {
-                    binding?.root?.post {
-                        if (_binding != null) {
-                            callback(finalImageUrl.ifEmpty { null })
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                if (isAdded && _binding != null) {
-                    binding?.root?.post {
-                        if (_binding != null) {
-                            callback(null)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     // 뉴스 날짜 포맷을 변경하는 함수
     private fun formatDate(pubDate: String): String {
@@ -146,17 +115,16 @@ class NewsAllFragment : Fragment() {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.items?.let { newsList ->
-                        val filteredNews = mutableListOf<NewsItem>()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val filteredNews = newsList.map { newsItem ->
+                                async {
+                                    val imageUrl = fetchNewsImageAsync(newsItem.link)
+                                    newsItem.copy(imageUrl = imageUrl)
+                                }
+                            }.awaitAll().filter { it.imageUrl != null }
 
-                        newsList.forEach { newsItem ->
-                            fetchNewsImage(newsItem.link) { imageUrl ->
-                                if (imageUrl != null) {
-                                    filteredNews.add(newsItem.copy(imageUrl = imageUrl))
-                                }
-                                if (filteredNews.size == 3) {
-                                    // binding이 null이 아니면 UI 업데이트
-                                    binding?.let { updateUI(filteredNews) }
-                                }
+                            withContext(Dispatchers.Main) {
+                                if (_binding != null) updateUI(filteredNews)
                             }
                         }
                     }
@@ -171,6 +139,19 @@ class NewsAllFragment : Fragment() {
                 }
             }
         })
+    }
+
+    // 웹사이트의 Open Graph 태그에서 이미지 URL 가져오기
+    private suspend fun fetchNewsImageAsync(url: String): String? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val doc = Jsoup.connect(url).get()
+                val imageUrl = doc.select("meta[property=og:image]").attr("content")
+                if (imageUrl.startsWith("http://")) imageUrl.replace("http://", "https://") else imageUrl
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     private fun updateUI(newsList: List<NewsItem>) {
