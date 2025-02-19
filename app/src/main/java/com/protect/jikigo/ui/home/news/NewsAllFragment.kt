@@ -1,5 +1,7 @@
 package com.protect.jikigo.ui.home.news
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -107,6 +109,12 @@ class NewsAllFragment : Fragment() {
         }
     }
 
+    // 뉴스 링크를 열기 위한 함수
+    private fun openNewsLink(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
     private fun fetchNews(query: String) {
         val call = RetrofitClient.instance.searchNews(query)
         call.enqueue(object : Callback<NewsResponse> {
@@ -116,7 +124,7 @@ class NewsAllFragment : Fragment() {
                         // 뉴스 데이터가 충분한 경우에만 UI 업데이트
                         if (newsList.size >= 9) {
 
-                            // 첫 번째 뉴스 (상위 3개)
+                            // 첫 번째 뉴스
                             binding.tvNewsAllFirstTitle.text = newsList[0].title
                             binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
                             fetchNewsImage(newsList[0].link) { imageUrl ->
@@ -124,8 +132,11 @@ class NewsAllFragment : Fragment() {
                                     .load(imageUrl ?: R.drawable.img_news_all_banner_2)
                                     .into(binding.ivContentNewsAllFirstImage)
                             }
+                            binding.ivContentNewsAllFirstImage.setOnClickListener {
+                                openNewsLink(newsList[0].link)
+                            }
 
-                            // 두 번째 뉴스 (다음 3개)
+                            // 두 번째 뉴스
                             binding.tvNewsAllSecondTitle.text = newsList[3].title
                             binding.tvNewsAllSecondDate.text = formatDate(newsList[3].pubDate)
                             fetchNewsImage(newsList[3].link) { imageUrl ->
@@ -133,14 +144,20 @@ class NewsAllFragment : Fragment() {
                                     .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
                                     .into(binding.ivContentNewsAllSecondImage)
                             }
+                            binding.ivContentNewsAllSecondImage.setOnClickListener {
+                                openNewsLink(newsList[3].link)
+                            }
 
-                            // 세 번째 뉴스 (마지막 3개)
+                            // 세 번째 뉴스
                             binding.tvNewsAllThirdTitle.text = newsList[6].title.cleanHtml()
                             binding.tvNewsAllThirdDate.text = formatDate(newsList[6].pubDate)
                             fetchNewsImage(newsList[6].link) { imageUrl ->
                                 Glide.with(binding.ivContentNewsAllThirdImage.context)
                                     .load(imageUrl ?: R.drawable.img_news_all_banner_2) // 기본 이미지 대체 가능
                                     .into(binding.ivContentNewsAllThirdImage)
+                            }
+                            binding.ivContentNewsAllThirdImage.setOnClickListener {
+                                openNewsLink(newsList[6].link)
                             }
                         }
                     }
