@@ -18,6 +18,7 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.R
+import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
 import com.protect.jikigo.utils.cleanHtml
 import org.jsoup.Jsoup
@@ -121,43 +122,16 @@ class NewsAllFragment : Fragment() {
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if (response.isSuccessful) {
                     response.body()?.items?.let { newsList ->
-                        // 뉴스 데이터가 충분한 경우에만 UI 업데이트
-                        if (newsList.size >= 9) {
+                        val filteredNews = mutableListOf<NewsItem>()
 
-                            // 첫 번째 뉴스
-                            binding.tvNewsAllFirstTitle.text = newsList[0].title.cleanHtml()
-                            binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
-                            fetchNewsImage(newsList[0].link) { imageUrl ->
-                                Glide.with(binding.ivContentNewsAllFirstImage.context)
-                                    .load(imageUrl ?: R.drawable.background_news_no_picture)
-                                    .into(binding.ivContentNewsAllFirstImage)
-                            }
-                            binding.ivContentNewsAllFirstImage.setOnClickListener {
-                                openNewsLink(newsList[0].link)
-                            }
-
-                            // 두 번째 뉴스
-                            binding.tvNewsAllSecondTitle.text = newsList[3].title.cleanHtml()
-                            binding.tvNewsAllSecondDate.text = formatDate(newsList[3].pubDate)
-                            fetchNewsImage(newsList[3].link) { imageUrl ->
-                                Glide.with(binding.ivContentNewsAllSecondImage.context)
-                                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
-                                    .into(binding.ivContentNewsAllSecondImage)
-                            }
-                            binding.ivContentNewsAllSecondImage.setOnClickListener {
-                                openNewsLink(newsList[3].link)
-                            }
-
-                            // 세 번째 뉴스
-                            binding.tvNewsAllThirdTitle.text = newsList[6].title.cleanHtml()
-                            binding.tvNewsAllThirdDate.text = formatDate(newsList[6].pubDate)
-                            fetchNewsImage(newsList[6].link) { imageUrl ->
-                                Glide.with(binding.ivContentNewsAllThirdImage.context)
-                                    .load(imageUrl ?: R.drawable.background_news_no_picture) // 기본 이미지 대체 가능
-                                    .into(binding.ivContentNewsAllThirdImage)
-                            }
-                            binding.ivContentNewsAllThirdImage.setOnClickListener {
-                                openNewsLink(newsList[6].link)
+                        newsList.forEach { newsItem ->
+                            fetchNewsImage(newsItem.link) { imageUrl ->
+                                if (imageUrl != null) {
+                                    filteredNews.add(newsItem.copy(imageUrl = imageUrl))
+                                }
+                                if (filteredNews.size == 3) {
+                                    updateUI(filteredNews)
+                                }
                             }
                         }
                     }
@@ -170,6 +144,40 @@ class NewsAllFragment : Fragment() {
                 Log.e("News", "네트워크 오류: ${t.message}")
             }
         })
+    }
+
+    private fun updateUI(newsList: List<NewsItem>) {
+        if (newsList.size >= 3) {
+            // 첫 번째 뉴스
+            binding.tvNewsAllFirstTitle.text = newsList[0].title.cleanHtml()
+            binding.tvNewsAllFirstDate.text = formatDate(newsList[0].pubDate)
+            Glide.with(binding.ivContentNewsAllFirstImage.context)
+                .load(newsList[0].imageUrl)
+                .into(binding.ivContentNewsAllFirstImage)
+            binding.ivContentNewsAllFirstImage.setOnClickListener {
+                openNewsLink(newsList[0].link)
+            }
+
+            // 두 번째 뉴스
+            binding.tvNewsAllSecondTitle.text = newsList[1].title.cleanHtml()
+            binding.tvNewsAllSecondDate.text = formatDate(newsList[1].pubDate)
+            Glide.with(binding.ivContentNewsAllSecondImage.context)
+                .load(newsList[1].imageUrl)
+                .into(binding.ivContentNewsAllSecondImage)
+            binding.ivContentNewsAllSecondImage.setOnClickListener {
+                openNewsLink(newsList[1].link)
+            }
+
+            // 세 번째 뉴스
+            binding.tvNewsAllThirdTitle.text = newsList[2].title.cleanHtml()
+            binding.tvNewsAllThirdDate.text = formatDate(newsList[2].pubDate)
+            Glide.with(binding.ivContentNewsAllThirdImage.context)
+                .load(newsList[2].imageUrl)
+                .into(binding.ivContentNewsAllThirdImage)
+            binding.ivContentNewsAllThirdImage.setOnClickListener {
+                openNewsLink(newsList[2].link)
+            }
+        }
     }
 
     // 배너화면 설정
