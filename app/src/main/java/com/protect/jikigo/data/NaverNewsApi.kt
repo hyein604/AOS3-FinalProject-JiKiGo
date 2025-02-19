@@ -2,6 +2,7 @@
 package com.protect.jikigo.data
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -12,10 +13,10 @@ interface NaverNewsApi {
         "X-Naver-Client-Secret: QhDrY7BUMm"
     )
     @GET("v1/search/news.json")
-    fun searchNews(
+    suspend fun searchNews(
         @Query("query") query: String,
         @Query("display") display: Int = 30,
         @Query("start") start: Int = 1,
         @Query("sort") sort: String = "sim"
-    ): Call<NewsResponse>
+    ): Response<NewsResponse>
 }
