@@ -9,8 +9,6 @@ import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.utils.cleanHtml
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
@@ -31,7 +29,7 @@ class NewsViewModel : ViewModel() {
                             newsItem.copy(
                                 title = newsItem.title.cleanHtml(),
                                 description = newsItem.description.cleanHtml(),
-                                imageUrl = null // 초기에는 이미지 없음
+                                imageUrl = "loading"
                             )
                         }
                         _newsList.postValue(initialNewsList)
@@ -49,6 +47,16 @@ class NewsViewModel : ViewModel() {
                                             set(index, updatedNewsItem)
                                         }
                                     }
+                                }else{
+                                    val updatedNewsItem = newsItem.copy(imageUrl = null)
+
+                                    withContext(Dispatchers.Main) {
+                                        // 기존 리스트에서 해당 아이템만 교체하여 업데이트
+                                        _newsList.value = _newsList.value?.toMutableList()?.apply {
+                                            set(index, updatedNewsItem)
+                                        }
+                                    }
+
                                 }
                             }
                         }
