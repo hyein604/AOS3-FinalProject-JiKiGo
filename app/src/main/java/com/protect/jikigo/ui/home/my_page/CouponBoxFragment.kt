@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayout
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.databinding.FragmentCouponBoxBinding
@@ -53,6 +54,10 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
         }
     }
 
+    /*
+    리사이클러 뷰
+     */
+
     private fun recycler() {
         binding.recyclerCouponBox.adapter = adapter
     }
@@ -60,6 +65,29 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     override fun onClickListener(item: Coupon) {
         val action = CouponBoxFragmentDirections.actionCouponBoxFragmentToCouponDetailFragment(item)
         findNavController().navigate(action)
+    }
+
+    /*
+    탭
+     */
+
+    private fun tabLayout() {
+        binding.apply {
+            tabCouponBox.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        }
     }
 
 }

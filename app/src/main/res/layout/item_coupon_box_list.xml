@@ -18,6 +18,18 @@
         android:background="@drawable/shape_coupon_radius"
         app:srcCompat="@drawable/img_qr" />
 
+    <View
+        android:id="@+id/view_coupon_blur"
+        app:layout_constraintTop_toTopOf="@id/iv_coupon_list_image"
+        app:layout_constraintEnd_toEndOf="@id/iv_coupon_list_image"
+        app:layout_constraintStart_toStartOf="@id/iv_coupon_list_image"
+        app:layout_constraintBottom_toBottomOf="@id/iv_coupon_list_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_image_blur"
+        android:visibility="gone"
+        android:alpha="0.5"/>
+
     <TextView
         android:id="@+id/tv_coupon_list_d_day"
         android:layout_width="wrap_content"
