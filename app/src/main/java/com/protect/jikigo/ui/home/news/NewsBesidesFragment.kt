@@ -9,7 +9,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.protect.jikigo.data.NewsItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,10 +19,14 @@ import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
 import com.protect.jikigo.utils.cleanHtml
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NewsBesidesFragment : Fragment() {
     private var _binding: FragmentNewsBesidesBinding? = null
-    private val binding get() = _binding!! // ViewBinding 사용
+    private val binding get() = _binding!!
+    private var newsCall: Call<NewsResponse>? = null
 
     private var category: String? = null
     private lateinit var newsAdapter: NewsAdapter
@@ -42,7 +48,9 @@ class NewsBesidesFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        newsCall?.cancel() // API 요청 취소
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +60,11 @@ class NewsBesidesFragment : Fragment() {
         setupRecyclerView()
         setupHomeBannerUI()
 
-        category?.let { fetchNews(it) }
+        category?.let {
+            viewLifecycleOwner.lifecycleScope.launch {
+                fetchNews(it)
+            }
+        }
     }
 
 
@@ -65,37 +77,35 @@ class NewsBesidesFragment : Fragment() {
     }
 
     // 뉴스 API 호출 및 데이터 로드
-    private fun fetchNews(query: String) {
-        val call = RetrofitClient.instance.searchNews(query)
-        call.enqueue(object : Callback<NewsResponse> {
-            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
-                if (response.isSuccessful) {
-                    response.body()?.items?.let { newsList ->
-                        val cleanedNewsList = newsList.map { news ->
+    private suspend fun fetchNews(query: String) {
+        try {
+            val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
+            if (response.isSuccessful) {
+                response.body()?.items?.let { newsList ->
+                    val cleanedNewsList = withContext(Dispatchers.Default) {
+                        newsList.map { news ->
                             news.copy(
-                                title = news.title.cleanHtml(), // HTML 태그 제거
+                                title = news.title.cleanHtml(),
                                 description = news.description.cleanHtml()
                             )
-                        }.toMutableList()
-
-                        val top3News = listOf(2, 6, 10)
-                            .filter { it < cleanedNewsList.size } // 리스트 크기를 초과하지 않도록 필터링
-                            .map { cleanedNewsList[it] }
-                            .toMutableList()
-
-                        // 데이터를 어댑터에 전달
-                        newsAdapter.submitList(cleanedNewsList)
-                        newsBannerAdapter.submitList(top3News)
+                        }
                     }
-                } else {
-                    Log.e("News", "API 호출 실패: ${response.code()}")
-                }
-            }
 
-            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                Log.e("News", "네트워크 오류: ${t.message}")
+                    val top3News = listOf(2, 6, 10)
+                        .filter { it < cleanedNewsList.size }
+                        .map { cleanedNewsList[it] }
+
+                    withContext(Dispatchers.Main) {
+                        newsAdapter.submitList(cleanedNewsList as MutableList<NewsItem>?)
+                        newsBannerAdapter.submitList(top3News as MutableList<NewsItem>?)
+                    }
+                }
+            } else {
+                Log.e("News", "API 호출 실패: ${response.code()}")
             }
-        })
+        } catch (e: Exception) {
+            Log.e("News", "네트워크 오류: ${e.message}")
+        }
     }
 
     // 배너 UI 설정
