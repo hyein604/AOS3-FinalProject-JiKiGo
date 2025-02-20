@@ -17,11 +17,15 @@ import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.toast
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelCouponBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +35,9 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private var selectedBrand: String? = null
 
     private var isFabVisible = false
+
+    @Inject
+    lateinit var couponRepo : CouponRepo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

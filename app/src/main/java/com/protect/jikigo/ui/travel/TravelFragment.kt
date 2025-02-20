@@ -70,7 +70,7 @@ class TravelFragment : Fragment() {
 
             vpTravel.adapter = TravelViewPagerAdapter(childFragmentManager, lifecycle)
 
-            val tavelTabLayoutMediator = TabLayoutMediator(tabLayoutTravel, vpTravel) { tab, position ->
+            val travelTabLayoutMediator = TabLayoutMediator(tabLayoutTravel, vpTravel) { tab, position ->
                 // 원래는 position별로 분기하여 처리해주세요
                 // 각 탭에 보여줄 문자열을 새롭게 구성해줘야 한다.
                 when (position) {
@@ -81,7 +81,7 @@ class TravelFragment : Fragment() {
                     4 -> tab.text = "여행용품"
                 }
             }
-            tavelTabLayoutMediator.attach()
+            travelTabLayoutMediator.attach()
         }
     }
 
