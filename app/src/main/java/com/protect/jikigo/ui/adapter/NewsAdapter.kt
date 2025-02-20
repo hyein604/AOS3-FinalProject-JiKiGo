@@ -17,31 +17,6 @@ import java.util.concurrent.Executors
 
 class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
-    private val executor = Executors.newFixedThreadPool(4) // 병렬 처리 최적화
-
-    // 사진 못불러온 리스트는 표시 안되게 필터링
-    override fun submitList(list: MutableList<NewsItem>?) {
-        if (list == null) {
-            super.submitList(null)
-            return
-        }
-
-        val filteredList = mutableListOf<NewsItem>()
-        val tasks = list.map { newsItem ->
-            executor.submit {
-                val imageUrl = fetchNewsImageSync(newsItem.link)
-                if (!imageUrl.isNullOrEmpty()) {
-                    newsItem.imageUrl = imageUrl
-                    filteredList.add(newsItem)
-                }
-            }
-        }
-
-        tasks.forEach { it.get() }
-
-        super.submitList(filteredList)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = RowLatestNewsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NewsViewHolder(binding)

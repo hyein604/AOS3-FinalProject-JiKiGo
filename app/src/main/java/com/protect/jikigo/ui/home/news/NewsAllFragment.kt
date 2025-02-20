@@ -11,16 +11,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.protect.jikigo.databinding.FragmentNewsAllBinding
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import retrofit2.Call
-import com.protect.jikigo.data.RetrofitClient
-import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.R
 import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
+import com.protect.jikigo.ui.viewModel.NewsViewModel
 import com.protect.jikigo.utils.cleanHtml
-import org.jsoup.Jsoup
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlinx.coroutines.*
@@ -28,6 +25,7 @@ import kotlinx.coroutines.*
 class NewsAllFragment : Fragment() {
     private var _binding: FragmentNewsAllBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: NewsViewModel by viewModels()
     private var category: String? = null
 
     private val bannerImages = listOf(
@@ -74,12 +72,14 @@ class NewsAllFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뉴스 검색 실행
-        category?.let {
-            viewLifecycleOwner.lifecycleScope.launch { // Fragment의 라이프사이클을 준수
-                fetchNews(it)
-            }
+        // ViewModel의 데이터를 관찰하여 UI 업데이트
+        viewModel.newsList.observe(viewLifecycleOwner) { newsList ->
+            updateUI(newsList)
         }
+
+        // 뉴스 검색 실행
+        category?.let { viewModel.fetchNews(it) }
+
         // 띠 배너
         setupHomeBannerUI()
 
@@ -104,41 +104,6 @@ class NewsAllFragment : Fragment() {
         startActivity(intent)
     }
 
-    private suspend fun fetchNews(query: String) {
-        try {
-            val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
-            if (response.isSuccessful) {
-                response.body()?.items?.let { newsList ->
-                    val filteredNews = withContext(Dispatchers.IO) {
-                        newsList.map { newsItem ->
-                            async { newsItem.copy(imageUrl = fetchNewsImageAsync(newsItem.link)) }
-                        }.awaitAll().filter { it.imageUrl != null }
-                    }
-
-                    withContext(Dispatchers.Main) {
-                        updateUI(filteredNews)
-                    }
-                }
-            } else {
-                Log.e("News", "API 호출 실패: ${response.code()}")
-            }
-        } catch (e: Exception) {
-            Log.e("News", "네트워크 오류: ${e.message}")
-        }
-    }
-
-    // Open Graph 태그에서 이미지 URL 가져오기
-    private suspend fun fetchNewsImageAsync(url: String): String? {
-        return withContext(Dispatchers.IO) {
-            try {
-                val doc = Jsoup.connect(url).get()
-                val imageUrl = doc.select("meta[property=og:image]").attr("content")
-                imageUrl.takeIf { it.startsWith("http") }?.replace("http://", "https://")
-            } catch (e: Exception) {
-                null
-            }
-        }
-    }
 
     private fun updateUI(newsList: List<NewsItem>) {
         if (newsList.size >= 3) {
