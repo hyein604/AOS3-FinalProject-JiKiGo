@@ -118,12 +118,6 @@
 		app:layout_constraintStart_toStartOf="@id/btn_login"
 		app:layout_constraintTop_toTopOf="@id/tv_login_sign_up" />
 
-	<androidx.constraintlayout.widget.Group
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:visibility="gone"
-		app:constraint_referenced_ids="btn_login_kakao,btn_login_naver,divider_login_sns_left,divider_login_sns_right,tv_login_sns_label" />
-
 	<com.google.android.material.divider.MaterialDivider
 		android:id="@+id/divider_login_sns_left"
 		android:layout_width="0dp"
@@ -164,6 +158,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginTop="20dp"
 		android:background="@drawable/btn_sns_kakao"
+		android:scaleType="fitXY"
 		app:layout_constraintEnd_toEndOf="@id/btn_login"
 		app:layout_constraintStart_toStartOf="@id/btn_login"
 		app:layout_constraintTop_toBottomOf="@id/tv_login_sns_label" />
@@ -175,6 +170,7 @@
 		android:layout_height="45dp"
 		android:layout_marginTop="10dp"
 		android:background="@drawable/btn_sns_naver"
+		android:visibility="gone"
 		app:layout_constraintEnd_toEndOf="@id/btn_login"
 		app:layout_constraintStart_toStartOf="@id/btn_login"
 		app:layout_constraintTop_toBottomOf="@id/btn_login_kakao" />
