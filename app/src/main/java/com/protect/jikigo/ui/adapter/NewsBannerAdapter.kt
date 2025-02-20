@@ -11,33 +11,9 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.databinding.ItemNewsBannerBinding
 import org.jsoup.Jsoup
-import java.util.concurrent.Executors
+
 
 class NewsBannerAdapter : ListAdapter<NewsItem, NewsBannerAdapter.NewsBannerViewHolder>(NewsDiffCallback()) {
-
-    private val executor = Executors.newFixedThreadPool(4)
-
-    override fun submitList(list: MutableList<NewsItem>?) {
-        if (list == null) {
-            super.submitList(null)
-            return
-        }
-
-        val filteredList = mutableListOf<NewsItem>()
-        val tasks = list.map { newsItem ->
-            executor.submit {
-                val imageUrl = fetchNewsImageSync(newsItem.link)
-                if (!imageUrl.isNullOrEmpty()) {
-                    newsItem.imageUrl = imageUrl
-                    filteredList.add(newsItem)
-                }
-            }
-        }
-
-        tasks.forEach { it.get() }
-
-        super.submitList(filteredList)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsBannerViewHolder {
         val binding = ItemNewsBannerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
