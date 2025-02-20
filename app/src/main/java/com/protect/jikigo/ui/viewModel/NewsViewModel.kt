@@ -26,15 +26,32 @@ class NewsViewModel : ViewModel() {
                 val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
                 if (response.isSuccessful) {
                     response.body()?.items?.let { newsList ->
-                        val filteredNews = withContext(Dispatchers.IO) {
-                            newsList.map { newsItem ->
-                                async { newsItem.copy(
-                                    imageUrl = fetchNewsImageAsync(newsItem.link),
-                                    title = newsItem.title.cleanHtml(),
-                                    description = newsItem.description.cleanHtml()) }
-                            }.awaitAll().filter { it.imageUrl != null }
+                        // title과 description 먼저 보여주기
+                        val initialNewsList = newsList.map { newsItem ->
+                            newsItem.copy(
+                                title = newsItem.title.cleanHtml(),
+                                description = newsItem.description.cleanHtml(),
+                                imageUrl = null // 초기에는 이미지 없음
+                            )
                         }
-                        _newsList.postValue(filteredNews)
+                        _newsList.postValue(initialNewsList)
+
+                        // 개별적으로 imageUrl 크롤링 후 업데이트
+                        initialNewsList.forEachIndexed { index, newsItem ->
+                            viewModelScope.launch(Dispatchers.IO) {
+                                val imageUrl = fetchNewsImageAsync(newsItem.link)
+                                if (imageUrl != null) {
+                                    val updatedNewsItem = newsItem.copy(imageUrl = imageUrl)
+
+                                    withContext(Dispatchers.Main) {
+                                        // 기존 리스트에서 해당 아이템만 교체하여 업데이트
+                                        _newsList.value = _newsList.value?.toMutableList()?.apply {
+                                            set(index, updatedNewsItem)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     Log.e("News", "API 호출 실패: ${response.code()}")
