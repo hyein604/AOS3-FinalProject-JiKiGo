@@ -74,7 +74,9 @@ class NewsAllFragment : Fragment() {
 
         // ViewModel의 데이터를 관찰하여 UI 업데이트
         viewModel.newsList.observe(viewLifecycleOwner) { newsList ->
-            updateUI(newsList)
+            // 이미지가 있는 뉴스 아이템만 필터링 후 랜덤으로 3개 선택
+            val imageNewsList = newsList.filter { it.imageUrl != null }.take(3)
+            updateUI(imageNewsList)
         }
 
         // 뉴스 검색 실행
@@ -82,9 +84,7 @@ class NewsAllFragment : Fragment() {
 
         // 띠 배너
         setupHomeBannerUI()
-
     }
-
 
     // 뉴스 날짜 포맷을 변경하는 함수
     private fun formatDate(pubDate: String): String {
@@ -103,7 +103,6 @@ class NewsAllFragment : Fragment() {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
     }
-
 
     private fun updateUI(newsList: List<NewsItem>) {
         if (newsList.size >= 3) {

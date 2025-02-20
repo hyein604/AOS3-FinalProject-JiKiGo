@@ -68,12 +68,10 @@ class NewsBesidesFragment : Fragment() {
         viewModel.newsList.observe(viewLifecycleOwner) { newsList ->
             newsAdapter.submitList(newsList as MutableList<NewsItem>?)
 
-            // 이미지가 있는 뉴스 아이템만 필터링
-            val newsWithImages = newsList.filter { it.imageUrl != null }
+            // 이미지가 있는 뉴스 아이템만 필터링 후 랜덤으로 3개 선택
+            val imageNewsList = newsList.filter { it.imageUrl != null }.take(3)
+            newsBannerAdapter.submitList(imageNewsList as MutableList<NewsItem>?)
 
-            // 이미지가 있는 뉴스 아이템이 3개 이상이면 랜덤으로 3개 선택
-                val randomItems = newsWithImages.shuffled().take(3)
-                newsBannerAdapter.submitList(randomItems as MutableList<NewsItem>?)
         }
 
         category?.let { viewModel.fetchNews(it) }
