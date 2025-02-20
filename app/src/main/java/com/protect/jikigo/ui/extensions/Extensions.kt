@@ -8,13 +8,17 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.protect.jikigo.R
 import kotlinx.coroutines.Dispatchers
@@ -84,7 +88,7 @@ fun Button.setTimer(lifecycleScope: LifecycleCoroutineScope, editText: TextInput
     this.isEnabled = false
     editText.isEnabled = false
     lifecycleScope.launch(Dispatchers.Main) {
-        val totalTime = 180
+        val totalTime = 120
         for (i in totalTime downTo 0) {
             val minutes = i / 60
             val seconds = i % 60
@@ -134,3 +138,10 @@ fun Context.showDialog(
     alertDialog.show()
 }
 
+fun Context.showSnackBar(view: View, msg: String) {
+    Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+        .setAnchorView(
+            (this as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottom_nav_home)
+        )
+        .show()
+}
