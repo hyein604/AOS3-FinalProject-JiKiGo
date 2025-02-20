@@ -52,16 +52,29 @@ class SignUpViewModel @Inject constructor(
     private val _idResult = MutableLiveData<Pair<Boolean, String>>()
     val idResult: LiveData<Pair<Boolean, String>> get() = _idResult
 
-    // 버튼 상태
+    // 버튼 활성화 상태
     private val _isIdCheckBtnEnabled = MutableLiveData(false)
     val isIdCheckBtnEnabled: LiveData<Boolean> = _isIdCheckBtnEnabled
 
     private val _isSignUpBtnEnabled = MutableLiveData(false)
     val isSignUpBtnEnabled: LiveData<Boolean> = _isSignUpBtnEnabled
 
+    private val _isNickNameCheckBtnEnabled = MutableLiveData(false)
+    val isNickNameCheckBtnEnabled: LiveData<Boolean> = _isNickNameCheckBtnEnabled
+
+    private val _isAuthNumberBtnEnabled = MutableLiveData(false)
+    val isAuthNumberBtnEnabled: LiveData<Boolean> = _isAuthNumberBtnEnabled
+
+    private val _isMobileBtnEnabled = MutableLiveData(false)
+    val isMobileBtnEnabled: LiveData<Boolean> = _isMobileBtnEnabled
+
+
+
     private var isIdChecked = false
     private var isNicknameChecked = false
+    private var isMobileChecked = false
     private var isAuthNumberChecked = false
+
 
     fun validateName() {
         val value = name.value.orEmpty()
@@ -82,6 +95,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+
     fun validateAuthNumber() {
         val value = authNumber.value.orEmpty()
         _authNumberError.value = when {
@@ -94,8 +108,8 @@ class SignUpViewModel @Inject constructor(
     fun validateId() {
         val value = id.value.orEmpty()
         _idError.value = when {
-            value.isEmpty() -> null
-            value.length !in 8..16 -> "아이디는 최소 8자, 최대 16자 입니다."
+            value.isEmpty() -> "아이디를 입력해주세요."
+            !value.matches(Regex("^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{8,16}$")) -> "아이디는 최소 8자, 최대 16 소문자, 숫자"
             else -> null
         }
     }
@@ -103,8 +117,11 @@ class SignUpViewModel @Inject constructor(
     fun validatePw() {
         val value = pw.value.orEmpty()
         _pwError.value = when {
-            value.isEmpty() -> null
-            value.length !in 14..20 -> "비밀번호는 최소 14자, 최대20자 입니다"
+            value.isEmpty() -> "비밀번호를 입력해주세요."
+            !value.matches(
+                Regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{14,20}$")
+            ) -> "비밀번호는 최소14, 최대16 대문자, 특수문자 포함(!@#$)"
+
             else -> null
         }
     }
@@ -112,7 +129,7 @@ class SignUpViewModel @Inject constructor(
     fun validatePwChk() {
         val value = pwChk.value.orEmpty()
         _pwChkError.value = when {
-            value.isEmpty() -> null
+            value.isEmpty() -> "비밀번호를 입력해주세요."
             value != pw.value -> "비밀번호가 일치하지 않습니다."
             else -> null
         }
@@ -121,8 +138,8 @@ class SignUpViewModel @Inject constructor(
     fun validateNickName() {
         val value = nickName.value.orEmpty()
         _nickNameError.value = when {
-            value.isEmpty() -> null
-            value.length !in 2..10 -> "닉네임은 최소2, 최대10자 입니다."
+            value.isEmpty() -> "닉네임을 입력해주세요."
+            !value.matches(Regex("^[가-힣a-zA-Z0-9]{2,10}$")) -> "닉네임은 최소2, 최대10자 입니다."
             else -> null
         }
     }
@@ -135,23 +152,21 @@ class SignUpViewModel @Inject constructor(
             userId = id.value.orEmpty(),
             userPw = pw.value.orEmpty(),
             userNickName = nickName.value.orEmpty()
-
         )
         userRepo.addUserInfo(userInfo, callback)
     }
 
     // 모든 입력값과 중복 확인 완료 여부에 따라 가입 버튼 활성화 여부 결정
-    fun validateSignUpButton() {
-        _isSignUpBtnEnabled.value = name.value.orEmpty().isNotEmpty() &&
-                id.value.orEmpty().isNotEmpty() &&
-                nickName.value.orEmpty().isNotEmpty() &&
-                pw.value.orEmpty().length >= 8 &&
+    fun validateSignUpBtn() {
+        _isSignUpBtnEnabled.value = name.value?.matches(Regex("^[가-힣a-zA-Z]+$")) ?: false &&
+                mobile.value?.matches(Regex("^[0-9]{11}$")) ?: false &&
+                authNumber.value?.matches(Regex("^[0-9]{6}$")) ?: false &&
+                id.value?.matches(Regex("^[가-힣a-zA-Z0-9]{2,10}$")) ?: false &&
+                pw.value?.matches(Regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])[A-Za-z0-9!@#$]{14,20}$")) ?: false &&
                 pwChk.value == pw.value &&
-                mobile.value.orEmpty().length == 11 &&
-                authNumber.value.orEmpty().length == 6 &&
+                nickName.value?.matches(Regex("^[가-힣a-zA-Z0-9]{2,10}$")) ?: false &&
                 isIdChecked && isNicknameChecked && isAuthNumberChecked
     }
-
 
     // 아이디 중복 확인
     fun checkedId(id: String) {
@@ -168,19 +183,71 @@ class SignUpViewModel @Inject constructor(
                     "이미 사용 중인 아이디입니다."
                 }
                 _idResult.value = Pair(available, msg)
-                validateSignUpButton() // 가입 버튼 상태 업데이트
+                validateSignUpBtn() // 가입 버튼 상태 업데이트
             } catch (e: Exception) {
                 _idResult.value = Pair(false, "아이디 중복 확인 중 오류가 발생했습니다.")
             }
         }
     }
 
+    // 닉네임 중복 확인
+    fun checkedNickName(nickName: String) {
+        viewModelScope.launch {
+            try {
+                val trimmedNickName = nickName.trim().lowercase()
+                val available = userRepo.isNickNameAvailable(trimmedNickName)
+
+                val msg = if (available) {
+                    isNicknameChecked = true
+                    "사용 가능한 닉네임입니다."
+                } else {
+                    isNicknameChecked = false
+                    "이미 사용 중인 닉네임입니다."
+                }
+                _nicknameResult.value = Pair(available, msg)
+                validateSignUpBtn() // 가입 버튼 상태 업데이트
+            } catch (e: Exception) {
+                _nicknameResult.value = Pair(false, "닉네임 중복 확인 중 오류가 발생했습니다.")
+            }
+        }
+    }
 
     // 입력 필드 상태에 따라 중복 확인 버튼 활성화 여부 결정
-    fun validateIdCheckButton() {
+    fun validateIdCheckBtn() {
         val value = id.value.orEmpty()
-        _isIdCheckBtnEnabled.value = value.length >= 6
-        // 아이디 변경 시 중복 확인 다시 필요
+        _isIdCheckBtnEnabled.value = when {
+            !value.matches(Regex("^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{8,16}$")) -> false
+            else -> true
+        }
         isIdChecked = false
+    }
+
+    fun validateNickNameCheckBtn() {
+        val value = nickName.value.orEmpty()
+        _isNickNameCheckBtnEnabled.value = when {
+            !value.matches(Regex("^[가-힣a-zA-Z0-9]{2,10}$")) -> false
+            else -> true
+        }
+        isNicknameChecked = false
+    }
+
+    fun validateMobileCheckBtn() {
+        val value = mobile.value.orEmpty()
+        _isMobileBtnEnabled.value = when {
+            !value.matches(Regex("^[0-9]{11}$")) -> false
+            else -> true
+        }
+        isMobileChecked = false
+    }
+
+    fun validateAuthCheckBtn() {
+        val value = authNumber.value.orEmpty()
+        _isAuthNumberBtnEnabled.value = value.matches((Regex("^[0-9]{6}$")))
+    }
+
+    // 인증 완료
+    fun authNumberSuccess() {
+        isAuthNumberChecked = true
+        validateSignUpBtn()
     }
 }
