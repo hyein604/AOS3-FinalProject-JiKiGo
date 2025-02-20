@@ -3,6 +3,7 @@ package com.protect.jikigo.ui.adapter
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
@@ -32,9 +33,31 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
             binding.tvNewsBesidesContent.text = newsItem.description
             binding.tvNewsBesidesSource.text = formatDate(newsItem.pubDate)
 
-            Glide.with(binding.ivNewsBesidesThumbnail.context)
-                .load(newsItem.imageUrl)
-                .into(binding.ivNewsBesidesThumbnail)
+            when(newsItem.imageUrl){
+                // 이미지가 없을경우
+                null -> binding.ivNewsBesidesThumbnailLoading.visibility = View.GONE
+
+                // 이미지가 있을경우
+                else -> {
+                    binding.ivNewsBesidesThumbnailLoading.visibility = View.GONE
+                    Glide.with(binding.ivNewsBesidesThumbnail.context)
+                        .load(newsItem.imageUrl)
+                        .into(binding.ivNewsBesidesThumbnail)
+                    binding.ivNewsBesidesThumbnail.visibility = View.VISIBLE
+                }
+
+            }
+            if (newsItem.imageUrl != null) {
+                // 로딩중일경
+                // 이미지가 있을 경우
+                Glide.with(binding.ivNewsBesidesThumbnail.context)
+                    .load(newsItem.imageUrl)
+                    .into(binding.ivNewsBesidesThumbnail)
+                binding.ivNewsBesidesThumbnail.visibility = View.VISIBLE
+            } else {
+                // 이미지가 없을 경우
+                binding.ivNewsBesidesThumbnail.visibility = View.GONE
+            }
 
             binding.root.setOnClickListener {
                 val context = binding.root.context
@@ -42,6 +65,7 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCa
                 context.startActivity(intent)
             }
         }
+
 
         private fun formatDate(pubDate: String): String {
             return try {

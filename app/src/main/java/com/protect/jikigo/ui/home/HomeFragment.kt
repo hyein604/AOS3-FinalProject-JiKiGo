@@ -6,24 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
-import com.protect.jikigo.data.Store
 import com.protect.jikigo.databinding.FragmentHomeBinding
 import com.protect.jikigo.ui.HomeAdapter
 import com.protect.jikigo.ui.HomeStoreItemClickListener
-import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.statusBarColor
-import com.protect.jikigo.ui.extensions.toast
+import androidx.fragment.app.viewModels
+import com.protect.jikigo.ui.viewModel.NotificationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+     private val notificationViewModel: NotificationViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +55,9 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         moveToNotification()
         moveToQR()
         moveToTravel()
-        moveToDetailNoti()
         homeTextSpannable()
-        tempMethod()
         moveToRank()
+        observeNotificationList()
     }
 
     private fun setStatusBarColor() {
@@ -119,32 +122,25 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         binding.tvHomeClickRank.applySpannableStyles(0, binding.tvHomeClickRank.length(), R.color.black, true, true)
     }
 
-    // 데이테 베이스 생성시 삭제되는 메서드
-    private fun tempMethod() {
-        val topNotices = Storage.notificationList.take(3) // 상위 3개만 가져오기
-        with(binding) {
-            // 유저 포인트
-            tvHomePoint.applyNumberFormat(3456)
-            // 공지사항
-            tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
-            tvHomeNotice2.text = topNotices.getOrNull(1)?.title ?: ""
-            tvHomeNotice3.text = topNotices.getOrNull(2)?.title ?: ""
-        }
-    }
 
-    private fun moveToDetailNoti() {
-        val topNotices = Storage.notificationList.take(3) // 상위 3개만 사용
-        with(binding) {
-            listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEachIndexed { index, textView ->
-                textView.setOnClickListener {
-                    val action = HomeFragmentDirections
-                        .actionNavigationHomeToNotificationDetail(topNotices[index])
-                    findNavController().navigate(action)
+    private fun observeNotificationList() {
+        notificationViewModel.filteredList.observe(viewLifecycleOwner) { notificationList ->
+            val topNotices = notificationList.take(3) // 상위 3개만 가져오기
+            with(binding) {
+                tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
+                tvHomeNotice2.text = topNotices.getOrNull(1)?.title ?: ""
+                tvHomeNotice3.text = topNotices.getOrNull(2)?.title ?: ""
+
+                listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEachIndexed { index, textView ->
+                    textView.setOnClickListener {
+                        val action = HomeFragmentDirections
+                            .actionNavigationHomeToNotificationDetail(topNotices[index])
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
     }
-
 
     private fun setRecyclerView() {
         val storeList = Storage.coupon

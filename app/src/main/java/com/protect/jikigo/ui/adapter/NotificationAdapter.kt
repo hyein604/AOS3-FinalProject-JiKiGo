@@ -3,7 +3,7 @@ package com.protect.jikigo.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.protect.jikigo.data.Notification
+import com.protect.jikigo.data.model.Notification
 import com.protect.jikigo.databinding.RowNotificationBinding
 
 class NotificationAdapter(

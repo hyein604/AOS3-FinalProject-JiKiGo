@@ -53,7 +53,7 @@
 		tools:layout="@layout/fragment_notification_detail">
 		<argument
 			android:name="notification"
-			app:argType="com.protect.jikigo.data.Notification" />
+			app:argType="com.protect.jikigo.data.model.Notification" />
 	</fragment>
 
 	<fragment

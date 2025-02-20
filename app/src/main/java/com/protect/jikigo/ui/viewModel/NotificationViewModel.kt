@@ -3,12 +3,17 @@ package com.protect.jikigo.ui.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.protect.jikigo.data.Notification
-import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Notification
+import com.protect.jikigo.data.repo.NotificationRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NotificationViewModel : ViewModel() {
+@HiltViewModel
+class NotificationViewModel @Inject constructor(
+    private val repository: NotificationRepo
+) : ViewModel() {
     // 공지사항 리스트
-    private val notificationList = Storage.notificationList
+    private val notificationList = repository.getMySavedPosts()
 
     // 검색된 리스트
     private val _filteredList = MutableLiveData(notificationList)
