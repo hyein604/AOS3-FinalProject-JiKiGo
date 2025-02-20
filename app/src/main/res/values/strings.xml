@@ -2,6 +2,7 @@
 	<string name="app_name">JiKiGo</string>
 	<!--    툴바 타이틀	-->
 	<string name="toolbar_title_payment">결제</string>
+	<string name="toolbar_title_sign_up">회원가입</string>
 
 	<!--    회원가입	-->
 	<string name="sign_up_label">환영합니다!\n지키GO에 가입하시려면 약관에 동의해 주세요</string>
