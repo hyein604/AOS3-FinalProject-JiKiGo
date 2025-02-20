@@ -1,5 +1,6 @@
 package com.protect.jikigo.ui.viewModel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -70,10 +71,41 @@ class NewsViewModel : ViewModel() {
         }
     }
 
+    // 동기로 이미지 가져오기
+    private fun fetchNewsImageSync(url: String): String? {
+        return try {
+            val doc = Jsoup.connect(url).get()
+
+            var imageUrl = listOf(
+                "meta[property=og:image]",
+                "meta[name=twitter:image]",
+                "meta[name=thumbnail]"
+            ).mapNotNull { selector ->
+                doc.select(selector).attr("content").takeIf { it.isNotEmpty() }
+            }.firstOrNull() ?: ""
+
+            if (imageUrl.isEmpty()) {
+                imageUrl = doc.select("article img, figure img, div img, span img").firstOrNull()?.attr("src") ?: ""
+            }
+
+            if (imageUrl.startsWith("/")) {
+                val baseUri = Uri.parse(url).scheme + "://" + Uri.parse(url).host
+                imageUrl = baseUri + imageUrl
+            }
+
+            imageUrl.takeIf { it.isNotEmpty() }?.replace("http://", "https://")
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    // 비동기로 이미지 가져오기
     private suspend fun fetchNewsImageAsync(url: String): String? {
+        // withContext(Dispatchers.IO)로 IO 스레드에서 실행되므로 UI 스레드를 차단하지 않고 백그라운드에서 작업을 처리
         return withContext(Dispatchers.IO) {
             try {
                 val doc = Jsoup.connect(url).get()
+
                 val imageUrl = doc.select("meta[property=og:image]").attr("content")
                 imageUrl.takeIf { it.startsWith("http") }?.replace("http://", "https://")
             } catch (e: Exception) {

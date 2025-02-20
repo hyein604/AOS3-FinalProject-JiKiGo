@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.databinding.ItemNewsBannerBinding
-import org.jsoup.Jsoup
 
 
 class NewsBannerAdapter : ListAdapter<NewsItem, NewsBannerAdapter.NewsBannerViewHolder>(NewsDiffCallback()) {
@@ -37,33 +36,6 @@ class NewsBannerAdapter : ListAdapter<NewsItem, NewsBannerAdapter.NewsBannerView
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(newsItem.link))
                 context.startActivity(intent)
             }
-        }
-    }
-
-    private fun fetchNewsImageSync(url: String): String? {
-        return try {
-            val doc = Jsoup.connect(url).get()
-
-            var imageUrl = listOf(
-                "meta[property=og:image]",
-                "meta[name=twitter:image]",
-                "meta[name=thumbnail]"
-            ).mapNotNull { selector ->
-                doc.select(selector).attr("content").takeIf { it.isNotEmpty() }
-            }.firstOrNull() ?: ""
-
-            if (imageUrl.isEmpty()) {
-                imageUrl = doc.select("article img, figure img, div img, span img").firstOrNull()?.attr("src") ?: ""
-            }
-
-            if (imageUrl.startsWith("/")) {
-                val baseUri = Uri.parse(url).scheme + "://" + Uri.parse(url).host
-                imageUrl = baseUri + imageUrl
-            }
-
-            imageUrl.takeIf { it.isNotEmpty() }?.replace("http://", "https://")
-        } catch (e: Exception) {
-            null
         }
     }
 }
