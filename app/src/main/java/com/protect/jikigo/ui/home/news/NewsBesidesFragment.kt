@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import android.util.Log
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protect.jikigo.data.NewsItem
@@ -18,6 +19,7 @@ import retrofit2.Response
 import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
 import com.protect.jikigo.ui.adapter.NewsAdapter
+import com.protect.jikigo.ui.viewModel.NewsViewModel
 import com.protect.jikigo.utils.cleanHtml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,9 +28,11 @@ import kotlinx.coroutines.withContext
 class NewsBesidesFragment : Fragment() {
     private var _binding: FragmentNewsBesidesBinding? = null
     private val binding get() = _binding!!
-    private var newsCall: Call<NewsResponse>? = null
+    private val viewModel: NewsViewModel by viewModels()
 
+    private var newsCall: Call<NewsResponse>? = null
     private var category: String? = null
+
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var newsBannerAdapter: NewsBannerAdapter
 
@@ -60,11 +64,21 @@ class NewsBesidesFragment : Fragment() {
         setupRecyclerView()
         setupHomeBannerUI()
 
-        category?.let {
-            viewLifecycleOwner.lifecycleScope.launch {
-                fetchNews(it)
-            }
+        // ViewModel 관찰하여 UI 업데이트
+        viewModel.newsList.observe(viewLifecycleOwner) { newsList ->
+            newsAdapter.submitList(newsList as MutableList<NewsItem>?)
+
+            val bannerItems = listOfNotNull(
+                newsList.getOrNull(2),
+                newsList.getOrNull(8),
+                newsList.getOrNull(14)
+            )
+            newsBannerAdapter.submitList(bannerItems as MutableList<NewsItem>?)
+
         }
+
+
+        category?.let { viewModel.fetchNews(it) }
     }
 
 
@@ -76,37 +90,7 @@ class NewsBesidesFragment : Fragment() {
         }
     }
 
-    // 뉴스 API 호출 및 데이터 로드
-    private suspend fun fetchNews(query: String) {
-        try {
-            val response = withContext(Dispatchers.IO) { RetrofitClient.instance.searchNews(query) }
-            if (response.isSuccessful) {
-                response.body()?.items?.let { newsList ->
-                    val cleanedNewsList = withContext(Dispatchers.Default) {
-                        newsList.map { news ->
-                            news.copy(
-                                title = news.title.cleanHtml(),
-                                description = news.description.cleanHtml()
-                            )
-                        }
-                    }
 
-                    val top3News = listOf(2, 6, 10)
-                        .filter { it < cleanedNewsList.size }
-                        .map { cleanedNewsList[it] }
-
-                    withContext(Dispatchers.Main) {
-                        newsAdapter.submitList(cleanedNewsList as MutableList<NewsItem>?)
-                        newsBannerAdapter.submitList(top3News as MutableList<NewsItem>?)
-                    }
-                }
-            } else {
-                Log.e("News", "API 호출 실패: ${response.code()}")
-            }
-        } catch (e: Exception) {
-            Log.e("News", "네트워크 오류: ${e.message}")
-        }
-    }
 
     // 배너 UI 설정
     private fun setupHomeBannerUI() {
