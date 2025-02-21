@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.App
 import com.protect.jikigo.HomeActivity
 import com.protect.jikigo.databinding.FragmentLoginBinding
 import com.protect.jikigo.ui.extensions.showSnackBar
 import com.protect.jikigo.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -40,7 +43,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun setLayout() {
+        autoLogin()
         onClick()
+    }
+
+    private fun autoLogin() {
+        lifecycleScope.launch {
+            val userId = App.getUserId(requireContext())
+            if (userId != null) {
+                moveToHome()
+            }
+        }
     }
 
     // 각 요소 클릭 메서드
@@ -61,8 +74,7 @@ class LoginFragment : Fragment() {
             btnLoginKakao.setOnClickListener {
                 viewModel.kakao(requireContext()) { success ->
                     if (success) {
-                        val intent = Intent(requireContext(), HomeActivity::class.java)
-                        startActivity(intent)
+                        moveToHome()
                     } else {
                         requireContext().showSnackBar(binding.root, "카카오 인증을 실패했습니다.")
                     }
@@ -72,5 +84,9 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun moveToHome() {
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        startActivity(intent)
+    }
 
 }

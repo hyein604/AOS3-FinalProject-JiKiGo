@@ -5,17 +5,22 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.protect.jikigo.App
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+
     private val userRepo: UserRepo
 ) : ViewModel() {
 
@@ -34,6 +39,13 @@ class LoginViewModel @Inject constructor(
     private val _profileImg = MutableLiveData<String?>()
     val profileImg: LiveData<String?> get() = _profileImg
 
+    private val _userId = MutableLiveData<String?>()
+    val userId: LiveData<String?> get() = _userId
+
+    private fun setDataStore(context: Context, userId: String) = viewModelScope.launch(Dispatchers.IO) {
+        App.setUserId(context, userId)
+    }
+
     /**
      * 카카오 로그인 (자동 로그인 지원)
      */
@@ -49,7 +61,7 @@ class LoginViewModel @Inject constructor(
                 // 기존 저장된 액세스 토큰 가져오기
                 val token = com.kakao.sdk.auth.TokenManagerProvider.instance.manager.getToken()
                 if (token != null) {
-                    getKakaoUserInfo(token.accessToken, onLoginComplete)
+                    getKakaoUserInfo(context, token.accessToken, onLoginComplete)
                 } else {
                     Log.e("LoginViewModel", "액세스 토큰이 없음. 로그인 필요.")
                     startKakaoLogin(context, onLoginComplete)
@@ -67,7 +79,7 @@ class LoginViewModel @Inject constructor(
                 Log.d("LoginViewModel", "카카오 로그인 실패: ${error.message}")
                 onLoginComplete(false)
             } else if (token != null) {
-                getKakaoUserInfo(token.accessToken, onLoginComplete)
+                getKakaoUserInfo(context, token.accessToken, onLoginComplete)
             }
         }
 
@@ -79,7 +91,7 @@ class LoginViewModel @Inject constructor(
                     }
                     UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
                 } else if (token != null) {
-                    getKakaoUserInfo(token.toString(), onLoginComplete)
+                    getKakaoUserInfo(context, token.toString(), onLoginComplete)
                 }
             }
         } else {
@@ -90,7 +102,7 @@ class LoginViewModel @Inject constructor(
     /**
      * 카카오 사용자 정보 가져오기 및 DB 저장
      */
-    private fun getKakaoUserInfo(token: String, onLoginComplete: (Boolean) -> Unit) {
+    private fun getKakaoUserInfo(context: Context, token: String, onLoginComplete: (Boolean) -> Unit) {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.d("LoginViewModel", "카카오 사용자 정보 가져오기 실패: ${error.message}")
@@ -104,6 +116,8 @@ class LoginViewModel @Inject constructor(
                     userProfileImg = user.kakaoAccount?.profile?.thumbnailImageUrl!!,
                     kakaoToken = token
                 )
+                setDataStore(context, userInfo.userId)
+
 
                 // Firestore에서 기존 사용자 확인 후 처리
                 userRepo.addUserInfo(userInfo) { success, message ->
@@ -111,11 +125,13 @@ class LoginViewModel @Inject constructor(
                         "EXISTING_USER" -> {
                             Log.d("LoginViewModel", "기존 사용자 로그인 완료")
                             onLoginComplete(true) // 기존 사용자 즉시 로그인
+                            setDataStore(context, userInfo.userId)
                         }
 
                         else -> {
                             if (success) {
                                 Log.d("LoginViewModel", "새 사용자 저장 성공")
+                                setDataStore(context, userInfo.userId)
                                 onLoginComplete(true)
                             } else {
                                 Log.e("LoginViewModel", "사용자 저장 실패: $message")
