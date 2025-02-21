@@ -25,7 +25,8 @@ class NotificationRepo @Inject constructor(
                         "많이많이 참여해주세요~\n" +
                         "\n" +
                         "죄송합니다",
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI4exT4h_yL8_DEigEIJObPdii4lJcZ12JRA&s"
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI4exT4h_yL8_DEigEIJObPdii4lJcZ12JRA&s",
+                false
             ),
 
             Notification(
@@ -37,7 +38,8 @@ class NotificationRepo @Inject constructor(
                         "도미노피자 제휴업체 맺어놨으니깐 피자 많이 드세요.\n" +
                         "전 진짜 많이 먹을거예요\n" +
                         "행복해여라~",
-                "https://cdn.dominos.co.kr/admin/upload/goods/20240326_Td6eyIV8.jpg?RS=350x350&SP=1"
+                "https://cdn.dominos.co.kr/admin/upload/goods/20240326_Td6eyIV8.jpg?RS=350x350&SP=1",
+                false
             ),
 
             Notification(
@@ -48,25 +50,33 @@ class NotificationRepo @Inject constructor(
                         "\n" +
                         "환경지킴이앱에 선정된건 모두 이용자분들 덕분입니다.\n" +
                         "저희가 만든 앱 잘 활용해 주셔서 감사해요.\n" +
-                        "I love you..."
+                        "I love you...",
+                null,
+                false
             ),
 
             Notification(
                 "공지사항 1", "2025.2.7",
                 "안녕하세요 지키GO 운영자 입니다.\n" +
-                        "검색 기능 테스트용 공지사항 1 입니다."
+                        "검색 기능 테스트용 공지사항 1 입니다.",
+                null,
+                false
             ),
 
             Notification(
                 "중요공지", "2025.2.7",
                 "안녕하세요 지키GO 운영자 입니다.\n" +
-                        "검색 기능 테스트용 중요공지 입니다."
+                        "검색 기능 테스트용 중요공지 입니다.",
+                null,
+                false
             ),
 
             Notification(
                 "새로운 업데이트", "2025.2.7",
                 "안녕하세요 지키GO 운영자 입니다.\n" +
-                        "검색 기능 테스트용 새로운 업데이트 입니다."
+                        "검색 기능 테스트용 새로운 업데이트 입니다.",
+                null,
+                false
             )
         )
     }
