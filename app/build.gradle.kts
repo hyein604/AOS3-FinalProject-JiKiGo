@@ -109,6 +109,12 @@ dependencies {
 
     // kakao
     implementation("com.kakao.sdk:v2-all:2.20.1") // 전체 모듈 설치, 2.11.0 버전부터 지원
+
+    // data store
+    implementation("androidx.datastore:datastore-preferences:1.1.2")
+    implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.2")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.2")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.2")
 }
 
 kapt {
