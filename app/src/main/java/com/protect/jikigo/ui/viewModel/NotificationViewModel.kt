@@ -1,22 +1,30 @@
 package com.protect.jikigo.ui.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protect.jikigo.data.model.Notification
 import com.protect.jikigo.data.repo.NotificationRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val repository: NotificationRepo
 ) : ViewModel() {
-    // 공지사항 리스트
-    private val notificationList = repository.getMySavedPosts()
+
+    private val _notificationListNotificationFragment = MutableLiveData<List<Notification>>(emptyList())
+    val notificationListNotificationFragment: LiveData<List<Notification>> get() = _notificationListNotificationFragment
+
+    private val _notificationListHomeFragment = MutableLiveData<List<Notification>>(emptyList())
+    val notificationListHomeFragment: LiveData<List<Notification>> get() = _notificationListHomeFragment
+
 
     // 검색된 리스트
-    private val _filteredList = MutableLiveData(notificationList)
+    private val _filteredList = MutableLiveData<List<Notification>>(emptyList())
     val filteredList: LiveData<List<Notification>> get() = _filteredList
 
     // 검색 결과 UI 상태 저장
@@ -26,21 +34,46 @@ class NotificationViewModel @Inject constructor(
     private val _isViewAllVisible = MutableLiveData(false)
     val isViewAllVisible: LiveData<Boolean> get() = _isViewAllVisible
 
+    // 검색 결과 개수
+    private val _searchResultCount = MutableLiveData(0)
+    val searchResultCount: LiveData<Int> get() = _searchResultCount
+
+    init {
+        loadNotifications() // 초기 데이터 불러오기
+    }
+
+    // 공지사항 데이터 불러오기
+    private fun loadNotifications() {
+        viewModelScope.launch {
+            val notifications = repository.getMySavedPosts()
+
+            _notificationListHomeFragment.value = notifications
+
+            _notificationListNotificationFragment.value = notifications.sortedByDescending { it.important } // 중요 공지 최상단
+            _filteredList.value = _notificationListNotificationFragment.value
+        }
+    }
     // 검색 수행
     fun performSearch(query: String) {
         _filteredList.value = if (query.isNotEmpty()) {
-            notificationList.filter { it.title.contains(query, ignoreCase = true) }
+            _notificationListHomeFragment.value?.filter { it.title.contains(query, ignoreCase = true) }
+                ?.sortedByDescending { it.important } ?: emptyList() // 여기에 정렬 추가
         } else {
-            notificationList
+            _notificationListHomeFragment.value?.sortedByDescending { it.important } // 검색어 없을 경우에도 정렬
         }
+
+        _searchResultCount.value = _filteredList.value?.size ?: 0 // 검색된 개수 저장
 
         _isSearchResultVisible.value = _filteredList.value!!.isNotEmpty()
         _isViewAllVisible.value = _filteredList.value!!.isNotEmpty()
     }
 
+
     // 검색 초기화
     fun resetSearch() {
-        _filteredList.value = notificationList
+        _filteredList.value = _notificationListNotificationFragment.value
+        _searchResultCount.value = _notificationListNotificationFragment.value?.size ?: 0
+
         _isSearchResultVisible.value = false
         _isViewAllVisible.value = false
     }

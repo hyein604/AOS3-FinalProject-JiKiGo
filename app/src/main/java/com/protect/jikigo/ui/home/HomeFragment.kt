@@ -124,19 +124,28 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
 
     private fun observeNotificationList() {
-        notificationViewModel.filteredList.observe(viewLifecycleOwner) { notificationList ->
-            val topNotices = notificationList.take(3) // 상위 3개만 가져오기
-            with(binding) {
-                tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
-                tvHomeNotice2.text = topNotices.getOrNull(1)?.title ?: ""
-                tvHomeNotice3.text = topNotices.getOrNull(2)?.title ?: ""
+        notificationViewModel.notificationListHomeFragment.observe(viewLifecycleOwner) { notificationList ->
+            if (notificationList.isNotEmpty()) {
+                val topNotices = notificationList.take(3) // 상위 3개만 가져오기
+                with(binding) {
+                    tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
+                    tvHomeNotice2.text = topNotices.getOrNull(1)?.title ?: ""
+                    tvHomeNotice3.text = topNotices.getOrNull(2)?.title ?: ""
 
-                listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEachIndexed { index, textView ->
-                    textView.setOnClickListener {
-                        val action = HomeFragmentDirections
-                            .actionNavigationHomeToNotificationDetail(topNotices[index])
-                        findNavController().navigate(action)
+                    listOf(tvHomeNotice1, tvHomeNotice2, tvHomeNotice3).forEachIndexed { index, textView ->
+                        textView.setOnClickListener {
+                            val action = HomeFragmentDirections
+                                .actionNavigationHomeToNotificationDetail(topNotices[index])
+                            findNavController().navigate(action)
+                        }
                     }
+                }
+            } else {
+                // 빈 리스트일 때는 UI를 초기화하거나 처리
+                with(binding) {
+                    tvHomeNotice1.text = ""
+                    tvHomeNotice2.text = ""
+                    tvHomeNotice3.text = ""
                 }
             }
         }

@@ -85,5 +85,9 @@ class NotificationFragment : Fragment() {
         viewModel.isViewAllVisible.observe(viewLifecycleOwner) { isVisible ->
             binding.tvNotificationViewAll.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
+
+        viewModel.searchResultCount.observe(viewLifecycleOwner) { count ->
+            binding.tvNotificationSearchResult.text = "총 ${count}건의 검색결과가 있습니다."
+        }
     }
 }
