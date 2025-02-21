@@ -47,7 +47,7 @@ class NotificationDetailFragment : Fragment() {
         val notification = args.notification
         binding.tvNotificationDetailContentTitle.text = notification.title
         binding.tvNotificationDetailDate.text = notification.date
-        binding.tvNotificationDetailContent.text = notification.content
+        binding.tvNotificationDetailContent.text = notification.content.replace("\\n", "\n")
 
         // 이미지가 있으면 로드
         if (!notification.image.isNullOrEmpty()) {
