@@ -65,7 +65,7 @@ class NotificationViewModel @Inject constructor(
         }.distinct().sortedByDescending { it.important }
 
         _filteredList.value = filteredNotices
-        _searchResultCount.value = filteredNotices.size
+        _searchResultCount.value = filteredNotices.size - importantNotices.size
 
         _isSearchResultVisible.value = filteredNotices.isNotEmpty()
         _isViewAllVisible.value = filteredNotices.isNotEmpty()
