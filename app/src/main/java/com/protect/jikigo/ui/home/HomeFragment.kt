@@ -124,7 +124,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
 
     private fun observeNotificationList() {
-        notificationViewModel.filteredList.observe(viewLifecycleOwner) { notificationList ->
+        notificationViewModel.notificationList.observe(viewLifecycleOwner) { notificationList ->
             val topNotices = notificationList.take(3) // 상위 3개만 가져오기
             with(binding) {
                 tvHomeNotice1.text = topNotices.getOrNull(0)?.title ?: ""
