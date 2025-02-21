@@ -2,13 +2,10 @@ package com.protect.jikigo.data.repo
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import com.protect.jikigo.data.model.UserInfo
 import kotlinx.coroutines.tasks.await
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,6 +42,27 @@ class UserRepo @Inject constructor(
                 callback(false, e.message)
             }
     }
+
+    suspend fun getUserInfo(id: String): UserInfo? {
+        return try {
+            val db = FirebaseFirestore.getInstance()
+            val document = db.collection("UserInfo").document(id).get(Source.CACHE).await() // 캐시 우선 사용
+                ?: db.collection("UserInfo").document(id).get().await() // 네트워크에서 가져오기
+
+            if (document.exists()) {
+                document.toObject(UserInfo::class.java)?.also {
+                    Log.d("UserRepo", "UserInfo loaded successfully for id: $id")
+                }
+            } else {
+                Log.e("UserRepo", "UserInfo not found for id: $id")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("UserRepo", "Error fetching user info: ${e.message}", e)
+            null
+        }
+    }
+
 
     // 아이디 중복 확인
     suspend fun isIdAvailable(id: String): Boolean {
