@@ -19,32 +19,31 @@ class UserRepo @Inject constructor(
 ) {
     fun addUserInfo(userInfo: UserInfo, callback: (Boolean, String?) -> Unit) {
         val collection = firestore.collection("UserInfo")
+        val userId = userInfo.userId // 이메일 또는 카카오 ID 사용
 
-        // FireStore에 데이터 저장
-        collection.add(userInfo)
+        // Firestore에서 기존 사용자 확인
+        collection.document(userId).get()
             .addOnSuccessListener { document ->
-                val docuId = document.id
-                collection.document(docuId).update("userDocId", docuId)
-                    .addOnSuccessListener {
-                        callback(true, docuId)
-                    }
-                    .addOnFailureListener { e ->
-                        callback(false, e.message)
-                    }
+                if (document.exists()) {
+                    Log.d("Firestore", "기존 사용자 로그인: ${userInfo.userId}")
+                    callback(true, "EXISTING_USER") // 기존 사용자면 즉시 성공 처리
+                } else {
+                    // 2. 새로운 사용자 Firestore에 저장 (set() 사용)
+                    collection.document(userId).set(userInfo)
+                        .addOnSuccessListener {
+                            Log.d("Firestore", "새 사용자 저장 성공: ${userInfo.userId}")
+                            callback(true, userId)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firestore", "사용자 저장 실패: ${e.message}")
+                            callback(false, e.message)
+                        }
+                }
             }
             .addOnFailureListener { e ->
+                Log.e("Firestore", "Firestore 조회 실패: ${e.message}")
                 callback(false, e.message)
             }
-
-    }
-
-    private fun createSubCollections(userDocRef: DocumentReference) {
-        // 현재 날짜를 "YYYY-MM-DD" 형식으로 가져오기
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val todayDate = sdf.format(Date())  // 예: "2025-02-20"
-
-        userDocRef.collection("UserCalendar").document(todayDate)
-        userDocRef.collection("UserQR").document("qr")
     }
 
     // 아이디 중복 확인
