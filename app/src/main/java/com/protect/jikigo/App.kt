@@ -44,7 +44,7 @@ class App : Application() {
 
         fun getUserId(context: Context): Flow<String?> {
             return context.dataStore.data.map { preferences ->
-                preferences[USER_ID]
+                preferences[USER_ID]?.takeIf { it.isNotEmpty() }
             }
         }
     }
