@@ -8,7 +8,6 @@ object Storage {
     val storeList: List<Store> = getStoreData()
     val coupon: List<Coupon> = getCouponData()
     val pointHistory: List<PointHistory> = getPointHistoryData()
-    // val rankingUser: List<RankingUser> = getRankingUserData()
     val findAccount: List<String> = getFindAccountText()
 
     private fun getStoreData(): List<Store> {
@@ -81,20 +80,6 @@ object Storage {
             PointHistory("-500000P", "맛집 탐방 쿠폰 구매"),
         )
     }
-
-//    private fun getRankingUserData(): List<RankingUser> {
-//        return listOf(
-//            RankingUser("천안지렁이라이더", "https://cdn.mhnse.com/news/photo/202409/320798_361970_3115.jpg", 18379),
-//            RankingUser("구황작물", "https://wimg.heraldcorp.com/content/default/2024/04/12/20240412050389_0.jpg", 182098),
-//            RankingUser("감자무밨니", "https://i.namu.wiki/i/YTjOUCgGyUl7yza1MSfmi_RWJpkY4I2qflSY3NAp529euJDGe5hl1mneeHSTlBhz1LaQ2lwM2LohlguvqRdH7A.webp", 142408),
-//            RankingUser("돌멩이", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-f-556Uod9bhUGfm-mvScCjEMn5Kx3AhinQ&s", 9865),
-//            RankingUser("울산안경도둑", "https://image.ajunews.com/content/image/2023/05/15/20230515143901746182.jpg", 24309),
-//            RankingUser("윈터아마멘터", "https://image.ajunews.com/content/image/2023/05/15/20230515143901746182.jpg", 1093)
-//        ).sortedByDescending {
-//            it.walkCount
-//        }
-//    }
-
 
     private fun getFindAccountText(): List<String> {
         return listOf(
