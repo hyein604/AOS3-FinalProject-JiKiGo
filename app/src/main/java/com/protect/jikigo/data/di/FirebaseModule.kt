@@ -3,6 +3,7 @@ package com.protect.jikigo.data.di
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.protect.jikigo.data.repo.CouponRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +29,11 @@ class FirebaseModule {
     @Singleton
     fun provideAuth(): FirebaseAuth =
         FirebaseAuth.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideCouponRepo(firestore: FirebaseFirestore): CouponRepo {
+        return CouponRepo(firestore)
+    }
+
 }

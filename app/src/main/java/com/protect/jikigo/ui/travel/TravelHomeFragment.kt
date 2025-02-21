@@ -8,25 +8,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Coupon
-import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Coupon
+import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelHomeBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelBannerAdapter
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.statusBarColor
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelHomeBinding? = null
     private val binding get() = _binding!!
 
     private var currentPage = 0
     private val handler = Handler(Looper.getMainLooper())
+
+    @Inject
+    lateinit var couponRepo : CouponRepo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -159,9 +167,12 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setRecyclerView(){
-        val coupon = Storage.coupon.sortedByDescending { it.salesCount }.take(4)
-        val adapter = CouponAdaptor(coupon, this)
-        binding.rvHotCouponList.adapter = adapter
+        // val coupon = Storage.coupon.sortedByDescending { it.salesCount }.take(4)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val coupon = couponRepo.getAllCouponSortedBySales().take(4)
+            val adapter = CouponAdaptor(coupon, this@TravelHomeFragment)
+            binding.rvHotCouponList.adapter = adapter
+        }
     }
 
     private fun setText() {
@@ -174,4 +185,5 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
         val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
         findNavController().navigate(action)
     }
+
 }
