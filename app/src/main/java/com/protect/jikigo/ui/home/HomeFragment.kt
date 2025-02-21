@@ -76,9 +76,6 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
             user = App.getUserId(requireContext()).first().toString()
             Log.d("user", user)
             homeViewModel.getUserInfo(user)
-            withContext(Dispatchers.IO) {
-
-            }
         }
 
         homeViewModel.item.observe(viewLifecycleOwner) { userInfo ->

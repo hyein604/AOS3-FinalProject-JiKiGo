@@ -15,6 +15,7 @@ import com.protect.jikigo.databinding.FragmentLoginBinding
 import com.protect.jikigo.ui.extensions.showSnackBar
 import com.protect.jikigo.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -49,8 +50,8 @@ class LoginFragment : Fragment() {
 
     private fun autoLogin() {
         lifecycleScope.launch {
-            val userId = App.getUserId(requireContext())
-            if (userId != null) {
+            val userId = App.getUserId(requireContext()).first()
+            if (!userId.isNullOrEmpty()) {
                 moveToHome()
             }
         }
