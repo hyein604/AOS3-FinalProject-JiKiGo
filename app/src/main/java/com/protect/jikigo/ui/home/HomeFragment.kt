@@ -1,32 +1,42 @@
 package com.protect.jikigo.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.protect.jikigo.App
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
 import com.protect.jikigo.databinding.FragmentHomeBinding
 import com.protect.jikigo.ui.HomeAdapter
 import com.protect.jikigo.ui.HomeStoreItemClickListener
+import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.statusBarColor
-import androidx.fragment.app.viewModels
+import com.protect.jikigo.ui.viewModel.HomeViewModel
 import com.protect.jikigo.ui.viewModel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
-     private val notificationViewModel: NotificationViewModel by activityViewModels()
+    private var user: String = ""
+    private val notificationViewModel: NotificationViewModel by activityViewModels()
+    private val homeViewModel by viewModels<HomeViewModel>()
 
 
     override fun onCreateView(
@@ -48,6 +58,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     }
 
     private fun setLayout() {
+        getUserInfo()
         setRecyclerView()
         setStatusBarColor()
         moveToMyPage()
@@ -58,6 +69,30 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         homeTextSpannable()
         moveToRank()
         observeNotificationList()
+    }
+
+    private fun getUserInfo() {
+        lifecycleScope.launch {
+            user = App.getUserId(requireContext()).first().toString()
+            Log.d("user", user)
+            homeViewModel.getUserInfo(user)
+            withContext(Dispatchers.IO) {
+
+            }
+        }
+
+        homeViewModel.item.observe(viewLifecycleOwner) { userInfo ->
+            userInfo?.let {
+                binding.tvHomeNickname.text = "${it.userName} 님,"
+                binding.tvHomeNickname.applySpannableStyles(0, it.userName.length, R.color.white)
+
+                if (binding.tvHomePoint.text.toString() != it.userPoint.toString()) { // 중복 업데이트 방지
+                    binding.tvHomePoint.applyNumberFormat(it.userPoint)
+                }
+            } ?: run {
+                Log.e("HomeFragment", "UserInfo is null")
+            }
+        }
     }
 
     private fun setStatusBarColor() {
@@ -118,7 +153,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     private fun homeTextSpannable() {
         // 닉네임의 길이를 넣어줌
-        binding.tvHomeNickname.applySpannableStyles(0, 3, R.color.white)
+        // binding.tvHomeNickname.applySpannableStyles(0, 3, R.color.white)
         binding.tvHomeClickRank.applySpannableStyles(0, binding.tvHomeClickRank.length(), R.color.black, true, true)
     }
 
@@ -156,8 +191,6 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         val adapter = HomeAdapter(storeList, this)
         binding.rvHomeStore.adapter = adapter
     }
-
-    // store 이동 리스너
 
     override fun onClickStore(coupon: Coupon) {
         //        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()

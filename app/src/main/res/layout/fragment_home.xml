@@ -51,10 +51,10 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="20dp"
-				android:text="장세훈 님,"
 				android:textSize="36sp"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
+				app:layout_constraintTop_toTopOf="parent"
+				tools:text="장세훈 님," />
 
 			<TextView
 				android:id="@+id/tv_home_label"
