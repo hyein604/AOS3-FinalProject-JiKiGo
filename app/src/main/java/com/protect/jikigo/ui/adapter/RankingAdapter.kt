@@ -6,13 +6,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.R
-import com.protect.jikigo.data.RankingUser
+import com.protect.jikigo.data.model.UserRanking
 import com.protect.jikigo.databinding.RowRankingBinding
 
-class RankingAdapter(private val rankingList: List<RankingUser>) : RecyclerView.Adapter<RankingAdapter.RankingViewHolder>() {
+class RankingAdapter(private val rankingList: List<UserRanking>) : RecyclerView.Adapter<RankingAdapter.RankingViewHolder>() {
 
     class RankingViewHolder(private val binding: RowRankingBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(rankingUser: RankingUser, position: Int) {
+        fun bind(rankingUser: UserRanking, position: Int) {
             // 1~3등이면 메달 표시, 나머지는 숫자 표시
             when (position) {
                 0 -> {
