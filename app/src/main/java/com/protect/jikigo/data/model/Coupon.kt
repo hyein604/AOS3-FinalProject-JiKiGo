@@ -8,9 +8,9 @@ data class Coupon(
     val couponImg: String = "",
     val couponCategory: String = "",
     val couponInfo: String = "",
-    val couponExpiryDate: Int = 0,
+    val couponValidDays: Int = 0,
     val couponBarCode: String = "",
-    val couponSaleCount: Int = 0,
+    val couponSalesCount: Int = 0,
     val couponStatus: Int = 0,
     val couponCreateAt: Long = System.currentTimeMillis(),
 )

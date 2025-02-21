@@ -5,24 +5,26 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -84,7 +86,6 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private fun setLayout() {
         setRecyclerView()
         setFabClickListener()
-        setChip()
     }
 
     private fun setFabScrollBehavior() {
@@ -109,12 +110,30 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setRecyclerView() {
-        coupon = filterCouponByCategory(categoryIndex)
-        selectedBrand = "전체보기"
+        // coupon = filterCouponByCategory(categoryIndex)
+        // selectedBrand = "전체보기"
+        lifecycleScope.launch {
+            val category = when (categoryIndex){
+                1 -> "숙박"
+                2 -> "레저/티켓"
+                3 -> "공연/전시"
+                4 -> "여행용품"
+                else -> "숙박"
+            }
+
+            selectedBrand = "전체보기"
+
+            coupon = couponRepo.getCouponByCategory(category)
+
+            setChip()
+
+            applyFiltersAndSorting(binding.tvSort.text.toString())
+        }
+
     }
 
     private fun setChip() {
-        val brandSet = coupon.map { it.brand }.toSet()
+        val brandSet = coupon.map { it.couponBrand }.toSet().sorted()
         val cgCouponBrand = binding.cgCouponBrand
         cgCouponBrand.removeAllViews()
 
@@ -161,45 +180,43 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         }
     }
 
-    private fun filterCouponByCategory(categoryIndex: Int): List<Coupon> {
-        val category = listOf("숙박", "레저/티켓", "공연/전시", "여행용품")
-        if (categoryIndex < 1 || categoryIndex > 4) return emptyList()
+    private fun applyFiltersAndSorting(sortOption: String) {
+        lifecycleScope.launch {
+            var filteredCoupon : List<Coupon>
 
-        val selectedCategory = category[categoryIndex - 1]
-        return Storage.coupon.filter { it.category == selectedCategory }
+            // Firestore에서 데이터를 필터링하여 가져오기
+            filteredCoupon = if (selectedBrand == "전체보기") {
+                couponRepo.getCouponByCategoryAndSort(category = getCategoryFromIndex(categoryIndex), sortOption = sortOption)
+            } else {
+                couponRepo.getCouponByBrandAndCategoryAndSort(selectedBrand!!, getCategoryFromIndex(categoryIndex), sortOption)
+            }
+
+            // 어댑터에 필터링된 데이터 적용
+            adapter = CouponAdaptor(filteredCoupon, this@TravelCouponFragment)
+            binding.rvCouponList.adapter = adapter
+
+            val totalCount = filteredCoupon.size.toString()
+            binding.tvCouponCount.text = SpannableString("총 ${totalCount}개의 상품이 있습니다.").apply {
+                setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black)),
+                    2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+        }
     }
 
-    private fun applyFiltersAndSorting(sortOption: String) {
-        // 필터링 먼저 적용
-        var filteredCoupon = if (selectedBrand == "전체보기") {
-            coupon
-        } else {
-            coupon.filter { it.brand == selectedBrand }
-        }
-
-        // 정렬 옵션 적용
-        filteredCoupon = when (sortOption) {
-            "추천순" -> filteredCoupon.sortedByDescending { it.salesCount }
-            "낮은 가격순" -> filteredCoupon.sortedBy { it.price }
-            "높은 가격순" -> filteredCoupon.sortedByDescending { it.price }
-            else -> filteredCoupon
-        }
-
-        // 어댑터에 필터링된 데이터 적용
-        adapter = CouponAdaptor(filteredCoupon, this)
-        binding.rvCouponList.adapter = adapter
-
-        val totalCount = filteredCoupon.size.toString()
-        binding.tvCouponCount.text = SpannableString("총 ${totalCount}개의 상품이 있습니다.").apply {
-            setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black)),
-                2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+    private fun getCategoryFromIndex(index: Int): String {
+        return when (index) {
+            1 -> "숙박"
+            2 -> "레저/티켓"
+            3 -> "공연/전시"
+            4 -> "여행용품"
+            else -> "숙박"
         }
     }
 
     override fun onClickListener(item: Coupon) {
-        requireContext().toast(item.name)
+        requireContext().toast(item.couponName)
         val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
         findNavController().navigate(action)
     }
