@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.protect.jikigo.databinding.FragmentNotificationDetailBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NotificationDetailFragment : Fragment() {
     private var _binding: FragmentNotificationDetailBinding? = null
@@ -46,7 +48,10 @@ class NotificationDetailFragment : Fragment() {
     private fun displayNotificationDetails() {
         val notification = args.notification
         binding.tvNotificationDetailContentTitle.text = notification.title
-        binding.tvNotificationDetailDate.text = notification.date
+        notification.date?.let {
+            val sdf = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+            binding.tvNotificationDetailDate.text = sdf.format(it.toDate())
+        }
         binding.tvNotificationDetailContent.text = notification.content.replace("\\n", "\n")
 
         // 이미지가 있으면 로드

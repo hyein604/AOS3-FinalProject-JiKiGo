@@ -14,6 +14,7 @@ class NotificationRepo @Inject constructor(
 
         return try {
             firestore.collection("Notification")
+                .orderBy("date", com.google.firebase.firestore.Query.Direction.DESCENDING)
                 .get()
                 .await()
                 .documents
