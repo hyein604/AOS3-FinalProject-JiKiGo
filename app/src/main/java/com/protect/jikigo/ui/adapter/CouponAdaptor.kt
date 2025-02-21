@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.protect.jikigo.data.Coupon
+import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.databinding.ItemCouponBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 
@@ -43,11 +43,11 @@ class CouponAdaptor (
         }
         fun bind(item: Coupon) {
             binding.apply {
-                tvCouponName.text = item.name
-                tvCouponBrand.text = item.brand
-                tvCouponPrice.applyNumberFormat(item.price)
+                tvCouponName.text = item.couponName
+                tvCouponBrand.text = item.couponBrand
+                tvCouponPrice.applyNumberFormat(item.couponPrice)
                 Glide.with(root.context)
-                    .load(item.image)
+                    .load(item.couponImg)
                     .into(ivCouponDetailThumnail)
             }
         }

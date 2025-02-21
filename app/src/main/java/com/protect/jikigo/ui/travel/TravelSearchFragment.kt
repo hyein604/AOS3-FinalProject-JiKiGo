@@ -6,17 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Coupon
+import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelSearchBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.statusBarColor
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelSearchBinding? = null
     private val binding get() = _binding!!
@@ -26,8 +31,11 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
         requireContext().getSharedPreferences("recent_search", Context.MODE_PRIVATE)
     }
 
-    private var coupon : List<Coupon> = Storage.coupon
+    private lateinit var coupon : List<Coupon>
     lateinit var adapter: CouponAdaptor
+
+    @Inject
+    lateinit var couponRepo: CouponRepo
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -190,14 +198,17 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setRecyclerView(){
-        adapter = CouponAdaptor(coupon, this)
-        binding.rvSearchCouponList.adapter = adapter
+        lifecycleScope.launch {
+            coupon = couponRepo.getAllCoupon()
+            adapter = CouponAdaptor(coupon, this@TravelSearchFragment)
+            binding.rvSearchCouponList.adapter = adapter
+        }
     }
 
     private fun filterCoupon(query: String){
         val filteredCoupons = coupon.filter {
-            it.name?.contains(query, ignoreCase = true) == true ||
-                    it.brand?.contains(query, ignoreCase = true) == true
+            it.couponName.contains(query, ignoreCase = true) == true ||
+                    it.couponBrand.contains(query, ignoreCase = true) == true
         }
 
         // 상품이 없으면 "검색 결과가 없습니다." 보여주기
