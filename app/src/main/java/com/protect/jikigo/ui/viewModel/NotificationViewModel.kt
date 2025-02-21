@@ -53,22 +53,19 @@ class NotificationViewModel @Inject constructor(
             _filteredList.value = _notificationListNotificationFragment.value
         }
     }
-
     // 검색 수행
     fun performSearch(query: String) {
-        val originalList = _notificationListHomeFragment.value.orEmpty()
-        val importantNotices = originalList.filter { it.important }
-        val filteredNotices = if (query.isNotEmpty()) {
-            originalList.filter { it.title.contains(query, ignoreCase = true) } + importantNotices
+        _filteredList.value = if (query.isNotEmpty()) {
+            _notificationListHomeFragment.value?.filter { it.title.contains(query, ignoreCase = true) }
+                ?.sortedByDescending { it.important } ?: emptyList() // 여기에 정렬 추가
         } else {
-            originalList
-        }.distinct().sortedByDescending { it.important }
+            _notificationListHomeFragment.value?.sortedByDescending { it.important } // 검색어 없을 경우에도 정렬
+        }
 
-        _filteredList.value = filteredNotices
-        _searchResultCount.value = filteredNotices.size - importantNotices.size
+        _searchResultCount.value = _filteredList.value?.size ?: 0 // 검색된 개수 저장
 
-        _isSearchResultVisible.value = filteredNotices.isNotEmpty()
-        _isViewAllVisible.value = filteredNotices.isNotEmpty()
+        _isSearchResultVisible.value = _filteredList.value!!.isNotEmpty()
+        _isViewAllVisible.value = _filteredList.value!!.isNotEmpty()
     }
 
 
