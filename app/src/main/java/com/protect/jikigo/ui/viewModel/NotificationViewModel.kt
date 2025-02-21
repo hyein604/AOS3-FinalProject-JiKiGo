@@ -30,6 +30,10 @@ class NotificationViewModel @Inject constructor(
     private val _isViewAllVisible = MutableLiveData(false)
     val isViewAllVisible: LiveData<Boolean> get() = _isViewAllVisible
 
+    // 검색 결과 개수
+    private val _searchResultCount = MutableLiveData(0)
+    val searchResultCount: LiveData<Int> get() = _searchResultCount
+
     init {
         loadNotifications() // 초기 데이터 불러오기
     }
@@ -51,6 +55,8 @@ class NotificationViewModel @Inject constructor(
             _notificationList.value
         }
 
+        _searchResultCount.value = _filteredList.value?.size ?: 0 // 검색된 개수 저장
+
         _isSearchResultVisible.value = _filteredList.value!!.isNotEmpty()
         _isViewAllVisible.value = _filteredList.value!!.isNotEmpty()
     }
@@ -59,6 +65,8 @@ class NotificationViewModel @Inject constructor(
     // 검색 초기화
     fun resetSearch() {
         _filteredList.value = _notificationList.value
+        _searchResultCount.value = _notificationList.value?.size ?: 0
+
         _isSearchResultVisible.value = false
         _isViewAllVisible.value = false
     }
