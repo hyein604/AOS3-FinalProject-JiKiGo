@@ -97,5 +97,6 @@ class LoginFragment : Fragment() {
     private fun moveToHome() {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)
+        requireActivity().finish()
     }
 }
