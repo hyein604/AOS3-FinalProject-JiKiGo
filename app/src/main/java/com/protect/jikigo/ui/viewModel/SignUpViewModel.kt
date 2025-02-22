@@ -153,7 +153,7 @@ class SignUpViewModel @Inject constructor(
             userPw = pw.value.orEmpty(),
             userNickName = nickName.value.orEmpty()
         )
-        userRepo.addUserInfo(userInfo, callback)
+        //userRepo.addUserInfo(userInfo, callback)
     }
 
     // 모든 입력값과 중복 확인 완료 여부에 따라 가입 버튼 활성화 여부 결정

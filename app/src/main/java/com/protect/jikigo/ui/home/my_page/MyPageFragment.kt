@@ -1,14 +1,19 @@
 package com.protect.jikigo.ui.home.my_page
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.LoginActivity
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentMyPageBinding
+import com.protect.jikigo.ui.extensions.clearUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
+import kotlinx.coroutines.launch
 
 
 class MyPageFragment : Fragment() {
@@ -38,6 +43,7 @@ class MyPageFragment : Fragment() {
         moveToEditProfile()
         moveToPointHistory()
         moveToCouponBox()
+        onClickLogOut()
         onClickToolbar()
     }
 
@@ -69,6 +75,17 @@ class MyPageFragment : Fragment() {
     private fun onClickToolbar() {
         binding.toolbarMyPage.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun onClickLogOut() {
+        binding.btnMyPageLogout.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                requireContext().clearUserId()
+                requireActivity().finish()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
