@@ -2,6 +2,7 @@ package com.protect.jikigo.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.protect.jikigo.App
 import com.protect.jikigo.HomeActivity
 import com.protect.jikigo.databinding.FragmentLoginBinding
-import com.protect.jikigo.ui.extensions.showSnackBar
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -41,6 +40,21 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            when(loading) {
+                false -> {
+                    binding.loadingContainer.visibility = View.GONE
+                    binding.loginProgress.visibility = View.GONE
+                    moveToHome()
+                }
+                true -> {
+                    binding.loadingContainer.visibility = View.VISIBLE
+                    binding.loginProgress.visibility = View.VISIBLE
+                }
+            }
+
+        }
     }
 
     private fun setLayout() {
@@ -50,8 +64,10 @@ class LoginFragment : Fragment() {
 
     private fun autoLogin() {
         lifecycleScope.launch {
-            val userId = App.getUserId(requireContext()).first()
-            if (!userId.isNullOrEmpty()) {
+            val userId = requireContext().getUserId()
+            Log.d("userId", "$userId")
+
+            if (userId != null) {
                 moveToHome()
             }
         }
@@ -73,14 +89,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(action)
             }
             btnLoginKakao.setOnClickListener {
-                viewModel.kakao(requireContext()) { success ->
-                    if (success) {
-                        moveToHome()
-                    } else {
-                        requireContext().showSnackBar(binding.root, "카카오 인증을 실패했습니다.")
-                    }
-                }
-
+                viewModel.kakaoLogin()
             }
         }
     }
@@ -89,5 +98,4 @@ class LoginFragment : Fragment() {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)
     }
-
 }

@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.protect.jikigo.App
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
@@ -21,20 +20,17 @@ import com.protect.jikigo.ui.HomeAdapter
 import com.protect.jikigo.ui.HomeStoreItemClickListener
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.HomeViewModel
 import com.protect.jikigo.ui.viewModel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var user: String = ""
     private val notificationViewModel: NotificationViewModel by activityViewModels()
     private val homeViewModel by viewModels<HomeViewModel>()
 
@@ -47,14 +43,14 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setLayout() {
@@ -73,9 +69,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     private fun getUserInfo() {
         lifecycleScope.launch {
-            user = App.getUserId(requireContext()).first().toString()
-            Log.d("user", user)
-            homeViewModel.getUserInfo(user)
+            val userId = requireContext().getUserId() ?: ""
+            homeViewModel.getUserInfo(userId)
         }
 
         homeViewModel.item.observe(viewLifecycleOwner) { userInfo ->
