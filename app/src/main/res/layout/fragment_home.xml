@@ -147,8 +147,8 @@
 
 			<View
 				android:id="@+id/view_home_environment"
-				android:layout_width="100dp"
-				android:layout_height="100dp"
+				android:layout_width="110dp"
+				android:layout_height="110dp"
 				android:layout_marginTop="10dp"
 				android:background="@drawable/background_home"
 				app:layout_constraintStart_toStartOf="@id/view_home_point"
@@ -178,8 +178,8 @@
 
 			<View
 				android:id="@+id/view_home_travel"
-				android:layout_width="100dp"
-				android:layout_height="100dp"
+				android:layout_width="110dp"
+				android:layout_height="110dp"
 				android:background="@drawable/background_home"
 				app:layout_constraintEnd_toStartOf="@id/view_home_health"
 				app:layout_constraintStart_toEndOf="@id/view_home_environment"
@@ -209,8 +209,8 @@
 
 			<View
 				android:id="@+id/view_home_health"
-				android:layout_width="100dp"
-				android:layout_height="100dp"
+				android:layout_width="110dp"
+				android:layout_height="110dp"
 				android:background="@drawable/background_home"
 				app:layout_constraintEnd_toEndOf="@id/view_home_point"
 				app:layout_constraintTop_toTopOf="@id/view_home_environment" />
@@ -393,7 +393,6 @@
 				android:id="@+id/rv_home_store"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginHorizontal="20dp"
 				android:layout_marginBottom="20dp"
 				android:orientation="horizontal"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
