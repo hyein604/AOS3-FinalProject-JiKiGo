@@ -21,7 +21,6 @@
 		android:layout_marginStart="10dp"
 		android:ellipsize="end"
 		android:maxLines="1"
-
 		android:textStyle="bold"
 		app:layout_constraintEnd_toEndOf="@id/iv_rv_thumb_nail"
 		app:layout_constraintStart_toStartOf="@id/iv_rv_thumb_nail"

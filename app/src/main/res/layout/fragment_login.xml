@@ -175,5 +175,27 @@
 		app:layout_constraintStart_toStartOf="@id/btn_login"
 		app:layout_constraintTop_toBottomOf="@id/btn_login_kakao" />
 
+	<FrameLayout
+		android:id="@+id/loading_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="#80000000"
+		android:visibility="gone">
 
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<com.google.android.material.progressindicator.CircularProgressIndicator
+				android:id="@+id/login_progress"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:indeterminate="true"
+				android:visibility="gone"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
