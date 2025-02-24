@@ -3,21 +3,28 @@ package com.protect.jikigo.ui.rank
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.protect.jikigo.databinding.FragmentRankingBinding
 import com.protect.jikigo.ui.rank.dialog.RankingHelpDialog
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.ui.extensions.statusBarColor
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.protect.jikigo.ui.adapter.RankingAdapter
+import com.protect.jikigo.ui.extensions.applyNumberFormat
+import com.protect.jikigo.ui.extensions.applySpannableStyles
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.RankingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
@@ -49,6 +56,28 @@ class RankingFragment : Fragment() {
         setLayout()
         observeRankingData()
         startTimer()
+        getUserInfo()
+    }
+
+    private fun getUserInfo() {
+        lifecycleScope.launch {
+            val userId = requireContext().getUserId() ?: ""
+            rankingViewModel.getUserInfo(userId)
+        }
+
+        rankingViewModel.item.observe(viewLifecycleOwner) { userInfo ->
+            userInfo?.let {
+                binding.tvRankingMyProfileName.text = it.userName
+                binding.tvRankingMyProfileWalkCount.text = it.userStepDaily.toString()
+                Glide.with(this)
+                    .load(it.userProfileImg)
+                    // .placeholder(R.drawable.default_profile) // 로딩 중 표시할 기본 이미지
+                    // .error(R.drawable.default_profile) // 에러 발생 시 기본 이미지
+                    .into(binding.ivRankingMyProfile) // ImageView에 로드
+            } ?: run {
+                Log.e("hyeintest", "UserInfo is null")
+            }
+        }
     }
 
     private fun startTimer() {

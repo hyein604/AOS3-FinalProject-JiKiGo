@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.model.UserRanking
 import com.protect.jikigo.data.repo.RankingRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,9 @@ class RankingViewModel @Inject constructor(
     private val _rankingList = MutableLiveData<List<UserRanking>>()
     val rankingList: LiveData<List<UserRanking>> get() = _rankingList
 
+    private val _item = MutableLiveData<UserInfo?>()
+    val item: LiveData<UserInfo?> get() = _item
+
     init {
         fetchRankingData()
     }
@@ -27,6 +31,21 @@ class RankingViewModel @Inject constructor(
         viewModelScope.launch {
             _rankingList.value = rankingRepo.getUserRankings()
             Log.d("rankingData","가져온 랭킹유저 리스트 : ${rankingRepo.getUserRankings()}")
+        }
+    }
+
+    fun getUserInfo(userId: String) {
+        viewModelScope.launch {
+            try {
+                val userInfo = rankingRepo.getUserInfo(userId)
+                if (userInfo != null) {
+                    _item.value = userInfo //
+                } else {
+                    Log.e("HomeViewModel", "User info not found for id: $userId")
+                }
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error fetching user info", e)
+            }
         }
     }
 }
