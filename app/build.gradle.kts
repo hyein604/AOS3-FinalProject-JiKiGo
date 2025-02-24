@@ -116,6 +116,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences-rxjava2:1.1.2")
     implementation("androidx.datastore:datastore-preferences-rxjava3:1.1.2")
     implementation("androidx.datastore:datastore-preferences-core:1.1.2")
+
+    // health
+    implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
 }
 
 kapt {

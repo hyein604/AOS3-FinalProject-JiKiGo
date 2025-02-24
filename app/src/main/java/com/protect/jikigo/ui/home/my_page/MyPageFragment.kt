@@ -30,6 +30,7 @@ import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentMyPageBinding
 import com.protect.jikigo.ui.extensions.clearUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -39,7 +40,7 @@ import java.time.ZoneOffset
 import java.util.Date
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
     private val binding get() = _binding!!
@@ -84,13 +85,18 @@ class MyPageFragment : Fragment() {
         lifecycleScope.launch {
             checkInstallHC()
         }
-        viewModel.count.observe(viewLifecycleOwner) {
-            binding.tvMyPageWalkCount.text = "${viewModel.count.value!!.toInt()} 걸음"
-            binding.tvMyPageWalkKcal.text = "${viewModel.count.value!!.toInt() * 0.04}kcal"
-            val date = Date(System.currentTimeMillis())
-            val simpleDateFormat = SimpleDateFormat("MM-dd")
-            val now = simpleDateFormat.format(date)
-            binding.tvMyPageWalkDate.text = "$now"
+    }
+
+    private fun observe() {
+        binding.apply {
+            viewModel.totalSteps.observe(viewLifecycleOwner) {
+                tvMyPageWalkCount.text = "${viewModel.totalSteps.value!!.toInt()} 걸음"
+                tvMyPageWalkKcal.text = "${viewModel.totalSteps.value!!.toInt() * 0.04}kcal"
+                val date = Date(System.currentTimeMillis())
+                val simpleDateFormat = SimpleDateFormat("MM-dd")
+                val now = simpleDateFormat.format(date)
+                tvMyPageWalkDate.text = "$now"
+            }
         }
     }
 
@@ -201,30 +207,29 @@ class MyPageFragment : Fragment() {
 
 
     private suspend fun readStepsByTimeRange() {
-        val now: LocalDateTime = LocalDateTime.now()
-        val startOfDay = LocalDateTime.of(now.toLocalDate(), LocalTime.MIDNIGHT)
+        val endTime = LocalDateTime.now()
+        val startTime = LocalDateTime.of(endTime.toLocalDate(), LocalTime.MIDNIGHT)
+        val startTimeInstant = startTime.atZone(ZoneOffset.UTC).toInstant()
+        val endTimeInstant = endTime.atZone(ZoneOffset.UTC).toInstant()
 
         try {
             val response = healthConnectClient.readRecords(
                 ReadRecordsRequest(
-                    recordType = StepsRecord::class,
-                    timeRangeFilter = TimeRangeFilter.between(startOfDay, now)
+                    StepsRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
                 )
             )
+            viewModel.totalSteps.value = response.records[0].count.toString()
 
-            if(response.records.isEmpty()) {
-                //테스트용 : 헬스 커넥트에 데이터 쓰기
-                val startTime = Instant.now().minusSeconds(3600)
-                val endTime = Instant.now()
-                val stepsRecord =
-                    StepsRecord(startTime, ZoneOffset.UTC, endTime, ZoneOffset.UTC, 10000)
-                healthConnectClient.insertRecords(listOf(stepsRecord))
+            // records가 비어있는지 확인하고, 로그 출력
+            if (response.records.isEmpty()) {
+                viewModel.totalSteps.value = "0"
+            } else {
+                viewModel.totalSteps.value = response.records[0].count.toString()
             }
 
-            viewModel.count.value = response.records[0].count
-
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "$e", Toast.LENGTH_SHORT).show()
+            Log.v("Total Steps", "실행 안됨 : $e")
         }
     }
 
