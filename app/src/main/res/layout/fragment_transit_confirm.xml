@@ -92,13 +92,14 @@
                         android:id="@+id/tv_transit_confirm_btn_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/transit_confirm_btn_description"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="14sp"
-                        android:textAlignment="center"
-                        app:layout_constraintStart_toStartOf="@id/btn_transit_confirm"
-                        app:layout_constraintEnd_toEndOf="@id/btn_transit_confirm"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toTopOf="@id/btn_transit_confirm"
-                        android:text="@string/transit_confirm_btn_description" />
+                        app:layout_constraintEnd_toEndOf="@id/btn_transit_confirm"
+                        app:layout_constraintStart_toStartOf="@id/btn_transit_confirm" />
 
                     <Button
                         android:id="@+id/btn_transit_confirm"
