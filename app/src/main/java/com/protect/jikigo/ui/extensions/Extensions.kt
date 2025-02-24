@@ -89,7 +89,7 @@ fun Button.setTimer(lifecycleScope: LifecycleCoroutineScope, editText: TextInput
     editText.isEnabled = false
     lifecycleScope.launch(Dispatchers.Main) {
         val totalTime = 120
-        for (i in totalTime downTo 0) {
+        for (i in totalTime downTo 1) {
             val minutes = i / 60
             val seconds = i % 60
             this@setTimer.text = String.format("%d:%02d", minutes, seconds)
@@ -101,11 +101,13 @@ fun Button.setTimer(lifecycleScope: LifecycleCoroutineScope, editText: TextInput
     }
 }
 
-fun TextView.setTimer(lifecycleScope: LifecycleCoroutineScope, context: Context, imgView: ImageView) {
+fun TextView.setTimer(lifecycleScope: LifecycleCoroutineScope, context: Context, imgView: ImageView, imgQr: ImageView) {
     imgView.isEnabled = false
+    imgView.visibility = View.VISIBLE
+    imgQr.visibility = View.VISIBLE
     lifecycleScope.launch(Dispatchers.Main) {
         val totalTime = 180
-        for (i in totalTime downTo 0) {
+        for (i in totalTime downTo 1) {
             val minutes = i / 60
             val seconds = i % 60
             this@setTimer.text = String.format("%d:%02d", minutes, seconds)
@@ -114,11 +116,13 @@ fun TextView.setTimer(lifecycleScope: LifecycleCoroutineScope, context: Context,
         this@setTimer.text = context.getString(R.string.payment_qr_refresh)
         this@setTimer.isEnabled = true
         imgView.isEnabled = true
+        imgQr.visibility = View.INVISIBLE
     }
+
 }
 
 // 다이얼로그 띄우기
-fun Context.showDialog(
+fun Context.showDialogOkAndCancel(
     title: String, msg: String, pos: String, nega: String,
     onResult: (Boolean) -> Unit
 
@@ -137,6 +141,24 @@ fun Context.showDialog(
     val alertDialog = builder.create()
     alertDialog.show()
 }
+
+// 다이얼로그 띄우기 확인 버튼만 있음
+fun Context.showDialog(
+    title: String, msg: String, pos: String,
+    onResult: (Boolean) -> Unit
+
+) {
+    val builder = AlertDialog.Builder(this)
+    builder.setTitle(title)
+        .setMessage(msg)
+        .setPositiveButton(pos) { dialog, _ ->
+            dialog.dismiss()
+            onResult(true)
+        }
+    val alertDialog = builder.create()
+    alertDialog.show()
+}
+
 
 fun Context.showSnackBar(view: View, msg: String) {
     Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)

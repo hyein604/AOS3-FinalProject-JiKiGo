@@ -3,11 +3,15 @@ package com.protect.jikigo.data.repo
 import android.content.Context
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import com.protect.jikigo.data.model.UserInfo
+import com.protect.jikigo.data.model.UserQR
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.saveUserId
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,16 +21,18 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+
 @Singleton
 class UserRepo @Inject constructor(
     private val firestore: FirebaseFirestore,
+    private val realTime: FirebaseDatabase,
     private val auth: FirebaseAuth,
     @ApplicationContext private val context: Context,
 ) {
     suspend fun getUserInfo(id: String): UserInfo? {
         return try {
-            val db = FirebaseFirestore.getInstance()
-            val document = db.collection("UserInfo").document(id).get(Source.CACHE).await() // 캐시 우선 사용
+            val db = FirebaseFirestore.getInstance() // 캐시 먼저 쓰면 값을 못 가져옴..
+            val document = db.collection("UserInfo").document(id).get().await()//.get(Source.CACHE).await() // 캐시 우선 사용
                 ?: db.collection("UserInfo").document(id).get().await() // 네트워크에서 가져오기
 
             if (document.exists()) {
@@ -74,7 +80,7 @@ class UserRepo @Inject constructor(
     }
 
     suspend fun saveUser() {
-         try {
+        try {
             val user = runCatching { UserApiClient.instance.me().getOrThrow() }.getOrNull()!!
             val kakaoAccount = user.kakaoAccount!!
 
@@ -112,6 +118,81 @@ class UserRepo @Inject constructor(
         }
     }
 
+
+    fun setUserPaymentData(userQR: UserQR) {
+        val document = firestore.collection("UserInfo").document(userQR.userId)
+        val realDB = realTime.getReference("UserInfo").child("userQR")  // userQR 노드에 저장
+
+        Log.d("setUserPaymentData", "${userQR.userPoint}")
+        Log.d("setUserPaymentData", userQR.userId)
+        Log.d("setUserPaymentData", userQR.userQR)
+
+        document.update("userQR", userQR)
+            .addOnSuccessListener {
+                realDB.child(userQR.userQR).setValue(userQR)  // 사용자별 데이터 저장
+                    .addOnSuccessListener {
+                        Log.d("Firebase", "Realtime Database에 userQR 저장 성공")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firebase", "Realtime Database 저장 실패", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firebase", "Firestore 업데이트 실패", e)
+            }
+    }
+
+
+    // 덮어쓰기 방식 realDB
+    /*    fun setUserPaymentData(userQR: UserQR) {
+            val document = firestore.collection("UserInfo").document(userQR.userId)
+            val realDB = realTime.getReference("UserInfo")
+            Log.d("setUserPaymentData", "${userQR.userPoint}")
+            Log.d("setUserPaymentData", userQR.userId)
+            Log.d("setUserPaymentData", userQR.userQR)
+
+            document.update("userQR", userQR)
+                .addOnSuccessListener {
+                    realDB.child("userQR").setValue(userQR)
+                        .addOnSuccessListener {
+                            Log.d("Firebase", "Realtime Database에 userQR 저장 성공")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firebase", "Realtime Database 저장 실패", e)
+                        }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firebase", "Firestore 업데이트 실패", e)
+                }
+        }*/
+
+    fun getPointError(callback: (String) -> Unit) {
+        //  val document = firestore.collection("UserInfo").document(userQR.userId)
+        val realDB = realTime.getReference("UserInfo").child("userQR")
+
+        realDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val qrData = snapshot.getValue(UserQR::class.java)
+                    Log.d("TEST", "실시간 업데이트 감지 됨: ${qrData?.userQrError}")
+                    val error = qrData?.userQrError.toString()
+                    callback(error)
+                    // UI 업데이트 또는 알림 처리
+                } else {
+                    Log.d("TEST", "userQR 데이터 없음")
+                    callback("userQR no DATA")
+                }
+            }
+
+            override fun onCancelled(e: DatabaseError) {
+                Log.e("TEST", "데이터 감지 실패: ${e.message}")
+                callback("onCancelled")
+            }
+
+        })
+    }
+
+
     // Kakao SDK의 콜백 기반 API를 suspend 함수로 변환
     private suspend fun UserApiClient.me(): Result<User> = suspendCoroutine { continuation ->
         this.me { user, error ->
@@ -132,4 +213,47 @@ class UserRepo @Inject constructor(
             userNickName = nickName,
             userProfileImg = profileImg,
         )
+
+    fun clearRealDB(userId: String, callback: (Boolean) -> Unit) {
+        val realDB = realTime.getReference("UserInfo").child("userQR")
+        val firestoreDoc = firestore.collection("UserInfo").document(userId)
+
+        realDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val qrData = snapshot.getValue(UserQR::class.java)
+                    qrData?.let { userQR ->
+                        // Firestore에 저장
+                        firestoreDoc.update("userPoint", userQR.userPoint)
+                        firestoreDoc.update("userQR", userQR)
+                            .addOnSuccessListener {
+                                // Realtime DB에서 데이터 삭제
+                                realDB.removeValue()
+                                    .addOnSuccessListener {
+                                        Log.d("Firebase", "Realtime DB 데이터 삭제 성공")
+                                        callback(true)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Log.e("Firebase", "Realtime DB 데이터 삭제 실패", e)
+                                        callback(false)
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("Firebase", "Firestore 업데이트 실패", e)
+                                callback(false)
+                            }
+                    }
+                } else {
+                    Log.d("Firebase", "Realtime DB에 데이터가 없습니다")
+                    callback(false)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("Firebase", "데이터 읽기 실패: ${error.message}")
+                callback(false)
+            }
+        })
+    }
 }
+

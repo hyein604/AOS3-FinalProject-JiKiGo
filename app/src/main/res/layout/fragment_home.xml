@@ -127,10 +127,10 @@
 
 			<androidx.appcompat.widget.AppCompatImageView
 				android:id="@+id/iv_home_qr"
-				android:layout_width="60dp"
-				android:layout_height="60dp"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
 				android:layout_margin="10dp"
-				android:background="@drawable/background_home"
+				android:src="@drawable/home_qr"
 				app:layout_constraintBottom_toBottomOf="@id/view_home_point"
 				app:layout_constraintEnd_toEndOf="@id/view_home_point"
 				app:layout_constraintTop_toTopOf="@id/view_home_point" />

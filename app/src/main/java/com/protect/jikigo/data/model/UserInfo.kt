@@ -9,10 +9,11 @@ data class UserInfo(
     val userNickName: String = "",
     val userPoint: Int = 0,
     val userPw: String = "",
-    val userQR: String = "",
+    val userQR: UserQR = UserQR(),
     val userStep: Int = 0,
     val userProfileImg: String = "https://www.studiopeople.kr/common/img/default_profile.png",
     val userIsActive: Boolean = true,
     val userAutoLogin: String = "",
-    val kakaoToken: String = ""
+    val kakaoToken: String = "",
+    val userQrUser: Boolean = false
 )
