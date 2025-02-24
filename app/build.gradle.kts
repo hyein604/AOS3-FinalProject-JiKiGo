@@ -102,6 +102,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.1.0")
     implementation("com.google.firebase:firebase-appcheck-safetynet:16.1.2")
     implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-database")
 
     // hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
