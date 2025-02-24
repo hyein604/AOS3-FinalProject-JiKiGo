@@ -170,9 +170,9 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
             } else {
                 // 빈 리스트일 때는 UI를 초기화하거나 처리
                 with(binding) {
-                    tvHomeNotice1.text = ""
-                    tvHomeNotice2.text = ""
-                    tvHomeNotice3.text = ""
+                    tvHomeNotice1.text = "로딩중..."
+                    tvHomeNotice2.text = "로딩중..."
+                    tvHomeNotice3.text = "로딩중..."
                 }
             }
         }
