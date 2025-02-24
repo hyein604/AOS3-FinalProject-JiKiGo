@@ -17,7 +17,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.protect.jikigo.databinding.FragmentSignUpSecondBinding
 import com.protect.jikigo.ui.extensions.setTimer
-import com.protect.jikigo.ui.extensions.showDialog
+import com.protect.jikigo.ui.extensions.showDialogOkAndCancel
 import com.protect.jikigo.ui.extensions.showSnackBar
 import com.protect.jikigo.ui.viewModel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -268,7 +268,7 @@ class SignUpSecondFragment : Fragment() {
                 viewModel.registerUserInfo { success, docu ->
                     if (success) {
                         Log.d("success", "success")
-                        requireContext().showDialog(
+                        requireContext().showDialogOkAndCancel(
                             title = "회원가입",
                             msg = "회원가입을 완료하였습니다.\n로그인 화면으로 이동합니다.",
                             pos = "확인",
