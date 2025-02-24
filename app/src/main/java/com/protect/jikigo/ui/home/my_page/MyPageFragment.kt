@@ -86,7 +86,7 @@ class MyPageFragment : Fragment() {
     private fun observe() {
         binding.apply {
             viewModel.totalSteps.observe(viewLifecycleOwner) {
-                tvMyPageWalkCount.text = "${viewModel.totalSteps.value!!.toInt()} 걸음"
+                tvMyPageWalkCount.text = "${viewModel.totalSteps.value!!} 걸음"
                 tvMyPageWalkKcal.text = "${viewModel.totalSteps.value!!.toInt() * 0.04}kcal"
                 val date = Date(System.currentTimeMillis())
                 val simpleDateFormat = SimpleDateFormat("MM-dd")
@@ -230,7 +230,11 @@ class MyPageFragment : Fragment() {
                 viewModel.totalSteps.value = response.records[0].count.toString()
             }
 
-        } catch (e: Exception) {
+        }
+        catch (e: IndexOutOfBoundsException) {
+            viewModel.totalSteps.value = "0"
+        }
+        catch (e: Exception) {
             Log.v("Total Steps", "실행 안됨 : $e")
         }
     }
