@@ -9,25 +9,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Coupon
-import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelHomeBinding
-import com.protect.jikigo.ui.adapter.CouponAdaptor
+import com.protect.jikigo.ui.adapter.CouponHorizontalAdapter
 import com.protect.jikigo.ui.adapter.TravelBannerAdapter
-import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
+import com.protect.jikigo.ui.adapter.TravelCouponHorizontalOnClickListener
 import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelHomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+
 @AndroidEntryPoint
-class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
+class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
     private var _binding: FragmentTravelHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: TravelHomeViewModel by viewModels()
@@ -63,12 +60,10 @@ class TravelHomeFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setupObservers() {
-        // 🔹 핫 쿠폰 데이터 구독하여 UI 업데이트
         viewModel.hotCoupons.observe(viewLifecycleOwner) { coupons ->
-            binding.rvHotCouponList.adapter = CouponAdaptor(coupons, this)
+            binding.rvHotCouponList.adapter = CouponHorizontalAdapter(coupons, this)
         }
 
-        // 🔹 배너 데이터 구독하여 UI 업데이트
         viewModel.bannerImages.observe(viewLifecycleOwner) { images ->
             setBannerSlider(images)
         }
