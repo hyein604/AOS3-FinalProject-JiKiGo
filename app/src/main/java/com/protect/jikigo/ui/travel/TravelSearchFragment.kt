@@ -2,40 +2,29 @@ package com.protect.jikigo.ui.travel
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Storage
 import com.protect.jikigo.data.model.Coupon
-import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelSearchBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.viewModel.TravelSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelSearchBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: TravelSearchViewModel by viewModels()
 
-    private val maxChips = 10
-    private val sharedPreference  by lazy {
-        requireContext().getSharedPreferences("recent_search", Context.MODE_PRIVATE)
-    }
-
-    private lateinit var coupon : List<Coupon>
-    lateinit var adapter: CouponAdaptor
-
-    @Inject
-    lateinit var couponRepo: CouponRepo
+    private var adapter: CouponAdaptor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,17 +41,49 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setLayout()
-    }
 
-    private fun setLayout() {
+        setupObservers()
         moveToTravel()
-        setStatusBar()
         setupSearchListener()
-        setRecyclerView()
-        loadChips()
+        setupRecentSearches()
+        setupRecyclerView()
         showKeyboard()
     }
+
+    private fun setupObservers() {
+        viewModel.couponList.observe(viewLifecycleOwner) { coupons ->
+            // 리사이클러뷰는 처음에는 안 보이게 하고, 검색 결과가 있을 때만 보이게
+            binding.rvSearchCouponList.visibility = if (coupons.isNotEmpty()) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
+        viewModel.filteredCoupons.observe(viewLifecycleOwner) { coupons ->
+            if (coupons.isEmpty()) {
+                binding.rvSearchCouponList.visibility = View.GONE
+                binding.tvNoResult.visibility = View.VISIBLE
+                binding.tvNoResult.text = "'${binding.etSearch.text}'에 해당하는 상품이 없습니다."
+                binding.tvRecent.visibility = View.GONE
+                binding.cgHistory.visibility = View.GONE
+            } else {
+                binding.rvSearchCouponList.visibility = View.VISIBLE
+                binding.tvNoResult.visibility = View.GONE
+                adapter?.updateList(coupons)
+                binding.tvRecent.visibility = View.GONE
+                binding.cgHistory.visibility = View.GONE
+            }
+        }
+
+        viewModel.recentSearches.observe(viewLifecycleOwner) { searches ->
+            Log.d("TravelSearchViewModel", "recentSearches updated: $searches")
+            setupChips(searches)
+        }
+    }
+
+
+
 
     private fun setupSearchListener() {
         binding.etSearch.setOnEditorActionListener { _, _, _ ->
@@ -79,67 +100,51 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     private fun handleSearch() {
         val query = binding.etSearch.text.toString()
         if (query.isNotEmpty()) {
-            hideRecentSearch()
-            addChip(query)
-            filterCoupon(query)
+            viewModel.addRecentSearch(query)
+            viewModel.filterCoupons(query)
         }
         hideKeyboard()
     }
 
-    private fun hideRecentSearch() {
-        binding.tvRecent.visibility = View.GONE
-        binding.cgHistory.visibility = View.GONE
-        binding.tvNoHistory.visibility = View.GONE
+    private fun setupRecentSearches() {
+        binding.cgHistory.removeAllViews()
     }
 
-    private fun addChip(query: String) {
-        binding.tvNoHistory.visibility = View.GONE
-        findChip(query)?.let { binding.cgHistory.removeView(it) }
+    private fun setupChips(searches: List<String>) {
+        binding.cgHistory.removeAllViews()
 
-        val chip = createChip(query)
-        binding.cgHistory.addView(chip, 0)
-
-        chip.setOnClickListener {
-            hideRecentSearch()
-
-            // 칩 클릭 시 해당 검색어로 검색
-            binding.etSearch.setText(query)
-            filterCoupon(query)
+        if (searches.isNotEmpty()) {
+            binding.tvNoHistory.visibility = View.GONE
+        } else {
+            binding.tvNoHistory.visibility = View.VISIBLE
         }
 
-        chip.setOnCloseIconClickListener {
-            removeChip(chip, query)
-        }
+        searches.forEach { query ->
+            val chip = createChip(query)
+            binding.cgHistory.addView(chip)
 
-        // 칩이 10개 이상일 경우, 가장 오래된 칩 제거
-        if (binding.cgHistory.childCount > maxChips) {
-            binding.cgHistory.removeViewAt(binding.cgHistory.childCount-1)
-        }
+            chip.setOnClickListener {
+                val query = chip.text.toString()
+                binding.etSearch.setText(query)
 
-        // 칩을 내부 저장소에 저장
-        saveChip(query)
-    }
+                // 커서를 텍스트 끝으로 이동
+                binding.etSearch.setSelection(query.length)
 
-    private fun findChip(query: String): Chip? {
-        for (i in 0 until binding.cgHistory.childCount) {
-            val chip = binding.cgHistory.getChildAt(i) as? Chip
-            if (chip?.text.toString() == query) {
-                return chip
+                viewModel.filterCoupons(query)
+
+                // 클릭한 검색어를 최근 검색어로 다시 추가
+                viewModel.addRecentSearch(query)
+            }
+
+            chip.setOnCloseIconClickListener {
+                viewModel.removeRecentSearch(query)
             }
         }
-        return null
     }
 
     private fun createChip(text: String): Chip {
-
-        val displayText = if (text.length > 7) {
-            text.take(7) + "..."
-        } else {
-            text
-        }
-
         return Chip(requireContext()).apply {
-            this.text = displayText
+            this.text = if (text.length > 7) text.take(7) + "..." else text
             isCloseIconVisible = true
             setChipBackgroundColorResource(R.color.gray_5)
             setTextColor(resources.getColor(R.color.black, null))
@@ -148,83 +153,11 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
         }
     }
 
-    private fun removeChip(chip: Chip, query: String) {
-        binding.cgHistory.removeView(chip)
-        removeChipFromStorage(query)
-        val remainingChips = getChipsFromStorage()
-        if(remainingChips.isEmpty()){
-            binding.tvNoHistory.visibility = View.VISIBLE
+    private fun setupRecyclerView() {
+        if (adapter == null) {
+            adapter = CouponAdaptor(emptyList(), this@TravelSearchFragment)
         }
-    }
-
-    private fun saveChip(query: String) {
-        val chips = getChipsFromStorage().toMutableList()
-        if (!chips.contains(query)) {
-            chips.add(query)
-        }
-        if (chips.size > maxChips) {
-            chips.removeAt(0)
-        }
-        sharedPreference.edit().putStringSet("chips", chips.toSet()).apply()
-    }
-
-    private fun getChipsFromStorage(): Set<String> {
-        return sharedPreference.getStringSet("chips", emptySet()) ?: emptySet()
-    }
-
-    private fun removeChipFromStorage(query: String) {
-        val chips = getChipsFromStorage().toMutableList()
-        chips.remove(query)
-        sharedPreference.edit().putStringSet("chips", chips.toSet()).apply()
-    }
-
-    private fun loadChips() {
-        val chips = getChipsFromStorage()
-
-        if (chips.isNotEmpty()){
-            binding.tvNoHistory.visibility = View.GONE
-        }
-        else {
-            binding.tvNoHistory.visibility = View.VISIBLE
-        }
-
-        // tvNoResult를 초기 상태에서 숨김
-        binding.tvNoResult.visibility = View.GONE
-
-        binding.cgHistory.removeAllViews()
-        chips.forEach { chipText ->
-            addChip(chipText)
-        }
-    }
-
-    private fun setRecyclerView(){
-        lifecycleScope.launch {
-            coupon = couponRepo.getAllCoupon()
-            adapter = CouponAdaptor(coupon, this@TravelSearchFragment)
-            binding.rvSearchCouponList.adapter = adapter
-        }
-    }
-
-    private fun filterCoupon(query: String){
-        val filteredCoupons = coupon.filter {
-            it.couponName.contains(query, ignoreCase = true) == true ||
-                    it.couponBrand.contains(query, ignoreCase = true) == true
-        }
-
-        // 상품이 없으면 "검색 결과가 없습니다." 보여주기
-        if (filteredCoupons.isEmpty()) {
-            binding.rvSearchCouponList.visibility = View.GONE
-            binding.tvNoResult.visibility = View.VISIBLE
-            binding.tvNoResult.text = "'$query' 상품이 없어요."
-        } else {
-            binding.rvSearchCouponList.visibility = View.VISIBLE
-            binding.tvNoResult.visibility = View.GONE
-        }
-
-        adapter.updateList(filteredCoupons)
-    }
-    private fun setStatusBar() {
-        requireActivity().statusBarColor(R.color.white)
+        binding.rvSearchCouponList.adapter = adapter
     }
 
     private fun showKeyboard() {
@@ -249,3 +182,4 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
         findNavController().navigate(action)
     }
 }
+
