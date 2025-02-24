@@ -211,13 +211,33 @@
 		android:id="@+id/electricVehicleConfirm"
 		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
 		android:label="fragment_electric_vehicle_confirm"
-		tools:layout="@layout/fragment_electric_vehicle_confirm" />
+		tools:layout="@layout/fragment_electric_vehicle_confirm" >
+		<action
+			android:id="@+id/action_electricVehicleConfirm_to_electricVehicleConfirmPhoto"
+			app:destination="@id/electricVehicleConfirmPhoto"/>
+	</fragment>
 
 	<fragment
 		android:id="@+id/transitConfirm"
 		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
 		android:label="fragment_transit_confirm"
-		tools:layout="@layout/fragment_transit_confirm" />
+		tools:layout="@layout/fragment_transit_confirm" >
+		<action
+			android:id="@+id/action_transitConfirm_to_transitConfirmPhoto"
+			app:destination="@id/transitConfirmPhoto"/>
+	</fragment>
+
+	<fragment
+		android:id="@+id/transitConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.TransitConfirmPhotoFragment"
+		android:label="fragment_transit_confirm_photo"
+		tools:layout="@layout/fragment_transit_confirm_photo" />
+
+	<fragment
+		android:id="@+id/electricVehicleConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmPhotoFragment"
+		android:label="fragment_electric_vehicle_confirm_photo"
+		tools:layout="@layout/fragment_electric_vehicle_confirm_photo" />
 
 	<dialog
 		android:id="@+id/paymentQRDialog"

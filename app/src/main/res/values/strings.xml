@@ -96,7 +96,7 @@
 	<string name="reward_walk_rank_check">이번 주 랭킹 확인하기</string>
 	<string name="reward_tumblr_confirm">텀블러 사용 인증하러 가기</string>
 	<string name="reward_transit_confirm">대중교통 이용 인증하러 가기</string>
-	<string name="reward_electric_vehicle_confirm">대중교통 이용 인증하러 가기</string>
+	<string name="reward_electric_vehicle_confirm">전기 이동수단 이용 인증하러 가기</string>
 
 	<!-- 출석하기 -->
 	<string name="attend_bottom_sheet_title">출석체크 리워드가 적립되었어요.</string>

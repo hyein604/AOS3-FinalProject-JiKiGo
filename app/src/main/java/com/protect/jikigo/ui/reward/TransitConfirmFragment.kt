@@ -32,12 +32,19 @@ class TransitConfirmFragment : Fragment() {
     }
 
     private fun setLayout() {
-        onClickToolbar()
+        onClickListener()
     }
 
-    private fun onClickToolbar() {
-        binding.toolbarTransitConfirm.setNavigationOnClickListener {
-            findNavController().navigateUp()
+    private fun onClickListener() {
+        binding.apply {
+            toolbarTransitConfirm.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            btnTransitConfirm.setOnClickListener {
+                val action = TransitConfirmFragmentDirections.actionTransitConfirmToTransitConfirmPhoto()
+                findNavController().navigate(action)
+            }
         }
     }
 }
