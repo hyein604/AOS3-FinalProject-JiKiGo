@@ -5,7 +5,6 @@ package com.protect.jikigo.ui.home.my_page
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -23,7 +22,6 @@ import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.LoginActivity
 import com.protect.jikigo.R
@@ -33,12 +31,10 @@ import com.protect.jikigo.ui.extensions.statusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
 import java.util.Date
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyPageFragment : Fragment() {
@@ -82,9 +78,9 @@ class MyPageFragment : Fragment() {
         moveToPointHistory()
         moveToCouponBox()
         onClickToolbar()
-        lifecycleScope.launch {
-            checkInstallHC()
-        }
+        checkHC()
+        observe()
+        onClickLogOut()
     }
 
     private fun observe() {
@@ -97,6 +93,12 @@ class MyPageFragment : Fragment() {
                 val now = simpleDateFormat.format(date)
                 tvMyPageWalkDate.text = "$now"
             }
+        }
+    }
+
+    private fun checkHC() {
+        lifecycleScope.launch {
+            checkInstallHC()
         }
     }
 
