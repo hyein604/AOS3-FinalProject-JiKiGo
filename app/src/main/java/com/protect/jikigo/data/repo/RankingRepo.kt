@@ -52,4 +52,17 @@ class RankingRepo @Inject constructor(
             null
         }
     }
+
+    suspend fun updateUserInfo(userInfo: UserInfo) {
+        try {
+            firestore.collection("UserInfo")
+                .document(userInfo.userDocId) // Firestore에서 문서 ID는 userDocId 사용
+                .set(userInfo)
+                .await()
+            Log.d("RankingRepo", "UserInfo updated successfully for id: ${userInfo.userDocId}")
+        } catch (e: Exception) {
+            Log.e("RankingRepo", "Error updating user info: ${e.message}", e)
+        }
+    }
+
 }
