@@ -25,7 +25,7 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     // 보유 포인트
-    private val userPoints = 11000
+    private val userPoints = 9000
     // 상품 가격
     private val productPrice = 10000
 
