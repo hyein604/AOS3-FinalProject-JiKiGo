@@ -124,6 +124,7 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="10dp"
 		android:text="@string/payment_qr_refresh"
+		android:textSize="18sp"
 		android:textStyle="bold"
 		app:layout_constraintStart_toStartOf="@id/view_qr"
 		app:layout_constraintTop_toTopOf="@id/view_qr"
@@ -131,14 +132,14 @@
 
 	<androidx.appcompat.widget.AppCompatImageView
 		android:id="@+id/iv_qr_refresh"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="10dp"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
 		android:src="@drawable/ic_refresh"
 		android:visibility="gone"
-		app:layout_constraintBottom_toBottomOf="@id/tv_qr_time"
-		app:layout_constraintStart_toEndOf="@id/tv_qr_time"
-		app:layout_constraintTop_toTopOf="@id/tv_qr_time" />
+		app:layout_constraintBottom_toBottomOf="@id/iv_payment_qr"
+		app:layout_constraintEnd_toEndOf="@id/iv_payment_qr"
+		app:layout_constraintStart_toStartOf="@id/iv_payment_qr"
+		app:layout_constraintTop_toTopOf="@id/iv_payment_qr" />
 
 	<androidx.appcompat.widget.AppCompatImageView
 		android:id="@+id/iv_qr_help"
