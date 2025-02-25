@@ -51,7 +51,7 @@
             android:id="@+id/tv_ranking_weekly_steps_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1093"
+            android:text=""
             android:textColor="@android:color/white"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -88,26 +88,24 @@
             android:id="@+id/tv_ranking_monthly_trees_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="198dp"
+            android:layout_marginEnd="5dp"
             android:text="3.15"
             android:textColor="@android:color/white"
             android:textSize="32sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf ="@+id/tv_ranking_monthly_trees_unit"
             app:layout_constraintTop_toBottomOf="@id/tv_ranking_monthly_trees" />
 
         <TextView
             android:id="@+id/tv_ranking_monthly_trees_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:text="그루 🌳"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_ranking_monthly_trees_count"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,7 +118,7 @@
         android:scaleType="centerCrop"
         android:elevation="5dp"
         android:src="@drawable/img_today_news_home_tmp_1"
-        android:layout_marginTop="10dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cl_ranking_steps_and_trees" />
