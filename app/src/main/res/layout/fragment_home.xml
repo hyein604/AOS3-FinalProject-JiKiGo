@@ -147,7 +147,7 @@
 
 			<View
 				android:id="@+id/view_home_environment"
-				android:layout_width="110dp"
+				android:layout_width="100dp"
 				android:layout_height="110dp"
 				android:layout_marginTop="10dp"
 				android:background="@drawable/background_home"
@@ -178,7 +178,7 @@
 
 			<View
 				android:id="@+id/view_home_travel"
-				android:layout_width="110dp"
+				android:layout_width="100dp"
 				android:layout_height="110dp"
 				android:background="@drawable/background_home"
 				app:layout_constraintEnd_toStartOf="@id/view_home_health"
@@ -209,7 +209,7 @@
 
 			<View
 				android:id="@+id/view_home_health"
-				android:layout_width="110dp"
+				android:layout_width="100dp"
 				android:layout_height="110dp"
 				android:background="@drawable/background_home"
 				app:layout_constraintEnd_toEndOf="@id/view_home_point"
