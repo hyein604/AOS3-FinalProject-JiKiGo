@@ -99,7 +99,7 @@ class RankingFragment : Fragment() {
 
         rankingViewModel.item.observe(viewLifecycleOwner) { userInfo ->
             userInfo?.let {
-                binding.tvRankingMyProfileName.text = it.userName
+                binding.tvRankingMyProfileName.text = it.userNickName
                 Glide.with(this)
                     .load(it.userProfileImg)
                     .into(binding.ivRankingMyProfile)

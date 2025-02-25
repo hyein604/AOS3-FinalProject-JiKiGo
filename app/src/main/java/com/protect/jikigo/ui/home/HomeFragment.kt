@@ -75,8 +75,8 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
         homeViewModel.item.observe(viewLifecycleOwner) { userInfo ->
             userInfo?.let {
-                binding.tvHomeNickname.text = "${it.userName} 님,"
-                binding.tvHomeNickname.applySpannableStyles(0, it.userName.length, R.color.white)
+                binding.tvHomeNickname.text = "${it.userNickName} 님,"
+                binding.tvHomeNickname.applySpannableStyles(0, it.userNickName.length, R.color.white)
 
                 if (binding.tvHomePoint.text.toString() != it.userPoint.toString()) { // 중복 업데이트 방지
                     binding.tvHomePoint.applyNumberFormat(it.userPoint)
