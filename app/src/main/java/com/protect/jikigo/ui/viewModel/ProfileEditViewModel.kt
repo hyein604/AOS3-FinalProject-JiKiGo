@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.repo.MyPageRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class ProfileEditViewModel@Inject constructor(
+@HiltViewModel
+class ProfileEditViewModel @Inject constructor(
     private val myPageRepo: MyPageRepo
 ): ViewModel() {
     private val _profile = MutableLiveData<UserInfo>()
@@ -18,16 +20,18 @@ class ProfileEditViewModel@Inject constructor(
     private val _imageUri = MutableLiveData<Uri?>()
     val imageUri: LiveData<Uri?> get() = _imageUri
 
-    private val changeImage = MutableLiveData<Boolean>(false)
+    private val _changeImage = MutableLiveData<Boolean>()
+    val changeImage: LiveData<Boolean> get() = _changeImage
 
-    private val image = MutableLiveData<String>()
-
-    private val _isLoading = MutableLiveData<Boolean>(false)
+    private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val documentId = MutableLiveData<String>()
+
     fun loadProfile(userid: String) {
-        myPageRepo.getProfile(userid) { profile ->
+        myPageRepo.getProfile(userid) { profile, id ->
             _profile.value = profile!!
+            documentId.value = id!!
         }
     }
 
@@ -35,41 +39,43 @@ class ProfileEditViewModel@Inject constructor(
         _imageUri.value = uri
     }
 
-    fun saveProfile(userid: String, userName: String) {
+    fun checkChange() {
+        _changeImage.value = true
+        _imageUri.value = null
+    }
+
+    fun saveProfile(userid: String, userNickName: String) {
         _isLoading.value = true
         if(imageUri.value != null) {
             myPageRepo.uploadProfileImage(
                 userid, imageUri.value!!,
                 onSuccess = {
-                    image.value = it
-                    changeImage.value = true
+                    val updates = mapOf(
+                        "userProfileImg" to it,
+                        "userNickName" to userNickName
+                    )
+
+                    myPageRepo.updateUserInfo(documentId.value!!, updates) {
+                        if(!it) {
+                            saveProfile(userid, userNickName)
+                        }
+                        _isLoading.value = false
+                    }
                 },
                 onFailure = {
                     Log.d("profileEdit", "$it")
                 }
             )
-
-            val updates = mapOf(
-                "userProfileImg" to image.value!!,
-                "userName" to userName
-            )
-
-            myPageRepo.updateUserInfo(userid, updates) {
-                if(!it) {
-                    saveProfile(userid, userName)
-                }
-                _isLoading.value = false
-            }
         }
 
         if(imageUri.value == null && changeImage.value == true)  {
             val updates = mapOf(
                 "userProfileImg" to "https://www.studiopeople.kr/common/img/default_profile.png",
-                "userName" to userName
+                "userNickName" to userNickName
             )
-            myPageRepo.updateUserInfo(userid, updates) {
+            myPageRepo.updateUserInfo(documentId.value!!, updates) {
                 if(!it) {
-                    saveProfile(userid, userName)
+                    saveProfile(userid, userNickName)
                 }
                 _isLoading.value = false
             }
@@ -77,12 +83,12 @@ class ProfileEditViewModel@Inject constructor(
 
         if(imageUri.value == null && changeImage.value == false) {
             val updates = mapOf(
-                "userName" to userName
+                "userNickName" to userNickName
             )
 
-            myPageRepo.updateUserInfo(userid, updates) {
+            myPageRepo.updateUserInfo(documentId.value!!, updates) {
                 if(!it) {
-                    saveProfile(userid, userName)
+                    saveProfile(userid, userNickName)
                 }
                 _isLoading.value = false
             }
