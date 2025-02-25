@@ -91,7 +91,11 @@ class MyPageFragment : Fragment() {
         binding.apply {
             viewModel.totalSteps.observe(viewLifecycleOwner) {step ->
                 tvMyPageWalkCount.text = "${step} 걸음"
-                tvMyPageWalkKcal.text = "${step.toInt() * 0.04}kcal"
+
+                val stepKcal = step.toInt() * 0.04
+                val stepKcalFormatted = String.format("%.2f", stepKcal)
+                tvMyPageWalkKcal.text = "${stepKcalFormatted}kcal"
+
                 val date = Date(System.currentTimeMillis())
                 val simpleDateFormat = SimpleDateFormat("MM-dd")
                 val now = simpleDateFormat.format(date)
