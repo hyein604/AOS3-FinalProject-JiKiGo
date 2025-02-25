@@ -22,6 +22,7 @@ import com.protect.jikigo.ui.adapter.RankingAdapter
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import com.protect.jikigo.ui.viewModel.RankingViewModel
+import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -34,7 +35,7 @@ class RankingFragment : Fragment() {
     private var _binding: FragmentRankingBinding? = null
     private val binding get() = _binding!!
     private val rankingViewModel: RankingViewModel by viewModels()
-    private val myPageViewModel: MyPageViewModel by activityViewModels()
+    private val walkViewModel: WalkViewModel by activityViewModels()
     private val handler = Handler(Looper.getMainLooper())
 
 
@@ -66,12 +67,12 @@ class RankingFragment : Fragment() {
     // 걸음 수 데이터를 관찰하고 UI에 반영
     private fun observeStepCount() {
         // 오늘의 걸음
-        myPageViewModel.totalSteps.observe(viewLifecycleOwner) { steps ->
+        walkViewModel.totalSteps.observe(viewLifecycleOwner) { steps ->
             binding.tvRankingWeeklyStepsCount.text = "$steps"
         }
 
         // 주간 걸음과 이번주 심은 나무 수
-        myPageViewModel.weeklySteps.observe(viewLifecycleOwner) { steps ->
+        walkViewModel.weeklySteps.observe(viewLifecycleOwner) { steps ->
             binding.tvRankingMyProfileWalkCount.text = "$steps"
 
             // 걸음 수에 기반한 나무 심기 수 계산
@@ -81,11 +82,11 @@ class RankingFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            if (myPageViewModel.healthConnectClient.value == null) {
-                myPageViewModel.checkInstallHC(requireContext())
+            if (walkViewModel.healthConnectClient.value == null) {
+                walkViewModel.checkInstallHC(requireContext())
             }
-            myPageViewModel.readStepsByTimeRange()
-            myPageViewModel.updateWeeklySteps()
+            walkViewModel.readStepsByTimeRange()
+            walkViewModel.updateWeeklySteps()
         }
     }
 
