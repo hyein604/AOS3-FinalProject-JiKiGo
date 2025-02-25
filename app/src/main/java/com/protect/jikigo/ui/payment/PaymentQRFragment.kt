@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,7 @@ import com.protect.jikigo.data.model.UserQR
 import com.protect.jikigo.databinding.FragmentPaymentQrBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.setTimer
+import com.protect.jikigo.ui.extensions.setTimerCallBack
 import com.protect.jikigo.ui.extensions.showDialog
 import com.protect.jikigo.ui.extensions.showDialogOkAndCancel
 import com.protect.jikigo.ui.extensions.statusBarColor
@@ -65,6 +66,7 @@ class PaymentQRFragment : Fragment() {
     private fun setLayout() {
         initUserId()
         setStatusBarColor()
+        onClickBack()
         onClickToolbar()
         showDialog()
         setQRCode()
@@ -72,6 +74,16 @@ class PaymentQRFragment : Fragment() {
         moveToTravel()
         getUserPointError()
         setTimer()
+    }
+
+    // 뒤로가기
+    private fun onClickBack() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setClearRealDB()
+                findNavController().popBackStack()
+            }
+        })
     }
 
     private fun initUserId() {
@@ -91,7 +103,9 @@ class PaymentQRFragment : Fragment() {
 
     private fun getUserPointError() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPointError()
+            viewModel.userQR.observe(viewLifecycleOwner) {
+                viewModel.getPointError(it)
+            }
             viewModel.userPointError.observe(viewLifecycleOwner) {
                 if (it == "포인트가 부족합니다.") {
                     requireContext().showDialog(
@@ -112,6 +126,7 @@ class PaymentQRFragment : Fragment() {
                     ) { result ->
                         if (result) {
                             // 확인
+                            //  setPaymentHistoryDB()
                             setClearRealDB()
                             findNavController().navigateUp()
                         }
@@ -124,7 +139,9 @@ class PaymentQRFragment : Fragment() {
     // 결제 됐을 때 realDB내려야함 결제 완료 다이얼로그 확인 눌렀을 때
     private fun setClearRealDB() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.clearDB(userId)
+            viewModel.userQR.observe(viewLifecycleOwner) {
+                viewModel.clearDB(it)
+            }
         }
     }
 
@@ -135,6 +152,7 @@ class PaymentQRFragment : Fragment() {
 
     private fun onClickToolbar() {
         binding.toolbarPayment.setNavigationOnClickListener {
+            setClearRealDB()
             findNavController().navigateUp()
         }
     }
@@ -156,6 +174,7 @@ class PaymentQRFragment : Fragment() {
             ) { result ->
                 if (result) {
                     val action = PaymentQRFragmentDirections.actionPaymentQRToNavigationTravel()
+                    setClearRealDB()
                     findNavController().navigate(action)
                 }
             }
@@ -169,10 +188,11 @@ class PaymentQRFragment : Fragment() {
     }
 
     private fun setQRCode() {
-        binding.tvQrTime.setTimer(lifecycleScope, requireContext(), binding.ivQrRefresh, binding.ivPaymentQr)
+        binding.tvQrTime.setTimerCallBack(lifecycleScope, requireContext(), binding.ivQrRefresh, binding.ivPaymentQr) {
+            setClearRealDB()
+        }
         // data: UUID, userDocID, userPoint
         val transactionId = UUID.randomUUID().toString() // 고유 트랜잭션 ID 생성
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.userPoint.observe(viewLifecycleOwner) {
@@ -186,8 +206,6 @@ class PaymentQRFragment : Fragment() {
                 viewModel.setUserPaymentData(userData)
                 val qrJson = Gson().toJson(userData)
 
-
-
                 binding.ivPaymentQr.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         val width = binding.ivPaymentQr.measuredWidth
@@ -198,7 +216,6 @@ class PaymentQRFragment : Fragment() {
                             Glide.with(requireContext())
                                 .load(img)
                                 .into(binding.ivPaymentQr)
-
                             // 리스너 제거 (메모리 누수 방지)
                             binding.ivPaymentQr.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         }
@@ -223,10 +240,5 @@ class PaymentQRFragment : Fragment() {
             e.printStackTrace()
             null
         }
-    }
-
-    private fun userQrCode() {
-
-
     }
 }
