@@ -101,7 +101,12 @@ fun Button.setTimer(lifecycleScope: LifecycleCoroutineScope, editText: TextInput
     }
 }
 
-fun TextView.setTimer(lifecycleScope: LifecycleCoroutineScope, context: Context, imgView: ImageView, imgQr: ImageView) {
+fun TextView.setTimer(
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context,
+    imgView: ImageView,
+    imgQr: ImageView,
+) {
     imgView.isEnabled = false
     imgView.visibility = View.VISIBLE
     imgQr.visibility = View.VISIBLE
@@ -118,7 +123,33 @@ fun TextView.setTimer(lifecycleScope: LifecycleCoroutineScope, context: Context,
         imgView.isEnabled = true
         imgQr.visibility = View.INVISIBLE
     }
+}
 
+// 콜백함수가 있는 타이머 확장함수
+fun TextView.setTimerCallBack(
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context,
+    imgView: ImageView,
+    imgQr: ImageView,
+    onTimerFinish: () -> Unit
+) {
+    imgView.isEnabled = false
+    imgView.visibility = View.VISIBLE
+    imgQr.visibility = View.VISIBLE
+    lifecycleScope.launch(Dispatchers.Main) {
+        val totalTime = 180
+        for (i in totalTime downTo 1) {
+            val minutes = i / 60
+            val seconds = i % 60
+            this@setTimerCallBack.text = String.format("%d:%02d", minutes, seconds)
+            delay(1000) // 1초 대기
+        }
+        this@setTimerCallBack.text = context.getString(R.string.payment_qr_refresh)
+        this@setTimerCallBack.isEnabled = true
+        imgView.isEnabled = true
+        imgQr.visibility = View.INVISIBLE
+        onTimerFinish()
+    }
 }
 
 // 다이얼로그 띄우기
