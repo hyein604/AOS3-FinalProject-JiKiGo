@@ -15,18 +15,22 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.FirebaseFirestore
+import com.protect.jikigo.ui.extensions.getUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.Calendar
 import javax.inject.Inject
-
-
 @HiltViewModel
-class MyPageViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class MyPageViewModel @Inject constructor(application: Application, private val firestore: FirebaseFirestore) : AndroidViewModel(application) {
 
     private val _totalSteps = MutableLiveData<String>()
     val totalSteps: LiveData<String> = _totalSteps
+
+    private val _weeklySteps = MutableLiveData<Int>()
+    val weeklySteps: LiveData<Int> = _weeklySteps
 
     private val _healthConnectClient = MutableLiveData<HealthConnectClient?>()
     val healthConnectClient: LiveData<HealthConnectClient?> = _healthConnectClient
@@ -43,9 +47,58 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
     init {
         viewModelScope.launch {
             checkAndInitHealthClient(getApplication<Application>().applicationContext)
+            updateWeeklySteps()
         }
     }
 
+
+    internal suspend fun updateWeeklySteps() {
+        val healthClient = _healthConnectClient.value ?: return
+        val endTime = LocalDateTime.now()
+
+        // 이번 주 월요일 00:00을 startTime으로 설정
+        val today = Calendar.getInstance()
+        val dayOfWeek = today.get(Calendar.DAY_OF_WEEK) // 일(1) ~ 토(7)
+        val daysSinceMonday = if (dayOfWeek == Calendar.SUNDAY) 6 else dayOfWeek - Calendar.MONDAY
+        val startTime = endTime.minusDays(daysSinceMonday.toLong()).toLocalDate().atStartOfDay()
+
+        try {
+            // 이번 주 월요일부터 오늘까지의 걸음 수를 가져옴
+            val response = healthClient.readRecords(
+                ReadRecordsRequest(
+                    StepsRecord::class,
+                    timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
+                )
+            )
+
+            // 걸음 수 합산
+            val weeklySteps = response.records.sumOf { it.count.toInt() }
+
+            // 주간 걸음 수 업데이트
+            _weeklySteps.postValue(weeklySteps)
+            updateWeeklyStepsInFirestore(weeklySteps)
+
+        } catch (e: Exception) {
+            Log.e("Weekly Steps", "Error fetching weekly step count", e)
+        }
+    }
+
+    // 주간 걸음 수를 Firestore에 업데이트
+    private suspend fun updateWeeklyStepsInFirestore(weeklySteps: Int) {
+        val userId = getApplication<Application>().applicationContext.getUserId() ?: return
+
+        firestore.collection("UserInfo")
+            .document(userId)
+            .update("userStepWeekly", weeklySteps)
+            .addOnSuccessListener {
+                Log.d("Firestore", "Weekly steps updated: $weeklySteps")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error updating weekly steps", e)
+            }
+    }
+
+    // Health Connect 클라이언트를 초기화하고 설치 여부를 확인
     private suspend fun checkAndInitHealthClient(context: Context) {
         checkInstallHC(context) // HealthConnectClient 초기화
         _healthConnectClient.observeForever {
@@ -57,9 +110,7 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
         }
     }
 
-    /**
-     * Google Health Connect 앱 설치 여부 확인 및 초기화
-     */
+    // Google Health Connect 앱 설치 여부 확인 및 초기화
     fun checkInstallHC(context: Context) {
         val providerPackageName = "com.google.android.apps.healthdata"
         val availabilityStatus = HealthConnectClient.getSdkStatus(context, providerPackageName)
@@ -77,9 +128,7 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
         _requestPermissions.value = true
     }
 
-    /**
-     * Google Play 스토어에서 Health Connect 앱 설치 화면 열기
-     */
+    // Google Play 스토어에서 Health Connect 앱 설치 화면 열기
     fun openPlayStoreForHealthConnect(context: Context) {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata")
@@ -88,9 +137,7 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
         context.startActivity(intent)
     }
 
-    /**
-     * 권한 설정 화면으로 이동 (사용자가 직접 권한 활성화하도록 유도)
-     */
+    // 권한 설정 화면으로 이동 (사용자가 직접 권한 활성화하도록 유도)
     fun movePermissionSetting(context: Context) {
         val packageName = "com.google.android.apps.healthdata"
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
@@ -102,9 +149,7 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
         }
     }
 
-    /**
-     * Health Connect에서 오늘 하루 동안의 걸음 수 데이터를 읽어와 업데이트
-     */
+    // Health Connect에서 오늘 하루 동안의 걸음 수 데이터를 읽어와 업데이트
     suspend fun readStepsByTimeRange() {
         if (_healthConnectClient.value == null) {
             checkInstallHC(getApplication<Application>().applicationContext)
