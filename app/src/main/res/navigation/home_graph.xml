@@ -127,6 +127,12 @@
 			android:id="@+id/action_navigation_reward_to_myPage"
 			app:destination="@id/myPage" />
 		<action
+			android:id="@+id/action_navigation_reward_to_pointHistory"
+			app:destination="@id/pointHistory" />
+		<action
+			android:id="@+id/action_navigation_reward_to_paymentQR"
+			app:destination="@id/paymentQR" />
+		<action
 			android:id="@+id/action_navigation_reward_to_walkRewardBottomSheet"
 			app:destination="@id/walkRewardBottomSheet" />
 	</fragment>
