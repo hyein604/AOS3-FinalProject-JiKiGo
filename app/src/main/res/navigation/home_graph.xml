@@ -124,6 +124,9 @@
 			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
 			app:destination="@id/attendBottomSheet" />
 		<action
+			android:id="@+id/action_navigation_reward_to_myPage"
+			app:destination="@id/myPage" />
+		<action
 			android:id="@+id/action_navigation_reward_to_walkRewardBottomSheet"
 			app:destination="@id/walkRewardBottomSheet" />
 	</fragment>
@@ -249,7 +252,11 @@
 		android:id="@+id/attendBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
 		android:label="fragment_attend_bottom_sheet"
-		tools:layout="@layout/fragment_attend_bottom_sheet" />
+		tools:layout="@layout/fragment_attend_bottom_sheet" >
+        <argument
+            android:name="attendPoint"
+            app:argType="integer" />
+    </dialog>
 	<dialog
 		android:id="@+id/walkRewardBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.WalkRewardBottomSheetFragment"

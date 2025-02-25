@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_bottom_sheet_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.reward.AttendBottomSheetFragment">
 

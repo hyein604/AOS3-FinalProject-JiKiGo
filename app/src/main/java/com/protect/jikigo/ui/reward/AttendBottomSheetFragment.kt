@@ -27,5 +27,18 @@ class AttendBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
+        onClickListener()
+    }
+
+    private fun onClickListener() {
+        binding.apply {
+            btnAttendBottomSheetDone.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 }

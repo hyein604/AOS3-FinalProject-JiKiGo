@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentRewardBinding
 import com.protect.jikigo.ui.extensions.statusBarColor
+import java.util.Random
 
 
 class RewardFragment : Fragment() {
@@ -34,64 +35,53 @@ class RewardFragment : Fragment() {
     }
 
     private fun setLayout() {
-        moveToRanking()
         setStatusBarColor()
-        onClickToolbar()
-        moveToRank()
-        moveToTumbler()
-        moveToTransit()
-        moveToElectricVehicle()
-        showBottomDialog()
-    }
-
-    private fun moveToRanking() {
-        binding.btnRewardWalkRankMore.setOnClickListener {
-            val action = RewardFragmentDirections.actionNavigationRewardToRanking()
-            findNavController().navigate(action)
-        }
+        onClickListener()
     }
 
     private fun setStatusBarColor() {
         requireActivity().statusBarColor(R.color.white)
     }
 
-    private fun onClickToolbar() {
+    private fun onClickListener() {
+        // 백버튼
         binding.toolbarReward.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    private fun moveToRank() {
+        // 랭크 화면으로 이동
         binding.viewRewardWalkRank.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToRanking()
             findNavController().navigate(action)
         }
-    }
-
-    private fun moveToTumbler() {
+        // 텀블러 인증 화면으로 이동
         binding.viewRewardTumblr.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToTumblrConfirm()
             findNavController().navigate(action)
         }
-    }
-
-    private fun moveToElectricVehicle() {
+        // 전기 이동수단 인증 화면으로 이동
         binding.viewRewardElectricVehicle.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToElectricVehicleConfirm()
             findNavController().navigate(action)
         }
-    }
-
-    private fun moveToTransit() {
+        // 대중교통 인증 화면으로 이동
         binding.viewRewardTransit.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToTransitConfirm()
             findNavController().navigate(action)
         }
-    }
-
-    private fun showBottomDialog() {
+        // 마이 페이지 화면으로 이동
+        binding.toolbarReward.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_my_page -> {
+                    val action = RewardFragmentDirections.actionNavigationRewardToMyPage()
+                    findNavController().navigate(action)
+                }
+            }
+            true
+        }
+        // 출석체크 바텀시트 띄우기
         binding.viewRewardAttend.setOnClickListener {
-            val action = RewardFragmentDirections.actionNavigationRewardToAttendBottomSheet()
+            val random = Random().nextInt(10) + 1
+            val action = RewardFragmentDirections.actionNavigationRewardToAttendBottomSheet(random)
             findNavController().navigate(action)
         }
         binding.btnRewardWalkPoint.setOnClickListener {
