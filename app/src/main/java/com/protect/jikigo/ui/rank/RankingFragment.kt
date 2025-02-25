@@ -66,6 +66,10 @@ class RankingFragment : Fragment() {
         myPageViewModel.totalSteps.observe(viewLifecycleOwner) { steps ->
             binding.tvRankingWeeklyStepsCount.text = "$steps"
             Log.d("test1","뷰모델에서 불러온 걸음 수 : $steps")
+
+            val plantedTrees = steps.toInt() * 0.00001628 // 1000보당 0.01628그루
+            val plantedTreesFormatted = String.format("%.2f", plantedTrees) // plantedTrees를 소수점 3째 자리에서 반올림하여 소수점 2자리로 표시
+            binding.tvRankingMonthlyTreesCount.text = plantedTreesFormatted
         }
 
         lifecycleScope.launch {
