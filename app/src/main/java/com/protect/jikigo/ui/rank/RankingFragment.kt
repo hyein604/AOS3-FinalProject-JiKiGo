@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -22,18 +23,19 @@ import com.protect.jikigo.ui.adapter.RankingAdapter
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
 import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import com.protect.jikigo.ui.viewModel.RankingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
-
 @AndroidEntryPoint
 class RankingFragment : Fragment() {
     private var _binding: FragmentRankingBinding? = null
     private val binding get() = _binding!!
     private val rankingViewModel: RankingViewModel by viewModels()
+    private val myPageViewModel: MyPageViewModel by activityViewModels()
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
@@ -52,11 +54,26 @@ class RankingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 도움말 아이콘 클릭 시 다이얼로그 표시
         setLayout()
         observeRankingData()
+        observeStepCount() // 걸음 수 데이터 관찰
         startTimer()
         getUserInfo()
+    }
+
+
+    private fun observeStepCount() {
+        myPageViewModel.totalSteps.observe(viewLifecycleOwner) { steps ->
+            binding.tvRankingWeeklyStepsCount.text = "$steps"
+            Log.d("test1","뷰모델에서 불러온 걸음 수 : $steps")
+        }
+
+        lifecycleScope.launch {
+            if (myPageViewModel.healthConnectClient.value == null) {
+                myPageViewModel.checkInstallHC(requireContext())
+            }
+            myPageViewModel.readStepsByTimeRange()
+        }
     }
 
     private fun getUserInfo() {
@@ -68,14 +85,9 @@ class RankingFragment : Fragment() {
         rankingViewModel.item.observe(viewLifecycleOwner) { userInfo ->
             userInfo?.let {
                 binding.tvRankingMyProfileName.text = it.userName
-                binding.tvRankingMyProfileWalkCount.text = it.userStepDaily.toString()
                 Glide.with(this)
                     .load(it.userProfileImg)
-                    // .placeholder(R.drawable.default_profile) // 로딩 중 표시할 기본 이미지
-                    // .error(R.drawable.default_profile) // 에러 발생 시 기본 이미지
-                    .into(binding.ivRankingMyProfile) // ImageView에 로드
-            } ?: run {
-                Log.e("hyeintest", "UserInfo is null")
+                    .into(binding.ivRankingMyProfile)
             }
         }
     }
@@ -94,8 +106,6 @@ class RankingFragment : Fragment() {
 
     private fun getRemainingTimeUntilNextMonday(): String {
         val calendar = Calendar.getInstance(TimeZone.getDefault())
-
-        // 다음 주 월요일 00:00:00 설정
         calendar.add(Calendar.WEEK_OF_YEAR, 1)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -123,9 +133,9 @@ class RankingFragment : Fragment() {
     }
 
     private fun observeRankingData() {
-        rankingViewModel.rankingList.observe(viewLifecycleOwner, Observer { rankingList ->
+        rankingViewModel.rankingList.observe(viewLifecycleOwner) { rankingList ->
             binding.rvRanking.adapter = RankingAdapter(rankingList)
-        })
+        }
     }
 
     private fun onClickHelp() {

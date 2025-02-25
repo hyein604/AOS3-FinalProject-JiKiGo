@@ -14,7 +14,9 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
@@ -37,6 +39,23 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
         HealthPermission.getReadPermission(StepsRecord::class),
         HealthPermission.getWritePermission(StepsRecord::class)
     )
+
+    init {
+        viewModelScope.launch {
+            checkAndInitHealthClient(getApplication<Application>().applicationContext)
+        }
+    }
+
+    private suspend fun checkAndInitHealthClient(context: Context) {
+        checkInstallHC(context) // HealthConnectClient 초기화
+        _healthConnectClient.observeForever {
+            if (it != null) {
+                viewModelScope.launch {
+                    readStepsByTimeRange()
+                }
+            }
+        }
+    }
 
     /**
      * Google Health Connect 앱 설치 여부 확인 및 초기화
@@ -87,6 +106,11 @@ class MyPageViewModel @Inject constructor(application: Application) : AndroidVie
      * Health Connect에서 오늘 하루 동안의 걸음 수 데이터를 읽어와 업데이트
      */
     suspend fun readStepsByTimeRange() {
+        if (_healthConnectClient.value == null) {
+            checkInstallHC(getApplication<Application>().applicationContext)
+            return
+        }
+
         val healthClient = _healthConnectClient.value ?: return
         val endTime = LocalDateTime.now()
         val startTime = LocalDateTime.of(endTime.toLocalDate(), LocalTime.MIDNIGHT)

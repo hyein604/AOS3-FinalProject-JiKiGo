@@ -41,7 +41,7 @@
             android:id="@+id/tv_ranking_weekly_steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이번주 걸음"
+            android:text="오늘의 걸음"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
