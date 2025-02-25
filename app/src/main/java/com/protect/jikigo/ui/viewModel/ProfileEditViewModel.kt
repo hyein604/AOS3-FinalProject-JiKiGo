@@ -17,10 +17,10 @@ class ProfileEditViewModel @Inject constructor(
     private val _profile = MutableLiveData<UserInfo>()
     val profile: LiveData<UserInfo> get() = _profile
 
-    private val _imageUri = MutableLiveData<Uri?>()
+    private val _imageUri = MutableLiveData<Uri?>(null)
     val imageUri: LiveData<Uri?> get() = _imageUri
 
-    private val _changeImage = MutableLiveData<Boolean>()
+    private val _changeImage = MutableLiveData<Boolean>(false)
     val changeImage: LiveData<Boolean> get() = _changeImage
 
     private val _isLoading = MutableLiveData<Boolean>()
