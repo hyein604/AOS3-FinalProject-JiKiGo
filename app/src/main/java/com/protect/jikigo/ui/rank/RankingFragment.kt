@@ -161,13 +161,8 @@ class RankingFragment : Fragment() {
             lifecycleScope.launch {
                 val userName = requireContext().getUserName() ?: return@launch
 
-                // 내 등수 찾기 (name이 같은 경우)
                 val myRank = rankingList.indexOfFirst { it.name == userName } + 1
-                if (myRank > 0) {
-                    binding.tvRankingMyProfileRank.text = "$myRank"
-                } else {
-                    binding.tvRankingMyProfileRank.text = "랭킹 없음"
-                }
+                binding.tvRankingMyProfileRank.text = "$myRank"
             }
         }
     }
