@@ -92,7 +92,7 @@ class UserRepo @Inject constructor(
             val phone = kakaoAccount.phoneNumber ?: "000-0000-0000"
             val email = kakaoAccount.email ?: "jikigo@jikigo.com"
             val nickname = kakaoAccount.profile?.nickname ?: "닉네임 없음"
-            val profileImg = kakaoAccount.profile?.thumbnailImageUrl ?: ""
+            val profileImg = kakaoAccount.profile?.profileImageUrl ?: ""
 
             // Firestore 문서 ID로 userDocId 사용
             val userInfo = createUserInfo(name, phone, email, nickname, profileImg)
