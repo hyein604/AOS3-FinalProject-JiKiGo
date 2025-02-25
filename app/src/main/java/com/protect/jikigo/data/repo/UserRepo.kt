@@ -16,6 +16,9 @@ import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.saveUserId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -119,6 +122,7 @@ class UserRepo @Inject constructor(
     }
 
 
+    // realTimeDB에 qr 고유코드로 문서를 만든다
     fun setUserPaymentData(userQR: UserQR) {
         val document = firestore.collection("UserInfo").document(userQR.userId)
         val realDB = realTime.getReference("UserInfo").child("userQR")  // userQR 노드에 저장
@@ -143,32 +147,65 @@ class UserRepo @Inject constructor(
     }
 
 
-    // 덮어쓰기 방식 realDB
-    /*    fun setUserPaymentData(userQR: UserQR) {
-            val document = firestore.collection("UserInfo").document(userQR.userId)
-            val realDB = realTime.getReference("UserInfo")
-            Log.d("setUserPaymentData", "${userQR.userPoint}")
-            Log.d("setUserPaymentData", userQR.userId)
-            Log.d("setUserPaymentData", userQR.userQR)
+    // 결제기록 제거 (테스트용)
+    private fun deleteHistory(userQR: UserQR) {
+        Log.d("setPaymentHistory", "userQR: ${userQR}")
+        val document = firestore.collection("UserInfo").document(userQR.userId)
 
-            document.update("userQR", userQR)
-                .addOnSuccessListener {
-                    realDB.child("userQR").setValue(userQR)
-                        .addOnSuccessListener {
-                            Log.d("Firebase", "Realtime Database에 userQR 저장 성공")
-                        }
-                        .addOnFailureListener { e ->
-                            Log.e("Firebase", "Realtime Database 저장 실패", e)
-                        }
-                }
-                .addOnFailureListener { e ->
-                    Log.e("Firebase", "Firestore 업데이트 실패", e)
-                }
-        }*/
+        // 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val paymentHistoryRef =
+            document.collection("Calendar")
+                .document(currentDate)
+                .collection("PaymentHistory")
 
-    fun getPointError(callback: (String) -> Unit) {
+        paymentHistoryRef.get()
+            .addOnSuccessListener {
+                for (doc in it) {
+                    doc.reference.delete()
+                }
+            }
+    }
+
+    // 결제내역
+    private fun setPaymentHistory(userQR: UserQR) {
+        Log.d("setPaymentHistory", "userQR: ${userQR}")
+        val document = firestore.collection("UserInfo").document(userQR.userId)
+
+        // 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val paymentHistoryRef =
+            document.collection("Calendar")
+                .document(currentDate)
+                .collection("PaymentHistory")
+
+
+        // 새 문서를 추가하고 ID를 가져오기
+        val newPaymentDocRef = paymentHistoryRef.document() // 랜덤 문서 ID 생성
+
+
+        val paymentData = hashMapOf(
+            "docId" to newPaymentDocRef.id,
+            "reason" to "지키고 페이",
+            "amount" to userQR.paymentPrice,
+            "paymentDate" to userQR.paymentDate,
+            "payType" to "사용",
+        )
+
+        newPaymentDocRef.set(paymentData)
+            .addOnSuccessListener {
+                Log.d("PaymentHistory", "결제 저장")
+            }
+            .addOnFailureListener {
+                Log.d("PaymentHistory", "결제 실패")
+            }
+
+        // subCollection에 오늘 날짜 ex) 2025-02-25 라는 문서이름을 만들고 문서에 값을 넣어주고싶어
+    }
+
+    fun getPointError(userQR: UserQR, callback: (String) -> Unit) {
         //  val document = firestore.collection("UserInfo").document(userQR.userId)
-        val realDB = realTime.getReference("UserInfo").child("userQR")
+        val realDB = realTime.getReference("UserInfo").child("userQR").child(userQR.userQR)
 
         realDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -214,9 +251,9 @@ class UserRepo @Inject constructor(
             userProfileImg = profileImg,
         )
 
-    fun clearRealDB(userId: String, callback: (Boolean) -> Unit) {
-        val realDB = realTime.getReference("UserInfo").child("userQR")
-        val firestoreDoc = firestore.collection("UserInfo").document(userId)
+    fun clearRealDB(userQR: UserQR, callback: (Boolean) -> Unit) {
+        val realDB = realTime.getReference("UserInfo").child("userQR").child(userQR.userQR)
+        val firestoreDoc = firestore.collection("UserInfo").document(userQR.userId)
 
         realDB.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -230,7 +267,7 @@ class UserRepo @Inject constructor(
                                 // Realtime DB에서 데이터 삭제
                                 realDB.removeValue()
                                     .addOnSuccessListener {
-                                        Log.d("Firebase", "Realtime DB 데이터 삭제 성공")
+                                        setPaymentHistory(userQR)
                                         callback(true)
                                     }
                                     .addOnFailureListener { e ->

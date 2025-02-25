@@ -23,6 +23,9 @@ class PaymentViewModel @Inject constructor(
     private val _userQRClear = MutableLiveData<Boolean>()
     val userQrClear: LiveData<Boolean> = _userQRClear
 
+    private val _userQR = MutableLiveData<UserQR>()
+    val userQR: LiveData<UserQR> = _userQR
+
     fun getUserPoint(userId: String) {
         viewModelScope.launch {
             val user = userRepo.getUserInfo(userId)
@@ -32,21 +35,22 @@ class PaymentViewModel @Inject constructor(
 
     fun setUserPaymentData(userQR: UserQR) {
         viewModelScope.launch {
+            _userQR.postValue(userQR)
             userRepo.setUserPaymentData(userQR)
         }
     }
 
-    fun getPointError() {
+    fun getPointError(userQR: UserQR) {
         viewModelScope.launch {
-            userRepo.getPointError {
+            userRepo.getPointError(userQR) {
                 _userPointError.postValue(it)
             }
         }
     }
 
-    fun clearDB(userId: String) {
+    fun clearDB(userQR: UserQR) {
         viewModelScope.launch {
-            userRepo.clearRealDB(userId) {
+            userRepo.clearRealDB(userQR) {
                 _userQRClear.postValue(it)
             }
         }
