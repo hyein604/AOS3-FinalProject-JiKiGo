@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
@@ -23,17 +23,19 @@ import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.protect.jikigo.LoginActivity
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentMyPageBinding
 import com.protect.jikigo.ui.extensions.clearUserId
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.util.Date
 
 @AndroidEntryPoint
@@ -43,10 +45,12 @@ class MyPageFragment : Fragment() {
 
     private val viewModel: MyPageViewModel by viewModels()
 
+    private lateinit var userId : String
+
     private lateinit var requestPermissions: ActivityResultLauncher<Set<String>>
     private lateinit var healthConnectClient: HealthConnectClient
 
-    val permission =
+    private val permission =
         setOf(
             HealthPermission.getReadPermission(StepsRecord::class),
             HealthPermission.getWritePermission(StepsRecord::class)
@@ -78,55 +82,77 @@ class MyPageFragment : Fragment() {
         moveToPointHistory()
         moveToCouponBox()
         onClickToolbar()
-        checkHC()
         observe()
+        checkData()
         onClickLogOut()
     }
-
+    // 옵저버
     private fun observe() {
         binding.apply {
-            viewModel.totalSteps.observe(viewLifecycleOwner) {
-                tvMyPageWalkCount.text = "${viewModel.totalSteps.value!!} 걸음"
-                tvMyPageWalkKcal.text = "${viewModel.totalSteps.value!!.toInt() * 0.04}kcal"
+            viewModel.totalSteps.observe(viewLifecycleOwner) {step ->
+                tvMyPageWalkCount.text = "${step} 걸음"
+                tvMyPageWalkKcal.text = "${step.toInt() * 0.04}kcal"
                 val date = Date(System.currentTimeMillis())
                 val simpleDateFormat = SimpleDateFormat("MM-dd")
                 val now = simpleDateFormat.format(date)
                 tvMyPageWalkDate.text = "$now"
             }
+
+            viewModel.profile.observe(viewLifecycleOwner) { profile ->
+                tvMyPageProfileName.text = "${profile.userNickName}"
+                Glide.with(requireContext())
+                    .load(profile.userProfileImg)
+                    .circleCrop()
+                    .into(ivMyPageProfileImage)
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+                when(loading) {
+                    false -> {
+                        binding.layoutMyPageLoading.visibility = View.GONE
+                    }
+                    true -> {
+                        binding.layoutMyPageLoading.visibility = View.VISIBLE
+                    }
+                }
+            }
         }
     }
-
-    private fun checkHC() {
+    // 시작 시 확인할 데이터
+    private fun checkData() {
+        viewModel.loading(true)
         lifecycleScope.launch {
             checkInstallHC()
+            userId = requireContext().getUserId() ?: ""
+            viewModel.loadProfile(userId)
         }
     }
-
+    // 시스템 상태바 색 변경
     private fun setStatusBar() {
         requireActivity().statusBarColor(R.color.white)
     }
-
+    // 프로필 수정
     private fun moveToEditProfile() {
         binding.btnMyPageProfileEdit.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageToProfileEdit()
             findNavController().navigate(action)
         }
     }
-
+    // 포인트 내역
     private fun moveToPointHistory() {
         binding.viewMyPagePoint.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageToPointHistory()
             findNavController().navigate(action)
         }
     }
-
+    // 쿠폰함
     private fun moveToCouponBox() {
         binding.viewMyPageCoupon.setOnClickListener {
             val action = MyPageFragmentDirections.actionMyPageToCouponBox()
             findNavController().navigate(action)
         }
     }
-
+    // 백 버튼
     private fun onClickToolbar() {
         binding.toolbarMyPage.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -137,6 +163,7 @@ class MyPageFragment : Fragment() {
     걸음 수
      */
 
+    // 권한 확인
     private fun movePermissionSetting(context: Context) {
         val packageName = "com.google.android.apps.healthdata"
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
@@ -207,12 +234,10 @@ class MyPageFragment : Fragment() {
         requestPermissions.launch(permission)
     }
 
-
+    // 걸음 수 불러오기
     private suspend fun readStepsByTimeRange() {
         val endTime = LocalDateTime.now()
         val startTime = LocalDateTime.of(endTime.toLocalDate(), LocalTime.MIDNIGHT)
-        val startTimeInstant = startTime.atZone(ZoneOffset.UTC).toInstant()
-        val endTimeInstant = endTime.atZone(ZoneOffset.UTC).toInstant()
 
         try {
             val response = healthConnectClient.readRecords(
@@ -239,6 +264,7 @@ class MyPageFragment : Fragment() {
         }
     }
 
+    // 로그아웃
     private fun onClickLogOut() {
         binding.btnMyPageLogout.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
