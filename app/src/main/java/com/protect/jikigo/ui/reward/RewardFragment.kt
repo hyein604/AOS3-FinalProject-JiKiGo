@@ -94,5 +94,9 @@ class RewardFragment : Fragment() {
             val action = RewardFragmentDirections.actionNavigationRewardToAttendBottomSheet()
             findNavController().navigate(action)
         }
+        binding.btnRewardWalkPoint.setOnClickListener {
+            val action = RewardFragmentDirections.actionNavigationRewardToWalkRewardBottomSheet()
+            findNavController().navigate(action)
+        }
     }
 }
