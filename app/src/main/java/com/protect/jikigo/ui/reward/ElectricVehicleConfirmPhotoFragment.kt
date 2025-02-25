@@ -18,9 +18,10 @@ import com.protect.jikigo.data.model.Confirm
 import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmPhotoBinding
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.ElectricConfirmPhotoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class ElectricVehicleConfirmPhotoFragment : Fragment() {
     private var _binding: FragmentElectricVehicleConfirmPhotoBinding? = null
     private val binding get() = _binding!!
@@ -86,6 +87,13 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
             viewModel.downloadUrl.observe(viewLifecycleOwner) { url ->
                 val item = Confirm(userId = userId, confirmImage = url, confirmDate = Timestamp.now(), confirmName = "전기 이동수단")
                 viewModel.saveConfirmInfo(item)
+            }
+
+            viewModel.isDone.observe(viewLifecycleOwner) {
+                if(it) {
+                    Toast.makeText(requireContext(), "전기 이동수단 인증 완료", Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
             }
         }
     }

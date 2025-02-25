@@ -17,6 +17,7 @@ import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Confirm
 import com.protect.jikigo.databinding.FragmentTransitConfirmPhotoBinding
 import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.ui.extensions.showSnackBar
 import com.protect.jikigo.ui.viewModel.TransitConfirmPhotoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -87,6 +88,13 @@ class TransitConfirmPhotoFragment : Fragment() {
             viewModel.downloadUrl.observe(viewLifecycleOwner) { url ->
                 val item = Confirm(userId = userId, confirmImage = url, confirmDate = Timestamp.now(), confirmName = "대중교통")
                 viewModel.saveConfirmInfo(item)
+            }
+
+            viewModel.isDone.observe(viewLifecycleOwner) {
+                if(it) {
+                    Toast.makeText(requireContext(), "대중교통 인증 완료", Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
             }
         }
     }

@@ -23,6 +23,8 @@ class TransitConfirmPhotoViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    val isDone = MutableLiveData<Boolean>()
+
     fun setImageUri(uri: Uri?) {
         _imageUri.value = uri
     }
@@ -39,5 +41,6 @@ class TransitConfirmPhotoViewModel @Inject constructor(
     fun saveConfirmInfo(item: Confirm) {
         confirmRepo.addConfirmItem(item)
         _isLoading.value = false
+        isDone.value = true
     }
 }
