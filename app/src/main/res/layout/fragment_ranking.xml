@@ -172,7 +172,7 @@
                 android:id="@+id/tv_ranking_my_profile_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:text="6"
+                android:text=""
                 android:textSize="32sp"
                 android:textStyle="bold"
                 android:layout_marginStart="5dp"

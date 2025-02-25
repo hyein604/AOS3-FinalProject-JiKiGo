@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.protect.jikigo.ui.adapter.RankingAdapter
 import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.ui.extensions.getUserName
 import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import com.protect.jikigo.ui.viewModel.RankingViewModel
 import com.protect.jikigo.ui.viewModel.WalkViewModel
@@ -156,6 +157,18 @@ class RankingFragment : Fragment() {
     private fun observeRankingData() {
         rankingViewModel.rankingList.observe(viewLifecycleOwner) { rankingList ->
             binding.rvRanking.adapter = RankingAdapter(rankingList)
+
+            lifecycleScope.launch {
+                val userName = requireContext().getUserName() ?: return@launch
+
+                // 내 등수 찾기 (name이 같은 경우)
+                val myRank = rankingList.indexOfFirst { it.name == userName } + 1
+                if (myRank > 0) {
+                    binding.tvRankingMyProfileRank.text = "$myRank"
+                } else {
+                    binding.tvRankingMyProfileRank.text = "랭킹 없음"
+                }
+            }
         }
     }
 
