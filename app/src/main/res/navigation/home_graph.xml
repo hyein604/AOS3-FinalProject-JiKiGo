@@ -123,6 +123,9 @@
 		<action
 			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
 			app:destination="@id/attendBottomSheet" />
+		<action
+			android:id="@+id/action_navigation_reward_to_walkRewardBottomSheet"
+			app:destination="@id/walkRewardBottomSheet" />
 	</fragment>
 
 	<fragment
@@ -227,6 +230,11 @@
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
 		android:label="fragment_attend_bottom_sheet"
 		tools:layout="@layout/fragment_attend_bottom_sheet" />
+	<dialog
+		android:id="@+id/walkRewardBottomSheet"
+		android:name="com.protect.jikigo.ui.reward.WalkRewardBottomSheetFragment"
+		android:label="fragment_walk_reward_bottom_sheet"
+		tools:layout="@layout/fragment_walk_reward_bottom_sheet" />
 	<fragment
 		android:id="@+id/travelSearch"
 		android:name="com.protect.jikigo.ui.travel.TravelSearchFragment"
