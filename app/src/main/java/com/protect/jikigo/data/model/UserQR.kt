@@ -1,6 +1,5 @@
 package com.protect.jikigo.data.model
 
-import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -12,7 +11,7 @@ data class UserQR(
     val userQrUse: Boolean = false,
     val userPoint: Int = 0,
     val userQrError: String = "",
-    val paymentData: String = getCurrentFormattedDate(), // 현재 날짜를 String으로 저장
+    val paymentDate: String = getCurrentFormattedDate(), // 현재 날짜를 String으로 저장
     val paymentPrice: Int = 0,
 )
 

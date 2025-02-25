@@ -16,5 +16,7 @@ data class UserInfo(
     val userIsActive: Boolean = true,
     val userAutoLogin: String = "",
     val kakaoToken: String = "",
-    val userQrUser: Boolean = false
+    val userQrUser: Boolean = false,
+    val userStepDaily: Int = 0,
+    val userStepWeekly: Int = 0,
 )
