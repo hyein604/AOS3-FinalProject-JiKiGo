@@ -38,7 +38,7 @@ class RankingAdapter(private val rankingList: List<UserRanking>) : RecyclerView.
             }
 
             binding.tvRankingUsername.text = rankingUser.name
-            binding.tvRankingSteps.text = String.format("%,d", rankingUser.walkCount)
+            binding.tvRankingSteps.text = String.format("%,d", rankingUser.walkCountWeekly)
 
             Glide.with(binding.root)
                 .load(rankingUser.profilePicture)

@@ -9,7 +9,7 @@
         android:id="@+id/tv_ranking_dialog_page_1_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="걸음으로 경쟁해보세요🏃‍♂️"
+        android:text="주간 걸음으로 경쟁해보세요🏃‍♂️"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
