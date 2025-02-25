@@ -20,10 +20,12 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.text.DecimalFormat
 
 // textView 속성을 넣어주는 함수
@@ -197,4 +199,15 @@ fun Context.showSnackBar(view: View, msg: String) {
             (this as? AppCompatActivity)?.findViewById<BottomNavigationView>(R.id.bottom_nav_home)
         )
         .show()
+}
+
+suspend fun Context.getUserName(): String? {
+    val userId = getUserId() ?: return null
+    val doc = FirebaseFirestore.getInstance()
+        .collection("UserInfo")
+        .document(userId)
+        .get()
+        .await()
+
+    return doc.getString("userNickName")
 }
