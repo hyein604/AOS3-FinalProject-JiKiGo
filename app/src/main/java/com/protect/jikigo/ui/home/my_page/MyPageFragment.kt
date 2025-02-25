@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
@@ -35,7 +36,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.util.Date
 
 @AndroidEntryPoint
@@ -99,15 +99,28 @@ class MyPageFragment : Fragment() {
             }
 
             viewModel.profile.observe(viewLifecycleOwner) { profile ->
-                tvMyPageProfileName.text = "${profile.userName}"
+                tvMyPageProfileName.text = "${profile.userNickName}"
                 Glide.with(requireContext())
                     .load(profile.userProfileImg)
+                    .circleCrop()
                     .into(ivMyPageProfileImage)
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+                when(loading) {
+                    false -> {
+                        binding.layoutMyPageLoading.visibility = View.GONE
+                    }
+                    true -> {
+                        binding.layoutMyPageLoading.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }
     // 시작 시 확인할 데이터
     private fun checkData() {
+        viewModel.loading(true)
         lifecycleScope.launch {
             checkInstallHC()
             userId = requireContext().getUserId() ?: ""

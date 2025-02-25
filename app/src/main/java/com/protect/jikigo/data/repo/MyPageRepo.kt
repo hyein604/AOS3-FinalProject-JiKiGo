@@ -24,26 +24,29 @@ class MyPageRepo @Inject constructor(
             }
     }
 
-    fun getProfile(userId: String, onResult: (UserInfo?) -> Unit) {
-        firestore.collection("UserInfo").document(userId)
+    fun getProfile(userId: String, onResult: (UserInfo?, String?) -> Unit) {
+        firestore.collection("UserInfo")
+            .whereEqualTo("userId", userId)
+            .limit(1)
             .get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val document = documents.documents[0] // 첫 번째 문서 가져오기
                     val userInfo = document.toObject(UserInfo::class.java)
-                    onResult(userInfo!!)
+                    onResult(userInfo, document.id) // 문서 ID도 함께 반환
                 } else {
-                    onResult(null)
+                    onResult(null, null)
                 }
             }
             .addOnFailureListener { exception ->
                 exception.printStackTrace()
-                onResult(null)
+                onResult(null, null)
             }
     }
 
-    fun updateUserInfo(userId: String, updates: Map<String, Any>, onComplete: (Boolean) -> Unit) {
-        firestore.collection("UserInfo").document(userId)
-            .update(updates) // 특정 필드만 업데이트
+    fun updateUserInfo(documentId: String, updates: Map<String, Any>, onComplete: (Boolean) -> Unit) {
+        firestore.collection("UserInfo").document(documentId)
+            .update(updates)
             .addOnSuccessListener {
                 onComplete(true)
             }
@@ -52,6 +55,4 @@ class MyPageRepo @Inject constructor(
                 onComplete(false)
             }
     }
-
-
 }

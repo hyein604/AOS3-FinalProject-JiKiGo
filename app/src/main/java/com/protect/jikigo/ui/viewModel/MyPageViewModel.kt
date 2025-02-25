@@ -18,9 +18,18 @@ class MyPageViewModel @Inject constructor(
     private val _profile = MutableLiveData<UserInfo>()
     val profile: LiveData<UserInfo> get() = _profile
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+
     fun loadProfile(userid: String) {
-       myPageRepo.getProfile(userid) { profile ->
+       myPageRepo.getProfile(userid) { profile, id ->
            _profile.value = profile!!
+           loading(false)
        }
+    }
+
+    fun loading(boolean: Boolean) {
+        _isLoading.value = boolean
     }
 }

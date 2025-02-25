@@ -14,13 +14,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentProfileEditBinding
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.ProfileEditViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class ProfileEditFragment : Fragment() {
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
@@ -77,6 +80,14 @@ class ProfileEditFragment : Fragment() {
                 }
                 true
             }
+
+            btnProfileEditDelete.setOnClickListener {
+                viewModel.checkChange()
+                Glide.with(requireContext())
+                    .load("https://www.studiopeople.kr/common/img/default_profile.png")
+                    .circleCrop()
+                    .into(ivProfileEditImage)
+            }
         }
     }
 
@@ -88,8 +99,7 @@ class ProfileEditFragment : Fragment() {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-                }
+                ) {}
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     s?.let {
@@ -98,7 +108,7 @@ class ProfileEditFragment : Fragment() {
                             etProfileEditName.setText(filteredText)
                             etProfileEditName.setSelection(filteredText.length)  // 커서 위치 유지
                         }
-                        tvProfileEditNameCount.text = "글자 수: ${filteredText.length}"  // 글자 수 표시
+                        tvProfileEditNameCount.text = "${filteredText.length}/10"  // 글자 수 표시
                     }
                 }
 
@@ -110,7 +120,9 @@ class ProfileEditFragment : Fragment() {
     // 사진을 눌렀을 때 고르기
     private fun pickImage() {
         val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            viewModel.setImageUri(uri)
+            if(uri != null) {
+                viewModel.setImageUri(uri)
+            }
         }
 
         binding.ivProfileEditImage.setOnClickListener {
@@ -121,9 +133,17 @@ class ProfileEditFragment : Fragment() {
     private fun observe() {
         binding.apply {
             viewModel.profile.observe(viewLifecycleOwner) { profile ->
-                etProfileEditName.setText("${profile.userName}")
+                etProfileEditName.setText("${profile.userNickName}")
                 Glide.with(requireContext())
                     .load(profile.userProfileImg)
+                    .circleCrop()
+                    .into(ivProfileEditImage)
+            }
+
+            viewModel.imageUri.observe(viewLifecycleOwner) {
+                Glide.with(requireContext())
+                    .load(it)
+                    .circleCrop()
                     .into(ivProfileEditImage)
             }
 
@@ -132,6 +152,7 @@ class ProfileEditFragment : Fragment() {
                     false -> {
                         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                         binding.layoutProfileEditLoading.visibility = View.GONE
+                        findNavController().navigateUp()
                     }
                     true -> {
                         requireActivity().window.setFlags(
@@ -141,7 +162,6 @@ class ProfileEditFragment : Fragment() {
                         binding.layoutProfileEditLoading.visibility = View.VISIBLE
                     }
                 }
-
             }
         }
     }
