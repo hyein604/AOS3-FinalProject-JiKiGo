@@ -40,7 +40,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     }
 
     private fun setStatusBar() {
-        requireActivity().statusBarColor(R.color.primary)
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun setLayout() {
