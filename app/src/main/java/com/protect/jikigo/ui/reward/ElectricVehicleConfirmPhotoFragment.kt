@@ -16,8 +16,8 @@ import com.google.firebase.Timestamp
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Confirm
 import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmPhotoBinding
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.ElectricConfirmPhotoViewModel
-import com.protect.jikigo.ui.viewModel.TransitConfirmPhotoViewModel
 import kotlinx.coroutines.launch
 
 
@@ -26,6 +26,8 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ElectricConfirmPhotoViewModel by viewModels()
+
+    private lateinit var userId : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +51,14 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
     private fun setLayout() {
         observe()
         onClickListener()
+        checkData()
+    }
+
+    // 시작 시 확인할 데이터
+    private fun checkData() {
+        lifecycleScope.launch {
+            userId = requireContext().getUserId() ?: ""
+        }
     }
 
     private fun observe() {
@@ -74,7 +84,7 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
             }
 
             viewModel.downloadUrl.observe(viewLifecycleOwner) { url ->
-                val item = Confirm(confirmImage = url, confirmDate = Timestamp.now(), confirmName = "전기 이동수단")
+                val item = Confirm(userId = userId, confirmImage = url, confirmDate = Timestamp.now(), confirmName = "전기 이동수단")
                 viewModel.saveConfirmInfo(item)
             }
         }

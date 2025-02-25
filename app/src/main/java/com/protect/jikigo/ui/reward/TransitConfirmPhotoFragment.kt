@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.Timestamp
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Confirm
-import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmPhotoBinding
 import com.protect.jikigo.databinding.FragmentTransitConfirmPhotoBinding
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.TransitConfirmPhotoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,6 +27,8 @@ class TransitConfirmPhotoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TransitConfirmPhotoViewModel by viewModels()
+
+    private lateinit var userId : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +52,14 @@ class TransitConfirmPhotoFragment : Fragment() {
     private fun setLayout() {
         observe()
         onClickListener()
+        checkData()
+    }
+
+    // 시작 시 확인할 데이터
+    private fun checkData() {
+        lifecycleScope.launch {
+            userId = requireContext().getUserId() ?: ""
+        }
     }
 
     private fun observe() {
@@ -75,7 +85,7 @@ class TransitConfirmPhotoFragment : Fragment() {
             }
 
             viewModel.downloadUrl.observe(viewLifecycleOwner) { url ->
-                val item = Confirm(confirmImage = url, confirmDate = Timestamp.now(), confirmName = "대중교통")
+                val item = Confirm(userId = userId, confirmImage = url, confirmDate = Timestamp.now(), confirmName = "대중교통")
                 viewModel.saveConfirmInfo(item)
             }
         }
@@ -84,8 +94,8 @@ class TransitConfirmPhotoFragment : Fragment() {
     private fun onClickListener() {
         binding.apply {
             val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-                    viewModel.setImageUri(uri)
-                }
+                viewModel.setImageUri(uri)
+            }
 
             binding.toolbarTransitPhoto.setNavigationOnClickListener {
                 findNavController().navigateUp()
