@@ -61,6 +61,9 @@ class WalkViewModel @Inject constructor(
     )
 
     init {
+        if (shouldResetDaily()) {
+            resetDailyProgress()
+        }
         viewModelScope.launch {
             checkAndInitHealthClient(getApplication<Application>().applicationContext)
             updateWeeklySteps()
@@ -198,21 +201,44 @@ class WalkViewModel @Inject constructor(
 
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            180 -> {
-                _currentGoal.value = 260
+            5 -> {
+                _currentGoal.value = 15
                 _currentReward.value = 20
                 saveGoal(_currentGoal.value ?: 10)
                 saveReward(_currentReward.value ?: 20)
             }
-            260 -> {
-                _currentGoal.value = 270
+            15 -> {
+                _currentGoal.value = 25
                 _currentReward.value = 30
                 saveGoal(_currentGoal.value ?: 15)
                 saveReward(_currentReward.value ?: 30)
             }
-            270 -> return
+            25 -> return
         }
 
+    }
+
+    // 하루가 지나면 데이터 초기화
+    private fun shouldResetDaily(): Boolean {
+        val lastResetTime = sharedPreferences.getLong("last_reset_time", 0L)
+        val currentTime = System.currentTimeMillis()
+        val lastResetCalendar = Calendar.getInstance().apply { timeInMillis = lastResetTime }
+        val currentCalendar = Calendar.getInstance().apply { timeInMillis = currentTime }
+
+        return lastResetTime == 0L ||
+                lastResetCalendar.get(Calendar.DAY_OF_YEAR) != currentCalendar.get(Calendar.DAY_OF_YEAR)
+    }
+
+    private fun resetDailyProgress() {
+        sharedPreferences.edit()
+            .putInt("current_goal", 5) // 초기 목표 걸음 수
+            .putInt("current_reward", 10) // 초기 보상
+            .putBoolean("final_reward_claimed", false) // 최종 보상 상태 초기화
+            .putLong("last_reset_time", System.currentTimeMillis()) // 마지막 초기화 시간 저장
+            .apply()
+
+        _currentGoal.postValue(5)
+        _currentReward.postValue(10)
     }
 
     // 목표 걸음 수를 SharedPreferences에 저장
