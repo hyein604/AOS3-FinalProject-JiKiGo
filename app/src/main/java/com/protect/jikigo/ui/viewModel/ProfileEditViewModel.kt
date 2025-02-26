@@ -77,7 +77,11 @@ class ProfileEditViewModel @Inject constructor(
                 if(!it) {
                     saveProfile(userid, userNickName)
                 }
-                _isLoading.value = false
+                myPageRepo.removeProfileImage(userid) {
+                    if(it) {
+                        _isLoading.value = false
+                    }
+                }
             }
         }
 
