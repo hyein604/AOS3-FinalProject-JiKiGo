@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.reward.TransitConfirmPhotoFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar_transit_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="대중교통 인증"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:titleCentered="true"
+        android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/menu_profile_edit"
+        android:theme="?attr/actionBarTheme" />
+
+    <ImageView
+        android:id="@+id/iv_transit_photo_bus"
+        android:layout_width="185dp"
+        android:layout_height="185dp"
+        android:src="@drawable/img_bus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_transit_photo" />
+
+    <ImageView
+        android:id="@+id/iv_transit_photo_photo"
+        android:layout_width="300dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_transit_photo_bus"
+        android:layout_height="300dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/shape_coupon_radius" />
+
+    <Button
+        android:id="@+id/btn_transit_photo_confirm"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/electric_vehicle_confirm_btn_title"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_transit_photo_photo" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_transit_photo_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_transit_photo_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

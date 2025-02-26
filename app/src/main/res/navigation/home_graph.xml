@@ -124,6 +124,15 @@
 			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
 			app:destination="@id/attendBottomSheet" />
 		<action
+			android:id="@+id/action_navigation_reward_to_myPage"
+			app:destination="@id/myPage" />
+		<action
+			android:id="@+id/action_navigation_reward_to_pointHistory"
+			app:destination="@id/pointHistory" />
+		<action
+			android:id="@+id/action_navigation_reward_to_paymentQR"
+			app:destination="@id/paymentQR" />
+		<action
 			android:id="@+id/action_navigation_reward_to_walkRewardBottomSheet"
 			app:destination="@id/walkRewardBottomSheet" />
 	</fragment>
@@ -211,13 +220,33 @@
 		android:id="@+id/electricVehicleConfirm"
 		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
 		android:label="fragment_electric_vehicle_confirm"
-		tools:layout="@layout/fragment_electric_vehicle_confirm" />
+		tools:layout="@layout/fragment_electric_vehicle_confirm" >
+		<action
+			android:id="@+id/action_electricVehicleConfirm_to_electricVehicleConfirmPhoto"
+			app:destination="@id/electricVehicleConfirmPhoto"/>
+	</fragment>
 
 	<fragment
 		android:id="@+id/transitConfirm"
 		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
 		android:label="fragment_transit_confirm"
-		tools:layout="@layout/fragment_transit_confirm" />
+		tools:layout="@layout/fragment_transit_confirm" >
+		<action
+			android:id="@+id/action_transitConfirm_to_transitConfirmPhoto"
+			app:destination="@id/transitConfirmPhoto"/>
+	</fragment>
+
+	<fragment
+		android:id="@+id/transitConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.TransitConfirmPhotoFragment"
+		android:label="fragment_transit_confirm_photo"
+		tools:layout="@layout/fragment_transit_confirm_photo" />
+
+	<fragment
+		android:id="@+id/electricVehicleConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmPhotoFragment"
+		android:label="fragment_electric_vehicle_confirm_photo"
+		tools:layout="@layout/fragment_electric_vehicle_confirm_photo" />
 
 	<dialog
 		android:id="@+id/paymentQRDialog"
@@ -229,7 +258,11 @@
 		android:id="@+id/attendBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
 		android:label="fragment_attend_bottom_sheet"
-		tools:layout="@layout/fragment_attend_bottom_sheet" />
+		tools:layout="@layout/fragment_attend_bottom_sheet" >
+        <argument
+            android:name="attendPoint"
+            app:argType="integer" />
+    </dialog>
 	<dialog
 		android:id="@+id/walkRewardBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.WalkRewardBottomSheetFragment"

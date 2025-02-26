@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ElectricVehicleConfirmFragment : Fragment() {
     private var _binding: FragmentElectricVehicleConfirmBinding? = null
     private val binding get() = _binding!!
@@ -31,12 +33,19 @@ class ElectricVehicleConfirmFragment : Fragment() {
     }
 
     private fun setLayout() {
-        onClickToolbar()
+        onClickListener()
     }
 
-    private fun onClickToolbar() {
-        binding.toolbarElectricVehicleConfirm.setNavigationOnClickListener {
-            findNavController().navigateUp()
+    private fun onClickListener() {
+        binding.apply {
+            toolbarElectricVehicleConfirm.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            btnElectricVehicleConfirm.setOnClickListener {
+                val action = ElectricVehicleConfirmFragmentDirections.actionElectricVehicleConfirmToElectricVehicleConfirmPhoto()
+                findNavController().navigate(action)
+            }
         }
     }
 
