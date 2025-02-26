@@ -69,6 +69,8 @@
         android:text="10P"
         android:enabled="false"
         android:layout_marginTop="10dp"
+        android:backgroundTint="#D2D2D2"
+        android:textColor="#707070"
         app:layout_constraintTop_toBottomOf="@id/progressBar_walk_reward_bottom_sheet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

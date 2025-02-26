@@ -194,19 +194,19 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
 
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            40 -> {
-                _currentGoal.value = 50
+            100 -> {
+                _currentGoal.value = 140
                 _currentReward.value = 20
                 saveGoal(_currentGoal.value ?: 10)
                 saveReward(_currentReward.value ?: 20)
             }
-            50 -> {
-                _currentGoal.value = 60
+            140 -> {
+                _currentGoal.value = 150
                 _currentReward.value = 30
                 saveGoal(_currentGoal.value ?: 15)
                 saveReward(_currentReward.value ?: 30)
             }
-            60 -> return
+            150 -> return
         }
 
     }

@@ -1,5 +1,6 @@
 package com.protect.jikigo.ui.reward
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
 import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
@@ -18,8 +18,8 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val walkViewModel: WalkViewModel by activityViewModels()
 
-
     private var steps = 0
+    private var isFinalRewardClaimed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,23 +47,51 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         walkViewModel.currentReward.observe(viewLifecycleOwner) { updateUI() }
 
         binding.btnWalkRewardBottomSheetReward.setOnClickListener {
-            if (steps >= walkViewModel.currentGoal.value!!) {
-                walkViewModel.moveToNextGoal()
+            if (steps >= (walkViewModel.currentGoal.value ?: 0)) {
+                if (walkViewModel.currentGoal.value == 150) {
+                    // 마지막 보상 버튼 클릭 시 "오늘 보상을 모두 받았어요"로 변경
+                    isFinalRewardClaimed = true
+                    updateUI()
+                } else {
+                    walkViewModel.moveToNextGoal()
+                }
             }
         }
     }
 
-    fun updateSteps(newSteps: Int) {
+    private fun updateSteps(newSteps: Int) {
         steps = newSteps
         binding.tvWalkRewardBottomSheetStepsCount.text = "$steps"
         val progress = (steps.toFloat() / (walkViewModel.currentGoal.value ?: 5) * 100).toInt()
         binding.progressBarWalkRewardBottomSheet.setProgress(progress)
-        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= (walkViewModel.currentGoal.value ?: 5)
+        updateUI()
     }
 
     private fun updateUI() {
         binding.tvWalkRewardBottomSheetGoal.text = "/${walkViewModel.currentGoal.value}"
-        binding.btnWalkRewardBottomSheetReward.text = "${walkViewModel.currentReward.value}P"
-        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= (walkViewModel.currentGoal.value ?: 5)
+
+        val goal = walkViewModel.currentGoal.value ?: 5
+        val reward = walkViewModel.currentReward.value ?: 0
+        val isEnabled = steps >= goal
+
+        if (goal == 150 && isFinalRewardClaimed) {
+            // 마지막 단계 보상까지 받으면 버튼 비활성화 & 텍스트 변경
+            binding.btnWalkRewardBottomSheetReward.text = "오늘 보상을 모두 받았어요"
+            binding.btnWalkRewardBottomSheetReward.isEnabled = false
+            binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#D2D2D2"))
+            binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#707070"))
+        } else {
+            // 보상 버튼 상태 업데이트
+            binding.btnWalkRewardBottomSheetReward.text = "${reward}P"
+            binding.btnWalkRewardBottomSheetReward.isEnabled = isEnabled
+
+            if (isEnabled) {
+                binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#7A8FFF"))
+                binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#FFFFFF"))
+            } else {
+                binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#D2D2D2"))
+                binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#707070"))
+            }
+        }
     }
 }
