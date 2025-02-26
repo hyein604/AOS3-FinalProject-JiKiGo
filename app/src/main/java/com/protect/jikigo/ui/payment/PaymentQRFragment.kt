@@ -29,6 +29,8 @@ import com.protect.jikigo.ui.extensions.showDialog
 import com.protect.jikigo.ui.extensions.showDialogOkAndCancel
 import com.protect.jikigo.ui.extensions.statusBarColor
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -37,12 +39,8 @@ class PaymentQRFragment : Fragment() {
     private var _binding: FragmentPaymentQrBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PaymentViewModel by viewModels()
+    private var timerJob: Job? = null
     private lateinit var userId: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,6 +113,31 @@ class PaymentQRFragment : Fragment() {
                     ) { result ->
                         if (result) {
                             // 확인
+                            setClearRealDB()
+                            setQRCode()
+                        }
+                    }
+                } else if (it == "해당 QR은 현장결제 전용입니다.") {
+                    requireContext().showDialog(
+                        title = "결제 확인",
+                        msg = it,
+                        pos = "확인",
+                    ) { result ->
+                        if (result) {
+                            // 확인
+                            setClearRealDB()
+                            setQRCode()
+                        }
+                    }
+                } else if (it == "이미 사용 된 QR코드 입니다.") {
+                    requireContext().showDialog(
+                        title = "결제 확인",
+                        msg = it,
+                        pos = "확인",
+                    ) { result ->
+                        if (result) {
+                            // 확인
+                            setClearRealDB()
                             setQRCode()
                         }
                     }
@@ -188,39 +211,53 @@ class PaymentQRFragment : Fragment() {
     }
 
     private fun setQRCode() {
-        binding.tvQrTime.setTimerCallBack(lifecycleScope, requireContext(), binding.ivQrRefresh, binding.ivPaymentQr) {
-            setClearRealDB()
-        }
-        // data: UUID, userDocID, userPoint
-        val transactionId = UUID.randomUUID().toString() // 고유 트랜잭션 ID 생성
+        lifecycleScope.launch {
+            timerJob?.cancelAndJoin()
+//            binding.tvQrTime.text = "3:00"
+//            binding.ivQrRefresh.isEnabled = false
+//            binding.ivQrRefresh.visibility = View.INVISIBLE
+//            binding.ivPaymentQr.visibility = View.VISIBLE
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.userPoint.observe(viewLifecycleOwner) {
-                Log.d("userPoint", "$it")
-                val userData = UserQR(
-                    userId = userId,
-                    userPoint = it,
-                    userQR = transactionId,
-                    userQrError = "",
-                )
-                viewModel.setUserPaymentData(userData)
-                val qrJson = Gson().toJson(userData)
+            timerJob = binding.tvQrTime.setTimerCallBack(
+                lifecycleScope,
+                requireContext(),
+                binding.ivQrRefresh,
+                binding.ivPaymentQr,
+            )
+            {
+                setClearRealDB()
+            }
+            // data: UUID, userDocID, userPoint
+            val transactionId = UUID.randomUUID().toString() // 고유 트랜잭션 ID 생성
 
-                binding.ivPaymentQr.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        val width = binding.ivPaymentQr.measuredWidth
-                        val height = binding.ivPaymentQr.measuredHeight
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.userPoint.observe(viewLifecycleOwner) {
+                    Log.d("userPoint", "$it")
+                    val userData = UserQR(
+                        userId = userId,
+                        userPoint = it,
+                        userQR = transactionId,
+                        userQrError = "",
+                    )
+                    viewModel.setUserPaymentData(userData)
+                    val qrJson = Gson().toJson(userData)
 
-                        if (width > 0 && height > 0) {
-                            val img = createQRCode(qrJson, width, height)
-                            Glide.with(requireContext())
-                                .load(img)
-                                .into(binding.ivPaymentQr)
-                            // 리스너 제거 (메모리 누수 방지)
-                            binding.ivPaymentQr.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    binding.ivPaymentQr.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        override fun onGlobalLayout() {
+                            val width = binding.ivPaymentQr.measuredWidth
+                            val height = binding.ivPaymentQr.measuredHeight
+
+                            if (width > 0 && height > 0) {
+                                val img = createQRCode(qrJson, width, height)
+                                Glide.with(requireContext())
+                                    .load(img)
+                                    .into(binding.ivPaymentQr)
+                                // 리스너 제거 (메모리 누수 방지)
+                                binding.ivPaymentQr.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
     }

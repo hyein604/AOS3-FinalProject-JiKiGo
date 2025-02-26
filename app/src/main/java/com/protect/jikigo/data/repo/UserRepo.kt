@@ -124,6 +124,7 @@ class UserRepo @Inject constructor(
 
     // realTimeDB에 qr 고유코드로 문서를 만든다
     fun setUserPaymentData(userQR: UserQR) {
+        // deleteHistory(userQR)
         val document = firestore.collection("UserInfo").document(userQR.userId)
         val realDB = realTime.getReference("UserInfo").child("userQR")  // userQR 노드에 저장
 
@@ -182,7 +183,6 @@ class UserRepo @Inject constructor(
 
         // 새 문서를 추가하고 ID를 가져오기
         val newPaymentDocRef = paymentHistoryRef.document() // 랜덤 문서 ID 생성
-
 
         val paymentData = hashMapOf(
             "docId" to newPaymentDocRef.id,
@@ -268,7 +268,9 @@ class UserRepo @Inject constructor(
                                 // Realtime DB에서 데이터 삭제
                                 realDB.removeValue()
                                     .addOnSuccessListener {
-                                        setPaymentHistory(userQR)
+                                        if (userQR.userQrUse) {
+                                            setPaymentHistory(userQR)
+                                        }
                                         callback(true)
                                     }
                                     .addOnFailureListener { e ->
