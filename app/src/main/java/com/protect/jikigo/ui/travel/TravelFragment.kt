@@ -7,19 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBinding
+import com.protect.jikigo.ui.extensions.convertThreeDigitComma
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.home.HomeFragment
+import com.protect.jikigo.ui.viewModel.TravelViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class TravelFragment : Fragment() {
     private var _binding: FragmentTravelBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModels<TravelViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +50,27 @@ class TravelFragment : Fragment() {
 
     private fun setLayout() {
         setStatusBar()
+        setToolBar()
         setViewPager()
         moveToMyPage()
     }
 
     private fun setStatusBar() {
         requireActivity().statusBarColor(R.color.primary)
+    }
+
+    private fun setToolBar(){
+        lifecycleScope.launch {
+            val userId = requireContext().getUserId() ?: ""
+            viewModel.getUserInfo(userId)
+        }
+        viewModel.item.observe(viewLifecycleOwner) { userInfo ->
+            userInfo.let {
+                if (it != null) {
+                    binding.toolbarTravel.title = it.userPoint.convertThreeDigitComma()
+                }
+            }
+        }
     }
 
     private fun setViewPager() {

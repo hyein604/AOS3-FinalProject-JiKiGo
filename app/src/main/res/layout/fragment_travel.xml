@@ -19,8 +19,8 @@
 		app:layout_constraintTop_toTopOf="parent"
 		app:menu="@menu/menu_my_page_toolbar"
 		app:navigationIcon="@drawable/ic_point"
-		app:title="3,456P"
-		app:titleTextColor="@color/black" />
+		app:titleTextColor="@color/black"
+		tools:title="3,456P" />
 
 	<com.google.android.material.tabs.TabLayout
 		android:id="@+id/tabLayout_travel"
