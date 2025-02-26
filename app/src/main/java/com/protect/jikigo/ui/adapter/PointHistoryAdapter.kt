@@ -34,10 +34,10 @@ class PointHistoryAdapter: RecyclerView.Adapter<PointHistoryAdapter.PointHistory
         fun bind(item: UserPaymentHistory) {
             binding.apply {
                 tvPointHistoryListPoint.text = if(item.payType == "사용") {
-                    "-${item.amount}P"
+                    "- ${item.amount}P"
                 }
                 else {
-                    "+${item.amount}P"
+                    "+ ${item.amount}P"
                 }
                 tvPointHistoryListPointDescription.text = item.reason
             }

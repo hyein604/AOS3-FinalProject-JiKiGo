@@ -20,6 +20,7 @@ class PointHistoryRepo @Inject constructor(
                     val paymentData = document.toObject(UserPaymentHistory::class.java).copy(docId = document.id)
                     paymentHistoryList.add(paymentData)
                 }
+                paymentHistoryList.sortByDescending { it.paymentData }
                 item(paymentHistoryList)
             }
             .addOnFailureListener { exception ->
