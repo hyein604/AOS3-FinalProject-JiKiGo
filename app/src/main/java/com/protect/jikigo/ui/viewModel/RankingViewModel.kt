@@ -1,7 +1,5 @@
 package com.protect.jikigo.ui.viewModel
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +10,6 @@ import com.protect.jikigo.data.model.UserRanking
 import com.protect.jikigo.data.repo.RankingRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,6 +47,24 @@ class RankingViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching user info", e)
+            }
+        }
+    }
+
+    fun setRankingRewardPoint(userRanking: UserRanking, reward: Int) {
+        viewModelScope.launch {
+            rankingRepo.setRankingRewardHistory(userRanking, reward)
+        }
+    }
+
+    fun distributeRankingRewards() {
+        viewModelScope.launch {
+            val rankingList = _rankingList.value ?: return@launch
+            if (rankingList.size < 3) return@launch // 최소 3명이 있어야 지급 가능
+
+            val rewards = listOf(100, 70, 50)
+            rankingList.take(3).forEachIndexed { index, userRanking ->
+                setRankingRewardPoint(userRanking, rewards[index])
             }
         }
     }

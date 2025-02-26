@@ -3,7 +3,6 @@ package com.protect.jikigo.ui.rank
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.ui.adapter.RankingAdapter
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.getUserName
-import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import com.protect.jikigo.ui.viewModel.RankingViewModel
 import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +61,22 @@ class RankingFragment : Fragment() {
         observeStepCount()  // 걸음 수 데이터 관찰
         startTimer()  // 타이머 시작
         getUserInfo()  // 사용자 정보 불러오기
+        scheduleWeeklyRankingRewards()
+    }
+
+    private fun scheduleWeeklyRankingRewards() {
+        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
+            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+        val delay = calendar.timeInMillis - System.currentTimeMillis()
+        if (delay > 0) {
+            handler.postDelayed({ rankingViewModel.distributeRankingRewards() }, delay)
+        }
     }
 
     // 걸음 수 데이터를 관찰하고 UI에 반영
