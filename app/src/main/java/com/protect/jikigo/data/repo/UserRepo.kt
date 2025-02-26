@@ -189,7 +189,8 @@ class UserRepo @Inject constructor(
             "reason" to "지키고 페이",
             "amount" to userQR.paymentPrice,
             "paymentDate" to userQR.paymentDate,
-            "payType" to "사용",
+            "payType" to userQR.payType,
+            "payName" to userQR.payName,
         )
 
         newPaymentDocRef.set(paymentData)
