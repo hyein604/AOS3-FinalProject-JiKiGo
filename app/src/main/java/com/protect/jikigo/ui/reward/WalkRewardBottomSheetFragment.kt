@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
 import com.protect.jikigo.ui.viewModel.WalkViewModel
@@ -19,8 +18,7 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val walkViewModel: WalkViewModel by activityViewModels()
 
-    private var currentGoal = 1000
-    private var currentReward = 10
+
     private var steps = 0
 
     override fun onCreateView(
@@ -39,17 +37,18 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ViewModel의 걸음 수 관찰
+        // ViewModel에서 값 가져와 UI 업데이트
         walkViewModel.totalSteps.observe(viewLifecycleOwner) { stepsCount ->
             steps = stepsCount.toIntOrNull() ?: 0
             updateSteps(steps)
         }
 
-        updateUI()
+        walkViewModel.currentGoal.observe(viewLifecycleOwner) { updateUI() }
+        walkViewModel.currentReward.observe(viewLifecycleOwner) { updateUI() }
 
         binding.btnWalkRewardBottomSheetReward.setOnClickListener {
-            if (steps >= currentGoal) {
-                moveToNextGoal()
+            if (steps >= walkViewModel.currentGoal.value!!) {
+                walkViewModel.moveToNextGoal()
             }
         }
     }
@@ -57,32 +56,14 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     fun updateSteps(newSteps: Int) {
         steps = newSteps
         binding.tvWalkRewardBottomSheetStepsCount.text = "$steps"
-        val progress = (steps.toFloat() / currentGoal * 100).toInt()
+        val progress = (steps.toFloat() / (walkViewModel.currentGoal.value ?: 5) * 100).toInt()
         binding.progressBarWalkRewardBottomSheet.setProgress(progress)
-        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= currentGoal
-    }
-
-    private fun moveToNextGoal() {
-        when (currentGoal) {
-            1000 -> {
-                currentGoal = 10000
-                currentReward = 20
-            }
-            10000 -> {
-                currentGoal = 20000
-                currentReward = 30
-            }
-            20000 -> {
-                binding.btnWalkRewardBottomSheetReward.isEnabled = false
-                return
-            }
-        }
-        updateUI()
+        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= (walkViewModel.currentGoal.value ?: 5)
     }
 
     private fun updateUI() {
-        binding.tvWalkRewardBottomSheetGoal.text = "/$currentGoal"
-        binding.btnWalkRewardBottomSheetReward.text = "${currentReward}P"
-        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= currentGoal
+        binding.tvWalkRewardBottomSheetGoal.text = "/${walkViewModel.currentGoal.value}"
+        binding.btnWalkRewardBottomSheetReward.text = "${walkViewModel.currentReward.value}P"
+        binding.btnWalkRewardBottomSheetReward.isEnabled = steps >= (walkViewModel.currentGoal.value ?: 5)
     }
 }

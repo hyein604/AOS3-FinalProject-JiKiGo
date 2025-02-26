@@ -3,6 +3,7 @@ package com.protect.jikigo.ui.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -27,6 +28,9 @@ import javax.inject.Inject
 @HiltViewModel
 class WalkViewModel @Inject constructor(application: Application, private val firestore: FirebaseFirestore) : AndroidViewModel(application) {
 
+    private val sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
+
     private val _totalSteps = MutableLiveData<String>()
     val totalSteps: LiveData<String> = _totalSteps
 
@@ -38,6 +42,13 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
 
     private val _requestPermissions = MutableLiveData<Boolean>()
     val requestPermissions: LiveData<Boolean> = _requestPermissions
+
+    private val _currentGoal = MutableLiveData(loadGoal()) // SharedPreferences에서 불러오기
+    val currentGoal: LiveData<Int> get() = _currentGoal
+
+    private val _currentReward = MutableLiveData(loadReward()) // SharedPreferences에서 불러오기
+    val currentReward: LiveData<Int> get() = _currentReward
+
 
     // Health Connect에서 걸음 수 데이터를 읽고/쓰기 위한 권한 설정
     private val permission = setOf(
@@ -175,5 +186,48 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
             Log.e("Total Steps", "Error fetching step count", e)
             _totalSteps.postValue("0")
         }
+    }
+
+    fun updateSteps(steps: Int) {
+        _totalSteps.value = steps.toString()
+    }
+
+    fun moveToNextGoal() {
+        when (_currentGoal.value) {
+            40 -> {
+                _currentGoal.value = 50
+                _currentReward.value = 20
+                saveGoal(_currentGoal.value ?: 10)
+                saveReward(_currentReward.value ?: 20)
+            }
+            50 -> {
+                _currentGoal.value = 60
+                _currentReward.value = 30
+                saveGoal(_currentGoal.value ?: 15)
+                saveReward(_currentReward.value ?: 30)
+            }
+            60 -> return
+        }
+
+    }
+
+    // 목표 걸음 수를 SharedPreferences에 저장
+    private fun saveGoal(goal: Int) {
+        sharedPreferences.edit().putInt("current_goal", goal).apply()
+    }
+
+    // 보상을 SharedPreferences에 저장
+    private fun saveReward(reward: Int) {
+        sharedPreferences.edit().putInt("current_reward", reward).apply()
+    }
+
+    // SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5)
+    private fun loadGoal(): Int {
+        return sharedPreferences.getInt("current_goal", 5)
+    }
+
+    // SharedPreferences에서 보상 불러오기 (기본값: 10)
+    private fun loadReward(): Int {
+        return sharedPreferences.getInt("current_reward", 10)
     }
 }
