@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.R
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -133,12 +134,13 @@ fun TextView.setTimerCallBack(
     context: Context,
     imgView: ImageView,
     imgQr: ImageView,
-    onTimerFinish: () -> Unit
-) {
+    onTimerFinish: () -> Unit,
+): Job {
     imgView.isEnabled = false
-    imgView.visibility = View.VISIBLE
+    imgView.visibility = View.INVISIBLE
     imgQr.visibility = View.VISIBLE
-    lifecycleScope.launch(Dispatchers.Main) {
+
+    return lifecycleScope.launch(Dispatchers.Main) {
         val totalTime = 180
         for (i in totalTime downTo 1) {
             val minutes = i / 60
@@ -150,6 +152,7 @@ fun TextView.setTimerCallBack(
         this@setTimerCallBack.isEnabled = true
         imgView.isEnabled = true
         imgQr.visibility = View.INVISIBLE
+        imgView.visibility = View.VISIBLE
         onTimerFinish()
     }
 }
