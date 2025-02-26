@@ -70,10 +70,14 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
                         2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
+                binding.sortContainer.visibility = View.VISIBLE
             } else {
                 // 데이터가 없으면 표시할 텍스트 설정
-                binding.tvCouponCount.text = "조건에 맞는 쿠폰이 없습니다."
-
+                binding.cgCouponBrand.visibility = View.GONE
+                binding.tvCouponCount.visibility = View.GONE
+                binding.sortContainer.visibility = View.GONE
+                binding.rvCouponList.visibility = View.GONE
+                binding.tvNoCoupon.visibility = View.VISIBLE
             }
         }
 
