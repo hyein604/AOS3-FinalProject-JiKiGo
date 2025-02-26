@@ -28,6 +28,7 @@ import com.protect.jikigo.ui.extensions.setTimerCallBack
 import com.protect.jikigo.ui.extensions.showDialog
 import com.protect.jikigo.ui.extensions.showDialogOkAndCancel
 import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.viewModel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin

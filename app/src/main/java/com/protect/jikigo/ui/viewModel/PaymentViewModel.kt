@@ -1,4 +1,4 @@
-package com.protect.jikigo.ui.payment
+package com.protect.jikigo.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
