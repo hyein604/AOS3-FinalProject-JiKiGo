@@ -17,6 +17,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
+import com.protect.jikigo.data.repo.WalkRewardBottomSheetRepo
 import com.protect.jikigo.ui.extensions.getUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,7 +27,10 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
-class WalkViewModel @Inject constructor(application: Application, private val firestore: FirebaseFirestore) : AndroidViewModel(application) {
+class WalkViewModel @Inject constructor(
+    application: Application,
+    private val firestore: FirebaseFirestore,
+    private val walkRewardBottomSheetRepo: WalkRewardBottomSheetRepo,) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
@@ -194,19 +198,19 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
 
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            100 -> {
-                _currentGoal.value = 140
+            180 -> {
+                _currentGoal.value = 260
                 _currentReward.value = 20
                 saveGoal(_currentGoal.value ?: 10)
                 saveReward(_currentReward.value ?: 20)
             }
-            140 -> {
-                _currentGoal.value = 150
+            260 -> {
+                _currentGoal.value = 270
                 _currentReward.value = 30
                 saveGoal(_currentGoal.value ?: 15)
                 saveReward(_currentReward.value ?: 30)
             }
-            150 -> return
+            270 -> return
         }
 
     }
@@ -229,5 +233,12 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
     // SharedPreferences에서 보상 불러오기 (기본값: 10)
     private fun loadReward(): Int {
         return sharedPreferences.getInt("current_reward", 10)
+    }
+
+    fun setRankingRewardPoint(userId: String, reward: Int) {
+        viewModelScope.launch {
+            walkRewardBottomSheetRepo.setWalkRewardBottomSheetHistory(userId, reward)
+            Log.d("ttest","뷰모델 userId: ${userId}, reward: ${reward}")
+        }
     }
 }
