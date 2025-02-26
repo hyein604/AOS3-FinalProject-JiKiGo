@@ -73,6 +73,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
             } else {
                 // 데이터가 없으면 표시할 텍스트 설정
                 binding.tvCouponCount.text = "조건에 맞는 쿠폰이 없습니다."
+
             }
         }
 
