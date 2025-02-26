@@ -1,15 +1,20 @@
 package com.protect.jikigo.ui.reward
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
+import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
@@ -37,7 +42,10 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ViewModel에서 값 가져와 UI 업데이트
+        // 저장된 마지막 보상 여부 불러오기
+        isFinalRewardClaimed = loadFinalRewardClaimed()
+        updateUI()
+
         walkViewModel.totalSteps.observe(viewLifecycleOwner) { stepsCount ->
             steps = stepsCount.toIntOrNull() ?: 0
             updateSteps(steps)
@@ -47,15 +55,37 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         walkViewModel.currentReward.observe(viewLifecycleOwner) { updateUI() }
 
         binding.btnWalkRewardBottomSheetReward.setOnClickListener {
+            d()
             if (steps >= (walkViewModel.currentGoal.value ?: 0)) {
-                if (walkViewModel.currentGoal.value == 150) {
-                    // 마지막 보상 버튼 클릭 시 "오늘 보상을 모두 받았어요"로 변경
+                if (walkViewModel.currentGoal.value == 270) {
                     isFinalRewardClaimed = true
+                    saveFinalRewardClaimed(true) // 마지막 보상 여부 저장
                     updateUI()
                 } else {
                     walkViewModel.moveToNextGoal()
                 }
             }
+        }
+    }
+
+    // 마지막 보상 여부를 SharedPreferences에 저장
+    private fun saveFinalRewardClaimed(claimed: Boolean) {
+        val sharedPreferences = requireContext().getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean("final_reward_claimed", claimed).apply()
+    }
+
+    // 마지막 보상 여부를 SharedPreferences에서 불러오기
+    private fun loadFinalRewardClaimed(): Boolean {
+        val sharedPreferences = requireContext().getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("final_reward_claimed", false)
+    }
+
+    private fun d() {
+        lifecycleScope.launch {
+            val userId = requireContext().getUserId() ?: ""
+            val reward = walkViewModel.currentReward.value ?: 0
+            walkViewModel.setRankingRewardPoint(userId, reward)
+            Log.d("ttest","프래그먼트 userId: ${userId}, reward: ${reward}")
         }
     }
 
@@ -74,7 +104,7 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         val reward = walkViewModel.currentReward.value ?: 0
         val isEnabled = steps >= goal
 
-        if (goal == 150 && isFinalRewardClaimed) {
+        if (goal == 270 && isFinalRewardClaimed) {
             // 마지막 단계 보상까지 받으면 버튼 비활성화 & 텍스트 변경
             binding.btnWalkRewardBottomSheetReward.text = "오늘 보상을 모두 받았어요"
             binding.btnWalkRewardBottomSheetReward.isEnabled = false
