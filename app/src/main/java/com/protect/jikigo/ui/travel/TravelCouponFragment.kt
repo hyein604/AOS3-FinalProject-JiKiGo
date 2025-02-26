@@ -11,30 +11,30 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Coupon
-import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.databinding.FragmentTravelCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.toast
+import com.protect.jikigo.ui.viewModel.TravelCouponViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     private var _binding: FragmentTravelCouponBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: TravelCouponViewModel by viewModels()
     lateinit var adapter: CouponAdaptor
-    private var categoryIndex: Int = 1
-    private var coupon: List<Coupon> = listOf()
-    private var selectedBrand: String? = null
-
     private var isFabVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        categoryIndex = arguments?.getInt("categoryIndex") ?: 1
+        val categoryIndex = arguments?.getInt("categoryIndex") ?: 1
+        viewModel.setCategory(categoryIndex)
     }
 
     override fun onCreateView(
@@ -42,98 +42,77 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTravelCouponBinding.inflate(inflater, container, false)
-
-        binding.apply {
-            val sortContainer = sortContainer
-            val tvSort = tvSort
-
-            sortContainer.setOnClickListener {
-                val popupMenu = PopupMenu(requireContext(), it)
-                popupMenu.menuInflater.inflate(R.menu.menu_sort_options, popupMenu.menu)
-
-                popupMenu.setOnMenuItemClickListener { item ->
-                    tvSort.text = item.title
-                    applyFiltersAndSorting(item.title.toString())
-                    true
-                }
-                popupMenu.show()
-            }
-            setFabScrollBehavior()
-        }
-
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setLayout()
+
+        // 초기 화면이 로드될 때 추천순으로 필터링을 적용
+        viewModel.applyFiltersAndSorting("추천순")
+
+        setupObservers()
+        setupSortMenu()
+        setupFabBehavior()
     }
 
-    private fun setLayout() {
-        setRecyclerView()
-        setFabClickListener()
-        setChip()
-    }
+    private fun setupObservers() {
+        viewModel.filteredCoupons.observe(viewLifecycleOwner) { coupons ->
+            if (coupons.isNotEmpty()) {
+                // 새로운 데이터를 가져올 때마다 어댑터를 새로 설정
+                adapter = CouponAdaptor(coupons, this)
+                binding.rvCouponList.adapter = adapter
 
-    private fun setFabScrollBehavior() {
-        binding.nestedScrollView2.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            if (scrollY > 1000 && !isFabVisible) {
-                binding.fabTravelCoupon.visibility = View.VISIBLE
-                isFabVisible = true
+                val totalCount = coupons.size.toString()
+                binding.tvCouponCount.text = SpannableString("총 ${totalCount}개의 상품이 있습니다.").apply {
+                    setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black)),
+                        2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+                binding.sortContainer.visibility = View.VISIBLE
+            } else {
+                // 데이터가 없으면 표시할 텍스트 설정
+                binding.cgCouponBrand.visibility = View.GONE
+                binding.tvCouponCount.visibility = View.GONE
+                binding.sortContainer.visibility = View.GONE
+                binding.rvCouponList.visibility = View.GONE
+                binding.tvNoCoupon.visibility = View.VISIBLE
             }
-            else if (scrollY < 100 && isFabVisible) {
-                binding.fabTravelCoupon.visibility = View.INVISIBLE
-                isFabVisible = false
-            }
+        }
+
+        viewModel.brandList.observe(viewLifecycleOwner) { brands ->
+            setupChips(brands)
         }
     }
 
-    private fun setFabClickListener() {
-        binding.fabTravelCoupon.setOnClickListener {
-            binding.nestedScrollView2.scrollTo(0, 0)
-            binding.fabTravelCoupon.visibility = View.INVISIBLE
-            isFabVisible = false
+    private fun setupSortMenu() {
+        binding.sortContainer.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), it)
+            popupMenu.menuInflater.inflate(R.menu.menu_sort_options, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                binding.tvSort.text = item.title
+                viewModel.applyFiltersAndSorting(item.title.toString())
+                true
+            }
+            popupMenu.show()
         }
     }
 
-    private fun setRecyclerView() {
-        coupon = filterCouponByCategory(categoryIndex)
-        selectedBrand = "전체보기"
-    }
-
-    private fun setChip() {
-        val brandSet = coupon.map { it.brand }.toSet()
+    private fun setupChips(brands: List<String>) {
         val cgCouponBrand = binding.cgCouponBrand
         cgCouponBrand.removeAllViews()
 
         val allChip = createChip("전체보기", true)
-        allChip.setOnClickListener {
-            if (selectedBrand != "전체보기") {
-                selectedBrand = "전체보기"
-                applyFiltersAndSorting(binding.tvSort.text.toString())
-            }
-        }
+        allChip.setOnClickListener { viewModel.selectBrand("전체보기") }
         cgCouponBrand.addView(allChip)
 
-        brandSet.forEach { brand ->
+        brands.forEach { brand ->
             val chip = createChip(brand, false)
-            chip.setOnClickListener {
-                if (selectedBrand != brand) {
-                    selectedBrand = brand
-                    applyFiltersAndSorting(binding.tvSort.text.toString())
-                } else {
-                    chip.isChecked = true
-                }
-            }
+            chip.setOnClickListener { viewModel.selectBrand(brand) }
             cgCouponBrand.addView(chip)
         }
-
-        applyFiltersAndSorting(binding.tvSort.text.toString())
     }
 
     private fun createChip(text: String, isDefaultChecked: Boolean): Chip {
@@ -154,45 +133,26 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         }
     }
 
-    private fun filterCouponByCategory(categoryIndex: Int): List<Coupon> {
-        val category = listOf("숙박", "레저/티켓", "공연/전시", "여행용품")
-        if (categoryIndex < 1 || categoryIndex > 4) return emptyList()
-
-        val selectedCategory = category[categoryIndex - 1]
-        return Storage.coupon.filter { it.category == selectedCategory }
-    }
-
-    private fun applyFiltersAndSorting(sortOption: String) {
-        // 필터링 먼저 적용
-        var filteredCoupon = if (selectedBrand == "전체보기") {
-            coupon
-        } else {
-            coupon.filter { it.brand == selectedBrand }
+    private fun setupFabBehavior() {
+        binding.nestedScrollView2.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY > 1000 && !isFabVisible) {
+                binding.fabTravelCoupon.visibility = View.VISIBLE
+                isFabVisible = true
+            } else if (scrollY < 100 && isFabVisible) {
+                binding.fabTravelCoupon.visibility = View.INVISIBLE
+                isFabVisible = false
+            }
         }
 
-        // 정렬 옵션 적용
-        filteredCoupon = when (sortOption) {
-            "추천순" -> filteredCoupon.sortedByDescending { it.salesCount }
-            "낮은 가격순" -> filteredCoupon.sortedBy { it.price }
-            "높은 가격순" -> filteredCoupon.sortedByDescending { it.price }
-            else -> filteredCoupon
-        }
-
-        // 어댑터에 필터링된 데이터 적용
-        adapter = CouponAdaptor(filteredCoupon, this)
-        binding.rvCouponList.adapter = adapter
-
-        val totalCount = filteredCoupon.size.toString()
-        binding.tvCouponCount.text = SpannableString("총 ${totalCount}개의 상품이 있습니다.").apply {
-            setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.black)),
-                2, 2 + totalCount.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+        binding.fabTravelCoupon.setOnClickListener {
+            binding.nestedScrollView2.scrollTo(0, 0)
+            binding.fabTravelCoupon.visibility = View.INVISIBLE
+            isFabVisible = false
         }
     }
 
     override fun onClickListener(item: Coupon) {
-        requireContext().toast(item.name)
+        requireContext().toast(item.couponName)
         val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
         findNavController().navigate(action)
     }

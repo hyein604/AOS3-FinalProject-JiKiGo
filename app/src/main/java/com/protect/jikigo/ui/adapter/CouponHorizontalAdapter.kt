@@ -6,16 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.databinding.ItemCouponBinding
+import com.protect.jikigo.databinding.ItemCouponHorizontalBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 
-class CouponAdaptor (
+class CouponHorizontalAdapter (
     private var items: List<Coupon>,
-    private val listener: TravelCouponOnClickListener
-) : RecyclerView.Adapter<CouponAdaptor.CouponViewHolder>() {
+    private val listener: TravelCouponHorizontalOnClickListener
+) : RecyclerView.Adapter<CouponHorizontalAdapter.CouponViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CouponViewHolder {
         return CouponViewHolder(
-            ItemCouponBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            ItemCouponHorizontalBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             listener = { position -> listener.onClickListener(items[position]) }
         )
     }
@@ -33,7 +34,7 @@ class CouponAdaptor (
 
 
     class CouponViewHolder(
-        private val binding: ItemCouponBinding,
+        private val binding: ItemCouponHorizontalBinding,
         private val listener: (Int) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
         init {
@@ -53,6 +54,6 @@ class CouponAdaptor (
         }
     }
 }
-interface TravelCouponOnClickListener {
+interface TravelCouponHorizontalOnClickListener {
     fun onClickListener(item: Coupon)
 }
