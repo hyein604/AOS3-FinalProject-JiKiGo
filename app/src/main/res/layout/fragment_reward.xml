@@ -242,7 +242,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/iv_reward_walk_image"
-                tools:text="걸음 수 보상받기"
+                android:text="걸음 수 보상받기"
                 android:layout_marginStart="10dp"
                 app:layout_constraintTop_toTopOf="@id/iv_reward_walk_image"
                 app:layout_constraintBottom_toBottomOf="@id/iv_reward_walk_image"

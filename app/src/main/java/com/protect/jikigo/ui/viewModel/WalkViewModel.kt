@@ -3,6 +3,7 @@ package com.protect.jikigo.ui.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -16,6 +17,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
+import com.protect.jikigo.data.repo.WalkRewardBottomSheetRepo
 import com.protect.jikigo.ui.extensions.getUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,7 +27,13 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
-class WalkViewModel @Inject constructor(application: Application, private val firestore: FirebaseFirestore) : AndroidViewModel(application) {
+class WalkViewModel @Inject constructor(
+    application: Application,
+    private val firestore: FirebaseFirestore,
+    private val walkRewardBottomSheetRepo: WalkRewardBottomSheetRepo,) : AndroidViewModel(application) {
+
+    private val sharedPreferences: SharedPreferences =
+        application.getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
 
     private val _totalSteps = MutableLiveData<String>()
     val totalSteps: LiveData<String> = _totalSteps
@@ -39,6 +47,13 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
     private val _requestPermissions = MutableLiveData<Boolean>()
     val requestPermissions: LiveData<Boolean> = _requestPermissions
 
+    private val _currentGoal = MutableLiveData(loadGoal()) // SharedPreferences에서 불러오기
+    val currentGoal: LiveData<Int> get() = _currentGoal
+
+    private val _currentReward = MutableLiveData(loadReward()) // SharedPreferences에서 불러오기
+    val currentReward: LiveData<Int> get() = _currentReward
+
+
     // Health Connect에서 걸음 수 데이터를 읽고/쓰기 위한 권한 설정
     private val permission = setOf(
         HealthPermission.getReadPermission(StepsRecord::class),
@@ -46,6 +61,9 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
     )
 
     init {
+        if (shouldResetDaily()) {
+            resetDailyProgress()
+        }
         viewModelScope.launch {
             checkAndInitHealthClient(getApplication<Application>().applicationContext)
             updateWeeklySteps()
@@ -174,6 +192,79 @@ class WalkViewModel @Inject constructor(application: Application, private val fi
         } catch (e: Exception) {
             Log.e("Total Steps", "Error fetching step count", e)
             _totalSteps.postValue("0")
+        }
+    }
+
+    fun updateSteps(steps: Int) {
+        _totalSteps.value = steps.toString()
+    }
+
+    fun moveToNextGoal() {
+        when (_currentGoal.value) {
+            5 -> {
+                _currentGoal.value = 15
+                _currentReward.value = 20
+                saveGoal(_currentGoal.value ?: 10)
+                saveReward(_currentReward.value ?: 20)
+            }
+            15 -> {
+                _currentGoal.value = 25
+                _currentReward.value = 30
+                saveGoal(_currentGoal.value ?: 15)
+                saveReward(_currentReward.value ?: 30)
+            }
+            25 -> return
+        }
+
+    }
+
+    // 하루가 지나면 데이터 초기화
+    private fun shouldResetDaily(): Boolean {
+        val lastResetTime = sharedPreferences.getLong("last_reset_time", 0L)
+        val currentTime = System.currentTimeMillis()
+        val lastResetCalendar = Calendar.getInstance().apply { timeInMillis = lastResetTime }
+        val currentCalendar = Calendar.getInstance().apply { timeInMillis = currentTime }
+
+        return lastResetTime == 0L ||
+                lastResetCalendar.get(Calendar.DAY_OF_YEAR) != currentCalendar.get(Calendar.DAY_OF_YEAR)
+    }
+
+    private fun resetDailyProgress() {
+        sharedPreferences.edit()
+            .putInt("current_goal", 5) // 초기 목표 걸음 수
+            .putInt("current_reward", 10) // 초기 보상
+            .putBoolean("final_reward_claimed", false) // 최종 보상 상태 초기화
+            .putLong("last_reset_time", System.currentTimeMillis()) // 마지막 초기화 시간 저장
+            .apply()
+
+        _currentGoal.postValue(5)
+        _currentReward.postValue(10)
+    }
+
+    // 목표 걸음 수를 SharedPreferences에 저장
+    private fun saveGoal(goal: Int) {
+        sharedPreferences.edit().putInt("current_goal", goal).apply()
+    }
+
+    // 보상을 SharedPreferences에 저장
+    private fun saveReward(reward: Int) {
+        sharedPreferences.edit().putInt("current_reward", reward).apply()
+    }
+
+    // SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5)
+    private fun loadGoal(): Int {
+        return sharedPreferences.getInt("current_goal", 5)
+    }
+
+    // SharedPreferences에서 보상 불러오기 (기본값: 10)
+    private fun loadReward(): Int {
+        return sharedPreferences.getInt("current_reward", 10)
+    }
+
+    fun setRankingRewardPoint(userId: String, reward: Int) {
+        viewModelScope.launch {
+            walkRewardBottomSheetRepo.setWalkRewardBottomSheetHistory(userId, reward)
+            Log.d("ttest","뷰모델 userId: ${userId}, reward: ${reward}")
         }
     }
 }
