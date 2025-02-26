@@ -42,6 +42,12 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lifecycleScope.launch {
+            if (walkViewModel.healthConnectClient.value == null) {
+                walkViewModel.checkInstallHC(requireContext())
+            }
+        }
+
         // 저장된 마지막 보상 여부 불러오기
         isFinalRewardClaimed = loadFinalRewardClaimed()
         updateUI()
