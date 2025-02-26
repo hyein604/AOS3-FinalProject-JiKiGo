@@ -283,6 +283,18 @@
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
+		<action
+			android:id="@+id/action_travelPaymentBottomSheet_to_tos"
+			app:destination="@id/tos"/>
 	</dialog>
+	<fragment
+		android:id="@+id/tos"
+		android:name="com.protect.jikigo.ui.TosFragment"
+		android:label="fragment_tos"
+		tools:layout="@layout/fragment_tos">
+		<argument
+			android:name="urlMethod"
+			app:argType="com.protect.jikigo.data.WebSiteURL" />
+	</fragment>
 
 </navigation>

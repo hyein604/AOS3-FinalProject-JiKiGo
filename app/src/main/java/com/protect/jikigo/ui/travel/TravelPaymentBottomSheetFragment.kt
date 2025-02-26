@@ -12,12 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.R
+import com.protect.jikigo.data.WebSiteURL
 import com.protect.jikigo.databinding.FragmentTravelPaymentBottomSheetBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
@@ -64,6 +67,7 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
 
         getUserInfo()
     }
+
 
     private fun getUserInfo() {
         lifecycleScope.launch {
@@ -195,9 +199,8 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         // 클릭 이벤트 추가
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                // 약관 화면 이동
-                // 클릭 시 처리할 이벤트
-                Toast.makeText(context, "이용약관 클릭", Toast.LENGTH_SHORT).show()
+                val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTos(WebSiteURL.APP_SERVICE)
+                findNavController().navigate(action)
             }
 
             // 클릭한 텍스트의 색상 변경 (파란색 대신 검정색으로)
