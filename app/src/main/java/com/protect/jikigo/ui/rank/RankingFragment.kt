@@ -17,6 +17,8 @@ import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.ui.extensions.statusBarColor
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.protect.jikigo.ui.adapter.RankingAdapter
 import com.protect.jikigo.ui.extensions.getUserId
@@ -28,7 +30,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
-
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class RankingFragment : Fragment() {
@@ -76,19 +78,21 @@ class RankingFragment : Fragment() {
 
         // 테스트용
         val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-            set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
-            set(Calendar.HOUR_OF_DAY, 16)
-            set(Calendar.MINUTE,28)
-            set(Calendar.SECOND,30)
+            set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE,32)
+            set(Calendar.SECOND,0)
             set(Calendar.MILLISECOND, 0)
         }
 
         val delay = calendar.timeInMillis - System.currentTimeMillis()
         if (delay > 0) {
+            val workRequest = OneTimeWorkRequestBuilder<RankingRewardWorker>()
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .build()
 
-            handler.postDelayed({ rankingViewModel.distributeRankingRewards() }, delay)
-            Log.d("ttttest","프래그먼트 // 보상지급시간: ${calendar}")
-
+            WorkManager.getInstance(requireContext()).enqueue(workRequest)
+            Log.d("RankingFragment", "보상 지급 예약됨: ${calendar.time}")
         }
     }
 
