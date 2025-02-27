@@ -36,11 +36,6 @@ class TosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().popBackStack()
-            findNavController().navigate(R.id.action_travelCouponDetail_to_travelPaymentBottomSheet)
-        }
     }
 
     private fun setLayout() {

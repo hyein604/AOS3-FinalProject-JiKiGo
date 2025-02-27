@@ -316,6 +316,12 @@
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
 		tools:layout="@layout/fragment_travel_payment_bottom_sheet" >
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
+		<argument
+			android:name="userPointArg"
+			app:argType= "integer" />
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
