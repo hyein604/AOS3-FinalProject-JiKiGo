@@ -12,7 +12,6 @@ data class PurchasedCoupon (
     val purchasedCouponValidDays: String = "",
     val purchasedCouponDate: Timestamp = Timestamp.now(),
     val purchasedCouponImage: String = "",
-    val purchasedCouponUsed: Boolean = false,
     val purchasedCouponUsedDate: String = "",
-    val purchasedCouponIsExpiry: Boolean = false,
+    val purchasedCouponStatus: Int = 0,
 ): Parcelable

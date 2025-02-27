@@ -12,7 +12,7 @@ class CouponBoxRepo @Inject constructor(
 ) {
     fun loadCouponData(userId: String, item: (MutableList<PurchasedCoupon>) -> Unit) {
         firestore.collection("UserInfo").document(userId)
-            .collection("PurchasedCoupon").whereEqualTo("purchasedCouponUsed", false).get()
+            .collection("PurchasedCoupon").whereEqualTo("purchasedCouponStatus", 0).get()
             .addOnSuccessListener { documents ->
                 val couponList = mutableListOf<PurchasedCoupon>()
                 for (document in documents) {
@@ -29,7 +29,7 @@ class CouponBoxRepo @Inject constructor(
 
     fun loadUsedCouponData(userId: String, item: (MutableList<PurchasedCoupon>) -> Unit) {
         firestore.collection("UserInfo").document(userId)
-            .collection("PurchasedCoupon").whereEqualTo("purchasedCouponUsed", true).get()
+            .collection("PurchasedCoupon").whereIn("purchasedCouponStatus", listOf(1, 2)).get()
             .addOnSuccessListener { documents ->
                 val couponList = mutableListOf<PurchasedCoupon>()
                 for (document in documents) {

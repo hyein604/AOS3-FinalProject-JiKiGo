@@ -56,18 +56,20 @@ class CouponDetailFragment : Fragment() {
         binding.apply {
             tvCouponDetailName.text = args.couponArg.purchasedCouponName
             tvCouponDetailClient.text = args.couponArg.purchasedCouponBrand
-            if(!args.couponArg.purchasedCouponUsed) {
-                tvCouponDetailDate.text = "유효 기간 : ${args.couponArg.purchasedCouponValidDays}"
-            }
-            else if(args.couponArg.purchasedCouponIsExpiry){
-                tvCouponDetailDate.text = "${args.couponArg.purchasedCouponValidDays} 만료됨"
-                viewCouponDetailBlur.isVisible = true
-                ivCouponDetailBarcode.isVisible = false
-            }
-            else {
-                tvCouponDetailDate.text = "${args.couponArg.purchasedCouponUsedDate} 사용 완료"
-                viewCouponDetailBlur.isVisible = true
-                ivCouponDetailBarcode.isVisible = false
+            when(args.couponArg.purchasedCouponStatus) {
+                0 -> {
+                    tvCouponDetailDate.text = "유효 기간 : ${args.couponArg.purchasedCouponValidDays}"
+                }
+                1 -> {
+                    tvCouponDetailDate.text = "${args.couponArg.purchasedCouponUsedDate} 사용 완료"
+                    viewCouponDetailBlur.isVisible = true
+                    ivCouponDetailBarcode.isVisible = false
+                }
+                2 -> {
+                    tvCouponDetailDate.text = "${args.couponArg.purchasedCouponValidDays} 만료됨"
+                    viewCouponDetailBlur.isVisible = true
+                    ivCouponDetailBarcode.isVisible = false
+                }
             }
             Glide.with(requireContext())
                 .load(args.couponArg.purchasedCouponImage)
