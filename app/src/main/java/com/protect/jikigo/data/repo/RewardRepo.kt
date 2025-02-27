@@ -43,13 +43,14 @@ class RewardRepo @Inject constructor(
 
                 // 새 문서를 추가하고 ID를 가져오기
                 val newPaymentDocRef = paymentHistoryRef.document() // 랜덤 문서 ID 생성
+                val nowDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
 
                 val paymentData = hashMapOf(
                     "docId" to newPaymentDocRef.id,
                     "reason" to "출석체크",
                     "amount" to point,
-                    "paymentDate" to currentDate,
+                    "paymentDate" to nowDate,
                     "payType" to "적립",
                 )
 
