@@ -44,6 +44,24 @@ class WalkRewardBottomSheetRepo @Inject constructor(
                 Log.d("PaymentHistory", "결제 실패")
             }
 
+        // userPoint 업데이트
+        document.get()
+            .addOnSuccessListener { userSnapshot ->
+                val currentPoint = userSnapshot.getLong("userPoint") ?: 0
+                val newPoint = currentPoint + rewardPoint
+
+                document.update("userPoint", newPoint)
+                    .addOnSuccessListener {
+                        Log.d("UserPoint", "포인트 업데이트 완료: $newPoint")
+                    }
+                    .addOnFailureListener {
+                        Log.d("UserPoint", "포인트 업데이트 실패")
+                    }
+            }
+            .addOnFailureListener {
+                Log.d("UserPoint", "유저 정보 가져오기 실패")
+            }
+
     }
 
     // 현재 날짜를 "yyyy/MM/dd HH:mm:ss" 형식으로 반환하는 함수
