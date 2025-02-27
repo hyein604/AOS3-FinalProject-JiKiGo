@@ -3,14 +3,14 @@
     <item android:state_selected="true">
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="4dp" android:useLevel="false">
             <solid android:color="@color/primary" />
-            <stroke android:color="@color/primary" android:width="0.6dp" />
+            <stroke android:color="@color/white" android:width="0.1dp" />
         </shape>
     </item>
 
     <item android:state_selected="false">
         <shape android:innerRadius="0dp" android:shape="ring" android:thickness="3dp" android:useLevel="false">
             <solid android:color="@color/gray_50" />
-            <stroke android:color="@color/gray_50" android:width="0.6dp" />
+            <stroke android:color="@color/white" android:width="0.1dp" />
         </shape>
     </item>
 
