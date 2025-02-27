@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentCouponDetailBinding
 import com.protect.jikigo.ui.extensions.statusBarColor
@@ -36,7 +38,7 @@ class CouponDetailFragment : Fragment() {
     }
 
     private fun setStatusBar() {
-        requireActivity().statusBarColor(R.color.primary)
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun setLayout() {
@@ -51,8 +53,20 @@ class CouponDetailFragment : Fragment() {
     }
 
     private fun setText() {
-        binding.tvCouponDetailName.text = args.couponArg.purchasedCouponName
-        binding.tvCouponDetailClient.text = args.couponArg.purchasedCouponBrand
-        binding.tvCouponDetailDate.text = args.couponArg.purchasedCouponValidDays
+        binding.apply {
+            tvCouponDetailName.text = args.couponArg.purchasedCouponName
+            tvCouponDetailClient.text = args.couponArg.purchasedCouponBrand
+            if(!args.couponArg.purchasedCouponUsed) {
+                tvCouponDetailDate.text = "유효 기간 : ${args.couponArg.purchasedCouponValidDays}"
+            }
+            else {
+                tvCouponDetailDate.text = "${args.couponArg.purchasedCouponUsedDate} 사용 완료"
+                viewCouponDetailBlur.isVisible = true
+                ivCouponDetailBarcode.isVisible = false
+            }
+            Glide.with(requireContext())
+                .load(args.couponArg.purchasedCouponImage)
+                .into(ivCouponDetailImage)
+        }
     }
 }

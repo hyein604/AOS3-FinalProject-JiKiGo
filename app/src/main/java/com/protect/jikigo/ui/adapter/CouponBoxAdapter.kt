@@ -52,9 +52,25 @@ class CouponBoxAdapter(
         fun bind(item: PurchasedCoupon) {
             binding.apply {
                 tvCouponListName.text = item.purchasedCouponName
-                showDaysUntilExpiration(item.purchasedCouponValidDays.substring(0, 5).toInt(),item.purchasedCouponValidDays.substring(6, 8).toInt(),item.purchasedCouponValidDays.substring(9, 11).toInt())
+                showDaysUntilExpiration(item.purchasedCouponValidDays.substring(0, 4).toInt(),item.purchasedCouponValidDays.substring(5, 7).toInt(),item.purchasedCouponValidDays.substring(8, 10).toInt())
                 tvCouponListClient.text = item.purchasedCouponBrand
-                tvCouponListDate.text = "${item.purchasedCouponValidDays} 까지"
+                if (!item.purchasedCouponUsed) {
+                    tvCouponListDate.text = "${item.purchasedCouponValidDays} 까지"
+                    viewCouponBlur.isVisible = false
+                    tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.primary))
+                }
+                else if(item.purchasedCouponIsExpiry){
+                    tvCouponListDate.text = "${item.purchasedCouponValidDays}"
+                    viewCouponBlur.isVisible = true
+                    tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.gray_10))
+                    tvCouponListDDay.text = "만료"
+                }
+                else {
+                    tvCouponListDate.text = "${item.purchasedCouponUsedDate}"
+                    viewCouponBlur.isVisible = true
+                    tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.gray_10))
+                    tvCouponListDDay.text = "사용 완료"
+                }
                 Glide.with(root.context)
                     .load(item.purchasedCouponImage)
                     .into(ivCouponListImage)

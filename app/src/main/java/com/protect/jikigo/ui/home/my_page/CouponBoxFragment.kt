@@ -1,6 +1,7 @@
 package com.protect.jikigo.ui.home.my_page
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.CouponBoxViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,12 +30,21 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     private val adapter: CouponBoxAdapter by lazy { CouponBoxAdapter(this) }
     private lateinit var userId: String
     private val viewModel: CouponBoxViewModel by viewModels()
+    private var currentPosition: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedInstanceState?.let {
+            currentPosition = it.getInt(KEY_CURRENT_POSITION, 0)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCouponBoxBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -69,7 +80,22 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     private fun checkData() {
         lifecycleScope.launch {
             userId = requireContext().getUserId() ?: ""
-            viewModel.loadCouponData(userId)
+            when(currentPosition) {
+                0 -> {
+                    binding.tabCouponBox.post {
+                        binding.tabCouponBox.setScrollPosition(currentPosition, 0f, false) // 스크롤 즉시 이동
+                        binding.tabCouponBox.getTabAt(currentPosition)?.select() // 탭 선택
+                    }
+                    viewModel.loadCouponData(userId)
+                }
+                1 -> {
+                    binding.tabCouponBox.post {
+                        binding.tabCouponBox.setScrollPosition(currentPosition, 0f, false) // 스크롤 즉시 이동
+                        binding.tabCouponBox.getTabAt(currentPosition)?.select() // 탭 선택
+                    }
+                    viewModel.loadUsedCouponData(userId)
+                }
+            }
         }
     }
 
@@ -104,10 +130,24 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when(tab?.position) {
                         0 -> {
-                            viewModel.loadCouponData(userId)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
+                                // 뷰가 파괴되지 않았는지 확인
+                                if (_binding != null) {
+                                    currentPosition = 0
+                                    viewModel.loadCouponData(userId)
+                                }
+                            }
                         }
                         1 -> {
-                            viewModel.loadUsedCouponData(userId)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
+                                // 뷰가 파괴되지 않았는지 확인
+                                if (_binding != null) {
+                                    currentPosition = 1
+                                    viewModel.loadUsedCouponData(userId)
+                                }
+                            }
                         }
                     }
                 }
@@ -119,15 +159,34 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                 override fun onTabReselected(tab: TabLayout.Tab?) {
                     when(tab?.position) {
                         0 -> {
-                            viewModel.loadCouponData(userId)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
+                                // 뷰가 파괴되지 않았는지 확인
+                                if (_binding != null) {
+                                    currentPosition = 0
+                                    viewModel.loadCouponData(userId)
+                                }
+                            }
                         }
                         1 -> {
-                            viewModel.loadUsedCouponData(userId)
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
+                                // 뷰가 파괴되지 않았는지 확인
+                                if (_binding != null) {
+                                    currentPosition = 1
+                                    viewModel.loadUsedCouponData(userId)
+                                }
+                            }
                         }
                     }
                 }
             })
         }
+    }
+
+    companion object {
+        private const val KEY_CURRENT_POSITION = "current_position"
+        private const val DELAY_TIME = 100L
     }
 
 }
