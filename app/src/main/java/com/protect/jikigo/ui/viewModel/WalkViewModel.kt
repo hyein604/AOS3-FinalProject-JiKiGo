@@ -61,6 +61,7 @@ class WalkViewModel @Inject constructor(
     )
 
     init {
+        // resetDailyProgress()
         if (shouldResetDaily()) {
             resetDailyProgress()
         }
@@ -201,19 +202,19 @@ class WalkViewModel @Inject constructor(
 
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            5 -> {
-                _currentGoal.value = 15
+            260-> {
+                _currentGoal.value = 270
                 _currentReward.value = 20
                 saveGoal(_currentGoal.value ?: 10)
                 saveReward(_currentReward.value ?: 20)
             }
-            15 -> {
-                _currentGoal.value = 25
+            270 -> {
+                _currentGoal.value = 280
                 _currentReward.value = 30
                 saveGoal(_currentGoal.value ?: 15)
                 saveReward(_currentReward.value ?: 30)
             }
-            25 -> return
+            280 -> return
         }
 
     }
@@ -231,13 +232,13 @@ class WalkViewModel @Inject constructor(
 
     private fun resetDailyProgress() {
         sharedPreferences.edit()
-            .putInt("current_goal", 5) // 초기 목표 걸음 수
+            .putInt("current_goal", 260) // 초기 목표 걸음 수
             .putInt("current_reward", 10) // 초기 보상
             .putBoolean("final_reward_claimed", false) // 최종 보상 상태 초기화
             .putLong("last_reset_time", System.currentTimeMillis()) // 마지막 초기화 시간 저장
             .apply()
 
-        _currentGoal.postValue(5)
+        _currentGoal.postValue(260)
         _currentReward.postValue(10)
     }
 
