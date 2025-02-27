@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.health.connect.client.HealthConnectClient
+import androidx.health.connect.client.PermissionController
 import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
@@ -15,6 +16,7 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.data.repo.WalkRewardBottomSheetRepo
@@ -119,7 +121,7 @@ class WalkViewModel @Inject constructor(
     }
 
     // Health Connect 클라이언트를 초기화하고 설치 여부를 확인
-    private suspend fun checkAndInitHealthClient(context: Context) {
+    private fun checkAndInitHealthClient(context: Context) {
         checkInstallHC(context) // HealthConnectClient 초기화
         _healthConnectClient.observeForever {
             if (it != null) {
@@ -137,15 +139,29 @@ class WalkViewModel @Inject constructor(
 
         // SDK가 사용 불가능한 경우 사용자에게 안내 및 앱 설치 유도
         if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE ||
-            availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED) {
+            availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED
+            ) {
             Toast.makeText(context, "헬스 커넥트 앱을 설치 또는 업데이트 해주세요", Toast.LENGTH_SHORT).show()
             openPlayStoreForHealthConnect(context)
             return
         }
 
         // Health Connect 클라이언트 생성 후 권한 요청
-        _healthConnectClient.value = HealthConnectClient.getOrCreate(context)
-        _requestPermissions.value = true
+        val healthClient = HealthConnectClient.getOrCreate(context)
+        _healthConnectClient.value = healthClient
+
+        // 권한 확인
+        viewModelScope.launch {
+            val grantedPermissions = healthClient.permissionController.getGrantedPermissions()
+            if (!grantedPermissions.containsAll(permission)) {
+                // 권한이 부족한 경우 설정 화면으로 이동
+                _requestPermissions.value = true
+                movePermissionSetting(context)
+            } else {
+                readStepsByTimeRange()
+            }
+        }
+
     }
 
     // Google Play 스토어에서 Health Connect 앱 설치 화면 열기
