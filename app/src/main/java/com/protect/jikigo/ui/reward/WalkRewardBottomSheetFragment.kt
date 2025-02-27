@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
@@ -42,11 +44,14 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         lifecycleScope.launch {
             if (walkViewModel.healthConnectClient.value == null) {
                 walkViewModel.checkInstallHC(requireContext())
             }
+            walkViewModel.readStepsByTimeRange()
         }
+
 
         // 저장된 마지막 보상 여부 불러오기
         isFinalRewardClaimed = loadFinalRewardClaimed()
@@ -61,9 +66,11 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         walkViewModel.currentReward.observe(viewLifecycleOwner) { updateUI() }
 
         binding.btnWalkRewardBottomSheetReward.setOnClickListener {
-            saveRewardPoint()
+            val previousReward = walkViewModel.currentReward.value ?: 0
+            saveRewardPoint(previousReward)
+
             if (steps >= (walkViewModel.currentGoal.value ?: 0)) {
-                if (walkViewModel.currentGoal.value == 25) {
+                if (walkViewModel.currentGoal.value == 280) {
                     isFinalRewardClaimed = true
                     saveFinalRewardClaimed(true) // 마지막 보상 여부 저장
                     updateUI()
@@ -86,12 +93,11 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         return sharedPreferences.getBoolean("final_reward_claimed", false)
     }
 
-    private fun saveRewardPoint() {
+    private fun saveRewardPoint(reward: Int) {
         lifecycleScope.launch {
             val userId = requireContext().getUserId() ?: ""
-            val reward = walkViewModel.currentReward.value ?: 0
+            Log.d("ttest", "프래그먼트 userId: $userId, reward: $reward")
             walkViewModel.setRankingRewardPoint(userId, reward)
-            Log.d("ttest","프래그먼트 userId: ${userId}, reward: ${reward}")
         }
     }
 
@@ -110,7 +116,7 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         val reward = walkViewModel.currentReward.value ?: 0
         val isEnabled = steps >= goal
 
-        if (goal == 25 && isFinalRewardClaimed) {
+        if (goal == 280 && isFinalRewardClaimed) {
             // 마지막 단계 보상까지 받으면 버튼 비활성화 & 텍스트 변경
             binding.btnWalkRewardBottomSheetReward.text = "오늘 보상을 모두 받았어요"
             binding.btnWalkRewardBottomSheetReward.isEnabled = false
