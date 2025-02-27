@@ -53,7 +53,7 @@ class RankingViewModel @Inject constructor(
 
     fun setRankingRewardPoint(userRanking: UserRanking, reward: Int) {
         viewModelScope.launch {
-            rankingRepo.setRankingRewardHistory(userRanking, reward)
+            rankingRepo.setRankingRewardHistory(userRanking.id, reward)
         }
     }
 
