@@ -119,6 +119,9 @@ dependencies {
 
     // health
     implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
+
+    // work
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
 }
 
 kapt {
