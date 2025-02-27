@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.health.connect.client.permission.HealthPermission
+import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
@@ -42,12 +44,14 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         lifecycleScope.launch {
             if (walkViewModel.healthConnectClient.value == null) {
                 walkViewModel.checkInstallHC(requireContext())
             }
             walkViewModel.readStepsByTimeRange()
         }
+
 
         // 저장된 마지막 보상 여부 불러오기
         isFinalRewardClaimed = loadFinalRewardClaimed()
