@@ -59,6 +59,11 @@ class CouponDetailFragment : Fragment() {
             if(!args.couponArg.purchasedCouponUsed) {
                 tvCouponDetailDate.text = "유효 기간 : ${args.couponArg.purchasedCouponValidDays}"
             }
+            else if(args.couponArg.purchasedCouponIsExpiry){
+                tvCouponDetailDate.text = "${args.couponArg.purchasedCouponValidDays} 만료됨"
+                viewCouponDetailBlur.isVisible = true
+                ivCouponDetailBarcode.isVisible = false
+            }
             else {
                 tvCouponDetailDate.text = "${args.couponArg.purchasedCouponUsedDate} 사용 완료"
                 viewCouponDetailBlur.isVisible = true
