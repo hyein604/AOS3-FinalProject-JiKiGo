@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.PurchasedCoupon
 
 import com.protect.jikigo.databinding.ItemCouponBoxListBinding
 import java.util.Calendar
@@ -18,7 +19,7 @@ class CouponBoxAdapter(
     private val listener: CouponOnClickListener
 ): RecyclerView.Adapter<CouponBoxAdapter.CouponBoxViewHolder>() {
 
-    private val items = Storage.coupon
+    private val items = mutableListOf<PurchasedCoupon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CouponBoxViewHolder {
         return CouponBoxViewHolder(
@@ -33,6 +34,12 @@ class CouponBoxAdapter(
         holder.bind(items[position])
     }
 
+    fun submitList(item: MutableList<PurchasedCoupon>) {
+        items.clear()
+        items.addAll(item)
+        notifyDataSetChanged()
+    }
+
     class CouponBoxViewHolder(
         private val binding: ItemCouponBoxListBinding,
         private val listener: (Int) -> Unit
@@ -42,14 +49,14 @@ class CouponBoxAdapter(
                 listener(adapterPosition)
             }
         }
-        fun bind(item: Coupon) {
+        fun bind(item: PurchasedCoupon) {
             binding.apply {
-                tvCouponListName.text = item.name
-                showDaysUntilExpiration(2025,3,2)
-                tvCouponListClient.text = item.brand
-                tvCouponListDate.text = item.date
+                tvCouponListName.text = item.purchasedCouponName
+                showDaysUntilExpiration(item.purchasedCouponValidDays.substring(0, 5).toInt(),item.purchasedCouponValidDays.substring(6, 8).toInt(),item.purchasedCouponValidDays.substring(9, 11).toInt())
+                tvCouponListClient.text = item.purchasedCouponBrand
+                tvCouponListDate.text = "${item.purchasedCouponValidDays} 까지"
                 Glide.with(root.context)
-                    .load(item.image)
+                    .load(item.purchasedCouponImage)
                     .into(ivCouponListImage)
             }
         }
@@ -79,5 +86,5 @@ class CouponBoxAdapter(
 }
 
 interface CouponOnClickListener {
-    fun onClickListener(item: Coupon)
+    fun onClickListener(item: PurchasedCoupon)
 }

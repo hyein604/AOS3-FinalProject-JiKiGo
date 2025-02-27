@@ -10,6 +10,4 @@ data class PurchasedCoupon (
     val purchasedCouponDate: Timestamp = Timestamp.now(),
     val purchasedCouponImage: String = "",
     val purchasedCouponUsed: Boolean = false,
-    val purchasedCouponIsExpiry : Boolean = false,
-    val purchasedCouponUsedDate: String = "",
 )

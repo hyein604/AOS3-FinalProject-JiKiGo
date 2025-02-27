@@ -51,8 +51,8 @@ class CouponDetailFragment : Fragment() {
     }
 
     private fun setText() {
-        binding.tvCouponDetailName.text = args.couponArg.name
-        binding.tvCouponDetailClient.text = args.couponArg.brand
-        binding.tvCouponDetailDate.text = args.couponArg.date
+        binding.tvCouponDetailName.text = args.couponArg.purchasedCouponName
+        binding.tvCouponDetailClient.text = args.couponArg.purchasedCouponBrand
+        binding.tvCouponDetailDate.text = args.couponArg.purchasedCouponValidDays
     }
 }
