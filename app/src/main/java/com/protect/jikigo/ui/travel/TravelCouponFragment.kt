@@ -153,7 +153,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
 
     override fun onClickListener(item: Coupon) {
         requireContext().toast(item.couponName)
-        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
+        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
         findNavController().navigate(action)
     }
 }

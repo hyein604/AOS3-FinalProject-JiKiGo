@@ -17,6 +17,7 @@ import com.protect.jikigo.ui.extensions.statusBarColor
 class TravelCouponDetailFragment : Fragment() {
     private var _binding: FragmentTravelCouponDetailBinding? = null
     private val binding get() = _binding!!
+    private val args: TravelCouponDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,7 @@ class TravelCouponDetailFragment : Fragment() {
         setStatusBarColor()
         onClickToolbar()
         moveToBottomSheet()
-        //setContent()
+        setContent()
     }
 
     private fun setStatusBarColor() {
@@ -54,15 +55,17 @@ class TravelCouponDetailFragment : Fragment() {
         }
     }
 
-//    private fun setContent(){
-//        Glide.with(binding.root.context)
-//            .load(args.travelCouponArg.image)
-//            .into(binding.ivCouponDetailThumnail)
-//        binding.tvTravelCouponDetailBrand.text = args.travelCouponArg.brand
-//        binding.tvTravelCouponDetailName.text = args.travelCouponArg.name
-//        binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.travelCouponArg.price)
-//        binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.travelCouponArg.brand}"
-//    }
+    private fun setContent(){
+        Glide.with(binding.root.context)
+            .load(args.couponArg.couponImg)
+            .placeholder(R.drawable.background_gray5)
+            .into(binding.ivCouponDetailThumnail)
+        binding.tvTravelCouponDetailBrand.text = args.couponArg.couponBrand
+        binding.tvTravelCouponDetailName.text = args.couponArg.couponName
+        binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.couponArg.couponPrice)
+        binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.couponArg.couponBrand}"
+        binding.tvTravelCouponDetailInfoContent.text = args.couponArg.couponInfo
+    }
 
     private fun moveToBottomSheet() {
         binding.btnTravelCouponDetailBuy.setOnClickListener {
