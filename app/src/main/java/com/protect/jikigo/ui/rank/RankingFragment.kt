@@ -3,6 +3,7 @@ package com.protect.jikigo.ui.rank
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,17 +66,29 @@ class RankingFragment : Fragment() {
     }
 
     private fun scheduleWeeklyRankingRewards() {
+//        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
+//            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+//            set(Calendar.HOUR_OF_DAY, 0)
+//            set(Calendar.MINUTE, 0)
+//            set(Calendar.SECOND, 0)
+//            set(Calendar.MILLISECOND, 0)
+//        }
+
+        // 테스트용
         val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
+            set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+            set(Calendar.HOUR_OF_DAY, 16)
+            set(Calendar.MINUTE,28)
+            set(Calendar.SECOND,30)
             set(Calendar.MILLISECOND, 0)
         }
 
         val delay = calendar.timeInMillis - System.currentTimeMillis()
         if (delay > 0) {
+
             handler.postDelayed({ rankingViewModel.distributeRankingRewards() }, delay)
+            Log.d("ttttest","프래그먼트 // 보상지급시간: ${calendar}")
+
         }
     }
 

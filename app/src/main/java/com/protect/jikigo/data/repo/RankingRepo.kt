@@ -59,6 +59,7 @@ class RankingRepo @Inject constructor(
 
     // 순위 차등 적립
     fun setRankingRewardHistory(userId: String, rewardPoint: Int) {
+        Log.d("ttttest","레포지토리 // $${userId}, ${rewardPoint} 지급")
         val document = firestore.collection("UserInfo").document(userId)
 
         // 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
