@@ -288,6 +288,9 @@
 		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
 		android:label="fragment_travel_coupon_detail"
 		tools:layout="@layout/fragment_travel_coupon_detail" >
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
 		<action
 			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
 			app:destination="@id/travelPaymentBottomSheet" />
@@ -313,9 +316,27 @@
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
 		tools:layout="@layout/fragment_travel_payment_bottom_sheet" >
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
+		<argument
+			android:name="userPointArg"
+			app:argType= "integer" />
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
+		<action
+			android:id="@+id/action_travelPaymentBottomSheet_to_tos"
+			app:destination="@id/tos"/>
 	</dialog>
+	<fragment
+		android:id="@+id/tos"
+		android:name="com.protect.jikigo.ui.TosFragment"
+		android:label="fragment_tos"
+		tools:layout="@layout/fragment_tos">
+		<argument
+			android:name="urlMethod"
+			app:argType="com.protect.jikigo.data.WebSiteURL" />
+	</fragment>
 
 </navigation>

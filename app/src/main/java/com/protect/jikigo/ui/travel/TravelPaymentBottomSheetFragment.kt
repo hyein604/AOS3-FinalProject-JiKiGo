@@ -12,12 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.R
+import com.protect.jikigo.data.WebSiteURL
+import com.protect.jikigo.data.model.PurchasedCoupon
+import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.databinding.FragmentTravelPaymentBottomSheetBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
 import com.protect.jikigo.ui.extensions.applySpannableStyles
@@ -25,17 +31,19 @@ import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.TravelPaymentBottomSheetViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentTravelPaymentBottomSheetBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<TravelPaymentBottomSheetViewModel>()
+    private val args : TravelPaymentBottomSheetFragmentArgs by navArgs()
+    private val viewModel : TravelPaymentBottomSheetViewModel by viewModels()
 
-    // 보유 포인트
     private var userPoint : Int = 0
-    // 상품 가격
-    private val productPrice = 10000
+    private var couponPrice : Int = 0
 
     // 체크상태
     private var isAgreementChecked = false
@@ -45,6 +53,12 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTravelPaymentBottomSheetBinding.inflate(inflater, container, false)
+
+        userPoint = args.userPointArg
+        couponPrice = args.couponArg.couponPrice
+
+        setLayout()
+
         return binding.root
     }
 
@@ -61,27 +75,17 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         binding.btnTravelPaymentComplete.setBackgroundColor(
             ContextCompat.getColor(requireContext(), R.color.gray_10)
         )
-
-        getUserInfo()
     }
 
-    private fun getUserInfo() {
-        lifecycleScope.launch {
-            val userId = requireContext().getUserId() ?: ""
-            viewModel.getUserInfo(userId)
-        }
-
-        viewModel.item.observe(viewLifecycleOwner) { userInfo ->
-            userInfo?.let {
-                userPoint = it.userPoint ?: 0
-                setLayout()
-            }
-        }
-    }
 
     private fun setLayout() {
+        binding.tvTravelPaymentSheetBrand.text = args.couponArg.couponBrand
+        binding.tvTravelPaymentSheetName.text = args.couponArg.couponName
+        binding.tvTravelPaymentSheetPrice.applyNumberFormat(args.couponArg.couponPrice)
+        couponPrice = args.couponArg.couponPrice
+
         // 보유 포인트와 상품 가격을 비교하여 처리
-        if (userPoint < productPrice) {
+        if (userPoint < couponPrice) {
             // 포인트 부족한 경우
             showInsufficientPoints()
         } else {
@@ -93,8 +97,9 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         applyAgreementLink()
     }
 
+
     private fun showInsufficientPoints() {
-        val requiredPoints = productPrice - userPoint
+        val requiredPoints = couponPrice - userPoint
 
         // 포인트 부족 시 필요한 포인트를 표시
         binding.tvTravelPaymentSheetRequiredPointLabel.isVisible = true
@@ -120,8 +125,8 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun showSufficientPoints() {
-        val usedPoints = -productPrice
-        val remainingPoints = userPoint - productPrice
+        val usedPoints = -couponPrice
+        val remainingPoints = userPoint - couponPrice
 
         // 보유 포인트, 사용 포인트, 남은 포인트 표시
         binding.tvTravelPaymentSheetInsufficientPoint.applyNumberFormat(userPoint)
@@ -195,9 +200,8 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         // 클릭 이벤트 추가
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                // 약관 화면 이동
-                // 클릭 시 처리할 이벤트
-                Toast.makeText(context, "이용약관 클릭", Toast.LENGTH_SHORT).show()
+                val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTos(WebSiteURL.APP_SERVICE)
+                findNavController().navigate(action)
             }
 
             // 클릭한 텍스트의 색상 변경 (파란색 대신 검정색으로)
@@ -219,17 +223,47 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         binding.tvTravelPaymentAgreeContent.movementMethod = LinkMovementMethod.getInstance()
 
         binding.tvTravelPaymentAgreeContent.setOnClickListener {
-            if (!binding.tvTravelPaymentAgreeContent.hasSelection()) { // 약관이 선택되지 않은 경우만 체크박스 변경
+            if (!binding.tvTravelPaymentAgreeContent.hasSelection()) {
                 toggleAgreementCheck()
             }
         }
     }
 
-    private fun onClickBuyBtn() {
-        binding.btnTravelPaymentComplete.setOnClickListener {
-            val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTravelPaymentComplete()
-            findNavController().navigate(action)
-        }
+    // 임시 바코드 데이터
+    fun generateRandomCouponCode(): String {
+        val randomPart = Random.nextInt(100000000, 999999999)
+        return "880$randomPart"
     }
 
+    private fun onClickBuyBtn() {
+        binding.btnTravelPaymentComplete.setOnClickListener {
+            // processPayment()
+
+            val currentDate = LocalDate.now()
+            val validDate = currentDate.plusDays(args.couponArg.couponValidDays.toLong())
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val formattedValidDate = validDate.format(formatter)
+
+            val purchasedCoupon = PurchasedCoupon(
+                purchasedCouponBarCode = generateRandomCouponCode(),
+                purchasedCouponBrand = args.couponArg.couponBrand,
+                purchasedCouponImage = args.couponArg.couponImg,
+                purchasedCouponName = args.couponArg.couponName,
+                purchasedCouponValidDays = formattedValidDate,
+            )
+
+            lifecycleScope.launch {
+                val userId = requireContext().getUserId() ?: ""
+
+                val remainingPoints = userPoint - couponPrice
+                viewModel.updateUserPoints(userId, remainingPoints)
+
+                viewModel.setPurchasedCoupon(userId, purchasedCoupon)
+
+                val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTravelPaymentComplete()
+                findNavController().navigate(action)
+            }
+        }
+    }
 }
