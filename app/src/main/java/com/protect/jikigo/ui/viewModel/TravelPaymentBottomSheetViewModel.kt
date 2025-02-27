@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,26 @@ class TravelPaymentBottomSheetViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("HomeViewModel", "Error fetching user info", e)
+            }
+        }
+    }
+
+    fun setPurchasedCoupon(userId : String, purchasedCoupon : PurchasedCoupon) {
+        viewModelScope.launch {
+            try {
+                userRepo.setPurchasedCoupon(userId, purchasedCoupon)
+            } catch (e: Exception) {
+                Log.e("HomeViewModel", "Error fetching user info", e)
+            }
+        }
+    }
+
+    fun updateUserPoints(userId: String, remainingPoints: Int) {
+        viewModelScope.launch {
+            try {
+                userRepo.updateUserPoint(userId, remainingPoints)
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Error updating points: ${e.message}")
             }
         }
     }

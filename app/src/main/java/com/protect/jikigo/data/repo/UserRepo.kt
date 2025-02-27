@@ -2,21 +2,26 @@ package com.protect.jikigo.data.repo
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.model.UserQR
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.saveUserId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
+import java.sql.Time
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -295,5 +300,83 @@ class UserRepo @Inject constructor(
             }
         })
     }
+
+    // *쿠폰 결제 관련*
+    // 구매한 쿠폰
+    suspend fun setPurchasedCoupon(userId : String, purchasedCoupon : PurchasedCoupon) {
+        val userDocRef = firestore.collection("UserInfo").document(userId)
+        val purchasedCouponRef = userDocRef.collection("PurchasedCoupon")
+
+        val newCouponRef = purchasedCouponRef.document()
+
+        newCouponRef.set(purchasedCoupon).await()
+    }
+
+    // 결제 시 포인트 차감
+    suspend fun updateUserPoint(userId: String, remainingPoint: Int) {
+        val userRef = firestore.collection("UserInfo").document(userId)
+
+        userRef.update("userPoint", remainingPoint)
+            .await()
+    }
+
+    // *보관함 쿠폰 처리*
+    // 사용한 쿠폰 처리
+    suspend fun usePurchasedCoupon(userId: String, couponId: String){
+        val userDocRef = firestore.collection("UserInfo").document(userId)
+        val purchasedCouponRef = userDocRef.collection("PurchasedCoupon").document(couponId)
+
+        val usedDate = Timestamp.now()
+
+        purchasedCouponRef.update(
+            "purchasedCouponUsed", true,
+            "purchasedCouponValidDate", usedDate
+        ).await()
+    }
+
+    // 유저 쿠폰 가져오기
+    suspend fun getPurchasedCoupons(userId: String): List<PurchasedCoupon> {
+        val userRef = firestore.collection("UserInfo").document(userId)
+        val purchasedCouponRef = userRef.collection("PurchasedCoupon")
+
+        val snapshot = purchasedCouponRef.get().await()
+        val coupons = mutableListOf<PurchasedCoupon>()
+
+        snapshot.documents.forEach { document ->
+            val coupon = document.toObject(PurchasedCoupon::class.java)
+            coupon?.let {
+                coupons.add(it)
+            }
+        }
+        return coupons
+    }
+
+
+    // 쿠폰 만료 여부 업데이트
+    suspend fun updateCouponsExpiry(userId: String) {
+        val batch = firestore.batch()
+
+        val userCoupon = getPurchasedCoupons(userId)
+
+        userCoupon.forEach { coupon ->
+            val validDateStr = coupon.purchasedCouponValidDays
+            val validDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(validDateStr)
+            val isExpired = validDate?.before(Date())
+
+            // 만료 여부 업데이트
+            val couponRef = firestore.collection("UserInfo")
+                .document(userId)
+                .collection("PurchasedCoupon")
+                .document(coupon.purchasedCouponBarCode)
+
+            // 만약 만료되었으면 업데이트
+            if (coupon.purchasedCouponIsExpiry != isExpired) {
+                batch.update(couponRef, "purchasedCouponIsExpiry", isExpired)
+            }
+        }
+
+        batch.commit().await()
+    }
+
 }
 

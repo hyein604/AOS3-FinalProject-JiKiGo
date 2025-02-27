@@ -22,6 +22,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.R
 import com.protect.jikigo.data.WebSiteURL
+import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.databinding.FragmentTravelPaymentBottomSheetBinding
 import com.protect.jikigo.ui.extensions.applyNumberFormat
@@ -30,6 +31,9 @@ import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.viewModel.TravelPaymentBottomSheetViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
@@ -225,38 +229,41 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-//    private fun processPayment(){
-//        lifecycleScope.launch {
-//            val userId = requireContext().getUserId() ?: ""
-//            viewModel.getUserInfo(userId)
-//
-//            viewModel.item.observe(viewLifecycleOwner) { userInfo ->
-//                userInfo?.let{
-//                    handlePayment(userInfo)
-//                }
-//            }
-//
-//        }
-//    }
-//
-//    private fun handlePayment(userInfo: UserInfo){
-//        val currentPoint = userInfo.userPoint
-//        val couponPrice = args.couponArg.couponPrice
-//
-//        if (currentPoint >= couponPrice){
-//            lifecycleScope.launch {
-//
-//            }
-//        }
-//    }
-
-
+    // 임시 바코드 데이터
+    fun generateRandomCouponCode(): String {
+        val randomPart = Random.nextInt(100000000, 999999999)
+        return "880$randomPart"
+    }
 
     private fun onClickBuyBtn() {
         binding.btnTravelPaymentComplete.setOnClickListener {
             // processPayment()
-            val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTravelPaymentComplete()
-            findNavController().navigate(action)
+
+            val currentDate = LocalDate.now()
+            val validDate = currentDate.plusDays(args.couponArg.couponValidDays.toLong())
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val formattedValidDate = validDate.format(formatter)
+
+            val purchasedCoupon = PurchasedCoupon(
+                purchasedCouponBarCode = generateRandomCouponCode(),
+                purchasedCouponBrand = args.couponArg.couponBrand,
+                purchasedCouponImage = args.couponArg.couponImg,
+                purchasedCouponName = args.couponArg.couponName,
+                purchasedCouponValidDays = formattedValidDate,
+            )
+
+            lifecycleScope.launch {
+                val userId = requireContext().getUserId() ?: ""
+
+                val remainingPoints = userPoint - couponPrice
+                viewModel.updateUserPoints(userId, remainingPoints)
+
+                viewModel.setPurchasedCoupon(userId, purchasedCoupon)
+
+                val action = TravelPaymentBottomSheetFragmentDirections.actionTravelPaymentBottomSheetToTravelPaymentComplete()
+                findNavController().navigate(action)
+            }
         }
     }
 }
