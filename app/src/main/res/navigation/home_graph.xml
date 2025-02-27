@@ -288,6 +288,9 @@
 		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
 		android:label="fragment_travel_coupon_detail"
 		tools:layout="@layout/fragment_travel_coupon_detail" >
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
 		<action
 			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
 			app:destination="@id/travelPaymentBottomSheet" />
