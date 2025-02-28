@@ -15,5 +15,4 @@ data class PurchasedCoupon (
     val purchasedCouponImage: String = "",
     val purchasedCouponUsedDate: String = "",
     val purchasedCouponStatus: Int = 0,
-    val purchasedCouponDocId: String = "",
 ): Parcelable
