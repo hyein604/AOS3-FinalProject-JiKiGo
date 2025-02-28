@@ -29,28 +29,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_coupon_detail_image"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="48dp"
+                app:shapeAppearanceOverlay="@style/ImageCorner"
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/shape_coupon_radius"
                 android:elevation="1dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/img_point_bag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view_coupon_detail_blur"
+                app:layout_constraintTop_toTopOf="@id/iv_coupon_detail_image"
+                app:layout_constraintEnd_toEndOf="@id/iv_coupon_detail_image"
+                app:layout_constraintStart_toStartOf="@id/iv_coupon_detail_image"
+                app:layout_constraintBottom_toBottomOf="@id/iv_coupon_detail_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_image_blur"
+                android:visibility="gone"
+                android:alpha="0.5"/>
 
             <TextView
                 android:id="@+id/tv_coupon_detail_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textColor="@color/gray_100"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@id/iv_coupon_detail_image"
                 app:layout_constraintStart_toStartOf="@id/iv_coupon_detail_image"
                 app:layout_constraintTop_toBottomOf="@id/iv_coupon_detail_image"
@@ -72,22 +85,22 @@
                 android:id="@+id/tv_coupon_detail_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/tv_coupon_detail_name"
-                app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_name"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/primary"
-                tools:text="유효기간 : 2026.02.07"
-                app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_name"/>
+                app:layout_constraintEnd_toEndOf="@id/tv_coupon_detail_name"
+                app:layout_constraintStart_toStartOf="@id/tv_coupon_detail_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_name"
+                tools:text="유효기간 : 2026.02.07" />
 
             <ImageView
                 android:id="@+id/iv_coupon_detail_barcode"
                 android:layout_width="0dp"
                 android:layout_height="142dp"
                 android:layout_marginStart="60dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="60dp"
+                android:scaleType="centerCrop"
                 android:background="@drawable/shape_coupon_radius"
-                android:src="@drawable/img_qr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_coupon_detail_date" />
@@ -100,6 +113,7 @@
                 android:layout_marginTop="55dp"
                 android:text="@string/coupon_detail_save_coupon"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:cornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

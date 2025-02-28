@@ -1,6 +1,7 @@
 package com.protect.jikigo.ui.home.my_page
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,11 @@ import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.PointHistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import kotlin.time.Duration.Companion.days
 
 @AndroidEntryPoint
@@ -63,7 +67,7 @@ class PointHistoryFragment : Fragment() {
     private fun checkData() {
         lifecycleScope.launch {
             userId = requireContext().getUserId() ?: ""
-            val today = setTodayDate()
+            val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
             viewModel.loadPointData(userId, today)
         }
     }

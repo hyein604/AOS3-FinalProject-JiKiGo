@@ -30,6 +30,7 @@ import com.protect.jikigo.databinding.FragmentMyPageBinding
 import com.protect.jikigo.ui.extensions.clearUserId
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.ui.rank.dialog.RankingHelpDialog
 import com.protect.jikigo.ui.viewModel.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -78,13 +79,9 @@ class MyPageFragment : Fragment() {
 
     private fun setLayout() {
         setStatusBar()
-        moveToEditProfile()
-        moveToPointHistory()
-        moveToCouponBox()
-        onClickToolbar()
+        onClickListener()
         observe()
         checkData()
-        onClickLogOut()
     }
     // 옵저버
     private fun observe() {
@@ -135,31 +132,42 @@ class MyPageFragment : Fragment() {
     private fun setStatusBar() {
         requireActivity().statusBarColor(R.color.white)
     }
-    // 프로필 수정
-    private fun moveToEditProfile() {
-        binding.btnMyPageProfileEdit.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToProfileEdit()
-            findNavController().navigate(action)
-        }
-    }
-    // 포인트 내역
-    private fun moveToPointHistory() {
-        binding.viewMyPagePoint.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToPointHistory()
-            findNavController().navigate(action)
-        }
-    }
-    // 쿠폰함
-    private fun moveToCouponBox() {
-        binding.viewMyPageCoupon.setOnClickListener {
-            val action = MyPageFragmentDirections.actionMyPageToCouponBox()
-            findNavController().navigate(action)
-        }
-    }
-    // 백 버튼
-    private fun onClickToolbar() {
-        binding.toolbarMyPage.setNavigationOnClickListener {
-            findNavController().navigateUp()
+
+    private fun onClickListener() {
+        binding.apply {
+            // 프로필 수정
+            btnMyPageProfileEdit.setOnClickListener {
+                val action = MyPageFragmentDirections.actionMyPageToProfileEdit()
+                findNavController().navigate(action)
+            }
+            // 포인트 내역
+            viewMyPagePoint.setOnClickListener {
+                val action = MyPageFragmentDirections.actionMyPageToPointHistory()
+                findNavController().navigate(action)
+            }
+            // 쿠폰함
+            viewMyPageCoupon.setOnClickListener {
+                val action = MyPageFragmentDirections.actionMyPageToCouponBox()
+                findNavController().navigate(action)
+            }
+            // 백 버튼
+            toolbarMyPage.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+            // 회원 탈퇴 다이얼로그
+            btnMyPageDeleteAccount.setOnClickListener {
+                val dialog = DeleteIdDialog()
+                dialog.show(childFragmentManager, "DeleteIdDialog")
+            }
+            // 로그아웃
+            binding.btnMyPageLogout.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    requireContext().clearUserId()
+                    requireActivity().finish()
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
     }
 
@@ -267,18 +275,5 @@ class MyPageFragment : Fragment() {
             Log.v("Total Steps", "실행 안됨 : $e")
         }
     }
-
-    // 로그아웃
-    private fun onClickLogOut() {
-        binding.btnMyPageLogout.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                requireContext().clearUserId()
-                requireActivity().finish()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                startActivity(intent)
-            }
-        }
-    }
-
 
 }
