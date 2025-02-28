@@ -18,11 +18,13 @@ class RewardRepo @Inject constructor(
 ) {
 
     // 출석체크
-    suspend fun setAttendData(userId: String, point: Int, onComplete: (Boolean, Int?) -> Unit) {
+    suspend fun setAttendData(userId: String, point: Int, userPoint: Int, onComplete: (Boolean, Int?) -> Unit) {
         val document = firestore.collection("UserInfo").document(userId)
 
         // 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        Log.d("test", point.toString())
+        Log.d("test", userPoint.toString())
 
         val attendHistoryRef = document.collection("Calendar").document(currentDate)
 
@@ -41,20 +43,21 @@ class RewardRepo @Inject constructor(
 
                 // 새 문서를 추가하고 ID를 가져오기
                 val newPaymentDocRef = paymentHistoryRef.document() // 랜덤 문서 ID 생성
+                val nowDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
 
 
                 val paymentData = hashMapOf(
                     "docId" to newPaymentDocRef.id,
                     "reason" to "출석체크",
                     "amount" to point,
-                    "paymentDate" to currentDate,
+                    "paymentDate" to nowDate,
                     "payType" to "적립",
                 )
 
                 newPaymentDocRef.set(paymentData)
                     .addOnSuccessListener {
                         val updates = mapOf(
-                            "userPoint" to point
+                            "userPoint" to userPoint
                         )
                         firestore.collection("UserInfo").document(userId)
                             .update(updates)

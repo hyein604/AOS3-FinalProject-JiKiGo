@@ -15,6 +15,7 @@ import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.databinding.FragmentTravelSearchBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
+import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,6 +43,7 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setStatusBarColor()
         setupObservers()
         moveToTravel()
         setupSearchListener()
@@ -106,6 +108,10 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
         hideKeyboard()
     }
 
+    private fun setStatusBarColor() {
+        requireActivity().statusBarColor(R.color.white)
+    }
+
     private fun setupRecentSearches() {
         binding.cgHistory.removeAllViews()
     }
@@ -124,7 +130,7 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
             binding.cgHistory.addView(chip)
 
             chip.setOnClickListener {
-                val query = chip.text.toString()
+                val query = chip.tag.toString()
                 binding.etSearch.setText(query)
 
                 // 커서를 텍스트 끝으로 이동
@@ -143,8 +149,14 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun createChip(text: String): Chip {
+        val displayText = if(text.length > 7){
+            text.take(7) + "..."
+        }else{
+            text
+        }
         return Chip(requireContext()).apply {
-            this.text = if (text.length > 7) text.take(7) + "..." else text
+            this.text = displayText
+            tag = text
             isCloseIconVisible = true
             setChipBackgroundColorResource(R.color.gray_5)
             setTextColor(resources.getColor(R.color.black, null))
@@ -178,7 +190,7 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     override fun onClickListener(item: Coupon) {
-        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail()
+        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
         findNavController().navigate(action)
     }
 }

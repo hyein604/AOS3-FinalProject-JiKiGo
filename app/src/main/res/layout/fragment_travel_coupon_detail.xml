@@ -206,6 +206,7 @@
                         android:id="@+id/tv_travel_coupon_detail_info_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="내용\n내용\n내용\n내용\n내용\n내용\n내용\n내용\n내용\n내용\n내용\n내용\n마지막 내용"
                         android:textColor="#A7A7AE"
                         android:textSize="12sp"

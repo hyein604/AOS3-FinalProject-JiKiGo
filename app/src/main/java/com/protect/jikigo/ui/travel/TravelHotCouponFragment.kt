@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelHotCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
+import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,8 +49,13 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setLayout() {
+        setStatusBarColor()
         onClickToolbar()
         setRecyclerView()
+    }
+
+    private fun setStatusBarColor() {
+        requireActivity().statusBarColor(R.color.white)
     }
 
     private fun onClickToolbar() {
@@ -67,5 +74,8 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
 
     override fun onClickListener(item: Coupon) {
         requireContext().toast(item.couponName)
+        val action = TravelHotCouponFragmentDirections.actionTravelHotCouponToTravelCouponDetail(item)
+        findNavController().navigate(action)
+
     }
 }

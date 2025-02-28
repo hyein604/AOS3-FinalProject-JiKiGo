@@ -5,6 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.model.UserRanking
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,12 +23,13 @@ class RankingRepo @Inject constructor(
                 .await()
                 .documents
                 .mapNotNull { document ->
+                    val id = document.getString("userId") ?: ""
                     val name = document.getString("userNickName") ?: ""
                     val profilePicture = document.getString("userProfileImg") ?: ""
                     val walkCountDaily = document.getLong("userStepDaily")?.toInt() ?: 0
                     val walkCountWeekly = document.getLong("userStepWeekly")?.toInt() ?: 0
 
-                    UserRanking(name, profilePicture, walkCountDaily, walkCountWeekly)
+                    UserRanking(id, name, profilePicture, walkCountDaily, walkCountWeekly)
                 }
                 .sortedByDescending { it.walkCountWeekly } // 걸음 수 기준 내림차순 정렬
         } catch (e: Exception) {
@@ -53,4 +57,62 @@ class RankingRepo @Inject constructor(
         }
     }
 
+    // 순위 차등 적립
+    fun setRankingRewardHistory(userId: String, rewardPoint: Int) {
+        Log.d("ttttest","레포지토리 // $${userId}, ${rewardPoint} 지급")
+        val document = firestore.collection("UserInfo").document(userId)
+
+        // 현재 날짜를 YYYY-MM-DD 형식으로 가져오기
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val paymentHistoryRef =
+            document.collection("Calendar")
+                .document(currentDate)
+                .collection("PaymentHistory")
+        Log.d("ttest","레포지토리 currentDate: ${currentDate}")
+
+        // 새 문서를 추가하고 ID를 가져오기
+        val newPaymentDocRef = paymentHistoryRef.document() // 랜덤 문서 ID 생성
+
+
+        val paymentData = hashMapOf(
+            "docId" to newPaymentDocRef.id,
+            "reason" to "걷기 랭킹 보상",
+            "amount" to rewardPoint,
+            "paymentDate" to getCurrentFormattedDate(),
+            "payType" to "적립"
+        )
+
+        newPaymentDocRef.set(paymentData)
+            .addOnSuccessListener {
+                Log.d("PaymentHistory", "결제 저장")
+            }
+            .addOnFailureListener {
+                Log.d("PaymentHistory", "결제 실패")
+            }
+
+        // userPoint 업데이트
+        document.get()
+            .addOnSuccessListener { userSnapshot ->
+                val currentPoint = userSnapshot.getLong("userPoint") ?: 0
+                val newPoint = currentPoint + rewardPoint
+
+                document.update("userPoint", newPoint)
+                    .addOnSuccessListener {
+                        Log.d("UserPoint", "포인트 업데이트 완료: $newPoint")
+                    }
+                    .addOnFailureListener {
+                        Log.d("UserPoint", "포인트 업데이트 실패")
+                    }
+            }
+            .addOnFailureListener {
+                Log.d("UserPoint", "유저 정보 가져오기 실패")
+            }
+    }
+
+
+    // 현재 날짜를 "yyyy/MM/dd HH:mm:ss" 형식으로 반환하는 함수
+    private fun getCurrentFormattedDate(): String {
+        val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+        return sdf.format(Date()) // 현재 시간 변환
+    }
 }

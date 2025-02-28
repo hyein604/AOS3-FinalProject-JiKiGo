@@ -12,10 +12,7 @@ import androidx.health.connect.client.permission.HealthPermission
 import androidx.health.connect.client.records.StepsRecord
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.data.repo.WalkRewardBottomSheetRepo
 import com.protect.jikigo.ui.extensions.getUserId
@@ -30,11 +27,13 @@ import javax.inject.Inject
 class WalkViewModel @Inject constructor(
     application: Application,
     private val firestore: FirebaseFirestore,
-    private val walkRewardBottomSheetRepo: WalkRewardBottomSheetRepo,) : AndroidViewModel(application) {
+    private val walkRewardBottomSheetRepo: WalkRewardBottomSheetRepo
+) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences =
         application.getSharedPreferences("walk_prefs", Context.MODE_PRIVATE)
 
+    // LiveData 변수
     private val _totalSteps = MutableLiveData<String>()
     val totalSteps: LiveData<String> = _totalSteps
 
@@ -47,42 +46,41 @@ class WalkViewModel @Inject constructor(
     private val _requestPermissions = MutableLiveData<Boolean>()
     val requestPermissions: LiveData<Boolean> = _requestPermissions
 
-    private val _currentGoal = MutableLiveData(loadGoal()) // SharedPreferences에서 불러오기
+    private val _currentGoal = MutableLiveData(loadGoal())
     val currentGoal: LiveData<Int> get() = _currentGoal
 
-    private val _currentReward = MutableLiveData(loadReward()) // SharedPreferences에서 불러오기
+    private val _currentReward = MutableLiveData(loadReward())
     val currentReward: LiveData<Int> get() = _currentReward
 
-
-    // Health Connect에서 걸음 수 데이터를 읽고/쓰기 위한 권한 설정
+    // Health Connect 권한 설정
     private val permission = setOf(
         HealthPermission.getReadPermission(StepsRecord::class),
         HealthPermission.getWritePermission(StepsRecord::class)
     )
 
     init {
+        // 하루가 지났다면 걸음수 보상 단계 초기화
         if (shouldResetDaily()) {
             resetDailyProgress()
         }
+
         viewModelScope.launch {
             checkAndInitHealthClient(getApplication<Application>().applicationContext)
             updateWeeklySteps()
         }
     }
 
-
+    /** 주간 걸음 수 업데이트 */
     internal suspend fun updateWeeklySteps() {
         val healthClient = _healthConnectClient.value ?: return
         val endTime = LocalDateTime.now()
 
-        // 이번 주 월요일 00:00을 startTime으로 설정
         val today = Calendar.getInstance()
-        val dayOfWeek = today.get(Calendar.DAY_OF_WEEK) // 일(1) ~ 토(7)
+        val dayOfWeek = today.get(Calendar.DAY_OF_WEEK)
         val daysSinceMonday = if (dayOfWeek == Calendar.SUNDAY) 6 else dayOfWeek - Calendar.MONDAY
         val startTime = endTime.minusDays(daysSinceMonday.toLong()).toLocalDate().atStartOfDay()
 
         try {
-            // 이번 주 월요일부터 오늘까지의 걸음 수를 가져옴
             val response = healthClient.readRecords(
                 ReadRecordsRequest(
                     StepsRecord::class,
@@ -90,19 +88,15 @@ class WalkViewModel @Inject constructor(
                 )
             )
 
-            // 걸음 수 합산
             val weeklySteps = response.records.sumOf { it.count.toInt() }
-
-            // 주간 걸음 수 업데이트
             _weeklySteps.postValue(weeklySteps)
             updateWeeklyStepsInFirestore(weeklySteps)
-
         } catch (e: Exception) {
             Log.e("Weekly Steps", "Error fetching weekly step count", e)
         }
     }
 
-    // 주간 걸음 수를 Firestore에 업데이트
+    /** Firestore에 주간 걸음 수 저장 */
     private suspend fun updateWeeklyStepsInFirestore(weeklySteps: Int) {
         val userId = getApplication<Application>().applicationContext.getUserId() ?: return
 
@@ -117,9 +111,9 @@ class WalkViewModel @Inject constructor(
             }
     }
 
-    // Health Connect 클라이언트를 초기화하고 설치 여부를 확인
-    private suspend fun checkAndInitHealthClient(context: Context) {
-        checkInstallHC(context) // HealthConnectClient 초기화
+    /** Health Connect 클라이언트 초기화 및 권한 확인 */
+    private fun checkAndInitHealthClient(context: Context) {
+        checkInstallHC(context)
         _healthConnectClient.observeForever {
             if (it != null) {
                 viewModelScope.launch {
@@ -129,25 +123,34 @@ class WalkViewModel @Inject constructor(
         }
     }
 
-    // Google Health Connect 앱 설치 여부 확인 및 초기화
+    /** Google Health Connect 앱 설치 확인 및 클라이언트 초기화 */
     fun checkInstallHC(context: Context) {
         val providerPackageName = "com.google.android.apps.healthdata"
         val availabilityStatus = HealthConnectClient.getSdkStatus(context, providerPackageName)
 
-        // SDK가 사용 불가능한 경우 사용자에게 안내 및 앱 설치 유도
         if (availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE ||
-            availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED) {
+            availabilityStatus == HealthConnectClient.SDK_UNAVAILABLE_PROVIDER_UPDATE_REQUIRED
+        ) {
             Toast.makeText(context, "헬스 커넥트 앱을 설치 또는 업데이트 해주세요", Toast.LENGTH_SHORT).show()
             openPlayStoreForHealthConnect(context)
             return
         }
 
-        // Health Connect 클라이언트 생성 후 권한 요청
-        _healthConnectClient.value = HealthConnectClient.getOrCreate(context)
-        _requestPermissions.value = true
+        val healthClient = HealthConnectClient.getOrCreate(context)
+        _healthConnectClient.value = healthClient
+
+        viewModelScope.launch {
+            val grantedPermissions = healthClient.permissionController.getGrantedPermissions()
+            if (!grantedPermissions.containsAll(permission)) {
+                _requestPermissions.value = true
+                movePermissionSetting(context)
+            } else {
+                readStepsByTimeRange()
+            }
+        }
     }
 
-    // Google Play 스토어에서 Health Connect 앱 설치 화면 열기
+    /** Google Play 스토어에서 Health Connect 앱 설치 화면 열기 */
     fun openPlayStoreForHealthConnect(context: Context) {
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.healthdata")
@@ -156,7 +159,7 @@ class WalkViewModel @Inject constructor(
         context.startActivity(intent)
     }
 
-    // 권한 설정 화면으로 이동 (사용자가 직접 권한 활성화하도록 유도)
+    /** 사용자를 권한 설정 화면으로 이동 */
     fun movePermissionSetting(context: Context) {
         val packageName = "com.google.android.apps.healthdata"
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
@@ -168,7 +171,7 @@ class WalkViewModel @Inject constructor(
         }
     }
 
-    // Health Connect에서 오늘 하루 동안의 걸음 수 데이터를 읽어와 업데이트
+    /** 오늘 하루 걸음 수 가져오기 */
     suspend fun readStepsByTimeRange() {
         if (_healthConnectClient.value == null) {
             checkInstallHC(getApplication<Application>().applicationContext)
@@ -180,14 +183,12 @@ class WalkViewModel @Inject constructor(
         val startTime = LocalDateTime.of(endTime.toLocalDate(), LocalTime.MIDNIGHT)
 
         try {
-            // 주어진 시간 범위 내의 걸음 수 데이터를 조회
             val response = healthClient.readRecords(
                 ReadRecordsRequest(
                     StepsRecord::class,
                     timeRangeFilter = TimeRangeFilter.between(startTime, endTime)
                 )
             )
-            // 첫 번째 기록의 걸음 수를 LiveData에 반영 (데이터가 없으면 "0")
             _totalSteps.postValue(response.records.firstOrNull()?.count?.toString() ?: "0")
         } catch (e: Exception) {
             Log.e("Total Steps", "Error fetching step count", e)
@@ -195,33 +196,26 @@ class WalkViewModel @Inject constructor(
         }
     }
 
-    fun updateSteps(steps: Int) {
-        _totalSteps.value = steps.toString()
-    }
-
+    /** 목표 및 보상 관리 */
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            5 -> {
-                _currentGoal.value = 15
-                _currentReward.value = 20
-                saveGoal(_currentGoal.value ?: 10)
-                saveReward(_currentReward.value ?: 20)
-            }
-            15 -> {
-                _currentGoal.value = 25
-                _currentReward.value = 30
-                saveGoal(_currentGoal.value ?: 15)
-                saveReward(_currentReward.value ?: 30)
-            }
-            25 -> return
+            5000 -> setGoalAndReward(10000, 20)
+            10000 -> setGoalAndReward(20000, 30)
         }
-
     }
 
-    // 하루가 지나면 데이터 초기화
+    private fun setGoalAndReward(goal: Int, reward: Int) {
+        _currentGoal.value = goal
+        _currentReward.value = reward
+        saveGoal(goal)
+        saveReward(reward)
+    }
+
+    /** 하루가 지나면 데이터 초기화 */
     private fun shouldResetDaily(): Boolean {
         val lastResetTime = sharedPreferences.getLong("last_reset_time", 0L)
         val currentTime = System.currentTimeMillis()
+
         val lastResetCalendar = Calendar.getInstance().apply { timeInMillis = lastResetTime }
         val currentCalendar = Calendar.getInstance().apply { timeInMillis = currentTime }
 
@@ -229,42 +223,44 @@ class WalkViewModel @Inject constructor(
                 lastResetCalendar.get(Calendar.DAY_OF_YEAR) != currentCalendar.get(Calendar.DAY_OF_YEAR)
     }
 
+    /** 하루가 지나면 걸음 목표 및 보상을 초기화 */
     private fun resetDailyProgress() {
         sharedPreferences.edit()
-            .putInt("current_goal", 5) // 초기 목표 걸음 수
-            .putInt("current_reward", 10) // 초기 보상
-            .putBoolean("final_reward_claimed", false) // 최종 보상 상태 초기화
-            .putLong("last_reset_time", System.currentTimeMillis()) // 마지막 초기화 시간 저장
+            .putInt("current_goal", 5000)
+            .putInt("current_reward", 10)
+            .putBoolean("final_reward_claimed", false)
+            .putLong("last_reset_time", System.currentTimeMillis())
             .apply()
 
-        _currentGoal.postValue(5)
+        _currentGoal.postValue(5000)
         _currentReward.postValue(10)
     }
 
-    // 목표 걸음 수를 SharedPreferences에 저장
+    /** 목표 걸음 수를 SharedPreferences에 저장 */
     private fun saveGoal(goal: Int) {
         sharedPreferences.edit().putInt("current_goal", goal).apply()
     }
 
-    // 보상을 SharedPreferences에 저장
+    /** 보상을 SharedPreferences에 저장 */
     private fun saveReward(reward: Int) {
         sharedPreferences.edit().putInt("current_reward", reward).apply()
     }
 
-    // SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5)
+    /** SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5000) */
     private fun loadGoal(): Int {
-        return sharedPreferences.getInt("current_goal", 5)
+        return sharedPreferences.getInt("current_goal", 5000)
     }
 
-    // SharedPreferences에서 보상 불러오기 (기본값: 10)
+    /** SharedPreferences에서 보상 불러오기 (기본값: 10) */
     private fun loadReward(): Int {
         return sharedPreferences.getInt("current_reward", 10)
     }
 
+
+    /** 보상 지급 */
     fun setRankingRewardPoint(userId: String, reward: Int) {
         viewModelScope.launch {
             walkRewardBottomSheetRepo.setWalkRewardBottomSheetHistory(userId, reward)
-            Log.d("ttest","뷰모델 userId: ${userId}, reward: ${reward}")
         }
     }
 }
