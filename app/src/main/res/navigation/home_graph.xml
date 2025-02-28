@@ -201,7 +201,7 @@
 		tools:layout="@layout/fragment_coupon_detail" >
 		<argument
 			android:name="couponArg"
-			app:argType="com.protect.jikigo.data.Coupon" />
+			app:argType="com.protect.jikigo.data.model.PurchasedCoupon" />
 	</fragment>
 
 	<fragment

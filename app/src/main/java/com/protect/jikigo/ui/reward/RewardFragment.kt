@@ -35,7 +35,7 @@ class RewardFragment : Fragment() {
 
     private lateinit var userId : String
 
-    private val random = Random().nextInt(10) + 1
+    private val random = Random().nextInt(4) + 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -134,7 +134,7 @@ class RewardFragment : Fragment() {
             val action = RewardFragmentDirections.actionNavigationRewardToPaymentQR()
             findNavController().navigate(action)
         }
-        binding.btnRewardWalkPoint.setOnClickListener {
+        binding.viewRewardWalk.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToWalkRewardBottomSheet()
             findNavController().navigate(action)
         }

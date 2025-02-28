@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="30dp"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="30dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_coupon_list_image"
         android:layout_width="0dp"
         android:layout_height="180dp"
@@ -14,42 +14,43 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/shape_coupon_radius"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ImageCorner"
         app:srcCompat="@drawable/img_qr" />
 
     <View
         android:id="@+id/view_coupon_blur"
-        app:layout_constraintTop_toTopOf="@id/iv_coupon_list_image"
-        app:layout_constraintEnd_toEndOf="@id/iv_coupon_list_image"
-        app:layout_constraintStart_toStartOf="@id/iv_coupon_list_image"
-        app:layout_constraintBottom_toBottomOf="@id/iv_coupon_list_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:alpha="0.5"
         android:background="@drawable/shape_image_blur"
         android:visibility="gone"
-        android:alpha="0.5"/>
+        app:layout_constraintBottom_toBottomOf="@id/iv_coupon_list_image"
+        app:layout_constraintEnd_toEndOf="@id/iv_coupon_list_image"
+        app:layout_constraintStart_toStartOf="@id/iv_coupon_list_image"
+        app:layout_constraintTop_toTopOf="@id/iv_coupon_list_image" />
 
     <TextView
         android:id="@+id/tv_coupon_list_d_day"
         android:layout_width="wrap_content"
-        android:background="@color/primary"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/primary"
         android:ellipsize="end"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="5dp"
-        android:textColor="@color/white"
         android:maxLines="1"
-        app:layout_constraintTop_toTopOf="@id/iv_coupon_list_image"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:textColor="@color/white"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="@id/iv_coupon_list_image"
-        android:layout_marginStart="10dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/iv_coupon_list_image"
+        app:layout_constraintTop_toTopOf="@id/iv_coupon_list_image"
         tools:text="D-21" />
 
     <TextView
@@ -59,7 +60,7 @@
         android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/iv_coupon_list_image"
         app:layout_constraintHorizontal_bias="0.0"
@@ -73,8 +74,8 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="14sp"
         android:textColor="#5A5A5A"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/tv_coupon_list_client"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/tv_coupon_list_client"
@@ -85,10 +86,11 @@
         android:id="@+id/tv_coupon_list_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="12sp"
         android:textColor="@color/gray_50"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@id/tv_coupon_list_name"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/tv_coupon_list_name"

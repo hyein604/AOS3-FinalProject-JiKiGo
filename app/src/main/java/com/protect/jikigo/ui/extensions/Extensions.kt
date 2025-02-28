@@ -82,6 +82,16 @@ fun Number.convertThreeDigitComma(): String {
     return decimalFormat.format(this)
 }
 
+// 포인트의 패턴을 적용
+fun TextView.applyMinusNumberFormat(amount: Int) {
+    text = amount.convertMinusThreeDigitComma()
+}
+
+fun Number.convertMinusThreeDigitComma(): String {
+    val decimalFormat = DecimalFormat("-#,###P")
+    return decimalFormat.format(this)
+}
+
 // 토스트 메시지
 fun Context.toast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

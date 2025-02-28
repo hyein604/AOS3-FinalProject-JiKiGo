@@ -59,7 +59,7 @@ class RewardViewModel @Inject constructor(
     }
 
     suspend fun todayAttend(userid: String, point: Int) {
-        rewardRepo.setAttendData(userid, point) { onComplete, point ->
+        rewardRepo.setAttendData(userid, point, userPoint.value?.plus(point)!!) { onComplete, point ->
             _isAttendData.value = onComplete
             _isAttend.value = onComplete
             if(point != 0) {

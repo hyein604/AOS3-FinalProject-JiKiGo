@@ -36,6 +36,10 @@
 		<item name="android:textSize">14sp</item>
 	</style>
 
+	<style name="ImageCorner">
+		<item name="cornerSize">10dp</item>
+	</style>
+
 	<!--  뷰페이저 탭 인디케이터 스타일  -->
 	<style name="AppTabIndicatorStyle" parent="Widget.MaterialComponents.TabLayout">
 		<item name="android:background">@android:color/transparent</item>
