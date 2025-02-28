@@ -12,18 +12,27 @@ import javax.inject.Inject
 class CouponBoxViewModel @Inject constructor(
     private val couponBoxRepo: CouponBoxRepo,
 ): ViewModel() {
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _couponList = MutableLiveData<MutableList<PurchasedCoupon>>()
     val couponList: LiveData<MutableList<PurchasedCoupon>> get() = _couponList
 
     fun loadCouponData(userId: String) {
         couponBoxRepo.loadCouponData(userId) {
             _couponList.value = it
+            _isLoading.value = false
         }
+    }
+
+    fun startLoading() {
+        _isLoading.value = true
     }
 
     fun loadUsedCouponData(userId: String) {
         couponBoxRepo.loadUsedCouponData(userId) {
             _couponList.value = it
+            _isLoading.value = false
         }
     }
 }

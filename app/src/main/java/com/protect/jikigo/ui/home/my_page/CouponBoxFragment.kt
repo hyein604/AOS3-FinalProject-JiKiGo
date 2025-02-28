@@ -1,21 +1,26 @@
 package com.protect.jikigo.ui.home.my_page
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
+import com.protect.jikigo.LoginActivity
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.databinding.FragmentCouponBoxBinding
 import com.protect.jikigo.ui.adapter.CouponBoxAdapter
 import com.protect.jikigo.ui.adapter.CouponOnClickListener
+import com.protect.jikigo.ui.extensions.clearUserId
 import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.statusBarColor
 import com.protect.jikigo.ui.viewModel.CouponBoxViewModel
@@ -78,6 +83,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     }
 
     private fun checkData() {
+        viewModel.startLoading()
         lifecycleScope.launch {
             userId = requireContext().getUserId() ?: ""
             when(currentPosition) {
@@ -103,6 +109,23 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
         binding.apply {
             viewModel.couponList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
+            }
+
+            viewModel.isLoading.observe(viewLifecycleOwner) {
+                when (it) {
+                    true -> {
+                        requireActivity().window.setFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        )
+                        layoutCouponBoxLoading.isVisible = true
+                    }
+
+                    false -> {
+                        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        layoutCouponBoxLoading.isVisible = false
+                    }
+                }
             }
         }
     }
@@ -130,6 +153,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when(tab?.position) {
                         0 -> {
+                            viewModel.startLoading()
                             viewLifecycleOwner.lifecycleScope.launch {
                                 delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
                                 // 뷰가 파괴되지 않았는지 확인
@@ -140,6 +164,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                             }
                         }
                         1 -> {
+                            viewModel.startLoading()
                             viewLifecycleOwner.lifecycleScope.launch {
                                 delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
                                 // 뷰가 파괴되지 않았는지 확인
@@ -159,6 +184,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                 override fun onTabReselected(tab: TabLayout.Tab?) {
                     when(tab?.position) {
                         0 -> {
+                            viewModel.startLoading()
                             viewLifecycleOwner.lifecycleScope.launch {
                                 delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
                                 // 뷰가 파괴되지 않았는지 확인
@@ -169,6 +195,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
                             }
                         }
                         1 -> {
+                            viewModel.startLoading()
                             viewLifecycleOwner.lifecycleScope.launch {
                                 delay(DELAY_TIME) // 초기 탭 선택 시 자연스러운 애니메이션을 위해 딜레이를 준다.
                                 // 뷰가 파괴되지 않았는지 확인
