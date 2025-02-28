@@ -1,77 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <TextView
-        android:id="@+id/tv_delete_id_terms"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_id_terms" />
-
-    <ImageButton
-        android:id="@+id/imb_delete_id_agree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_check_circle_"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_delete_id_terms" />
-
-    <TextView
-        android:id="@+id/tv_delete_id_agree_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="회원 탈퇴 약관을 확인 하였으며,\n지키GO 서비스 이용약관에 동의합니다."
-        app:layout_constraintStart_toEndOf="@+id/imb_delete_id_agree"
-        app:layout_constraintTop_toBottomOf="@+id/tv_delete_id_terms" />
-
-    <Button
-        android:id="@+id/btn_delete_id_delete"
-        android:layout_width="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_delete_id_agree_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/gray_10"
-        android:enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_delete_id_cancel"
-        android:text="회원 탈퇴" />
-
-    <Button
-        android:id="@+id/btn_delete_id_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/btn_delete_id_delete"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_delete_id_delete"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:text="취소" />
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_delete_id_loading"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progress_delete_id_loading"
+        <TextView
+            android:id="@+id/tv_delete_id_terms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/delete_id_terms"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/imb_delete_id_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_check_circle_"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_delete_id_terms" />
+
+        <TextView
+            android:id="@+id/tv_delete_id_agree_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="회원 탈퇴 약관을 확인 하였으며,\n지키GO 서비스 이용약관에 동의합니다."
+            app:layout_constraintStart_toEndOf="@+id/imb_delete_id_agree"
+            app:layout_constraintTop_toBottomOf="@+id/tv_delete_id_terms" />
+
+        <Button
+            android:id="@+id/btn_delete_id_delete"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:enabled="false"
+            android:text="회원 탈퇴"
+            android:textColor="@color/gray_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_delete_id_cancel"
+            app:layout_constraintTop_toBottomOf="@id/tv_delete_id_agree_content" />
+
+        <Button
+            android:id="@+id/btn_delete_id_cancel"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete_id_delete"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_delete_id_delete" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_delete_id_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_delete_id_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
