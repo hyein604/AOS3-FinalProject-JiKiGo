@@ -24,6 +24,9 @@ class TravelCouponViewModel @Inject constructor(
     private val _brandList = MutableLiveData<List<String>>()
     val brandList: LiveData<List<String>> get() = _brandList
 
+    private val _currentSortOption = MutableLiveData<String>("추천순")
+    val currentSortOption: LiveData<String> get() = _currentSortOption
+
     private var category: String = "숙박"
 
     fun setCategory(index: Int) {
@@ -41,16 +44,19 @@ class TravelCouponViewModel @Inject constructor(
         viewModelScope.launch {
             val coupons = couponRepo.getCouponByCategory(category)
             _brandList.value = coupons.map { it.couponBrand }.toSet().sorted()
-            _filteredCoupons.value = coupons
+            applyFiltersAndSorting(_currentSortOption.value ?: "추천순")
+            //_filteredCoupons.value = coupons
         }
     }
 
-    fun selectBrand(brand: String, currentSortOption: String) {
+    fun selectBrand(brand: String, sortOption: String) {
         _selectedBrand.value = brand
-        applyFiltersAndSorting(currentSortOption)
+        applyFiltersAndSorting(sortOption)
     }
 
     fun applyFiltersAndSorting(sortOption: String) {
+        _currentSortOption.value = sortOption
+
         viewModelScope.launch {
             val filteredCoupons = if (_selectedBrand.value == "전체보기") {
                 couponRepo.getCouponByCategoryAndSort(category, sortOption)

@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -328,13 +329,18 @@ class UserRepo @Inject constructor(
             val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
             val paymentHistoryRef =
                 userRef.collection("Calendar").document(currentDate).collection("PaymentHistory")
+
             val newPaymentDocRef = paymentHistoryRef.document()
+            val nowDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).apply {
+                timeZone = TimeZone.getTimeZone("Asia/Seoul")
+            }.format(Date())
+            Log.d("Locale", Locale.getDefault().toString())
 
             val paymentData = hashMapOf(
                 "docId" to newPaymentDocRef.id,
                 "reason" to "쿠폰구매",
                 "amount" to usedPoint,
-                "paymentDate" to currentDate,
+                "paymentDate" to nowDate,
                 "payType" to "사용"
             )
             transaction.set(newPaymentDocRef, paymentData)

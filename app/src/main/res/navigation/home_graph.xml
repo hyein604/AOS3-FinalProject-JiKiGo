@@ -275,7 +275,11 @@
 		android:id="@+id/travelSearch"
 		android:name="com.protect.jikigo.ui.travel.TravelSearchFragment"
 		android:label="fragment_travel_search"
-		tools:layout="@layout/fragment_travel_search" />
+		tools:layout="@layout/fragment_travel_search">
+		<action
+			android:id="@+id/action_travelSearch_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
 	<fragment
 		android:id="@+id/travelHotCoupon"
 		android:name="com.protect.jikigo.ui.travel.TravelHotCouponFragment"
