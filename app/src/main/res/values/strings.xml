@@ -115,7 +115,7 @@
 
 	<!-- 대중교통 인증 -->
 	<string name="transit_confirm_title">대중교통 이용을 인증해보세요!</string>
-	<string name="transit_confirm_description">우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배충량 감소가 더욱 커질 수 있어요!</string>
+	<string name="transit_confirm_description">우리가 1년 동안 대중교통을 이용한다면, 온실가스 배출량을 20%이상 줄일 수 있으며 특히, 전기버스나 철도와 같은 친환경적인 대중교통 수단을 채택하면 배출량 감소가 더욱 커질 수 있어요!</string>
 	<string name="transit_confirm_btn_description">만약 계좌 등록을 안 했다면?\n계좌 등록 페이지로 넘어갑니다!</string>
 	<string name="transit_confirm_btn_title">이용 내역 인증하기</string>
 

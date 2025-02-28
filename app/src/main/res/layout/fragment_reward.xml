@@ -292,7 +292,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/iv_reward_screen_time_image"
-                tools:text="오늘의 스크린 타임 (구현중) "
+                android:text="오늘의 스크린 타임 (구현중) "
                 android:layout_marginStart="10dp"
                 app:layout_constraintTop_toTopOf="@id/iv_reward_screen_time_image"
                 app:layout_constraintBottom_toBottomOf="@id/iv_reward_screen_time_image"
