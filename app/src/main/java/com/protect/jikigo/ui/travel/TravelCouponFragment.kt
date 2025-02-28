@@ -48,9 +48,6 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 초기 화면이 로드될 때 추천순으로 필터링을 적용
-        viewModel.applyFiltersAndSorting("추천순")
-
         setupObservers()
         setupSortMenu()
         setupFabBehavior()
@@ -84,6 +81,19 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         viewModel.brandList.observe(viewLifecycleOwner) { brands ->
             setupChips(brands)
         }
+        viewModel.selectedBrand.observe(viewLifecycleOwner) { selectedBrand ->
+            updateChipSelection(selectedBrand)
+        }
+        viewModel.currentSortOption.observe(viewLifecycleOwner) { sortOption ->
+            binding.tvSort.text = sortOption
+        }
+    }
+
+    private fun updateChipSelection(selectedBrand: String) {
+        for (i in 0 until binding.cgCouponBrand.childCount) {
+            val chip = binding.cgCouponBrand.getChildAt(i) as Chip
+            chip.isChecked = chip.text == selectedBrand
+        }
     }
 
     private fun setupSortMenu() {
@@ -92,8 +102,9 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
             popupMenu.menuInflater.inflate(R.menu.menu_sort_options, popupMenu.menu)
 
             popupMenu.setOnMenuItemClickListener { item ->
-                binding.tvSort.text = item.title
-                viewModel.applyFiltersAndSorting(item.title.toString())
+                val selectedOption = item.title.toString()
+                viewModel.applyFiltersAndSorting(selectedOption)
+                binding.tvSort.text = selectedOption
                 true
             }
             popupMenu.show()
@@ -156,7 +167,6 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     override fun onClickListener(item: Coupon) {
-        requireContext().toast(item.couponName)
         val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
         findNavController().navigate(action)
     }

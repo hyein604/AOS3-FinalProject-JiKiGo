@@ -190,7 +190,7 @@ class TravelSearchFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     override fun onClickListener(item: Coupon) {
-        val action = TravelFragmentDirections.actionNavigationTravelToTravelCouponDetail(item)
+        val action = TravelSearchFragmentDirections.actionTravelSearchToTravelCouponDetail(item)
         findNavController().navigate(action)
     }
 }

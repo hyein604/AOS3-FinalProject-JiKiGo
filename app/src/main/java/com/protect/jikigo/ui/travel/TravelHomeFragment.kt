@@ -6,7 +6,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -97,7 +96,6 @@ class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
             val actualPosition = (position - 1 + bannerImages.size) % bannerImages.size
             val action = TravelFragmentDirections.actionNavigationTravelToTravelBanner(actualPosition)
             findNavController().navigate(action)
-            Toast.makeText(requireContext(), "$actualPosition 번째 배너", Toast.LENGTH_SHORT).show()
         }
 
         binding.vpTravelBanner.adapter = adapter
