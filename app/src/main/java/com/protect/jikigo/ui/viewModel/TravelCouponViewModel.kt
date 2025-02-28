@@ -45,9 +45,9 @@ class TravelCouponViewModel @Inject constructor(
         }
     }
 
-    fun selectBrand(brand: String) {
+    fun selectBrand(brand: String, currentSortOption: String) {
         _selectedBrand.value = brand
-        applyFiltersAndSorting("추천순")
+        applyFiltersAndSorting(currentSortOption)
     }
 
     fun applyFiltersAndSorting(sortOption: String) {

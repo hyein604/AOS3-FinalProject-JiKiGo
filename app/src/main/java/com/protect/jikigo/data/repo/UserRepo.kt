@@ -307,26 +307,56 @@ class UserRepo @Inject constructor(
         val userDocRef = firestore.collection("UserInfo").document(userId)
         val purchasedCouponRef = userDocRef.collection("PurchasedCoupon")
 
-        val newCouponRef = purchasedCouponRef.document()
+        val docRef = purchasedCouponRef.document()
+        val newPurchasedCoupon = purchasedCoupon.copy(purchasedCouponDocId = docRef.id)
 
-        newCouponRef.set(purchasedCoupon).await()
+        docRef.set(newPurchasedCoupon).await()
     }
 
     // 결제 시 포인트 차감
-    suspend fun updateUserPoint(userId: String, remainingPoint: Int) {
+    suspend fun updateUserPoint(userId: String,usedPoint: Int) {
         val userRef = firestore.collection("UserInfo").document(userId)
 
-        userRef.update("userPoint", remainingPoint)
-            .await()
+        firestore.runTransaction { transaction ->
+            val userSnapshot = transaction.get(userRef)
+            val currentPoint = userSnapshot.getLong("userPoint") ?: 0
+
+            val updatePoint = currentPoint - usedPoint
+            transaction.update(userRef, "userPoint", updatePoint)
+
+            // 결제 내역 저장
+            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+            val paymentHistoryRef =
+                userRef.collection("Calendar").document(currentDate).collection("PaymentHistory")
+            val newPaymentDocRef = paymentHistoryRef.document()
+
+            val paymentData = hashMapOf(
+                "docId" to newPaymentDocRef.id,
+                "reason" to "쿠폰구매",
+                "amount" to usedPoint,
+                "paymentDate" to currentDate,
+                "payType" to "사용"
+            )
+            transaction.set(newPaymentDocRef, paymentData)
+        }.addOnSuccessListener {
+            Log.d("PaymentHistory", "결제 성공")
+        }.addOnFailureListener {
+            Log.d("PaymentHistory", "결제 실패")
+        }
+
+
     }
 
     // *보관함 쿠폰 처리*
     // 사용한 쿠폰 처리
-    suspend fun usePurchasedCoupon(userId: String, couponId: String){
+    suspend fun usePurchasedCoupon(userId: String, purchasedCouponId: String){
         val userDocRef = firestore.collection("UserInfo").document(userId)
-        val purchasedCouponRef = userDocRef.collection("PurchasedCoupon").document(couponId)
+        val purchasedCouponRef = userDocRef.collection("PurchasedCoupon").document(purchasedCouponId)
 
-        val usedDate = Timestamp.now()
+        val currentDate = Date()
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd a hh:mm", Locale.getDefault())
+        val usedDate = dateFormat.format(currentDate)
 
         purchasedCouponRef.update(
             "purchasedCouponUsed", true,
@@ -361,17 +391,24 @@ class UserRepo @Inject constructor(
         userCoupon.forEach { coupon ->
             val validDateStr = coupon.purchasedCouponValidDays
             val validDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(validDateStr)
-            val isExpired = validDate?.before(Date())
+            val isExpired = validDate?.before(Date()) ?: false
+
+            var newStatus = coupon.purchasedCouponStatus
+
+            if (isExpired && coupon.purchasedCouponStatus == 0) {
+                newStatus = 2
+            }
 
             // 만료 여부 업데이트
             val couponRef = firestore.collection("UserInfo")
                 .document(userId)
                 .collection("PurchasedCoupon")
-                .document(coupon.purchasedCouponBarCode)
+                .document(coupon.purchasedCouponDocId)
 
+            // 상태필드 변경으로 수정해야함
             // 만약 만료되었으면 업데이트
-            if (coupon.purchasedCouponIsExpiry != isExpired) {
-                batch.update(couponRef, "purchasedCouponIsExpiry", isExpired)
+            if (coupon.purchasedCouponStatus != newStatus) {
+                batch.update(couponRef, "purchasedCouponIsExpiry", newStatus)
             }
         }
 

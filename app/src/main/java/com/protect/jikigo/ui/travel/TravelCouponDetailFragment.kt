@@ -1,6 +1,7 @@
 package com.protect.jikigo.ui.travel
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,7 +88,7 @@ class TravelCouponDetailFragment : Fragment() {
         binding.tvTravelCouponDetailName.text = args.couponArg.couponName
         binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.couponArg.couponPrice)
         binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.couponArg.couponBrand}"
-        binding.tvTravelCouponDetailInfoContent.text = args.couponArg.couponInfo
+        binding.tvTravelCouponDetailInfoContent.text = args.couponArg.couponInfo.replace("\\n", "\n")
     }
 
     private fun moveToBottomSheet() {
