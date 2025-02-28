@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="주간 걸음으로 경쟁해보세요🏃‍♂️"
-        android:textSize="23sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="상위 3명에게 포인트 보상이 지급됩니다!\n🥇 1등: 500P\n🥈 2등: 300P\n🥉 3등: 100P\n\n4등부터는 포인트가 없어요.\n아쉽지만, 다음 주를 노려보세요! 😉"
+        android:text="상위 3명에게 포인트 보상이 지급됩니다!\n🥇 1등: 100P\n🥈 2등: 50P\n🥉 3등: 30P\n\n4등부터는 포인트가 없어요.\n아쉽지만, 다음 주를 노려보세요! 😉"
         android:lineSpacingExtra="5dp"
         android:textSize="14sp"
         android:textColor="@android:color/black"
