@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.PurchasedCoupon
 
 import com.protect.jikigo.databinding.ItemCouponBoxListBinding
 import java.util.Calendar
@@ -18,7 +19,7 @@ class CouponBoxAdapter(
     private val listener: CouponOnClickListener
 ): RecyclerView.Adapter<CouponBoxAdapter.CouponBoxViewHolder>() {
 
-    private val items = Storage.coupon
+    private val items = mutableListOf<PurchasedCoupon>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CouponBoxViewHolder {
         return CouponBoxViewHolder(
@@ -33,6 +34,12 @@ class CouponBoxAdapter(
         holder.bind(items[position])
     }
 
+    fun submitList(item: MutableList<PurchasedCoupon>) {
+        items.clear()
+        items.addAll(item)
+        notifyDataSetChanged()
+    }
+
     class CouponBoxViewHolder(
         private val binding: ItemCouponBoxListBinding,
         private val listener: (Int) -> Unit
@@ -42,15 +49,33 @@ class CouponBoxAdapter(
                 listener(adapterPosition)
             }
         }
-        fun bind(item: Coupon) {
+        fun bind(item: PurchasedCoupon) {
             binding.apply {
-                tvCouponListName.text = item.name
-                showDaysUntilExpiration(2025,3,2)
-                tvCouponListClient.text = item.brand
-                tvCouponListDate.text = item.date
+                tvCouponListName.text = item.purchasedCouponName
+                showDaysUntilExpiration(item.purchasedCouponValidDays.substring(0, 4).toInt(),item.purchasedCouponValidDays.substring(5, 7).toInt(),item.purchasedCouponValidDays.substring(8, 10).toInt())
+                tvCouponListClient.text = item.purchasedCouponBrand
                 Glide.with(root.context)
-                    .load(item.image)
+                    .load(item.purchasedCouponImage)
                     .into(ivCouponListImage)
+                when (item.purchasedCouponStatus) {
+                    0 -> {
+                        tvCouponListDate.text = "${item.purchasedCouponValidDays} 까지"
+                        viewCouponBlur.isVisible = false
+                        tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.primary))
+                    }
+                    1 -> {
+                        tvCouponListDate.text = "${item.purchasedCouponUsedDate}"
+                        viewCouponBlur.isVisible = true
+                        tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.gray_10))
+                        tvCouponListDDay.text = "사용 완료"
+                    }
+                    2 -> {
+                        tvCouponListDate.text = "${item.purchasedCouponValidDays}"
+                        viewCouponBlur.isVisible = true
+                        tvCouponListDDay.setBackgroundColor(root.context.getColor(R.color.gray_10))
+                        tvCouponListDDay.text = "만료"
+                    }
+                }
             }
         }
 
@@ -64,11 +89,9 @@ class CouponBoxAdapter(
             val daysLeft = TimeUnit.MILLISECONDS.toDays(diffInMillis).toInt()
 
             // D-day 형식으로 표시
-            val dDayText = if (daysLeft >= 0) {
+            val dDayText = if (daysLeft > 0) {
                 "D-$daysLeft"
             } else {
-                binding.viewCouponBlur.isVisible = true
-                binding.tvCouponListDDay.setBackgroundColor(Color.LTGRAY)
                 "사용 완료"
             }
 
@@ -79,5 +102,5 @@ class CouponBoxAdapter(
 }
 
 interface CouponOnClickListener {
-    fun onClickListener(item: Coupon)
+    fun onClickListener(item: PurchasedCoupon)
 }

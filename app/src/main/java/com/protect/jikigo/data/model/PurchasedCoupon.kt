@@ -1,7 +1,10 @@
 package com.protect.jikigo.data.model
 
+import android.os.Parcelable
 import com.google.firebase.Timestamp
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class PurchasedCoupon (
     val purchasedCouponDocId: String = "",
     val purchasedCouponName: String = "",
@@ -10,6 +13,7 @@ data class PurchasedCoupon (
     val purchasedCouponValidDays: String = "",
     val purchasedCouponDate: Timestamp = Timestamp.now(),
     val purchasedCouponImage: String = "",
-    val purchasedCouponStatus: Int = 0,
     val purchasedCouponUsedDate: String = "",
-)
+    val purchasedCouponStatus: Int = 0,
+    val purchasedCouponDocId: String = "",
+): Parcelable

@@ -61,6 +61,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- 목표 걸음 달성 응원 문구 -->
+    <TextView
+        android:id="@+id/tv_walk_reward_bottom_sheet_cheering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목표를 향해 걸어볼까요?🔥"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_walk_reward_bottom_sheet_goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 목표 걸음 달성 축하 문구 -->
+    <TextView
+        android:id="@+id/tv_walk_reward_bottom_sheet_congrats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="목표를 달성했어요 🎉"
+        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_walk_reward_bottom_sheet_goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
     <!-- 보상 버튼 -->
     <Button
         android:id="@+id/btn_walk_reward_bottom_sheet_reward"
