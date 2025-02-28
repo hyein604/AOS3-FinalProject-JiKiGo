@@ -68,22 +68,22 @@ class RankingFragment : Fragment() {
     }
 
     private fun scheduleWeeklyRankingRewards() {
-//        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-//            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-//            set(Calendar.HOUR_OF_DAY, 0)
-//            set(Calendar.MINUTE, 0)
-//            set(Calendar.SECOND, 0)
-//            set(Calendar.MILLISECOND, 0)
-//        }
-
-        // 테스트용
         val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-            set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
             set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE,32)
-            set(Calendar.SECOND,0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
+
+//        // 테스트용
+//        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
+//            set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+//            set(Calendar.HOUR_OF_DAY, 0)
+//            set(Calendar.MINUTE,32)
+//            set(Calendar.SECOND,0)
+//            set(Calendar.MILLISECOND, 0)
+//        }
 
         val delay = calendar.timeInMillis - System.currentTimeMillis()
         if (delay > 0) {

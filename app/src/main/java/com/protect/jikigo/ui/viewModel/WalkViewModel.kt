@@ -199,8 +199,8 @@ class WalkViewModel @Inject constructor(
     /** 목표 및 보상 관리 */
     fun moveToNextGoal() {
         when (_currentGoal.value) {
-            260 -> setGoalAndReward(270, 20)
-            270 -> setGoalAndReward(280, 30)
+            5000 -> setGoalAndReward(10000, 20)
+            10000 -> setGoalAndReward(20000, 30)
         }
     }
 
@@ -226,13 +226,13 @@ class WalkViewModel @Inject constructor(
     /** 하루가 지나면 걸음 목표 및 보상을 초기화 */
     private fun resetDailyProgress() {
         sharedPreferences.edit()
-            .putInt("current_goal", 260)
+            .putInt("current_goal", 5000)
             .putInt("current_reward", 10)
             .putBoolean("final_reward_claimed", false)
             .putLong("last_reset_time", System.currentTimeMillis())
             .apply()
 
-        _currentGoal.postValue(260)
+        _currentGoal.postValue(5000)
         _currentReward.postValue(10)
     }
 
@@ -246,9 +246,9 @@ class WalkViewModel @Inject constructor(
         sharedPreferences.edit().putInt("current_reward", reward).apply()
     }
 
-    /** SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5) */
+    /** SharedPreferences에서 목표 걸음 수 불러오기 (기본값: 5000) */
     private fun loadGoal(): Int {
-        return sharedPreferences.getInt("current_goal", 5)
+        return sharedPreferences.getInt("current_goal", 5000)
     }
 
     /** SharedPreferences에서 보상 불러오기 (기본값: 10) */

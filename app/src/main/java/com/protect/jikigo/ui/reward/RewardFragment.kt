@@ -159,7 +159,7 @@ class RewardFragment : Fragment() {
             }
 
             viewModel.profile.observe(viewLifecycleOwner) { profile ->
-                tvRewardNickname.text = profile.userNickName
+                tvRewardNickname.text = "${profile.userNickName} 님"
             }
 
             viewModel.userPoint.observe(viewLifecycleOwner) {
