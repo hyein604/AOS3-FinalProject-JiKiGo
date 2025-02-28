@@ -70,7 +70,7 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
             saveRewardPoint(previousReward)
 
             if (steps >= (walkViewModel.currentGoal.value ?: 0)) {
-                if (walkViewModel.currentGoal.value == 280) {
+                if (walkViewModel.currentGoal.value == 20000) {
                     isFinalRewardClaimed = true
                     saveFinalRewardClaimed(true) // 마지막 보상 여부 저장
                     updateUI()
@@ -116,12 +116,15 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
         val reward = walkViewModel.currentReward.value ?: 0
         val isEnabled = steps >= goal
 
-        if (goal == 280 && isFinalRewardClaimed) {
+        if (goal == 20000 && isFinalRewardClaimed) {
             // 마지막 단계 보상까지 받으면 버튼 비활성화 & 텍스트 변경
             binding.btnWalkRewardBottomSheetReward.text = "오늘 보상을 모두 받았어요"
             binding.btnWalkRewardBottomSheetReward.isEnabled = false
             binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#D2D2D2"))
             binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#707070"))
+            binding.tvWalkRewardBottomSheetCongrats.visibility = View.VISIBLE
+            binding.tvWalkRewardBottomSheetCheering.visibility = View.GONE
+
         } else {
             // 보상 버튼 상태 업데이트
             binding.btnWalkRewardBottomSheetReward.text = "${reward}P"
@@ -130,9 +133,13 @@ class WalkRewardBottomSheetFragment : BottomSheetDialogFragment() {
             if (isEnabled) {
                 binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#7A8FFF"))
                 binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#FFFFFF"))
+                binding.tvWalkRewardBottomSheetCongrats.visibility = View.VISIBLE
+                binding.tvWalkRewardBottomSheetCheering.visibility = View.GONE
             } else {
                 binding.btnWalkRewardBottomSheetReward.setBackgroundColor(Color.parseColor("#D2D2D2"))
                 binding.btnWalkRewardBottomSheetReward.setTextColor(Color.parseColor("#707070"))
+                binding.tvWalkRewardBottomSheetCongrats.visibility = View.GONE
+                binding.tvWalkRewardBottomSheetCheering.visibility = View.VISIBLE
             }
         }
     }
