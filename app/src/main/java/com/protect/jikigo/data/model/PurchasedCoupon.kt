@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PurchasedCoupon (
+    val purchasedCouponDocId: String = "",
     val purchasedCouponName: String = "",
     val purchasedCouponBrand: String = "",
     val purchasedCouponBarCode: String = "",

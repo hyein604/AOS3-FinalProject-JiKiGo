@@ -95,6 +95,8 @@ class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
     private fun setBannerSlider(bannerImages: List<String>) {
         val adapter = TravelBannerAdapter(bannerImages) { position ->
             val actualPosition = (position - 1 + bannerImages.size) % bannerImages.size
+            val action = TravelFragmentDirections.actionNavigationTravelToTravelBanner(actualPosition)
+            findNavController().navigate(action)
             Toast.makeText(requireContext(), "$actualPosition 번째 배너", Toast.LENGTH_SHORT).show()
         }
 

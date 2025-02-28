@@ -256,8 +256,8 @@ class TravelPaymentBottomSheetFragment : BottomSheetDialogFragment() {
             lifecycleScope.launch {
                 val userId = requireContext().getUserId() ?: ""
 
-                val remainingPoints = userPoint - couponPrice
-                viewModel.updateUserPoints(userId, remainingPoints)
+                // val remainingPoints = userPoint - couponPrice
+                viewModel.updateUserPoints(userId, couponPrice)
 
                 viewModel.setPurchasedCoupon(userId, purchasedCoupon)
 

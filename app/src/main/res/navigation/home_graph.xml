@@ -170,6 +170,9 @@
 		   <action
 			  android:id="@+id/action_navigation_travel_to_travelCouponDetail"
 			  app:destination="@id/travelCouponDetail" />
+		  <action
+			  android:id="@+id/action_navigation_travel_to_travelBanner"
+			  app:destination="@id/travelBanner" />
 	  </fragment>
 
 	<fragment
@@ -277,7 +280,11 @@
 		android:id="@+id/travelHotCoupon"
 		android:name="com.protect.jikigo.ui.travel.TravelHotCouponFragment"
 		android:label="fragment_travel_hot_coupon"
-		tools:layout="@layout/fragment_travel_hot_coupon" />
+		tools:layout="@layout/fragment_travel_hot_coupon">
+		<action
+			android:id="@+id/action_travelHotCoupon_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
 	<fragment
 		android:id="@+id/travelCoupon"
 		android:name="com.protect.jikigo.ui.travel.TravelCouponFragment"
@@ -339,4 +346,13 @@
 			app:argType="com.protect.jikigo.data.WebSiteURL" />
 	</fragment>
 
+	<fragment
+		android:id="@+id/travelBanner"
+		android:name="com.protect.jikigo.ui.travel.TravelBannerFragment"
+		android:label="fragment_travel_banner"
+		tools:layout="@layout/fragment_travel_banner">
+		<argument
+			android:name="positionArgs"
+			app:argType="integer"/>
+	</fragment>
 </navigation>

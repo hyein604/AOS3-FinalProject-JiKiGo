@@ -105,12 +105,16 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         cgCouponBrand.removeAllViews()
 
         val allChip = createChip("전체보기", true)
-        allChip.setOnClickListener { viewModel.selectBrand("전체보기") }
+        allChip.setOnClickListener {
+            val currentSortOption = binding.tvSort.text.toString()
+            viewModel.selectBrand("전체보기",currentSortOption) }
         cgCouponBrand.addView(allChip)
 
         brands.forEach { brand ->
             val chip = createChip(brand, false)
-            chip.setOnClickListener { viewModel.selectBrand(brand) }
+            chip.setOnClickListener {
+                val currentSortOption = binding.tvSort.text.toString()
+                viewModel.selectBrand(brand, currentSortOption) }
             cgCouponBrand.addView(chip)
         }
     }

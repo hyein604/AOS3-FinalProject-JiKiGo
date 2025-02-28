@@ -44,10 +44,10 @@ class TravelPaymentBottomSheetViewModel @Inject constructor(
         }
     }
 
-    fun updateUserPoints(userId: String, remainingPoints: Int) {
+    fun updateUserPoints(userId: String, usedPoint: Int) {
         viewModelScope.launch {
             try {
-                userRepo.updateUserPoint(userId, remainingPoints)
+                userRepo.updateUserPoint(userId, usedPoint)
             } catch (e: Exception) {
                 Log.e("ViewModel", "Error updating points: ${e.message}")
             }
