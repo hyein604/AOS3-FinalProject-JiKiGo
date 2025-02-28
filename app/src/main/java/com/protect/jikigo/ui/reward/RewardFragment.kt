@@ -134,7 +134,7 @@ class RewardFragment : Fragment() {
             val action = RewardFragmentDirections.actionNavigationRewardToPaymentQR()
             findNavController().navigate(action)
         }
-        binding.btnRewardWalkPoint.setOnClickListener {
+        binding.viewRewardWalk.setOnClickListener {
             val action = RewardFragmentDirections.actionNavigationRewardToWalkRewardBottomSheet()
             findNavController().navigate(action)
         }
