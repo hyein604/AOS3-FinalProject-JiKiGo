@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -29,13 +30,28 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders += mapOf(
-            "KAKAO_NATIVE_APP_KEY" to properties.getProperty("KAKAO_NATIVE_APP_KEY")
+            "KAKAO_NATIVE_APP_KEY" to properties.getProperty("KAKAO_NATIVE_APP_KEY"),
+            "NAVER_CLIENT_ID" to properties.getProperty("NAVER_CLIENT_ID"),
+            "NAVER_CLIENT_SECRET" to properties.getProperty("NAVER_CLIENT_SECRET"),
         )
 
         buildConfigField(
             "String",
             "KAKAO_NATIVE_APP_KEY",
             "\"${properties.getProperty("KAKAO_NATIVE_APP_KEY")}\""
+        )
+
+        // 네이버 관련 BuildConfig 추가
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_ID",
+            "\"${properties.getProperty("NAVER_CLIENT_ID")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_SECRET",
+            "\"${properties.getProperty("NAVER_CLIENT_SECRET")}\""
         )
     }
 
@@ -120,9 +136,13 @@ dependencies {
     // health
     implementation("androidx.health.connect:connect-client:1.1.0-alpha10")
 
-    // work
+    // naver
+    implementation("com.navercorp.nid:oauth:5.10.0") // jdk 11
+  //  implementation(files("libs/oauth-5.10.0.aar"))
+
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
 }
+
 
 kapt {
     correctErrorTypes = true
