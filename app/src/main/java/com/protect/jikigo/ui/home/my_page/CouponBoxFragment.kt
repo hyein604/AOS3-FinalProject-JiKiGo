@@ -86,6 +86,7 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
         viewModel.startLoading()
         lifecycleScope.launch {
             userId = requireContext().getUserId() ?: ""
+            viewModel.updateCouponsExpiry(userId)
             when(currentPosition) {
                 0 -> {
                     binding.tabCouponBox.post {

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.repo.CouponBoxRepo
+import com.protect.jikigo.data.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -34,5 +35,9 @@ class CouponBoxViewModel @Inject constructor(
             _couponList.value = it
             _isLoading.value = false
         }
+    }
+
+    suspend fun updateCouponsExpiry(userId: String) {
+        couponBoxRepo.updateCouponsExpiry(userId)
     }
 }
