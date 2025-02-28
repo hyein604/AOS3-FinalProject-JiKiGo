@@ -35,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_electric_photo_bus"
         android:layout_height="300dp"
         android:layout_marginTop="60dp"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/shape_coupon_radius" />
