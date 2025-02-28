@@ -10,11 +10,8 @@ class DeleteIdRepo @Inject constructor(
 ) {
 
     fun deleteId(userId: String, onComplete: (Boolean) -> Unit) {
-        val updates = mapOf(
-            "userIsActive" to false
-        )
         firestore.collection("UserInfo").document(userId)
-            .update(updates)
+            .delete()
             .addOnSuccessListener {
                 onComplete(true)
             }
