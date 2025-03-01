@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.repo.MyPageRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +28,12 @@ class ProfileEditViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    private val _isUsedLoading = MutableLiveData<Boolean>()
+    val isUsedLoading: LiveData<Boolean> get() = _isUsedLoading
+
+    private val _isUsed = MutableLiveData<Boolean>()
+    val isUsed: LiveData<Boolean> get() = _isUsed
+
     private val documentId = MutableLiveData<String>()
 
     fun loadProfile(userid: String) {
@@ -42,6 +50,19 @@ class ProfileEditViewModel @Inject constructor(
     fun checkChange() {
         _changeImage.value = true
         _imageUri.value = null
+    }
+
+    fun isUsedNickName(userNickName: String) {
+        if(userNickName == profile.value?.userNickName!!) {
+            _isUsed.value = false
+        }
+        else {
+            _isUsedLoading.value = true
+            myPageRepo.getUserNickName(userNickName) {
+                _isUsed.value = it
+                _isUsedLoading.value = false
+            }
+        }
     }
 
     fun saveProfile(userid: String, userNickName: String) {

@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentProfileEditBinding
 import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.ui.extensions.showDialog
 import com.protect.jikigo.ui.viewModel.ProfileEditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -75,7 +76,7 @@ class ProfileEditFragment : Fragment() {
             toolbarProfileEdit.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.menu_profile_edit_done -> {
-                        viewModel.saveProfile(userId, etProfileEditName.text.toString())
+                        viewModel.isUsedNickName(etProfileEditName.text.toString())
                     }
                 }
                 true
@@ -160,6 +161,33 @@ class ProfileEditFragment : Fragment() {
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                         )
                         binding.layoutProfileEditLoading.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            viewModel.isUsedLoading.observe(viewLifecycleOwner) { loading ->
+                when(loading) {
+                    false -> {
+                        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        binding.layoutProfileEditLoading.visibility = View.GONE
+                    }
+                    true -> {
+                        requireActivity().window.setFlags(
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                        )
+                        binding.layoutProfileEditLoading.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            viewModel.isUsed.observe(viewLifecycleOwner) {
+                when(it) {
+                    false -> {
+                        viewModel.saveProfile(userId, etProfileEditName.text.toString())
+                    }
+                    true -> {
+                        requireContext().showDialog("닉네임 중복 확인", "중복된 닉네임입니다", "확인") {}
                     }
                 }
             }

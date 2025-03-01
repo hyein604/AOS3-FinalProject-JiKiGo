@@ -3,6 +3,7 @@ package com.protect.jikigo.data.repo
 import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -64,5 +65,23 @@ class MyPageRepo @Inject constructor(
                 exception.printStackTrace()
                 onComplete(false)
             }
+    }
+
+    // 유저 쿠폰 가져오기
+    fun getUserNickName(userNickName: String, isUsed: (Boolean) -> Unit){
+        firestore.collection("UserInfo").whereEqualTo("userNickName", userNickName).get()
+            .addOnSuccessListener {
+                if(it.isEmpty) {
+                    isUsed(false)
+                }
+                else {
+                    isUsed(true)
+                }
+            }
+            .addOnFailureListener {
+                it.printStackTrace()
+                isUsed(true)
+            }
+
     }
 }
