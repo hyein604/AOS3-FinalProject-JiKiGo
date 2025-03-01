@@ -10,9 +10,11 @@
 		android:id="@+id/iv_rv_thumb_nail"
 		android:layout_width="200dp"
 		android:layout_height="130dp"
+		android:scaleType="centerCrop"
 		android:src="@drawable/background_home"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent" />
 
 	<TextView
 		android:id="@+id/tv_rv_title"
