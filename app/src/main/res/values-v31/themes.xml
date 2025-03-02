@@ -1,5 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-	<!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
 	<style name="Base.Theme.JikiGo" parent="Theme.Material3.DayNight.NoActionBar">
 		<!-- Customize your light theme here. -->
 		<!-- <item name="colorPrimary">@color/my_light_primary</item> -->
@@ -9,7 +10,11 @@
 		<item name="android:statusBarColor">@color/transparent</item>
 		<item name="android:windowLightStatusBar">true</item>
 
-	</style>
+		<!-- Splash -->
+		<item name="android:windowSplashScreenBackground">@color/primary</item>
+		<item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_video</item>
+		<item name="android:windowSplashScreenAnimationDuration">1000</item>
+		<item name="android:windowSplashScreenIconBackgroundColor">@color/primary</item>
 
-	<style name="Theme.JikiGo" parent="Base.Theme.JikiGo" />
+	</style>
 </resources>
