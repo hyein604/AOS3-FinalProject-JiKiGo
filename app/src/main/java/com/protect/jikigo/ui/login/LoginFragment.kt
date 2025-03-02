@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.HomeActivity
 import com.protect.jikigo.databinding.FragmentLoginBinding
 import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.ui.extensions.showSnackBar
 import com.protect.jikigo.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,34 +41,50 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
 
+    }
+
+    private fun setLayout() {
+        autoLogin()
+        observeViewModel()
+        onClick()
+    }
+
+    private fun observeViewModel() {
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
-            when(loading) {
+            when (loading) {
                 false -> {
                     binding.loadingContainer.visibility = View.GONE
                     binding.loginProgress.visibility = View.GONE
-                    moveToHome()
                 }
+
                 true -> {
                     binding.loadingContainer.visibility = View.VISIBLE
                     binding.loginProgress.visibility = View.VISIBLE
                 }
             }
-
         }
-    }
+        viewModel.isSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            when (isSuccess) {
+                false -> {
+                    requireContext().showSnackBar(binding.root, "로그인 실패")
+                }
 
-    private fun setLayout() {
-        autoLogin()
-        onClick()
+                true -> {
+                    moveToHome()
+                }
+            }
+        }
     }
 
     private fun autoLogin() {
         lifecycleScope.launch {
             val userId = requireContext().getUserId()
-            Log.d("userId", "$userId")
+            Log.d("LoginFragment", "userId: $userId")
 
-            if (userId != null) {
+            if (!userId.isNullOrEmpty()) {
                 moveToHome()
+            } else {
+                Log.d("LoginFragment", "userId: null")
             }
         }
     }
@@ -76,23 +92,13 @@ class LoginFragment : Fragment() {
     // 각 요소 클릭 메서드
     private fun onClick() {
         with(binding) {
-            btnLogin.setOnClickListener {
-                val intent = Intent(requireContext(), HomeActivity::class.java)
-                startActivity(intent)
-            }
-            tvLoginSignUp.setOnClickListener {
-                val action = LoginFragmentDirections.actionLoginToSignUpFirst()
-                findNavController().navigate(action)
-            }
-            tvLoginFindAccount.setOnClickListener {
-                val action = LoginFragmentDirections.actionLoginToFindAccount()
-                findNavController().navigate(action)
-            }
             btnLoginKakao.setOnClickListener {
                 viewModel.kakaoLogin()
             }
+            btnLoginNaver.setOAuthLogin(viewModel.oAuthLoginCallback)
         }
     }
+
 
     private fun moveToHome() {
         val intent = Intent(requireContext(), HomeActivity::class.java)
