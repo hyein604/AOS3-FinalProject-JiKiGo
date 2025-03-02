@@ -24,8 +24,12 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
 import com.protect.jikigo.LoginActivity
 import com.protect.jikigo.R
+import com.protect.jikigo.data.KakaoAuthClient
 import com.protect.jikigo.databinding.FragmentMyPageBinding
 import com.protect.jikigo.ui.extensions.clearUserId
 import com.protect.jikigo.ui.extensions.getUserId
@@ -164,12 +168,22 @@ class MyPageFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     requireContext().clearUserId()
                     requireActivity().finish()
+                    NaverIdLoginSDK.logout()
+                    UserApiClient.instance.logout { error->
+                        if (error != null) {
+                            Log.d("MyPageFragment", "카카오로그아웃 실패")
+                        } else {
+                            Log.d("MyPageFragment", "카카오로그아웃 성공")
+                        }
+                    }
                     val intent = Intent(requireContext(), LoginActivity::class.java)
                     startActivity(intent)
                 }
             }
         }
     }
+
+
 
     /*
     걸음 수
