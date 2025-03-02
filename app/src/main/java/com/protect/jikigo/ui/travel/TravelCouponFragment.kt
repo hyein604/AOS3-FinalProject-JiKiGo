@@ -55,7 +55,11 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
 
     private fun setupObservers() {
         viewModel.filteredCoupons.observe(viewLifecycleOwner) { coupons ->
+            if (!isAdded || view == null) return@observe
+
             if (coupons.isNotEmpty()) {
+                startShimmer()
+
                 // 새로운 데이터를 가져올 때마다 어댑터를 새로 설정
                 adapter = CouponAdaptor(coupons, this)
                 binding.rvCouponList.adapter = adapter
@@ -68,7 +72,10 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
                     )
                 }
                 binding.sortContainer.visibility = View.VISIBLE
+
+                stopShimmer()
             } else {
+                stopShimmer()
                 // 데이터가 없으면 표시할 텍스트 설정
                 binding.cgCouponBrand.visibility = View.GONE
                 binding.tvCouponCount.visibility = View.GONE
@@ -89,6 +96,20 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         }
     }
 
+    private fun startShimmer(){
+        binding.rvCouponList.visibility = View.GONE
+        binding.shimmerTravelCoupon.visibility = View.VISIBLE
+        binding.shimmerTravelCoupon.startShimmer()
+    }
+
+    private fun stopShimmer() {
+        if (!isAdded || view == null) return
+
+        binding.shimmerTravelCoupon.stopShimmer()
+        binding.shimmerTravelCoupon.visibility = View.GONE
+        binding.rvCouponList.visibility = View.VISIBLE
+    }
+
     private fun updateChipSelection(selectedBrand: String) {
         for (i in 0 until binding.cgCouponBrand.childCount) {
             val chip = binding.cgCouponBrand.getChildAt(i) as Chip
@@ -103,6 +124,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
 
             popupMenu.setOnMenuItemClickListener { item ->
                 val selectedOption = item.title.toString()
+                startShimmer()
                 viewModel.applyFiltersAndSorting(selectedOption)
                 binding.tvSort.text = selectedOption
                 true
@@ -115,15 +137,25 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         val cgCouponBrand = binding.cgCouponBrand
         cgCouponBrand.removeAllViews()
 
-        val allChip = createChip("전체보기", true)
+        if (brands.isEmpty()) {
+            cgCouponBrand.visibility = View.GONE
+            return
+        } else {
+            cgCouponBrand.visibility = View.VISIBLE
+        }
+
+
+        val allChip = createChip("전체보기", viewModel.selectedBrand.value == "전체보기")
         allChip.setOnClickListener {
             val currentSortOption = binding.tvSort.text.toString()
+            startShimmer()
             viewModel.selectBrand("전체보기",currentSortOption) }
         cgCouponBrand.addView(allChip)
 
         brands.forEach { brand ->
-            val chip = createChip(brand, false)
+            val chip = createChip(brand, viewModel.selectedBrand.value == brand)
             chip.setOnClickListener {
+                startShimmer()
                 val currentSortOption = binding.tvSort.text.toString()
                 viewModel.selectBrand(brand, currentSortOption) }
             cgCouponBrand.addView(chip)

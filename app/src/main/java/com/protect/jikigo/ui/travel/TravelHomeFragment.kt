@@ -59,13 +59,29 @@ class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
     }
 
     private fun setupObservers() {
+        binding.shimmerTravelHomeCoupon.startShimmer()
+        binding.shimmerTravelHomeCoupon.visibility = View.VISIBLE
+        binding.rvHotCouponList.visibility = View.GONE
+
         viewModel.hotCoupons.observe(viewLifecycleOwner) { coupons ->
             binding.rvHotCouponList.adapter = CouponHorizontalAdapter(coupons, this)
+
+            if (!isAdded || view == null) return@observe
+
+            stopShimmer()
         }
 
         viewModel.bannerImages.observe(viewLifecycleOwner) { images ->
             setBannerSlider(images)
         }
+    }
+
+    private fun stopShimmer() {
+        if (!isAdded || view == null) return
+
+        binding.shimmerTravelHomeCoupon.stopShimmer()
+        binding.shimmerTravelHomeCoupon.visibility = View.GONE
+        binding.rvHotCouponList.visibility = View.VISIBLE
     }
 
     private fun setStatusBar() {

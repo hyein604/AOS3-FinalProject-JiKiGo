@@ -5,6 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.protect.jikigo.data.repo.CouponRepo
+import com.protect.jikigo.data.repo.StoreRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,5 +42,12 @@ class FirebaseModule {
     fun provideCouponRepo(firestore: FirebaseFirestore): CouponRepo {
         return CouponRepo(firestore)
     }
+
+    @Provides
+    @Singleton
+    fun provideStoreRepo(firestore: FirebaseFirestore): StoreRepo {
+        return StoreRepo(firestore)
+    }
+
 
 }
