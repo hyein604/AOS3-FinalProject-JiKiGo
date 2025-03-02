@@ -53,6 +53,7 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
         observe()
         onClickListener()
         checkData()
+        binding.cardElectricConfirm.setBackgroundResource(R.drawable.card_reward_shape)
     }
 
     // 시작 시 확인할 데이터

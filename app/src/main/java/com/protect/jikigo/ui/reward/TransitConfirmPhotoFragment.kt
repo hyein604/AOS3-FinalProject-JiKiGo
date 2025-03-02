@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -54,6 +55,7 @@ class TransitConfirmPhotoFragment : Fragment() {
         observe()
         onClickListener()
         checkData()
+        binding.cardTransitConfirm.setBackgroundResource(R.drawable.card_reward_shape)
     }
 
     // 시작 시 확인할 데이터
