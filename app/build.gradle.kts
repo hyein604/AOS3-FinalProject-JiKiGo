@@ -1,4 +1,3 @@
-import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -31,8 +30,8 @@ android {
 
         manifestPlaceholders += mapOf(
             "KAKAO_NATIVE_APP_KEY" to properties.getProperty("KAKAO_NATIVE_APP_KEY"),
-//            "NAVER_CLIENT_ID" to properties.getProperty("NAVER_CLIENT_ID"),
-//            "NAVER_CLIENT_SECRET" to properties.getProperty("NAVER_CLIENT_SECRET"),
+            "NAVER_CLIENT_ID" to properties.getProperty("NAVER_CLIENT_ID"),
+            "NAVER_CLIENT_SECRET" to properties.getProperty("NAVER_CLIENT_SECRET"),
         )
 
         buildConfigField(
@@ -40,19 +39,19 @@ android {
             "KAKAO_NATIVE_APP_KEY",
             "\"${properties.getProperty("KAKAO_NATIVE_APP_KEY")}\""
         )
-//
-//        // 네이버 관련 BuildConfig 추가
-//        buildConfigField(
-//            "String",
-//            "NAVER_CLIENT_ID",
-//            "\"${properties.getProperty("NAVER_CLIENT_ID")}\""
-//        )
-//
-//        buildConfigField(
-//            "String",
-//            "NAVER_CLIENT_SECRET",
-//            "\"${properties.getProperty("NAVER_CLIENT_SECRET")}\""
-//        )
+
+        // 네이버 관련 BuildConfig 추가
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_ID",
+            "\"${properties.getProperty("NAVER_CLIENT_ID")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_SECRET",
+            "\"${properties.getProperty("NAVER_CLIENT_SECRET")}\""
+        )
     }
 
     buildTypes {
@@ -87,6 +86,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation("androidx.navigation:navigation-fragment:2.6.0")
     implementation("androidx.navigation:navigation-ui:2.6.0")
     // 뷰페이저 점 인디케이터
@@ -136,8 +136,6 @@ dependencies {
 
     // naver
     implementation("com.navercorp.nid:oauth:5.10.0") // jdk 11
-  //  implementation(files("libs/oauth-5.10.0.aar"))
-    implementation ("androidx.work:work-runtime-ktx:2.7.1")
 }
 
 
