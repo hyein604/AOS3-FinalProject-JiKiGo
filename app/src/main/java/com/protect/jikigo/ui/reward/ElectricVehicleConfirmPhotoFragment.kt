@@ -72,14 +72,14 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
                 when(loading) {
                     false -> {
                         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                        binding.layoutTransitPhotoLoading.visibility = View.GONE
+                        binding.layoutElectricPhotoLoading.visibility = View.GONE
                     }
                     true -> {
                         requireActivity().window.setFlags(
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                         )
-                        binding.layoutTransitPhotoLoading.visibility = View.VISIBLE
+                        binding.layoutElectricPhotoLoading.visibility = View.VISIBLE
                     }
                 }
             }
