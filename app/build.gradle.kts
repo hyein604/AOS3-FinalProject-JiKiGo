@@ -138,6 +138,10 @@ dependencies {
     implementation("com.navercorp.nid:oauth:5.10.0") // jdk 11
   //  implementation(files("libs/oauth-5.10.0.aar"))
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
+
+    // splash
+    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
 }
 
 
