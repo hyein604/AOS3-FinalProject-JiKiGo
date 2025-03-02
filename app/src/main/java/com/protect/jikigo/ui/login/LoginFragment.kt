@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.navercorp.nid.NaverIdLoginSDK
 import com.protect.jikigo.HomeActivity
 import com.protect.jikigo.databinding.FragmentLoginBinding
 import com.protect.jikigo.ui.extensions.getUserId
@@ -95,7 +96,9 @@ class LoginFragment : Fragment() {
             btnLoginKakao.setOnClickListener {
                 viewModel.kakaoLogin()
             }
-            btnLoginNaver.setOAuthLogin(viewModel.oAuthLoginCallback)
+            btnLoginNaver2.setOnClickListener {
+                NaverIdLoginSDK.authenticate(requireContext(), viewModel.oAuthLoginCallback)
+            }
         }
     }
 
