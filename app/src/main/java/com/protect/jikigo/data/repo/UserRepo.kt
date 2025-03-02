@@ -2,16 +2,15 @@ package com.protect.jikigo.data.repo
 
 import android.content.Context
 import android.util.Log
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import com.navercorp.nid.profile.data.NidProfileMap
 import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.model.UserQR
@@ -19,9 +18,7 @@ import com.protect.jikigo.ui.extensions.getUserId
 import com.protect.jikigo.ui.extensions.saveUserId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
-import java.sql.Time
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -88,12 +85,14 @@ class UserRepo @Inject constructor(
         }
     }
 
-    suspend fun saveUser() {
+    suspend fun saveKakaoUser(): Boolean {
         try {
             val user = runCatching { UserApiClient.instance.me().getOrThrow() }.getOrNull()!!
             val kakaoAccount = user.kakaoAccount!!
 
             // null 체크 후 기본값 설정
+            val id = user.id.toString()
+            Log.d("UserRepo", "카카오 id:$id")
             val name = kakaoAccount.name ?: "이름 없음"
             val phone = kakaoAccount.phoneNumber ?: "000-0000-0000"
             val email = kakaoAccount.email ?: "jikigo@jikigo.com"
@@ -101,7 +100,7 @@ class UserRepo @Inject constructor(
             val profileImg = kakaoAccount.profile?.profileImageUrl ?: ""
 
             // Firestore 문서 ID로 userDocId 사용
-            val userInfo = createUserInfo(name, phone, email, nickname, profileImg)
+            val userInfo = createUserInfo(id, name, phone, email, nickname, profileImg)
             Log.d("SaveUser", "생성된 UserInfo 객체: $userInfo")
 
             val userDocId = userInfo.userDocId
@@ -120,6 +119,45 @@ class UserRepo @Inject constructor(
 
             // DataStore에 userId 저장
             context.saveUserId(userInfo.userId)
+            Log.d("SaveUser", "DataStore에 저장된 userId: ${context.getUserId()}")
+            return true
+        } catch (e: Exception) {
+            Log.e("SaveUser", "Firestore 저장 중 오류 발생: ${e.message}", e)
+            return false
+        }
+    }
+
+    suspend fun saveNaverUser(profile: NidProfileMap) {
+        try {
+            // null 체크 후 기본값 설정
+            val id = profile.profile?.get("id").toString() ?: "id"
+            val name = profile.profile?.get("name").toString() ?: "이름 없음"
+            val phone = profile.profile?.get("mobile").toString() ?: "000-0000-0000"
+            val email = profile.profile?.get("email").toString() ?: "jikigo@jikigo.com"
+            val nickname = profile.profile?.get("nickname").toString() ?: "닉네임 없음"
+            val profileImg = profile.profile?.get("profile_image").toString() ?: ""
+
+
+            // Firestore 문서 ID로 userDocId 사용
+            val userInfo = createUserInfo(id, name, phone, email, nickname, profileImg)
+            Log.d("SaveUser", "생성된 UserInfo 객체: $userInfo")
+
+            val userDocId = userInfo.userDocId
+
+            // Firestore 문서 ID로 userDocId 사용하여 저장
+            val userDocRef = firestore.collection("UserInfo").document(userDocId)
+            Log.d("SaveUser", "Firestore에 저장할 문서 ID: $userDocId")
+
+            val documentSnapshot = userDocRef.get().await()
+            if (documentSnapshot.exists()) {
+                Log.d("SaveUser", "이미 존재하는 사용자: $userDocId")
+            } else {
+                userDocRef.set(userInfo).await()
+                Log.d("SaveUser", "새 사용자 저장 성공: $userDocId")
+            }
+
+            // DataStore에 userId 저장
+            context.saveUserId(userDocId)
             Log.d("SaveUser", "DataStore에 저장된 userId: ${context.getUserId()}")
 
         } catch (e: Exception) {
@@ -248,12 +286,13 @@ class UserRepo @Inject constructor(
         }
     }
 
-    private fun createUserInfo(name: String, phoneNumber: String, email: String, nickName: String, profileImg: String) =
+    private fun createUserInfo(id: String, name: String, mobile: String, email: String, nickName: String, profileImg: String) =
         UserInfo(
-            userDocId = email,
+            userDocId = id,
+            userId = id,
+            userEmail = email,
             userName = name,
-            userMobile = phoneNumber,
-            userId = email,
+            userMobile = mobile,
             userNickName = nickName,
             userProfileImg = profileImg,
         )
@@ -304,7 +343,7 @@ class UserRepo @Inject constructor(
 
     // *쿠폰 결제 관련*
     // 구매한 쿠폰
-    suspend fun setPurchasedCoupon(userId : String, purchasedCoupon : PurchasedCoupon) {
+    suspend fun setPurchasedCoupon(userId: String, purchasedCoupon: PurchasedCoupon) {
         val userDocRef = firestore.collection("UserInfo").document(userId)
         val purchasedCouponRef = userDocRef.collection("PurchasedCoupon")
 
@@ -315,7 +354,7 @@ class UserRepo @Inject constructor(
     }
 
     // 결제 시 포인트 차감
-    suspend fun updateUserPoint(userId: String,usedPoint: Int) {
+    suspend fun updateUserPoint(userId: String, usedPoint: Int) {
         val userRef = firestore.collection("UserInfo").document(userId)
 
         firestore.runTransaction { transaction ->
@@ -355,7 +394,7 @@ class UserRepo @Inject constructor(
 
     // *보관함 쿠폰 처리*
     // 사용한 쿠폰 처리
-    suspend fun usePurchasedCoupon(userId: String, purchasedCouponId: String){
+    suspend fun usePurchasedCoupon(userId: String, purchasedCouponId: String) {
         val userDocRef = firestore.collection("UserInfo").document(userId)
         val purchasedCouponRef = userDocRef.collection("PurchasedCoupon").document(purchasedCouponId)
 
@@ -420,6 +459,5 @@ class UserRepo @Inject constructor(
 
         batch.commit().await()
     }
-
 }
 

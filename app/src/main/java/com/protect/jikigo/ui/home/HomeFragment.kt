@@ -79,6 +79,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private fun getUserInfo() {
         lifecycleScope.launch {
             val userId = requireContext().getUserId() ?: ""
+            Log.d("HomeFragment", "userId: $userId")
             homeViewModel.getUserInfo(userId)
         }
 

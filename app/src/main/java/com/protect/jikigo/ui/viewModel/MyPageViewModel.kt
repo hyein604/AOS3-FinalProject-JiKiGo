@@ -1,9 +1,13 @@
 package com.protect.jikigo.ui.viewModel
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.repo.MyPageRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val myPageRepo: MyPageRepo
-): ViewModel() {
+) : ViewModel() {
     val totalSteps = MutableLiveData<String>()
 
     private val _profile = MutableLiveData<UserInfo>()
@@ -23,10 +27,10 @@ class MyPageViewModel @Inject constructor(
 
 
     fun loadProfile(userid: String) {
-       myPageRepo.getProfile(userid) { profile, id ->
-           _profile.value = profile!!
-           loading(false)
-       }
+        myPageRepo.getProfile(userid) { profile, id ->
+            _profile.value = profile!!
+            loading(false)
+        }
     }
 
     fun loading(boolean: Boolean) {
