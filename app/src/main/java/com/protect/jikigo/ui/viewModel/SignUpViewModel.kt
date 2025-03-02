@@ -150,7 +150,6 @@ class SignUpViewModel @Inject constructor(
             userName = name.value.orEmpty(),
             userMobile = mobile.value.orEmpty(),
             userId = id.value.orEmpty(),
-            userPw = pw.value.orEmpty(),
             userNickName = nickName.value.orEmpty()
         )
         //userRepo.addUserInfo(userInfo, callback)
