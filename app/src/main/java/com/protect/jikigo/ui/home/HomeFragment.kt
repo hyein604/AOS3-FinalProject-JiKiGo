@@ -1,5 +1,7 @@
 package com.protect.jikigo.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.protect.jikigo.R
 import com.protect.jikigo.data.Coupon
 import com.protect.jikigo.data.Storage
+import com.protect.jikigo.data.model.Store
+import com.protect.jikigo.data.repo.StoreRepo
 import com.protect.jikigo.databinding.FragmentHomeBinding
 import com.protect.jikigo.ui.HomeAdapter
 import com.protect.jikigo.ui.HomeStoreItemClickListener
@@ -26,6 +30,7 @@ import com.protect.jikigo.ui.viewModel.HomeViewModel
 import com.protect.jikigo.ui.viewModel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeStoreItemClickListener {
@@ -33,6 +38,9 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     private val binding get() = _binding!!
     private val notificationViewModel: NotificationViewModel by activityViewModels()
     private val homeViewModel by viewModels<HomeViewModel>()
+
+    @Inject
+    lateinit var storeRepo: StoreRepo
 
 
     override fun onCreateView(
@@ -50,6 +58,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.shimmerHomeStore.stopShimmer()
         _binding = null
     }
 
@@ -180,14 +189,32 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     }
 
     private fun setRecyclerView() {
-        val storeList = Storage.coupon
-        val adapter = HomeAdapter(storeList, this)
-        binding.rvHomeStore.adapter = adapter
+        binding.shimmerHomeStore.startShimmer()
+        binding.shimmerHomeStore.visibility = View.VISIBLE
+        binding.rvHomeStore.visibility = View.GONE
+
+        lifecycleScope.launch {
+            val storeList = storeRepo.getAllStore().take(3)
+
+            if (!isAdded || view == null) return@launch
+
+            val adapter = HomeAdapter(storeList, this@HomeFragment)
+            binding.rvHomeStore.adapter = adapter
+
+            stopShimmer()
+        }
     }
 
-    override fun onClickStore(coupon: Coupon) {
-        //        val action = HomeFragmentDirections.actionNavigationHomeToTravelCouponDetail()
-//        findNavController().navigate(action)
-        Toast.makeText(requireContext(), coupon.name, Toast.LENGTH_SHORT).show()
+    private fun stopShimmer() {
+        if (!isAdded || view == null) return
+
+        binding.shimmerHomeStore.stopShimmer()
+        binding.shimmerHomeStore.visibility = View.GONE
+        binding.rvHomeStore.visibility = View.VISIBLE
+    }
+
+    override fun onClickStore(store: Store) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(store.storeUrl))
+        startActivity(intent)
     }
 }
