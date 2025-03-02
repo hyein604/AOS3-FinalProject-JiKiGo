@@ -65,11 +65,31 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setRecyclerView(){
+
+        startShimmer()
         lifecycleScope.launch {
             coupon = couponRepo.getAllCouponSortedBySales()
             adaptor = CouponAdaptor(coupon, this@TravelHotCouponFragment)
             binding.rvTravelHorCoupon.adapter = adaptor
+
+            if (!isAdded || view == null) return@launch
+
+            stopShimmer()
         }
+    }
+
+    private fun startShimmer(){
+        binding.rvTravelHorCoupon.visibility = View.GONE
+        binding.shimmerTravelHotCoupon.visibility = View.VISIBLE
+        binding.shimmerTravelHotCoupon.startShimmer()
+    }
+
+    private fun stopShimmer() {
+        if (!isAdded || view == null) return
+
+        binding.shimmerTravelHotCoupon.stopShimmer()
+        binding.shimmerTravelHotCoupon.visibility = View.GONE
+        binding.rvTravelHorCoupon.visibility = View.VISIBLE
     }
 
     override fun onClickListener(item: Coupon) {

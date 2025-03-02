@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginBottom="16dp"
-    app:cardBackgroundColor="@color/transparent"
-    app:cardCornerRadius="10dp"
-    app:elevation="4dp"
-    app:strokeWidth="0dp">
+    android:layout_marginBottom="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_coupon_detail_thumnail"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#F4F4F4"
+            android:background="@color/gray_5"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ImageCorner" />
 
         <TextView
             android:id="@+id/tv_coupon_brand"
@@ -33,37 +26,36 @@
             android:layout_marginTop="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름"
+            tools:text="쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름쿠폰브랜드이름"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_coupon_detail_thumnail" />
 
-        <TextView
-            android:id="@+id/tv_coupon_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름"
-            android:textColor="#5A5A5A"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_coupon_brand" />
+    <TextView
+        android:id="@+id/tv_coupon_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="#5A5A5A"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_coupon_brand"
+        tools:text="쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름쿠폰 이름" />
 
-        <TextView
-            android:id="@+id/tv_coupon_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="10,000P"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_coupon_name" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:id="@+id/tv_coupon_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_coupon_name"
+        tools:text="10,000P" />
+</androidx.constraintlayout.widget.ConstraintLayout>

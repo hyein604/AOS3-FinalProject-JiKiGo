@@ -58,6 +58,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.shimmerHomeStore.stopShimmer()
         _binding = null
     }
 
@@ -187,11 +188,28 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     }
 
     private fun setRecyclerView() {
+        binding.shimmerHomeStore.startShimmer()
+        binding.shimmerHomeStore.visibility = View.VISIBLE
+        binding.rvHomeStore.visibility = View.GONE
+
         lifecycleScope.launch {
-            val storeList = storeRepo.getAllStore()
+            val storeList = storeRepo.getAllStore().take(3)
+
+            if (!isAdded || view == null) return@launch
+
             val adapter = HomeAdapter(storeList, this@HomeFragment)
             binding.rvHomeStore.adapter = adapter
+
+            stopShimmer()
         }
+    }
+
+    private fun stopShimmer() {
+        if (!isAdded || view == null) return
+
+        binding.shimmerHomeStore.stopShimmer()
+        binding.shimmerHomeStore.visibility = View.GONE
+        binding.rvHomeStore.visibility = View.VISIBLE
     }
 
     override fun onClickStore(store: Store) {
