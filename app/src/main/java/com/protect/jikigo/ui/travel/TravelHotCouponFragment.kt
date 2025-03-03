@@ -26,6 +26,7 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
 
     private var coupon : List<Coupon> = listOf()
     lateinit var adaptor: CouponAdaptor
+    private var isFabVisible = false
 
     @Inject
     lateinit var couponRepo : CouponRepo
@@ -52,6 +53,7 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
         setStatusBarColor()
         onClickToolbar()
         setRecyclerView()
+        setupFabBehavior()
     }
 
     private fun setStatusBarColor() {
@@ -90,6 +92,24 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
         binding.shimmerTravelHotCoupon.stopShimmer()
         binding.shimmerTravelHotCoupon.visibility = View.GONE
         binding.rvTravelHorCoupon.visibility = View.VISIBLE
+    }
+
+    private fun setupFabBehavior() {
+        binding.nestedScrollTravelHotCoupon.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+            if (scrollY > 1000 && !isFabVisible) {
+                binding.fabTravelHotCoupon.visibility = View.VISIBLE
+                isFabVisible = true
+            } else if (scrollY < 100 && isFabVisible) {
+                binding.fabTravelHotCoupon.visibility = View.INVISIBLE
+                isFabVisible = false
+            }
+        }
+
+        binding.fabTravelHotCoupon.setOnClickListener {
+            binding.nestedScrollTravelHotCoupon.scrollTo(0, 0)
+            binding.fabTravelHotCoupon.visibility = View.INVISIBLE
+            isFabVisible = false
+        }
     }
 
     override fun onClickListener(item: Coupon) {

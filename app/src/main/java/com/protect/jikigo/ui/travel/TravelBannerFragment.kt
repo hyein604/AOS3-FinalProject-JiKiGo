@@ -53,9 +53,9 @@ class TravelBannerFragment : Fragment() {
 
     private fun loadBannerData(position : Int){
         val bannerTitle = listOf(
-            "MCY PARK",
-            "경주월드",
-            "동궁과 월지"
+            "프로모션 배너1",
+            "프로모션 배너2",
+            "프로모션 배너3"
         )
 
         binding.toolbarTravelBanner.title = bannerTitle[position]

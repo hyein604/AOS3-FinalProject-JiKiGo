@@ -107,7 +107,7 @@ class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
         }
     }
 
-    private fun setBannerSlider(bannerImages: List<String>) {
+    private fun setBannerSlider(bannerImages: List<Int>) {
         val adapter = TravelBannerAdapter(bannerImages) { position ->
             val actualPosition = (position - 1 + bannerImages.size) % bannerImages.size
             val action = TravelFragmentDirections.actionNavigationTravelToTravelBanner(actualPosition)

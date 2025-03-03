@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.databinding.ItemTravelBannerBinding
 
 class TravelBannerAdapter (
-    private val images: List<String>,
+    private val images: List<Int>,
     private val onBannerClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<TravelBannerAdapter.BannerViewHolder>() {
 

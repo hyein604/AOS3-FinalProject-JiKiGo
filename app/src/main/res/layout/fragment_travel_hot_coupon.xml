@@ -19,7 +19,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="HOT 추천쿠폰" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_travel_hot_coupon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:src="@drawable/ic_arrow_up"
+        android:visibility="gone"
+        app:backgroundTint="@color/white"
+        app:fabCustomSize="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/material_on_background_disabled"
+        app:tint="@null" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_travel_hot_coupon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

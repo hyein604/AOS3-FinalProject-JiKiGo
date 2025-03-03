@@ -87,6 +87,7 @@ class TravelCouponDetailFragment : Fragment() {
         binding.tvTravelCouponDetailBrand.text = args.couponArg.couponBrand
         binding.tvTravelCouponDetailName.text = args.couponArg.couponName
         binding.tvTravelCouponDetatilPrice.applyNumberFormat(args.couponArg.couponPrice)
+        binding.tvTravelCouponDetailPriod.text = "유효기간 : ${args.couponArg.couponValidDays}일"
         binding.tvTravelCouponDetailWhere.text = "사용처 : ${args.couponArg.couponBrand}"
         binding.tvTravelCouponDetailInfoContent.text = args.couponArg.couponInfo.replace("\\n", "\n")
     }
