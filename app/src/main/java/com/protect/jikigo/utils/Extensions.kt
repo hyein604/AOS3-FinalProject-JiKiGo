@@ -1,8 +1,10 @@
-package com.protect.jikigo.ui.extensions
+package com.protect.jikigo.utils
 
 import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Build
+import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -27,6 +29,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import org.jsoup.Jsoup
 import java.text.DecimalFormat
 
 // textView 속성을 넣어주는 함수
@@ -64,6 +67,19 @@ fun TextView.applySpannableStyles(
     }
 
     this.text = spannableBuilder
+}
+
+// HTML 태그제거
+fun String.cleanHtml(): String {
+    // 1. HTML 태그 제거
+    val noHtml = Jsoup.parse(this).text()
+
+    // 2. HTML 엔터티 디코딩 (&quot; -> ")
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(noHtml, Html.FROM_HTML_MODE_LEGACY).toString()
+    } else {
+        Html.fromHtml(noHtml).toString()
+    }
 }
 
 // 상태바 색상 변경
