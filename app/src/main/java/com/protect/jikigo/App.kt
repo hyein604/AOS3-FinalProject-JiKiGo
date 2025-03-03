@@ -22,7 +22,6 @@ class App : Application() {
         )
 
         KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_APP_KEY)
-        Log.d("KAKAO", "${Utility.getKeyHash(this)}")
 
         NaverIdLoginSDK.initialize(this, BuildConfig.NAVER_CLIENT_ID, BuildConfig.NAVER_CLIENT_SECRET, R.string.app_name.toString())
     }
