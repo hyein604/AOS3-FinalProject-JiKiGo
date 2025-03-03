@@ -32,6 +32,8 @@ android {
             "KAKAO_NATIVE_APP_KEY" to properties.getProperty("KAKAO_NATIVE_APP_KEY"),
             "NAVER_CLIENT_ID" to properties.getProperty("NAVER_CLIENT_ID"),
             "NAVER_CLIENT_SECRET" to properties.getProperty("NAVER_CLIENT_SECRET"),
+            "NAVER_CLIENT_NEWS_ID" to properties.getProperty("NAVER_CLIENT_NEWS_ID"),
+            "NAVER_CLIENT_NEWS_SECRET" to properties.getProperty("NAVER_CLIENT_NEWS_SECRET"),
         )
 
         buildConfigField(
@@ -51,6 +53,18 @@ android {
             "String",
             "NAVER_CLIENT_SECRET",
             "\"${properties.getProperty("NAVER_CLIENT_SECRET")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_NEWS_ID",
+            "\"${properties.getProperty("NAVER_CLIENT_NEWS_ID")}\""
+        )
+
+        buildConfigField(
+            "String",
+            "NAVER_CLIENT_NEWS_SECRET",
+            "\"${properties.getProperty("NAVER_CLIENT_NEWS_SECRET")}\""
         )
     }
 
