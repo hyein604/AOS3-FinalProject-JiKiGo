@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
-import com.protect.jikigo.data.NewsItem
-import com.protect.jikigo.data.NewsResponse
+import com.protect.jikigo.data.model.NewsItem
+import com.protect.jikigo.data.model.NewsResponse
+
 import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsAdapter
 import com.protect.jikigo.ui.adapter.NewsBannerAdapter
