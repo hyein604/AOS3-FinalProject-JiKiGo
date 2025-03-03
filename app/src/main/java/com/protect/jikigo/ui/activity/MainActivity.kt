@@ -1,16 +1,14 @@
-package com.protect.jikigo
+package com.protect.jikigo.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.ActivityMainBinding
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.statusBarColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

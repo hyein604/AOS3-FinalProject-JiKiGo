@@ -1,10 +1,11 @@
-package com.protect.jikigo
+package com.protect.jikigo.ui.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 

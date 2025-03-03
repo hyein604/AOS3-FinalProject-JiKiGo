@@ -1,4 +1,4 @@
-package com.protect.jikigo.ui
+package com.protect.jikigo.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.data.model.Store
 import com.protect.jikigo.databinding.ItemHomeStoreBinding
-import com.protect.jikigo.ui.extensions.applyNumberFormat
+import com.protect.jikigo.ui.home.HomeStoreItemClickListener
 
 class HomeAdapter(
     private val items: List<Store>,
