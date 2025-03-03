@@ -29,13 +29,13 @@
         android:layout_height="wrap_content"
         android:text="쿠폰을 준비 중이에요."
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView2"
-        app:layout_constraintEnd_toEndOf="@+id/nestedScrollView2"
-        app:layout_constraintStart_toStartOf="@+id/nestedScrollView2"
-        app:layout_constraintTop_toTopOf="@+id/nestedScrollView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/nested_scroll_travel_coupon"
+        app:layout_constraintEnd_toEndOf="@+id/nested_scroll_travel_coupon"
+        app:layout_constraintStart_toStartOf="@+id/nested_scroll_travel_coupon"
+        app:layout_constraintTop_toTopOf="@+id/nested_scroll_travel_coupon" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView2"
+        android:id="@+id/nested_scroll_travel_coupon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

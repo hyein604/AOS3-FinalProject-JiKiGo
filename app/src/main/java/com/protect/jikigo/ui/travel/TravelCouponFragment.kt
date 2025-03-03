@@ -12,6 +12,7 @@ import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.protect.jikigo.R
@@ -22,6 +23,7 @@ import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
 import com.protect.jikigo.ui.extensions.toast
 import com.protect.jikigo.ui.viewModel.TravelCouponViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
@@ -51,6 +53,12 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         setupObservers()
         setupSortMenu()
         setupFabBehavior()
+    }
+
+    override fun onResume(){
+        super.onResume()
+        val categoryIndex = arguments?.getInt("categoryIndex") ?: 1
+        viewModel.setCategory(categoryIndex)
     }
 
     private fun setupObservers() {
@@ -181,7 +189,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun setupFabBehavior() {
-        binding.nestedScrollView2.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+        binding.nestedScrollTravelCoupon.setOnScrollChangeListener { _, _, scrollY, _, _ ->
             if (scrollY > 1000 && !isFabVisible) {
                 binding.fabTravelCoupon.visibility = View.VISIBLE
                 isFabVisible = true
@@ -192,7 +200,7 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
         }
 
         binding.fabTravelCoupon.setOnClickListener {
-            binding.nestedScrollView2.scrollTo(0, 0)
+            binding.nestedScrollTravelCoupon.scrollTo(0, 0)
             binding.fabTravelCoupon.visibility = View.INVISIBLE
             isFabVisible = false
         }

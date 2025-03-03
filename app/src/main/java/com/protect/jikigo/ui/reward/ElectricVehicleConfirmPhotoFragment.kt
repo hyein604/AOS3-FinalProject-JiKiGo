@@ -53,6 +53,7 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
         observe()
         onClickListener()
         checkData()
+        binding.cardElectricConfirm.setBackgroundResource(R.drawable.card_reward_shape)
     }
 
     // 시작 시 확인할 데이터
@@ -72,14 +73,14 @@ class ElectricVehicleConfirmPhotoFragment : Fragment() {
                 when(loading) {
                     false -> {
                         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                        binding.layoutTransitPhotoLoading.visibility = View.GONE
+                        binding.layoutElectricPhotoLoading.visibility = View.GONE
                     }
                     true -> {
                         requireActivity().window.setFlags(
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                         )
-                        binding.layoutTransitPhotoLoading.visibility = View.VISIBLE
+                        binding.layoutElectricPhotoLoading.visibility = View.VISIBLE
                     }
                 }
             }

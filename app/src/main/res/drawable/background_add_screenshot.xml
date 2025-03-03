@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 둥근 모서리를 가진 배경 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F4F4F4" />
+            <corners android:radius="5dp" /> <!-- 모서리를 둥글게 설정 -->
+        </shape>
+    </item>
+
+    <!-- 중앙 카메라 아이콘 -->
+    <item
+        android:drawable="@drawable/ic_camera"
+        android:gravity="center" />
+</layer-list>

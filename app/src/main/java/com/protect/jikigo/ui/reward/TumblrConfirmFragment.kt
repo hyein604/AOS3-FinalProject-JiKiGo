@@ -70,6 +70,8 @@ class TumblrConfirmFragment : Fragment() {
 
         getUserPointError()
         setTimer()
+
+        binding.cardTumblrConfirm.setBackgroundResource(R.drawable.card_reward_shape)
     }
 
     private fun getUserPoint() {
