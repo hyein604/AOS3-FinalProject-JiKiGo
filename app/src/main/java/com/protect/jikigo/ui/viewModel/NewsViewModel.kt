@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.data.RetrofitClient
+import com.protect.jikigo.data.model.NewsItem
 import com.protect.jikigo.utils.cleanHtml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

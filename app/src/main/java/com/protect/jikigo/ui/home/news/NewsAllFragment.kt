@@ -14,7 +14,7 @@ import android.util.Log
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.protect.jikigo.R
-import com.protect.jikigo.data.NewsItem
+import com.protect.jikigo.data.model.NewsItem
 import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
 import com.protect.jikigo.utils.cleanHtml
 import com.protect.jikigo.ui.viewModel.NewsViewModel

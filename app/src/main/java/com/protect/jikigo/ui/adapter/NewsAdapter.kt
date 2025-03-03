@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
+import com.protect.jikigo.data.model.NewsItem
 import com.protect.jikigo.databinding.RowLatestNewsBinding
-import com.protect.jikigo.data.NewsItem
 import java.text.SimpleDateFormat
 import java.util.Locale
 import org.jsoup.Jsoup
-import java.util.concurrent.Executors
 
 class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 

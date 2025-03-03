@@ -86,7 +86,7 @@
 		tools:layout="@layout/fragment_news_detail">
 		<argument
 			android:name="newsItem"
-			app:argType="com.protect.jikigo.data.NewsItem" />
+			app:argType="com.protect.jikigo.data.model.NewsItem" />
 	</fragment>
 
 

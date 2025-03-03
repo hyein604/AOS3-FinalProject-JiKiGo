@@ -5,12 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.protect.jikigo.databinding.FragmentNewsDetailBinding
-import com.protect.jikigo.data.NewsItem
-import java.text.SimpleDateFormat
-import java.util.Locale
-import com.protect.jikigo.R
 
 class NewsDetailFragment : Fragment() {
     private var _binding: FragmentNewsDetailBinding? = null

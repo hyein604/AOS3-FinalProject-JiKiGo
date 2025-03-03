@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.protect.jikigo.data.NewsItem
+import com.protect.jikigo.data.model.NewsItem
 import com.protect.jikigo.databinding.ItemNewsBannerBinding
 
 
