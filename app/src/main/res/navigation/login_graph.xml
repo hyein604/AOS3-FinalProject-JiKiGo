@@ -10,50 +10,12 @@
 		android:name="com.protect.jikigo.ui.login.LoginFragment"
 		android:label="로그인 화면"
 		tools:layout="@layout/fragment_login">
+
 		<action
-			android:id="@+id/action_login_to_signUpFirst"
-			app:destination="@id/signUpFirst" />
-		<action
-			android:id="@+id/action_login_to_findAccount"
-			app:destination="@id/findAccount" />
-	</fragment>
-	<fragment
-		android:id="@+id/signUpFirst"
-		android:name="com.protect.jikigo.ui.login.SignUpFirstFragment"
-		android:label="fragment_sign_up_first"
-		tools:layout="@layout/fragment_sign_up_first">
-		<action
-			android:id="@+id/action_signUpFirst_to_signUpSecond"
-			app:destination="@id/signUpSecond" />
-		<action
-			android:id="@+id/action_signUpFirst_to_webView"
+			android:id="@+id/action_login_to_webView"
 			app:destination="@id/webView" />
 	</fragment>
-	<fragment
-		android:id="@+id/signUpSecond"
-		android:name="com.protect.jikigo.ui.login.SignUpSecondFragment"
-		android:label="fragment_sign_up_second"
-		tools:layout="@layout/fragment_sign_up_second">
-		<action
-			android:id="@+id/action_signUpSecond_to_login"
-			app:destination="@id/login"
-			app:popUpTo="@id/login"
-			app:popUpToInclusive="true" />
-	</fragment>
-	<fragment
-		android:id="@+id/findAccount"
-		android:name="com.protect.jikigo.ui.login.FindAccountFragment"
-		android:label="fragment_find_account"
-		tools:layout="@layout/fragment_find_account">
-		<action
-			android:id="@+id/action_findAccount_to_findNewPw"
-			app:destination="@id/findNewPw" />
-	</fragment>
-	<fragment
-		android:id="@+id/findNewPw"
-		android:name="com.protect.jikigo.ui.login.FindNewPwFragment"
-		android:label="fragment_find_new_pw"
-		tools:layout="@layout/fragment_find_new_pw" />
+
 	<fragment
 		android:id="@+id/webView"
 		android:name="com.protect.jikigo.ui.WebViewFragment"
