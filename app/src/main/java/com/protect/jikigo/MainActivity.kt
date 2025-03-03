@@ -16,9 +16,11 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var keepSplashScreen = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { keepSplashScreen }
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,12 +34,9 @@ class MainActivity : AppCompatActivity() {
     private fun splashPlayer() {
         this.statusBarColor(R.color.primary)
 
-        Glide.with(this)
-            .load(R.drawable.splash_video)
-            .into(binding.ivSplash)
-
         lifecycleScope.launch {
             delay(3000)
+            keepSplashScreen = false
             checkAutoLogin()
         }
     }
