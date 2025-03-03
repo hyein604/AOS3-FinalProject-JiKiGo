@@ -1,4 +1,4 @@
-package com.protect.jikigo.ui
+package com.protect.jikigo.ui.home
 
 import com.protect.jikigo.data.model.Store
 
