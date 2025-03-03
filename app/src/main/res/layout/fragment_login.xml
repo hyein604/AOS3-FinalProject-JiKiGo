@@ -52,11 +52,25 @@
 		android:layout_height="wrap_content"
 		android:text="지키Go"
 		android:textColor="@color/primary"
-		android:textSize="36sp"
+		android:textSize="56sp"
 		android:textStyle="bold"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintBottom_toBottomOf="@id/gl_hori_03"
 		app:layout_constraintTop_toTopOf="@id/gl_hori_03" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="30dp"
+		android:gravity="center"
+		android:text="우리가 지키는 환경이 \n곧 우리가 누릴 여행의 미래가 된다"
+		android:textSize="17sp"
+		android:lineSpacingExtra="10dp"
+		android:textStyle="bold"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/tv_login_label" />
 
 
 	<androidx.appcompat.widget.AppCompatImageButton

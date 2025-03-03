@@ -45,7 +45,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun setLayout() {
-        autoLogin()
+      //  autoLogin()
         observeViewModel()
         onClick()
     }
