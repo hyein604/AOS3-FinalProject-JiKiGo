@@ -115,4 +115,24 @@ class RankingRepo @Inject constructor(
         val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
         return sdf.format(Date()) // 현재 시간 변환
     }
+
+    suspend fun resetWeeklySteps() {
+        try {
+            val firestore = FirebaseFirestore.getInstance()
+            val usersCollection = firestore.collection("UserInfo")
+
+            val batch = firestore.batch()
+            val users = usersCollection.get().await()
+
+            for (user in users.documents) {
+                val userRef = usersCollection.document(user.id)
+                batch.update(userRef, "userStepWeekly", 0) // 주간 걸음 수 0으로 초기화
+            }
+
+            batch.commit().await()
+            Log.d("RankingRepo", "모든 유저의 주간 걸음 수 초기화 완료")
+        } catch (e: Exception) {
+            Log.e("RankingRepo", "주간 걸음 수 초기화 실패", e)
+        }
+    }
 }

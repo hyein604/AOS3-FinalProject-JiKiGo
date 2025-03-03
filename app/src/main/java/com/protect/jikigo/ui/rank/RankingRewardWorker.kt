@@ -30,6 +30,9 @@ class RankingRewardWorker(
                     rankingRepo.setRankingRewardHistory(user.id, rewardPoints[index])
                 }
 
+                // 모든 유저의 주간 걸음 수 초기화
+                rankingRepo.resetWeeklySteps()
+
                 Log.d("RankingRewardWorker", "보상 지급 완료")
                 Result.success()
             } catch (e: Exception) {
