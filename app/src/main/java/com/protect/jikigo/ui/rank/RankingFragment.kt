@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.ui.extensions.statusBarColor
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
@@ -68,22 +69,22 @@ class RankingFragment : Fragment() {
     }
 
     private fun scheduleWeeklyRankingRewards() {
-        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-
-//        // 테스트용
 //        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
-//            set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+//            set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
 //            set(Calendar.HOUR_OF_DAY, 0)
-//            set(Calendar.MINUTE,32)
-//            set(Calendar.SECOND,0)
+//            set(Calendar.MINUTE, 0)
+//            set(Calendar.SECOND, 0)
 //            set(Calendar.MILLISECOND, 0)
 //        }
+
+//        // 테스트용
+        val calendar = Calendar.getInstance(TimeZone.getDefault()).apply {
+            set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE,0)
+            set(Calendar.SECOND,0)
+            set(Calendar.MILLISECOND, 0)
+        }
 
         val delay = calendar.timeInMillis - System.currentTimeMillis()
         if (delay > 0) {
@@ -91,8 +92,15 @@ class RankingFragment : Fragment() {
                 .setInitialDelay(delay, TimeUnit.MILLISECONDS)
                 .build()
 
-            WorkManager.getInstance(requireContext()).enqueue(workRequest)
-            Log.d("RankingFragment", "보상 지급 예약됨: ${calendar.time}")
+            val workManager = WorkManager.getInstance(requireContext())
+
+            // Worker 중복 실행 방지
+            // 기존 작업을 취소하고 새로운 작업을 실행
+            workManager.enqueueUniqueWork(
+                "RankingRewardWorker",
+                ExistingWorkPolicy.REPLACE, // 기존 작업 취소 후 새 작업 실행
+                workRequest
+            )
         }
     }
 
