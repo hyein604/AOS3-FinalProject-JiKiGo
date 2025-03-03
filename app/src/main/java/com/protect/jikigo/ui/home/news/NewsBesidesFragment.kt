@@ -5,25 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayoutMediator
-import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
-import com.protect.jikigo.ui.adapter.NewsBannerAdapter
-import android.util.Log
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.data.NewsItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import com.protect.jikigo.data.RetrofitClient
 import com.protect.jikigo.data.NewsResponse
+import com.protect.jikigo.databinding.FragmentNewsBesidesBinding
 import com.protect.jikigo.ui.adapter.NewsAdapter
+import com.protect.jikigo.ui.adapter.NewsBannerAdapter
 import com.protect.jikigo.ui.viewModel.NewsViewModel
-import com.protect.jikigo.utils.cleanHtml
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import retrofit2.Call
 
 class NewsBesidesFragment : Fragment() {
     private var _binding: FragmentNewsBesidesBinding? = null

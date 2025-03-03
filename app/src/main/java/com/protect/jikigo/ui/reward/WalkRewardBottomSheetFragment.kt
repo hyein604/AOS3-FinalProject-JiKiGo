@@ -8,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.health.connect.client.permission.HealthPermission
-import androidx.health.connect.client.records.StepsRecord
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.protect.jikigo.databinding.FragmentWalkRewardBottomSheetBinding
-import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.utils.getUserId
 import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

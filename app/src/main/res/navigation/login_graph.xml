@@ -23,6 +23,6 @@
 		tools:layout="@layout/fragment_web_view">
 		<argument
 			android:name="urlMethod"
-			app:argType="com.protect.jikigo.data.WebSiteURL" />
+			app:argType="com.protect.jikigo.utils.WebSiteURL" />
 	</fragment>
 </navigation>

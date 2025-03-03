@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.data.NewsItem
 import com.protect.jikigo.ui.adapter.NewsAllBannerAdapter
-import com.protect.jikigo.ui.viewModel.NewsViewModel
 import com.protect.jikigo.utils.cleanHtml
+import com.protect.jikigo.ui.viewModel.NewsViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlinx.coroutines.*

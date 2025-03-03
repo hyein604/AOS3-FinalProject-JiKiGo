@@ -15,7 +15,7 @@ import androidx.health.connect.client.time.TimeRangeFilter
 import androidx.lifecycle.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.protect.jikigo.data.repo.WalkRewardBottomSheetRepo
-import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.utils.getUserId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime

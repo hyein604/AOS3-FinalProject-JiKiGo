@@ -1,8 +1,6 @@
 package com.protect.jikigo.ui.home.my_page
 
 import android.graphics.Bitmap
-import android.graphics.Color.BLACK
-import android.graphics.Color.WHITE
 import android.os.Bundle
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -18,7 +16,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentCouponDetailBinding
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.statusBarColor
 
 class CouponDetailFragment : Fragment() {
     private var _binding: FragmentCouponDetailBinding? = null

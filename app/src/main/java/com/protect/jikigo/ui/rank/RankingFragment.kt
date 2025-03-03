@@ -3,7 +3,6 @@ package com.protect.jikigo.ui.rank
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +14,15 @@ import com.protect.jikigo.databinding.FragmentRankingBinding
 import com.protect.jikigo.ui.rank.dialog.RankingHelpDialog
 import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.statusBarColor
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.protect.jikigo.ui.adapter.RankingAdapter
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.getUserName
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.getUserName
 import com.protect.jikigo.ui.viewModel.RankingViewModel
 import com.protect.jikigo.ui.viewModel.WalkViewModel
 import dagger.hilt.android.AndroidEntryPoint

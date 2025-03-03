@@ -14,12 +14,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentProfileEditBinding
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.showDialog
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.showDialog
 import com.protect.jikigo.ui.viewModel.ProfileEditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

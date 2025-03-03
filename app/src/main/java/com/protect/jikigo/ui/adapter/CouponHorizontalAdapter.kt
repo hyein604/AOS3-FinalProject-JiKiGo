@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.data.model.Coupon
-import com.protect.jikigo.databinding.ItemCouponBinding
 import com.protect.jikigo.databinding.ItemCouponHorizontalBinding
-import com.protect.jikigo.ui.extensions.applyNumberFormat
+import com.protect.jikigo.utils.applyNumberFormat
 
 class CouponHorizontalAdapter (
     private var items: List<Coupon>,

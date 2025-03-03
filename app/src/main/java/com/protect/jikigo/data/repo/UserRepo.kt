@@ -14,8 +14,8 @@ import com.navercorp.nid.profile.data.NidProfileMap
 import com.protect.jikigo.data.model.PurchasedCoupon
 import com.protect.jikigo.data.model.UserInfo
 import com.protect.jikigo.data.model.UserQR
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.saveUserId
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.saveUserId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat

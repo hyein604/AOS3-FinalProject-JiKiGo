@@ -1,11 +1,9 @@
 package com.protect.jikigo.ui.reward
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentRewardBinding
-import com.protect.jikigo.ui.extensions.convertThreeDigitComma
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.convertThreeDigitComma
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.RewardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

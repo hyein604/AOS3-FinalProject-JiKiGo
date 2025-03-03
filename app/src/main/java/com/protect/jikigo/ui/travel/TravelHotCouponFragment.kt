@@ -13,8 +13,7 @@ import com.protect.jikigo.data.repo.CouponRepo
 import com.protect.jikigo.databinding.FragmentTravelHotCouponBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
-import com.protect.jikigo.ui.extensions.statusBarColor
-import com.protect.jikigo.ui.extensions.toast
+import com.protect.jikigo.utils.statusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

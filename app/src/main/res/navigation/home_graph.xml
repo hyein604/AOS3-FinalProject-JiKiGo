@@ -347,7 +347,7 @@
 		tools:layout="@layout/fragment_tos">
 		<argument
 			android:name="urlMethod"
-			app:argType="com.protect.jikigo.data.WebSiteURL" />
+			app:argType="com.protect.jikigo.utils.WebSiteURL" />
 	</fragment>
 
 	<fragment

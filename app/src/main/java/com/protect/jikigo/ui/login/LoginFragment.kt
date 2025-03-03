@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.navercorp.nid.NaverIdLoginSDK
-import com.protect.jikigo.HomeActivity
+import com.protect.jikigo.ui.activity.HomeActivity
 import com.protect.jikigo.databinding.FragmentLoginBinding
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.showSnackBar
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.showSnackBar
 import com.protect.jikigo.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

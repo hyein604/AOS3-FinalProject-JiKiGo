@@ -1,7 +1,6 @@
 package com.protect.jikigo.ui.travel
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBinding
-import com.protect.jikigo.ui.extensions.convertThreeDigitComma
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.statusBarColor
-import com.protect.jikigo.ui.home.HomeFragment
+import com.protect.jikigo.utils.convertThreeDigitComma
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

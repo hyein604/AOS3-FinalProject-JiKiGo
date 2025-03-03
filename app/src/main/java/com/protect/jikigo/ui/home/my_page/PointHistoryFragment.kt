@@ -1,7 +1,6 @@
 package com.protect.jikigo.ui.home.my_page
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +11,15 @@ import androidx.navigation.fragment.findNavController
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentPointHistoryBinding
 import com.protect.jikigo.ui.adapter.PointHistoryAdapter
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.PointHistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.time.Duration.Companion.days
 
 @AndroidEntryPoint
 class PointHistoryFragment : Fragment() {

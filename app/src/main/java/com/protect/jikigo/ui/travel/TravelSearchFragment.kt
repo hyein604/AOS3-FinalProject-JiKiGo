@@ -15,7 +15,7 @@ import com.protect.jikigo.data.model.Coupon
 import com.protect.jikigo.databinding.FragmentTravelSearchBinding
 import com.protect.jikigo.ui.adapter.CouponAdaptor
 import com.protect.jikigo.ui.adapter.TravelCouponOnClickListener
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,16 +1,12 @@
 package com.protect.jikigo.ui.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.protect.jikigo.R
-import com.protect.jikigo.data.Coupon
-import com.protect.jikigo.data.Storage
 import com.protect.jikigo.data.model.PurchasedCoupon
-
 import com.protect.jikigo.databinding.ItemCouponBoxListBinding
 import java.util.Calendar
 import java.util.concurrent.TimeUnit

@@ -17,8 +17,8 @@ import com.protect.jikigo.databinding.FragmentTravelHomeBinding
 import com.protect.jikigo.ui.adapter.CouponHorizontalAdapter
 import com.protect.jikigo.ui.adapter.TravelBannerAdapter
 import com.protect.jikigo.ui.adapter.TravelCouponHorizontalOnClickListener
-import com.protect.jikigo.ui.extensions.applySpannableStyles
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.applySpannableStyles
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelHomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

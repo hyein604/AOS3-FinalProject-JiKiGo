@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelBannerBinding
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.statusBarColor
 
 
 class TravelBannerFragment : Fragment() {

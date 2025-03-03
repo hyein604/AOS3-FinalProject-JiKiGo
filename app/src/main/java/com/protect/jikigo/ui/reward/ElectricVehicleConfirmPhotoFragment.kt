@@ -16,7 +16,7 @@ import com.google.firebase.Timestamp
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.Confirm
 import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmPhotoBinding
-import com.protect.jikigo.ui.extensions.getUserId
+import com.protect.jikigo.utils.getUserId
 import com.protect.jikigo.ui.viewModel.ElectricConfirmPhotoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

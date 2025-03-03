@@ -22,10 +22,10 @@ import com.google.zxing.qrcode.QRCodeWriter
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.UserQR
 import com.protect.jikigo.databinding.FragmentTumblrConfirmBinding
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.setTimerCallBack
-import com.protect.jikigo.ui.extensions.showDialog
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.setTimerCallBack
+import com.protect.jikigo.utils.showDialog
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.TumblerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job

@@ -1,7 +1,6 @@
 package com.protect.jikigo.ui.travel
 
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentTravelCouponDetailBinding
-import com.protect.jikigo.ui.extensions.applyNumberFormat
-import com.protect.jikigo.ui.extensions.getUserId
-import com.protect.jikigo.ui.extensions.statusBarColor
+import com.protect.jikigo.utils.applyNumberFormat
+import com.protect.jikigo.utils.getUserId
+import com.protect.jikigo.utils.statusBarColor
 import com.protect.jikigo.ui.viewModel.TravelCouponDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
