@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.protect.jikigo.R
 import com.protect.jikigo.databinding.FragmentElectricVehicleConfirmBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +35,7 @@ class ElectricVehicleConfirmFragment : Fragment() {
 
     private fun setLayout() {
         onClickListener()
+        binding.cardElectricVehicleConfirm.setBackgroundResource(R.drawable.card_reward_shape)
     }
 
     private fun onClickListener() {
