@@ -11,7 +11,6 @@ data class UserInfo(
     val userPoint: Int = 0,
     val userQR: UserQR = UserQR(),
     val userProfileImg: String = "https://www.studiopeople.kr/common/img/default_profile.png",
-    val userIsActive: Boolean = true,
     val userStepDaily: Int = 0,
     val userStepWeekly: Int = 0,
 )
