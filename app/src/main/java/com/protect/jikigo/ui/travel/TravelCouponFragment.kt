@@ -198,6 +198,8 @@ class TravelCouponFragment : Fragment(), TravelCouponOnClickListener {
 
         binding.fabTravelCoupon.setOnClickListener {
             binding.nestedScrollTravelCoupon.scrollTo(0, 0)
+            binding.rvCouponList.stopScroll()
+
             binding.fabTravelCoupon.visibility = View.INVISIBLE
             isFabVisible = false
         }
