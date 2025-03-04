@@ -104,7 +104,13 @@ class CouponBoxFragment : Fragment(), CouponOnClickListener {
     private fun observe() {
         binding.apply {
             viewModel.couponList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+                if(it.isEmpty()) {
+                    binding.layoutCouponBoxEmpty.visibility = View.VISIBLE
+                }
+                else {
+                    binding.layoutCouponBoxEmpty.visibility = View.INVISIBLE
+                    adapter.submitList(it)
+                }
             }
 
             viewModel.isLoading.observe(viewLifecycleOwner) {

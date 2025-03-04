@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.protect.jikigo.databinding.FragmentNotificationBinding
@@ -66,9 +67,23 @@ class NotificationFragment : Fragment() {
     }
 
     private fun setupSearch() {
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         binding.ivSearchIcon.setOnClickListener {
             val query = binding.etSearch.text.toString().trim()
             viewModel.performSearch(query)
+
+            // 🔽 키보드 내리기
+            inputMethodManager.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
+        }
+
+        binding.etSearch.setOnEditorActionListener { _, _, _ ->
+            val query = binding.etSearch.text.toString().trim()
+            viewModel.performSearch(query)
+
+            // 🔽 키보드 내리기
+            inputMethodManager.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
+            true
         }
 
         binding.tvNotificationViewAll.setOnClickListener {
@@ -77,17 +92,30 @@ class NotificationFragment : Fragment() {
         }
     }
 
+
     private fun observeViewModel() {
+        viewModel.searchResultCount.observe(viewLifecycleOwner) { count ->
+            if (viewModel.hasSearched.value == true) {
+                binding.tvNotificationSearchResult.text = "총 ${count}건의 검색결과가 있습니다."
+                binding.tvNotificationSearchResult.visibility = View.VISIBLE
+            } else {
+                binding.tvNotificationSearchResult.visibility = View.GONE
+            }
+        }
+
         viewModel.isSearchResultVisible.observe(viewLifecycleOwner) { isVisible ->
-            binding.tvNotificationSearchResult.visibility = if (isVisible) View.VISIBLE else View.GONE
+            binding.tvNoSearchResult.visibility = if (!isVisible && viewModel.searchResultCount.value == 0 && viewModel.hasSearched.value == true) View.VISIBLE else View.GONE
         }
 
         viewModel.isViewAllVisible.observe(viewLifecycleOwner) { isVisible ->
-            binding.tvNotificationViewAll.visibility = if (isVisible) View.VISIBLE else View.GONE
+            binding.tvNotificationViewAll.visibility = if (viewModel.hasSearched.value == true) View.VISIBLE else View.GONE
         }
 
-        viewModel.searchResultCount.observe(viewLifecycleOwner) { count ->
-            binding.tvNotificationSearchResult.text = "총 ${count}건의 검색결과가 있습니다."
+        binding.tvNotificationViewAll.setOnClickListener {
+            viewModel.resetSearch()
+            binding.etSearch.setText("")
+            binding.tvNotificationSearchResult.visibility = View.GONE
+            binding.tvNotificationViewAll.visibility = View.GONE
         }
     }
 }

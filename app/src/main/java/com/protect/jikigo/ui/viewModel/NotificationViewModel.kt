@@ -1,6 +1,5 @@
 package com.protect.jikigo.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,6 +37,9 @@ class NotificationViewModel @Inject constructor(
     private val _searchResultCount = MutableLiveData(0)
     val searchResultCount: LiveData<Int> get() = _searchResultCount
 
+    private val _hasSearched = MutableLiveData(false)
+    val hasSearched: LiveData<Boolean> get() = _hasSearched
+
     init {
         loadNotifications() // 초기 데이터 불러오기
     }
@@ -55,17 +57,26 @@ class NotificationViewModel @Inject constructor(
     }
     // 검색 수행
     fun performSearch(query: String) {
-        _filteredList.value = if (query.isNotEmpty()) {
-            _notificationListHomeFragment.value?.filter { it.title.contains(query, ignoreCase = true) }
-                ?.sortedByDescending { it.important } ?: emptyList() // 여기에 정렬 추가
-        } else {
-            _notificationListHomeFragment.value?.sortedByDescending { it.important } // 검색어 없을 경우에도 정렬
+        if (query.isEmpty()) {
+            _filteredList.value = _notificationListNotificationFragment.value
+            _searchResultCount.value = _notificationListNotificationFragment.value?.size ?: 0
+            _isSearchResultVisible.value = false
+            _isViewAllVisible.value = false
+            _hasSearched.value = false // 검색하지 않은 상태
+            return
         }
 
-        _searchResultCount.value = _filteredList.value?.size ?: 0 // 검색된 개수 저장
+        _hasSearched.value = true // 검색 수행됨
 
-        _isSearchResultVisible.value = _filteredList.value!!.isNotEmpty()
-        _isViewAllVisible.value = _filteredList.value!!.isNotEmpty()
+        _filteredList.value = _notificationListHomeFragment.value?.filter {
+            it.title.contains(query, ignoreCase = true)
+        }?.sortedByDescending { it.important } ?: emptyList()
+
+        val resultCount = _filteredList.value?.size ?: 0
+        _searchResultCount.value = resultCount
+
+        _isSearchResultVisible.value = resultCount > 0
+        _isViewAllVisible.value = resultCount > 0
     }
 
 

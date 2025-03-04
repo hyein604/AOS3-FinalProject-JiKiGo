@@ -141,4 +141,18 @@
         tools:listitem="@layout/row_notification"
         />
 
+    <!-- 검색 결과가 없을 때 표시될 텍스트 -->
+    <TextView
+        android:id="@+id/tv_no_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색결과가 없습니다."
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/sv_notification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
