@@ -71,7 +71,7 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
         lifecycleScope.launch {
             coupon = couponRepo.getAllCouponSortedBySales()
             adaptor = CouponAdaptor(coupon, this@TravelHotCouponFragment)
-            binding.rvTravelHorCoupon.adapter = adaptor
+            binding.rvTravelHotCoupon.adapter = adaptor
 
             if (!isAdded || view == null) return@launch
 
@@ -80,7 +80,7 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
     }
 
     private fun startShimmer(){
-        binding.rvTravelHorCoupon.visibility = View.GONE
+        binding.rvTravelHotCoupon.visibility = View.GONE
         binding.shimmerTravelHotCoupon.visibility = View.VISIBLE
         binding.shimmerTravelHotCoupon.startShimmer()
     }
@@ -90,7 +90,7 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
 
         binding.shimmerTravelHotCoupon.stopShimmer()
         binding.shimmerTravelHotCoupon.visibility = View.GONE
-        binding.rvTravelHorCoupon.visibility = View.VISIBLE
+        binding.rvTravelHotCoupon.visibility = View.VISIBLE
     }
 
     private fun setupFabBehavior() {
@@ -106,6 +106,8 @@ class TravelHotCouponFragment : Fragment(), TravelCouponOnClickListener {
 
         binding.fabTravelHotCoupon.setOnClickListener {
             binding.nestedScrollTravelHotCoupon.scrollTo(0, 0)
+            binding.rvTravelHotCoupon.stopScroll()
+
             binding.fabTravelHotCoupon.visibility = View.INVISIBLE
             isFabVisible = false
         }

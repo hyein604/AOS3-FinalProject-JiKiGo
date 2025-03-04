@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="HOT 추천쿠폰 🔥"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/card_travel_banner" />
 
@@ -83,27 +84,27 @@
                 android:id="@+id/tv_travel_home_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:text="더보기"
                 android:textSize="10sp"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@id/card_travel_banner" />
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_travel_home_hot_coupon"
+                app:layout_constraintEnd_toStartOf="@+id/iv_travel_home_more" />
 
             <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginTop="16dp"
+                android:id="@+id/iv_travel_home_more"
+                android:layout_width="20dp"
+                android:layout_height="0dp"
                 android:src="@drawable/ic_arrow_more"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_travel_home_more"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_travel_banner" />
+                app:layout_constraintTop_toTopOf="@+id/tv_travel_home_more" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_travel_home_hot_coupon">
 

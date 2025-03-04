@@ -105,6 +105,10 @@ class TravelHomeFragment : Fragment(), TravelCouponHorizontalOnClickListener {
             val action = TravelFragmentDirections.actionNavigationTravelToTravelHotCoupon()
             findNavController().navigate(action)
         }
+        binding.ivTravelHomeMore.setOnClickListener {
+            val action = TravelFragmentDirections.actionNavigationTravelToTravelHotCoupon()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setBannerSlider(bannerImages: List<Int>) {
