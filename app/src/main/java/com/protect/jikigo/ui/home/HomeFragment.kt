@@ -62,14 +62,15 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
         getUserInfo()
         setRecyclerView()
         setStatusBarColor()
+        homeTextSpannable()
+        observeNotificationList()
         moveToMyPage()
         moveToNews()
         moveToNotification()
         moveToQR()
         moveToTravel()
-        homeTextSpannable()
         moveToRank()
-        observeNotificationList()
+        moveToPointHistory()
     }
 
     private fun getUserInfo() {
@@ -98,7 +99,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     }
 
     private fun moveToNotification() {
-        binding.tvHomeNoticeMore.setOnClickListener {
+        binding.viewNoticeMore.setOnClickListener {
             val action = HomeFragmentDirections.actionNavigationHomeToNotification()
             findNavController().navigate(action)
         }
@@ -113,6 +114,13 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
                     findNavController().navigate(action)
                 }
             }
+        }
+    }
+
+    private fun moveToPointHistory() {
+        binding.viewPoint.setOnClickListener {
+            val action = HomeFragmentDirections.actionNavigationHomeToPointHistory()
+            findNavController().navigate(action)
         }
     }
 
@@ -136,7 +144,7 @@ class HomeFragment : Fragment(), HomeStoreItemClickListener {
     }
 
     private fun moveToTravel() {
-        binding.tvHomeStoreMore.setOnClickListener {
+        binding.viewStoreMore.setOnClickListener {
             val bottomNavHome = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav_home)
             bottomNavHome.selectedItemId = R.id.navigation_travel
         }

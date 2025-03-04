@@ -34,6 +34,9 @@
 		<action
 			android:id="@+id/action_navigation_home_to_travelCouponDetail"
 			app:destination="@id/travelCouponDetail" />
+		<action
+			android:id="@+id/action_navigation_home_to_pointHistory"
+			app:destination="@id/pointHistory" />
 	</fragment>
 
 	<fragment
