@@ -20,7 +20,7 @@ class PointHistoryRepo @Inject constructor(
                     val paymentData = document.toObject(UserPaymentHistory::class.java).copy(docId = document.id)
                     paymentHistoryList.add(paymentData)
                 }
-                paymentHistoryList.sortByDescending { it.paymentDate }
+                paymentHistoryList.sortByDescending { it.paymentDate.substring(11, 18) }
                 item(paymentHistoryList)
             }
             .addOnFailureListener { exception ->
