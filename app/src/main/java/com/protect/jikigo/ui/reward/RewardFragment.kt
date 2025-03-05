@@ -32,7 +32,7 @@ class RewardFragment : Fragment() {
 
     private lateinit var userId : String
 
-    private val random = Random().nextInt(4) + 1
+    private val random = Random().nextInt(5) + 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
