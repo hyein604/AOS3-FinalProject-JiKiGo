@@ -41,4 +41,8 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun selectedTravelNavigation() {
+        binding.bottomNavHome.selectedItemId = R.id.navigation_travel
+    }
 }

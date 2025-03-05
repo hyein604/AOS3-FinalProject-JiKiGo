@@ -97,7 +97,7 @@
 		android:id="@+id/paymentQR"
 		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
 		android:label="fragment_payment_qr"
-		tools:layout="@layout/fragment_payment_qr" >
+		tools:layout="@layout/fragment_payment_qr">
 		<action
 			android:id="@+id/action_paymentQR_to_paymentQRDialog"
 			app:destination="@id/paymentQRDialog" />
@@ -144,7 +144,7 @@
 		android:id="@+id/myPage"
 		android:name="com.protect.jikigo.ui.home.my_page.MyPageFragment"
 		android:label="fragment_my_page"
-		tools:layout="@layout/fragment_my_page" >
+		tools:layout="@layout/fragment_my_page">
 		<action
 			android:id="@+id/action_myPage_to_profileEdit"
 			app:destination="@id/profileEdit" />
@@ -156,27 +156,27 @@
 			app:destination="@id/couponBox" />
 	</fragment>
 
-	  <fragment
+	<fragment
 		android:id="@+id/navigation_travel"
 		android:name="com.protect.jikigo.ui.travel.TravelFragment"
 		android:label="fragment_travel"
-		tools:layout="@layout/fragment_travel" >
+		tools:layout="@layout/fragment_travel">
 		<action
 			android:id="@+id/action_navigation_travel_to_myPage"
 			app:destination="@id/myPage" />
-		 <action
-			 android:id="@+id/action_navigation_travel_to_travelSearch"
-			 app:destination="@id/travelSearch" />
-		 <action
-			 android:id="@+id/action_navigation_travel_to_travelHotCoupon"
-			 app:destination="@id/travelHotCoupon" />
-		   <action
-			  android:id="@+id/action_navigation_travel_to_travelCouponDetail"
-			  app:destination="@id/travelCouponDetail" />
-		  <action
-			  android:id="@+id/action_navigation_travel_to_travelBanner"
-			  app:destination="@id/travelBanner" />
-	  </fragment>
+		<action
+			android:id="@+id/action_navigation_travel_to_travelSearch"
+			app:destination="@id/travelSearch" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelHotCoupon"
+			app:destination="@id/travelHotCoupon" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelBanner"
+			app:destination="@id/travelBanner" />
+	</fragment>
 
 	<fragment
 		android:id="@+id/profileEdit"
@@ -194,7 +194,7 @@
 		android:id="@+id/couponBox"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponBoxFragment"
 		android:label="fragment_coupon_box"
-		tools:layout="@layout/fragment_coupon_box" >
+		tools:layout="@layout/fragment_coupon_box">
 		<action
 			android:id="@+id/action_couponBoxFragment_to_couponDetailFragment"
 			app:destination="@id/couponDetail" />
@@ -204,7 +204,7 @@
 		android:id="@+id/couponDetail"
 		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
 		android:label="fragment_coupon_detail"
-		tools:layout="@layout/fragment_coupon_detail" >
+		tools:layout="@layout/fragment_coupon_detail">
 		<argument
 			android:name="couponArg"
 			app:argType="com.protect.jikigo.data.model.PurchasedCoupon" />
@@ -226,20 +226,20 @@
 		android:id="@+id/electricVehicleConfirm"
 		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
 		android:label="fragment_electric_vehicle_confirm"
-		tools:layout="@layout/fragment_electric_vehicle_confirm" >
+		tools:layout="@layout/fragment_electric_vehicle_confirm">
 		<action
 			android:id="@+id/action_electricVehicleConfirm_to_electricVehicleConfirmPhoto"
-			app:destination="@id/electricVehicleConfirmPhoto"/>
+			app:destination="@id/electricVehicleConfirmPhoto" />
 	</fragment>
 
 	<fragment
 		android:id="@+id/transitConfirm"
 		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
 		android:label="fragment_transit_confirm"
-		tools:layout="@layout/fragment_transit_confirm" >
+		tools:layout="@layout/fragment_transit_confirm">
 		<action
 			android:id="@+id/action_transitConfirm_to_transitConfirmPhoto"
-			app:destination="@id/transitConfirmPhoto"/>
+			app:destination="@id/transitConfirmPhoto" />
 	</fragment>
 
 	<fragment
@@ -264,11 +264,11 @@
 		android:id="@+id/attendBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
 		android:label="fragment_attend_bottom_sheet"
-		tools:layout="@layout/fragment_attend_bottom_sheet" >
-        <argument
-            android:name="attendPoint"
-            app:argType="integer" />
-    </dialog>
+		tools:layout="@layout/fragment_attend_bottom_sheet">
+		<argument
+			android:name="attendPoint"
+			app:argType="integer" />
+	</dialog>
 	<dialog
 		android:id="@+id/walkRewardBottomSheet"
 		android:name="com.protect.jikigo.ui.reward.WalkRewardBottomSheetFragment"
@@ -301,7 +301,7 @@
 		android:id="@+id/travelCouponDetail"
 		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
 		android:label="fragment_travel_coupon_detail"
-		tools:layout="@layout/fragment_travel_coupon_detail" >
+		tools:layout="@layout/fragment_travel_coupon_detail">
 		<argument
 			android:name="couponArg"
 			app:argType="com.protect.jikigo.data.model.Coupon" />
@@ -329,19 +329,19 @@
 		android:id="@+id/travelPaymentBottomSheet"
 		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
 		android:label="fragment_travel_payment_bottom_sheet"
-		tools:layout="@layout/fragment_travel_payment_bottom_sheet" >
+		tools:layout="@layout/fragment_travel_payment_bottom_sheet">
 		<argument
 			android:name="couponArg"
 			app:argType="com.protect.jikigo.data.model.Coupon" />
 		<argument
 			android:name="userPointArg"
-			app:argType= "integer" />
+			app:argType="integer" />
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
 			app:destination="@id/travelPaymentComplete" />
 		<action
 			android:id="@+id/action_travelPaymentBottomSheet_to_tos"
-			app:destination="@id/tos"/>
+			app:destination="@id/tos" />
 	</dialog>
 	<fragment
 		android:id="@+id/tos"
@@ -360,6 +360,6 @@
 		tools:layout="@layout/fragment_travel_banner">
 		<argument
 			android:name="positionArgs"
-			app:argType="integer"/>
+			app:argType="integer" />
 	</fragment>
 </navigation>

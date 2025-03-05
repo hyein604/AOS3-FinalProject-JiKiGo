@@ -22,6 +22,7 @@ import com.google.zxing.qrcode.QRCodeWriter
 import com.protect.jikigo.R
 import com.protect.jikigo.data.model.UserQR
 import com.protect.jikigo.databinding.FragmentPaymentQrBinding
+import com.protect.jikigo.ui.activity.HomeActivity
 import com.protect.jikigo.utils.applyNumberFormat
 import com.protect.jikigo.utils.getUserId
 import com.protect.jikigo.utils.setTimerCallBack
@@ -47,7 +48,6 @@ class PaymentQRFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentPaymentQrBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,11 +59,11 @@ class PaymentQRFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initUserId()
         setLayout()
     }
 
     private fun setLayout() {
-        initUserId()
         setStatusBarColor()
         onClickBack()
         onClickToolbar()
@@ -88,6 +88,7 @@ class PaymentQRFragment : Fragment() {
     private fun initUserId() {
         viewLifecycleOwner.lifecycleScope.launch {
             userId = requireContext().getUserId()!!
+            Log.d("initUserId", userId)
         }
     }
 
@@ -197,9 +198,10 @@ class PaymentQRFragment : Fragment() {
                 nega = "취소"
             ) { result ->
                 if (result) {
-                    val action = PaymentQRFragmentDirections.actionPaymentQRToNavigationTravel()
+                    findNavController().popBackStack(findNavController().graph.startDestinationId, false)
+                    val homeActivity = requireActivity() as HomeActivity
+                    homeActivity.selectedTravelNavigation()
                     setClearRealDB()
-                    findNavController().navigate(action)
                 }
             }
         }
@@ -214,10 +216,6 @@ class PaymentQRFragment : Fragment() {
     private fun setQRCode() {
         lifecycleScope.launch {
             timerJob?.cancelAndJoin()
-//            binding.tvQrTime.text = "3:00"
-//            binding.ivQrRefresh.isEnabled = false
-//            binding.ivQrRefresh.visibility = View.INVISIBLE
-//            binding.ivPaymentQr.visibility = View.VISIBLE
 
             timerJob = binding.tvQrTime.setTimerCallBack(
                 lifecycleScope,
