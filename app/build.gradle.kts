@@ -151,7 +151,7 @@ dependencies {
     // naver
     implementation("com.navercorp.nid:oauth:5.10.0") // jdk 11
   //  implementation(files("libs/oauth-5.10.0.aar"))
-  
+
     implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
