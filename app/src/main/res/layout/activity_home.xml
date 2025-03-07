@@ -5,7 +5,7 @@
 	android:id="@+id/home"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".HomeActivity">
+	tools:context=".ui.activity.HomeActivity">
 
 	<androidx.fragment.app.FragmentContainerView
 		android:id="@+id/container_home"
@@ -26,6 +26,7 @@
 		app:backgroundTint="@color/white"
 		app:itemActiveIndicatorStyle="@null"
 		app:itemIconTint="@color/selector_bottom_navigation_color"
+		app:itemRippleColor="@color/transparent"
 		app:itemTextColor="@color/selector_bottom_navigation_color"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"

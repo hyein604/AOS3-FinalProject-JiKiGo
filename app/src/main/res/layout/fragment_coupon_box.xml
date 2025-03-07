@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".CouponBoxFragment">
+    tools:context=".ui.home.my_page.CouponBoxFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_coupon_box"
@@ -19,7 +19,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_coupon_box"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,12 +42,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="보유쿠폰" />
+                    android:text="@string/coupon_box_possession_coupon" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사용완료쿠폰" />
+                    android:text="@string/coupon_box_used_coupon" />
 
             </com.google.android.material.tabs.TabLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
-                android:text="아래의 교환처에서 바코드를 제시 후\n상품으로 교환할 수 있습니다."
+                android:text="@string/coupon_box_description"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tab_coupon_box" />
@@ -73,8 +73,55 @@
                 app:spanCount="2"
                 tools:layout_editor_absoluteX="10dp"
                 tools:listitem="@layout/item_coupon_box_list" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_coupon_box_loading"
+                app:layout_constraintTop_toTopOf="@id/recycler_coupon_box"
+                app:layout_constraintBottom_toBottomOf="@id/recycler_coupon_box"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:layout_height="0dp">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_coupon_box_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_coupon_box_empty"
+                app:layout_constraintTop_toBottomOf="@id/tv_coupon_box_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:visibility="invisible"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/iv_coupon_box_empty"
+                    android:layout_width="50dp"
+                    android:layout_marginTop="200dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_close"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/iv_coupon_box_empty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="wrap_content"
+                    android:text="쿠폰함에 상품이 없습니다" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".MyPageFragment">
+    tools:context=".ui.home.my_page.MyPageFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_my_page"
@@ -37,8 +37,6 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/shape_profile_radius"
                 android:clipToOutline="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:text="오늘"
+                android:text="@string/common_today"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -143,7 +141,6 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/shape_view_edge"
-                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_my_page_walk" />
@@ -163,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:text="포인트 내역"
+                android:text="@string/my_page_point_history"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -176,11 +173,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:text="@string/my_page_point_history_month"
                 android:textColor="@color/gray_100"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/tv_my_page_point_main"
-                app:layout_constraintTop_toBottomOf="@id/tv_my_page_point_main"
-                tools:text="이번 달 내역" />
+                app:layout_constraintTop_toBottomOf="@id/tv_my_page_point_main" />
 
             <Button
                 style="@style/Widget.Material3.Button.IconButton"
@@ -199,7 +196,6 @@
                 android:layout_height="45dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="40dp"
-                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_my_page_point" />
@@ -209,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="등록 계좌 수정"
+                android:text="@string/my_page_change_bank"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -235,7 +231,6 @@
                 android:layout_height="45dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_my_page_bank_edit" />
@@ -245,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="쿠폰함"
+                android:text="@string/my_page_coupon_box"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -255,6 +250,7 @@
                 app:layout_constraintTop_toTopOf="@id/view_my_page_coupon" />
 
             <Button
+                android:id="@+id/iv_my_page_coupon_box"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="고객센터"
+                android:text="@string/my_page_customer_service"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@id/tv_my_page_coupon"
@@ -289,7 +285,7 @@
                 android:id="@+id/tv_my_page_customer_service_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="월 - 금 9:00 ~ 18:00 (토.일 공휴일 휴무)"
+                android:text="@string/my_page_customer_service_description"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_my_page_customer_service"
@@ -299,7 +295,7 @@
                 android:id="@+id/tv_my_page_customer_service_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1588 - 1234"
+                android:text="@string/my_page_customer_service_phone"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/tv_my_page_customer_service_time"
@@ -312,11 +308,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
                 android:minHeight="20dp"
-                android:paddingLeft="0dp"
+                android:paddingStart="0dp"
                 android:paddingTop="0dp"
                 android:paddingEnd="0dp"
                 android:paddingBottom="0dp"
-                android:text="로그아웃"
+                android:text="@string/common_logout"
                 android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -330,19 +326,36 @@
                 android:layout_marginTop="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:paddingBottom="0dp"
-                android:paddingLeft="0dp"
+                android:paddingStart="0dp"
                 android:minHeight="20dp"
                 android:paddingEnd="0dp"
                 android:paddingTop="0dp"
-                android:text="회원탈퇴"
+                android:text="@string/my_page_delete_account"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/gray_100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_my_page_logout" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_my_page_loading"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="0dp">
 
-
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_my_page_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

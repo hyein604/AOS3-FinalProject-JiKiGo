@@ -1,0 +1,145 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.travel.TravelHomeFragment">
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/searchBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="원하시는 상품을 검색해보세요"
+        app:backgroundTint="@color/white"
+        app:hideNavigationIcon="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_travel_home_search"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp" />
+
+    <!-- NestedScrollView로 감싸서 스크롤 가능하게 변경 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_travel_banner"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_gravity="center_horizontal"
+                app:cardBackgroundColor="#F4F4F4"
+                app:cardCornerRadius="19dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeWidth="0dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_travel_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.viewpager2.widget.ViewPager2>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/indicator_travel_banner"
+                style="@style/AppTabIndicatorStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/card_travel_banner"
+                app:layout_constraintEnd_toEndOf="@+id/card_travel_banner" />
+
+            <TextView
+                android:id="@+id/tv_travel_home_hot_coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="HOT 추천쿠폰 🔥"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_travel_banner" />
+
+            <TextView
+                android:id="@+id/tv_travel_home_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="더보기"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_travel_home_hot_coupon"
+                app:layout_constraintEnd_toStartOf="@+id/iv_travel_home_more" />
+
+            <ImageView
+                android:id="@+id/iv_travel_home_more"
+                android:layout_width="20dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_arrow_more"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_travel_home_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_travel_home_more" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_travel_home_hot_coupon">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_travel_home_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include layout="@layout/item_shimmer_coupon_horizental" />
+
+                        <include layout="@layout/item_shimmer_coupon_horizental" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_hot_coupon_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_coupon">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

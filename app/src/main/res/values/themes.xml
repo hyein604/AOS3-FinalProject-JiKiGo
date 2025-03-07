@@ -6,7 +6,16 @@
 		<item name="colorPrimary">@color/primary</item>
 		<item name="colorOnPrimary">@color/white</item>
 		<item name="android:colorBackground">@color/white</item>
+		<item name="android:statusBarColor">@color/transparent</item>
+		<item name="android:windowLightStatusBar">true</item>
+
 	</style>
 
 	<style name="Theme.JikiGo" parent="Base.Theme.JikiGo" />
+
+	<!-- 추가: 스플래시 화면 테마 -->
+	<style name="Theme.JikiGo.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+		<item name="android:windowBackground">@drawable/splash</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+	</style>
 </resources>

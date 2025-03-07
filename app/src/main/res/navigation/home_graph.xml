@@ -1,6 +1,365 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/home_graph">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/home_graph"
+	app:startDestination="@id/navigation_home">
 
+	<fragment
+		android:id="@+id/navigation_home"
+		android:name="com.protect.jikigo.ui.home.HomeFragment"
+		android:label="홈"
+		tools:layout="@layout/fragment_home">
+		<action
+			android:id="@+id/action_navigation_home_to_notification"
+			app:destination="@id/notification" />
+		<action
+			android:id="@+id/action_navigation_home_to_news"
+			app:destination="@id/news" />
+		<action
+			android:id="@+id/action_navigation_home_to_paymentQR"
+			app:destination="@id/paymentQR" />
+		<action
+			android:id="@+id/action_navigation_home_to_myPage"
+			app:destination="@id/myPage" />
+		<action
+			android:id="@+id/action_navigation_home_to_travel"
+			app:destination="@id/navigation_travel" />
+		<action
+			android:id="@+id/action_navigation_home_to_notificationDetail"
+			app:destination="@id/notificationDetail" />
+		<action
+			android:id="@+id/action_navigation_home_to_ranking"
+			app:destination="@id/ranking" />
+		<action
+			android:id="@+id/action_navigation_home_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+		<action
+			android:id="@+id/action_navigation_home_to_pointHistory"
+			app:destination="@id/pointHistory" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/notification"
+		android:name="com.protect.jikigo.ui.home.noti.NotificationFragment"
+		android:label="fragment_notification"
+		tools:layout="@layout/fragment_notification">
+		<action
+			android:id="@+id/action_notification_to_notificationDetail"
+			app:destination="@id/notificationDetail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/notificationDetail"
+		android:name="com.protect.jikigo.ui.home.noti.NotificationDetailFragment"
+		android:label="fragment_notification_detail"
+		tools:layout="@layout/fragment_notification_detail">
+		<argument
+			android:name="notification"
+			app:argType="com.protect.jikigo.data.model.Notification" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/news"
+		android:name="com.protect.jikigo.ui.home.news.NewsFragment"
+		android:label="fragment_news"
+		tools:layout="@layout/fragment_news">
+		<action
+			android:id="@+id/action_newsBesides_to_newsDetail"
+			app:destination="@id/newsDetail" />
+		<argument
+			android:name="categoryTitle"
+			app:argType="string" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/newsBesides"
+		android:name="com.protect.jikigo.ui.home.news.NewsBesidesFragment"
+		android:label="fragment_news_besides"
+		tools:layout="@layout/fragment_news_besides">
+		<action
+			android:id="@+id/action_newsBesides_to_newsDetail"
+			app:destination="@id/newsDetail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/newsDetail"
+		android:name="com.protect.jikigo.ui.home.news.NewsDetailFragment"
+		android:label="fragment_news_detail"
+		tools:layout="@layout/fragment_news_detail">
+		<argument
+			android:name="newsItem"
+			app:argType="com.protect.jikigo.data.model.NewsItem" />
+	</fragment>
+
+
+	<fragment
+		android:id="@+id/paymentQR"
+		android:name="com.protect.jikigo.ui.payment.PaymentQRFragment"
+		android:label="fragment_payment_qr"
+		tools:layout="@layout/fragment_payment_qr">
+		<action
+			android:id="@+id/action_paymentQR_to_paymentQRDialog"
+			app:destination="@id/paymentQRDialog" />
+		<action
+			android:id="@+id/action_paymentQR_to_navigation_travel"
+			app:destination="@id/navigation_travel" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_reward"
+		android:name="com.protect.jikigo.ui.reward.RewardFragment"
+		android:label="fragment_reward"
+		tools:layout="@layout/fragment_reward">
+		<action
+			android:id="@+id/action_navigation_reward_to_ranking"
+			app:destination="@id/ranking" />
+		<action
+			android:id="@+id/action_navigation_reward_to_tumblrConfirm"
+			app:destination="@id/tumblrConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_electricVehicleConfirm"
+			app:destination="@id/electricVehicleConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_transitConfirm"
+			app:destination="@id/transitConfirm" />
+		<action
+			android:id="@+id/action_navigation_reward_to_attendBottomSheet"
+			app:destination="@id/attendBottomSheet" />
+		<action
+			android:id="@+id/action_navigation_reward_to_myPage"
+			app:destination="@id/myPage" />
+		<action
+			android:id="@+id/action_navigation_reward_to_pointHistory"
+			app:destination="@id/pointHistory" />
+		<action
+			android:id="@+id/action_navigation_reward_to_paymentQR"
+			app:destination="@id/paymentQR" />
+		<action
+			android:id="@+id/action_navigation_reward_to_walkRewardBottomSheet"
+			app:destination="@id/walkRewardBottomSheet" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/myPage"
+		android:name="com.protect.jikigo.ui.home.my_page.MyPageFragment"
+		android:label="fragment_my_page"
+		tools:layout="@layout/fragment_my_page">
+		<action
+			android:id="@+id/action_myPage_to_profileEdit"
+			app:destination="@id/profileEdit" />
+		<action
+			android:id="@+id/action_myPage_to_pointHistory"
+			app:destination="@id/pointHistory" />
+		<action
+			android:id="@+id/action_myPage_to_couponBox"
+			app:destination="@id/couponBox" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/navigation_travel"
+		android:name="com.protect.jikigo.ui.travel.TravelFragment"
+		android:label="fragment_travel"
+		tools:layout="@layout/fragment_travel">
+		<action
+			android:id="@+id/action_navigation_travel_to_myPage"
+			app:destination="@id/myPage" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelSearch"
+			app:destination="@id/travelSearch" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelHotCoupon"
+			app:destination="@id/travelHotCoupon" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+		<action
+			android:id="@+id/action_navigation_travel_to_travelBanner"
+			app:destination="@id/travelBanner" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/profileEdit"
+		android:name="com.protect.jikigo.ui.home.my_page.ProfileEditFragment"
+		android:label="fragment_profile_edit"
+		tools:layout="@layout/fragment_profile_edit" />
+
+	<fragment
+		android:id="@+id/pointHistory"
+		android:name="com.protect.jikigo.ui.home.my_page.PointHistoryFragment"
+		android:label="fragment_point_history"
+		tools:layout="@layout/fragment_point_history" />
+
+	<fragment
+		android:id="@+id/couponBox"
+		android:name="com.protect.jikigo.ui.home.my_page.CouponBoxFragment"
+		android:label="fragment_coupon_box"
+		tools:layout="@layout/fragment_coupon_box">
+		<action
+			android:id="@+id/action_couponBoxFragment_to_couponDetailFragment"
+			app:destination="@id/couponDetail" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/couponDetail"
+		android:name="com.protect.jikigo.ui.home.my_page.CouponDetailFragment"
+		android:label="fragment_coupon_detail"
+		tools:layout="@layout/fragment_coupon_detail">
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.PurchasedCoupon" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/ranking"
+		android:name="com.protect.jikigo.ui.rank.RankingFragment"
+		android:label="fragment_ranking"
+		tools:layout="@layout/fragment_ranking" />
+
+	<fragment
+		android:id="@+id/tumblrConfirm"
+		android:name="com.protect.jikigo.ui.reward.TumblrConfirmFragment"
+		android:label="fragment_tumblr_confirm"
+		tools:layout="@layout/fragment_tumblr_confirm" />
+
+	<fragment
+		android:id="@+id/electricVehicleConfirm"
+		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmFragment"
+		android:label="fragment_electric_vehicle_confirm"
+		tools:layout="@layout/fragment_electric_vehicle_confirm">
+		<action
+			android:id="@+id/action_electricVehicleConfirm_to_electricVehicleConfirmPhoto"
+			app:destination="@id/electricVehicleConfirmPhoto" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/transitConfirm"
+		android:name="com.protect.jikigo.ui.reward.TransitConfirmFragment"
+		android:label="fragment_transit_confirm"
+		tools:layout="@layout/fragment_transit_confirm">
+		<action
+			android:id="@+id/action_transitConfirm_to_transitConfirmPhoto"
+			app:destination="@id/transitConfirmPhoto" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/transitConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.TransitConfirmPhotoFragment"
+		android:label="fragment_transit_confirm_photo"
+		tools:layout="@layout/fragment_transit_confirm_photo" />
+
+	<fragment
+		android:id="@+id/electricVehicleConfirmPhoto"
+		android:name="com.protect.jikigo.ui.reward.ElectricVehicleConfirmPhotoFragment"
+		android:label="fragment_electric_vehicle_confirm_photo"
+		tools:layout="@layout/fragment_electric_vehicle_confirm_photo" />
+
+	<dialog
+		android:id="@+id/paymentQRDialog"
+		android:name="com.protect.jikigo.ui.payment.PaymentQRDialogFragment"
+		android:label="fragment_payment_qr_dialog"
+		tools:layout="@layout/fragment_payment_qr_dialog" />
+
+	<dialog
+		android:id="@+id/attendBottomSheet"
+		android:name="com.protect.jikigo.ui.reward.AttendBottomSheetFragment"
+		android:label="fragment_attend_bottom_sheet"
+		tools:layout="@layout/fragment_attend_bottom_sheet">
+		<argument
+			android:name="attendPoint"
+			app:argType="integer" />
+	</dialog>
+	<dialog
+		android:id="@+id/walkRewardBottomSheet"
+		android:name="com.protect.jikigo.ui.reward.WalkRewardBottomSheetFragment"
+		android:label="fragment_walk_reward_bottom_sheet"
+		tools:layout="@layout/fragment_walk_reward_bottom_sheet" />
+	<fragment
+		android:id="@+id/travelSearch"
+		android:name="com.protect.jikigo.ui.travel.TravelSearchFragment"
+		android:label="fragment_travel_search"
+		tools:layout="@layout/fragment_travel_search">
+		<action
+			android:id="@+id/action_travelSearch_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
+	<fragment
+		android:id="@+id/travelHotCoupon"
+		android:name="com.protect.jikigo.ui.travel.TravelHotCouponFragment"
+		android:label="fragment_travel_hot_coupon"
+		tools:layout="@layout/fragment_travel_hot_coupon">
+		<action
+			android:id="@+id/action_travelHotCoupon_to_travelCouponDetail"
+			app:destination="@id/travelCouponDetail" />
+	</fragment>
+	<fragment
+		android:id="@+id/travelCoupon"
+		android:name="com.protect.jikigo.ui.travel.TravelCouponFragment"
+		android:label="fragment_travel_coupon"
+		tools:layout="@layout/fragment_travel_coupon" />
+	<fragment
+		android:id="@+id/travelCouponDetail"
+		android:name="com.protect.jikigo.ui.travel.TravelCouponDetailFragment"
+		android:label="fragment_travel_coupon_detail"
+		tools:layout="@layout/fragment_travel_coupon_detail">
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
+		<action
+			android:id="@+id/action_travelCouponDetail_to_travelPaymentBottomSheet"
+			app:destination="@id/travelPaymentBottomSheet" />
+	</fragment>
+	<fragment
+		android:id="@+id/travelPaymentComplete"
+		android:name="com.protect.jikigo.ui.travel.TravelPaymentCompleteFragment"
+		android:label="fragment_travel_payment_complete"
+		tools:layout="@layout/fragment_travel_payment_complete">
+		<action
+			android:id="@+id/action_travelPaymentComplete_to_navigation_travel"
+			app:destination="@id/navigation_travel"
+			app:popUpTo="@id/navigation_travel"
+			app:popUpToInclusive="true" />
+		<action
+			android:id="@+id/action_travelPaymentComplete_to_couponBox"
+			app:destination="@id/couponBox"
+			app:popUpTo="@id/navigation_travel"
+			app:popUpToInclusive="true" />
+	</fragment>
+	<dialog
+		android:id="@+id/travelPaymentBottomSheet"
+		android:name="com.protect.jikigo.ui.travel.TravelPaymentBottomSheetFragment"
+		android:label="fragment_travel_payment_bottom_sheet"
+		tools:layout="@layout/fragment_travel_payment_bottom_sheet">
+		<argument
+			android:name="couponArg"
+			app:argType="com.protect.jikigo.data.model.Coupon" />
+		<argument
+			android:name="userPointArg"
+			app:argType="integer" />
+		<action
+			android:id="@+id/action_travelPaymentBottomSheet_to_travelPaymentComplete"
+			app:destination="@id/travelPaymentComplete" />
+		<action
+			android:id="@+id/action_travelPaymentBottomSheet_to_tos"
+			app:destination="@id/tos" />
+	</dialog>
+	<fragment
+		android:id="@+id/tos"
+		android:name="com.protect.jikigo.ui.TosFragment"
+		android:label="fragment_tos"
+		tools:layout="@layout/fragment_tos">
+		<argument
+			android:name="urlMethod"
+			app:argType="com.protect.jikigo.utils.WebSiteURL" />
+	</fragment>
+
+	<fragment
+		android:id="@+id/travelBanner"
+		android:name="com.protect.jikigo.ui.travel.TravelBannerFragment"
+		android:label="fragment_travel_banner"
+		tools:layout="@layout/fragment_travel_banner">
+		<argument
+			android:name="positionArgs"
+			app:argType="integer" />
+	</fragment>
 </navigation>

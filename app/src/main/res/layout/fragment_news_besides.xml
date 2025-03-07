@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.home.news.NewsBesidesFragment">
+
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.home.news.NewsBesidesFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <!-- HOT TOPIC -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_news_besides_hot_topic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="오늘의 뉴스 👀"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+            <!-- ViewPager2 (배너) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:cardCornerRadius="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="13dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_news_besides_hot_topic"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 인디케이터 (배너 아래 중앙) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp"
+                android:gravity="center">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/indicator_news_besides_hot_topic"
+                    style="@style/AppTabIndicatorStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+        <View
+            android:id="@+id/tab_divider"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="-10dp"
+            android:background="#D9D9D9" />
+
+        <!-- 최신 뉴스 -->
+        <TextView
+            android:id="@+id/tv_news_besides_latest_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="최신 뉴스 🔥"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <!-- RecyclerView (뉴스 리스트) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_news_besides_latest_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingBottom="16dp"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/row_latest_news" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

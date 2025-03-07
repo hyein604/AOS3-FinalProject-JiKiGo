@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1004831057076",
+    "project_id": "jikigo-bbb70",
+    "storage_bucket": "jikigo-bbb70.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004831057076:android:1361dfd1b22fa3ddeba3e1",
+        "android_client_info": {
+          "package_name": "com.protect.jikigo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCG6izmuPkRPrOskmmWXwFYBZTzMh2WGmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

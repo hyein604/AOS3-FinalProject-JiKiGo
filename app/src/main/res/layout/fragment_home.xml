@@ -1,10 +1,460 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context=".ui.home.HomeFragment">
 
+	<com.google.android.material.appbar.MaterialToolbar
+		android:id="@+id/toolbar_home"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="@color/primary"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:menu="@menu/menu_my_page_toolbar" />
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:fillViewport="true"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/toolbar_home">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<View
+				android:layout_width="0dp"
+				android:layout_height="200dp"
+				android:background="@color/primary"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:layout_width="130dp"
+				android:layout_height="130dp"
+				android:src="@drawable/img_tree"
+				app:layout_constraintBottom_toTopOf="@id/view_home_point"
+				app:layout_constraintEnd_toEndOf="@id/view_home_point" />
 
 
+			<TextView
+				android:id="@+id/tv_home_nickname"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:textSize="36sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:text="장세훈 님," />
+
+			<TextView
+				android:id="@+id/tv_home_label"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="오늘은 나무를 몇 그루 심었을까요?"
+				android:textSize="20sp"
+				app:layout_constraintStart_toStartOf="@id/tv_home_nickname"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_nickname" />
+
+			<TextView
+				android:id="@+id/tv_home_click_rank"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="클릭하여 확인하기"
+				android:textSize="15sp"
+				app:layout_constraintStart_toStartOf="@id/tv_home_nickname"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_label" />
+
+			<View
+				android:id="@+id/view_home_point"
+				android:layout_width="0dp"
+				android:layout_height="80dp"
+				android:layout_marginHorizontal="20dp"
+				android:layout_marginTop="35dp"
+				android:background="@drawable/background_qr"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_click_rank" />
+
+			<View
+				android:id="@+id/view_home_user_point"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_point"
+				app:layout_constraintEnd_toEndOf="@id/iv_home_point"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toTopOf="@id/tv_home_point" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_point"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:src="@drawable/ic_point"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_point"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toTopOf="@id/view_home_point" />
+
+			<View
+				android:id="@+id/view_point"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_point"
+				app:layout_constraintEnd_toEndOf="@id/iv_home_point"
+				app:layout_constraintStart_toStartOf="@id/tv_home_point"
+				app:layout_constraintTop_toTopOf="@id/tv_home_point" />
+
+			<TextView
+				android:id="@+id/tv_home_point"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="10dp"
+				android:textSize="24sp"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_point"
+				app:layout_constraintStart_toEndOf="@id/iv_point"
+				app:layout_constraintTop_toTopOf="@id/view_home_point"
+				tools:text="3,456P" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_point"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="5dp"
+				android:src="@drawable/ic_arrow_more"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_point"
+				app:layout_constraintStart_toEndOf="@id/tv_home_point"
+				app:layout_constraintTop_toTopOf="@id/tv_home_point" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_qr"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_margin="10dp"
+				android:src="@drawable/home_qr"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_point"
+				app:layout_constraintEnd_toEndOf="@id/view_home_point"
+				app:layout_constraintTop_toTopOf="@id/view_home_point" />
+
+			<TextView
+				android:id="@+id/tv_home_today_news"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:text="오늘의 소식 👀"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toBottomOf="@id/view_home_point" />
+
+			<View
+				android:id="@+id/view_home_environment"
+				android:layout_width="100dp"
+				android:layout_height="110dp"
+				android:layout_marginTop="10dp"
+				android:background="@drawable/background_home"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_today_news" />
+
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_environment"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_margin="10dp"
+				android:src="@drawable/img_environment"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_environment"
+				app:layout_constraintEnd_toEndOf="@id/view_home_environment"
+				app:layout_constraintStart_toStartOf="@id/view_home_environment"
+				app:layout_constraintTop_toTopOf="@id/view_home_environment" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="환경"
+				android:textSize="10sp"
+				android:textStyle="bold"
+				app:layout_constraintEnd_toEndOf="@id/view_home_environment"
+				app:layout_constraintStart_toStartOf="@id/view_home_environment"
+				app:layout_constraintTop_toBottomOf="@id/view_home_environment" />
+
+			<View
+				android:id="@+id/view_home_travel"
+				android:layout_width="100dp"
+				android:layout_height="110dp"
+				android:background="@drawable/background_home"
+				app:layout_constraintEnd_toStartOf="@id/view_home_health"
+				app:layout_constraintStart_toEndOf="@id/view_home_environment"
+				app:layout_constraintTop_toTopOf="@id/view_home_environment" />
+
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_travel"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_margin="10dp"
+				android:src="@drawable/img_travel"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_travel"
+				app:layout_constraintEnd_toEndOf="@id/view_home_travel"
+				app:layout_constraintStart_toStartOf="@id/view_home_travel"
+				app:layout_constraintTop_toTopOf="@id/view_home_travel" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="여행"
+				android:textSize="10sp"
+				android:textStyle="bold"
+				app:layout_constraintEnd_toEndOf="@id/view_home_travel"
+				app:layout_constraintStart_toStartOf="@id/view_home_travel"
+				app:layout_constraintTop_toBottomOf="@id/view_home_travel" />
+
+			<View
+				android:id="@+id/view_home_health"
+				android:layout_width="100dp"
+				android:layout_height="110dp"
+				android:background="@drawable/background_home"
+				app:layout_constraintEnd_toEndOf="@id/view_home_point"
+				app:layout_constraintTop_toTopOf="@id/view_home_environment" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_health"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_margin="10dp"
+				android:src="@drawable/img_health"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_health"
+				app:layout_constraintEnd_toEndOf="@id/view_home_health"
+				app:layout_constraintStart_toStartOf="@id/view_home_health"
+				app:layout_constraintTop_toTopOf="@id/view_home_health" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="건강"
+				android:textSize="10sp"
+				android:textStyle="bold"
+				app:layout_constraintEnd_toEndOf="@id/view_home_health"
+				app:layout_constraintStart_toStartOf="@id/view_home_health"
+				app:layout_constraintTop_toBottomOf="@id/view_home_health" />
+
+			<TextView
+				android:id="@+id/tv_home_notice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="30dp"
+				android:text="공지사항"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toBottomOf="@id/view_home_environment" />
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:layout_width="20dp"
+				android:layout_height="0dp"
+				android:src="@drawable/img_speaker"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice"
+				app:layout_constraintStart_toEndOf="@id/tv_home_notice"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice" />
+
+			<View
+				android:id="@+id/view_notice_more"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice_more"
+				app:layout_constraintEnd_toEndOf="@id/iv_home_notice_more"
+				app:layout_constraintStart_toStartOf="@id/tv_home_notice_more"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice_more" />
+
+			<TextView
+				android:id="@+id/tv_home_notice_more"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="더보기"
+				android:textSize="10dp"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice"
+				app:layout_constraintEnd_toStartOf="@id/iv_home_notice_more" />
+
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_notice_more"
+				android:layout_width="20dp"
+				android:layout_height="0dp"
+				android:layout_marginEnd="20dp"
+				android:src="@drawable/ic_arrow_more"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice_more"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice_more" />
+
+			<View
+				android:id="@+id/view_home_notice"
+				android:layout_width="0dp"
+				android:layout_height="100dp"
+				android:layout_marginHorizontal="20dp"
+				android:layout_marginTop="10dp"
+				android:background="@drawable/background_home"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_notice" />
+
+			<TextView
+				android:id="@+id/tv_home_notice_label1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:text="@string/common_icon_environment"
+				app:layout_constraintBottom_toTopOf="@id/tv_home_notice_label2"
+				app:layout_constraintStart_toStartOf="@id/view_home_notice"
+				app:layout_constraintTop_toTopOf="@id/view_home_notice" />
+
+			<TextView
+				android:id="@+id/tv_home_notice1"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="10dp"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:textSize="12sp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice_label1"
+				app:layout_constraintEnd_toEndOf="@id/view_home_notice"
+				app:layout_constraintStart_toEndOf="@id/tv_home_notice_label1"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice_label1"
+				tools:text="첫 번째 공지" />
+
+			<TextView
+				android:id="@+id/tv_home_notice_label2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:text="@string/common_icon_environment"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_notice"
+				app:layout_constraintStart_toStartOf="@id/view_home_notice"
+				app:layout_constraintTop_toTopOf="@id/view_home_notice" />
+
+			<TextView
+				android:id="@+id/tv_home_notice2"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="10dp"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:textSize="12sp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice_label2"
+				app:layout_constraintEnd_toEndOf="@id/view_home_notice"
+				app:layout_constraintStart_toEndOf="@id/tv_home_notice_label2"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice_label2"
+				tools:text="두 번째 공지" />
+
+			<TextView
+				android:id="@+id/tv_home_notice_label3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:text="@string/common_icon_environment"
+				app:layout_constraintBottom_toBottomOf="@id/view_home_notice"
+				app:layout_constraintStart_toStartOf="@id/view_home_notice"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_notice_label2" />
+
+			<TextView
+				android:id="@+id/tv_home_notice3"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="10dp"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:textSize="12sp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_notice_label3"
+				app:layout_constraintEnd_toEndOf="@id/view_home_notice"
+				app:layout_constraintStart_toEndOf="@id/tv_home_notice_label3"
+				app:layout_constraintTop_toTopOf="@id/tv_home_notice_label3"
+				tools:text="세 번째 공지" />
+
+			<TextView
+				android:id="@+id/tv_home_store"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:text="오늘의 착한 가게 🏪"
+				android:textStyle="bold"
+				app:layout_constraintStart_toStartOf="@id/view_home_point"
+				app:layout_constraintTop_toBottomOf="@id/view_home_notice" />
+
+			<View
+				android:id="@+id/view_store_more"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_store_more"
+				app:layout_constraintEnd_toEndOf="@id/iv_home_store_more"
+				app:layout_constraintStart_toStartOf="@id/tv_home_store_more"
+				app:layout_constraintTop_toTopOf="@id/tv_home_store_more" />
+
+			<TextView
+				android:id="@+id/tv_home_store_more"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="더보기"
+				android:textSize="10dp"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_store"
+				app:layout_constraintEnd_toStartOf="@id/iv_home_store_more" />
+
+
+			<androidx.appcompat.widget.AppCompatImageView
+				android:id="@+id/iv_home_store_more"
+				android:layout_width="20dp"
+				android:layout_height="0dp"
+				android:layout_marginEnd="20dp"
+				android:src="@drawable/ic_arrow_more"
+				app:layout_constraintBottom_toBottomOf="@id/tv_home_store_more"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="@id/tv_home_store_more" />
+
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="20dp"
+				android:orientation="horizontal"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/tv_home_store">
+
+
+				<com.facebook.shimmer.ShimmerFrameLayout
+					android:id="@+id/shimmer_home_store"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<androidx.appcompat.widget.LinearLayoutCompat
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal">
+
+						<include layout="@layout/item_shimmer_store" />
+
+						<include layout="@layout/item_shimmer_store" />
+
+					</androidx.appcompat.widget.LinearLayoutCompat>
+				</com.facebook.shimmer.ShimmerFrameLayout>
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/rv_home_store"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+					tools:listitem="@layout/item_home_store" />
+			</LinearLayout>
+
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

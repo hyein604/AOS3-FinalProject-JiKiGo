@@ -15,7 +15,6 @@
 		<item name="android:textSize">14sp</item>
 	</style>
 
-
 	<style name="AppToolbar" parent="Widget.Material3.Toolbar">
 		<item name="navigationIcon">@drawable/ic_arrow_back</item>
 		<item name="titleCentered">true</item>
@@ -26,4 +25,44 @@
 		<item name="android:textSize">16sp</item>
 		<item name="android:textStyle">bold</item> <!-- 선택된 탭 글씨 굵게 -->
 	</style>
+
+	<!--  이미지 원형으로 만들기  -->
+	<style name="RankingMyProfileRoundedImage">
+		<item name="cornerSize">50%</item>
+	</style>
+
+	<!-- 탭 텍스트 사이즈 -->
+	<style name="TabText" parent="TextAppearance.Design.Tab">
+		<item name="android:textSize">14sp</item>
+	</style>
+
+	<style name="ImageCorner">
+		<item name="cornerSize">10dp</item>
+	</style>
+
+	<!--  뷰페이저 탭 인디케이터 스타일  -->
+	<style name="AppTabIndicatorStyle" parent="Widget.MaterialComponents.TabLayout">
+		<item name="android:background">@android:color/transparent</item>
+		<item name="tabBackground">@drawable/selector_tab_indicator</item>
+		<item name="tabGravity">center</item>
+		<item name="tabIndicator">@null</item>
+		<item name="tabIndicatorHeight">0dp</item>
+		<item name="tabPaddingEnd">4dp</item>
+		<item name="tabRippleColor">@null</item>
+	</style>
+
+	<style name="customChip" parent="@style/Widget.Material3.Chip.Suggestion">
+		<item name="chipBackgroundColor">@color/selector_chip_background_color</item>
+		<item name="chipStrokeColor">@color/selector_chip_stroke_color</item>
+		<item name="android:textColor">@color/selector_chip_text_color</item>
+		<item name="android:textSize">12sp</item>
+	</style>
+
+	<style name="AppTextError" parent="Widget.AppCompat.TextView">
+		<item name="android:textSize">12sp</item>
+		<item name="android:textColor">@color/negative</item>
+		<item name="android:visibility">gone</item>
+	</style>
+
+
 </resources>
