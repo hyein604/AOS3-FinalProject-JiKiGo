@@ -55,8 +55,8 @@
 ### 🎨 **피그마 디자인**
 - [Figma 디자인 링크](https://www.figma.com/design/I242z3mhn2AZelYvI0V0GD/%EC%A7%80%ED%82%A4%EA%B3%A0?node-id=0-1&t=mZ9eBcGAgZKflGH9-1)
 
-### 📊 **프로젝트 발표 자료**
-- [Figma 프로젝트 PPT](https://www.figma.com/slides/pCFDmPOSFhRp8wrkF2G6k7/Light-slides?node-id=1-561&t=FcTZFvG8P2nQKLi7-1)
+### 📊 **프로젝트 포트폴리오**
+- [Figma 프로젝트 포트폴리오](https://www.figma.com/slides/pCFDmPOSFhRp8wrkF2G6k7/Light-slides?node-id=1-561&t=FcTZFvG8P2nQKLi7-1)
 
 ---
 
